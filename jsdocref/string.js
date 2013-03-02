@@ -9,6 +9,24 @@
 string = exports;
 
 
+/**
+ * Fills with characters between a head and a tail.
+ * @param {string} head Head string.
+ * @param {string} tail Tail string.
+ * @param {number} tw Text width.
+ * @param {?string=} opt_char Optional character to insert.  Default is a white
+ *     space.
+ * @return {string} Builded string.
+ */
+string.fillMiddle = function(head, tail, tw, opt_char) {
+  var headerWidth = head.length;
+  var tailWidth = tail.length;
+  var charWidth = tw - headerWidth - tailWidth;
+  var char = opt_char || ' ';
+
+  return head + string.repeat(char, charWidth) + tail;
+};
+
 
 /**
  * Converts multiple whitespace chars (spaces, non-breaking-spaces, new lines
