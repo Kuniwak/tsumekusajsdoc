@@ -2,7 +2,7 @@
 // http://orgachem.mit-license.org
 
 
-var AnchorElement = require('../dom/AnchorElement');
+var Element = require('../dom/Element');
 var files = require('../files');
 
 
@@ -18,8 +18,20 @@ var HtmlTagPublisher = function() {};
 /** @override */
 HtmlTagPublisher.prototype.publish = function(tag) {
   var refId = tag.getReferenceId();
-  var filePath = files.getHtmlFileName(refId);
-  return new AnchorElement(refId, filePath);
+  var elem = this.createDom();
+  elem.setAttribute('id', refId);
+
+  return elem;
+};
+
+
+/**
+ * Returns a HTML element for the tag.  If you do not want a DIVElement ,
+ * override this.
+ * @return {jsdocref.dom.Element} Element for the tag.
+ */
+HtmkTagPublisher.prototype.createDom = function() {
+  return new Element('div');
 };
 
 
