@@ -3,7 +3,7 @@
 
 
 var registry = require('./registry');
-var ContentSentence = require('./ContentSentence');
+var Sentence = require('./Sentence');
 var Tag = require('./Tag');
 
 
@@ -27,10 +27,10 @@ var Tag = require('./Tag');
  * @constructor
  * @implements {jsdocref.publishing.Content}
  */
-ContentsContainer = function(caption) {
+Container = function(caption) {
   this.caption_ = caption;
   this.tag_ = new Tag(this.getReferenceId());
-  this.topContent_ = new ContentSentence();
+  this.topContent_ = new Sentence();
   this.subContents_ = [];
 };
 
@@ -40,7 +40,7 @@ ContentsContainer = function(caption) {
  * @type {jsdocref.publishing.Content}
  * @private
  */
-ContentsContainer.prototype.parent_ = null;
+Container.prototype.parent_ = null;
 
 
 /**
@@ -48,7 +48,7 @@ ContentsContainer.prototype.parent_ = null;
  * @type {string}
  * @private
  */
-ContentsContainer.prototype.caption_;
+Container.prototype.caption_;
 
 
 /**
@@ -56,23 +56,15 @@ ContentsContainer.prototype.caption_;
  * @type {jsdocref.publishing.Tag}
  * @private
  */
-ContentsContainer.prototype.tag_;
-
-
-/**
- * Header in the container.
- * @type {jsdocref.publishing.Content}
- * @private
- */
-ContentsContainer.prototype.header_ = null;
+Container.prototype.tag_;
 
 
 /**
  * Top content in the container.
- * @type {jsdocref.publishing.ContentSentence}
+ * @type {jsdocref.publishing.Sentence}
  * @private
  */
-ContentsContainer.prototype.topContent_ = null;
+Container.prototype.topContent_ = null;
 
 
 /**
@@ -80,23 +72,84 @@ ContentsContainer.prototype.topContent_ = null;
  * @type {Array.<jsdocref.publishing.Content>}
  * @private
  */
-ContentsContainer.prototype.subContents_;
+Container.prototype.subContents_;
 
 
 /**
- * Footer in the container.
- * @type {jsdocref.publishing.Content}
- * @private
+ * Returns a tag of the container.
+ * @return {jsdocref.publishing.Tag} Tag of the container.
  */
-ContentsContainer.prototype.footer_ = null;
+Container.prototype.getTag = function() {
+  return this.tag_;
+};
+
+
+/**
+ * Returns ancestor contents.
+ * @return {Array.<jsdocref.publishing.Content>} Ancestor contents.
+ */
+Container.prototype.getAncestors = function() {
+  var ancestors = [];
+  var current = this;
+
+  while (current = current.getParent()) {
+    ancestors.shift(current);
+  }
+
+  return ancestors;
+};
+
+
+/**
+ * Returns a depth of the container.
+ * @return {number} Depth of the container.
+ */
+Container.prototype.getSelfDepth = function() {
+  return this.getAncestors().length;
+};
+
+
+/**
+ * Sets a parent content.  This method is chainable.
+ * @param {jsdocref.publishing.Content} content Parent content.
+ * @return {jsdocref.publishing.Container} This instance.
+ * @protected
+ */
+Container.prototype.setParent = function(content) {
+  this.parent_ = content;
+  return this;
+};
+
+
+/**
+ * Returns a parent content.
+ * @return {jsdocref.publishing.Content} Parent content.
+ */
+Container.prototype.getParent = function() {
+  return this.parent_;
+};
 
 
 /**
  * Returns a reference ID.
  * @return {string} Caption of the container.
  */
-ContentsContainer.prototype.getCaption = function() {
+Container.prototype.getCaption = function() {
   return this.caption_;
+};
+
+
+/**
+ * Returns an index number of the content.
+ * @return {number} Index of the content.
+ */
+Container.prototype.getSelfIndex = function() {
+  var parent;
+  if (parent = this.getParent()) {
+    return parent.getSubContents().indexOf(this);
+  }
+
+  return -1;
 };
 
 
@@ -104,7 +157,7 @@ ContentsContainer.prototype.getCaption = function() {
  * Returns a reference ID.
  * @return {string} Reference ID.
  */
-ContentsContainer.prototype.getReferenceId = function() {
+Container.prototype.getReferenceId = function() {
   return this.tag_ ? this.tag_.getReferenceId() : this.getReferenceIdInternal(
       this.getCaption());
 };
@@ -118,38 +171,18 @@ ContentsContainer.prototype.getReferenceId = function() {
  * @return {string} Reference ID.
  * @protected
  */
-ContentsContainer.prototype.getReferenceIdInternal = function(caption) {
+Container.prototype.getReferenceIdInternal = function(caption) {
   return caption.replace(/([a-z])([A-Z])/g, '$1_$2').replace(/\s+/g, '-').
       toLowerCase();
 };
 
 
 /**
- * Sets a header content.  This method is chainable.
- * @param {jsdocref.publishing.Content} content Header content.
- * @return {jsdocref.publishing.ContentsContainer} This instance.
- */
-ContentsContainer.prototype.setHeaderContent = function(content) {
-  this.header_ = content;
-  return this;
-};
-
-
-/**
- * Returns a header content.
- * @return {jsdocref.publishing.Content} Header content.
- */
-ContentsContainer.prototype.getHeaderContent = function() {
-  return this.header_;
-};
-
-
-/**
  * Sets a top content.  This method is chainable.
  * @param {jsdocref.publishing.Content} content Top content.
- * @return {jsdocref.publishing.ContentsContainer} This instance.
+ * @return {jsdocref.publishing.Container} This instance.
  */
-ContentsContainer.prototype.setTopContent = function(content) {
+Container.prototype.setTopContent = function(content) {
   this.topContent_ = content;
   return this;
 };
@@ -159,7 +192,7 @@ ContentsContainer.prototype.setTopContent = function(content) {
  * Returns a top content.
  * @return {jsdocref.publishing.Content} Top content.
  */
-ContentsContainer.prototype.getTopContent = function() {
+Container.prototype.getTopContent = function() {
   return this.topContent_;
 };
 
@@ -168,7 +201,7 @@ ContentsContainer.prototype.getTopContent = function() {
  * Returns a sub contents.
  * @return {Array.<jsdocref.publishing.Content>} Sub contents.
  */
-ContentsContainer.prototype.getSubContents = function() {
+Container.prototype.getSubContents = function() {
   return this.subContents_;
 };
 
@@ -176,9 +209,9 @@ ContentsContainer.prototype.getSubContents = function() {
 /**
  * Appends a sub content to last.  This method is chainable.
  * @param {jsdocref.publishing.Content} content Content to append.
- * @return {jsdocref.publishing.ContentsContainer} This instance.
+ * @return {jsdocref.publishing.Container} This instance.
  */
-ContentsContainer.prototype.appendSubContent = function(content) {
+Container.prototype.appendSubContent = function(content) {
   return this.appendSubContentAt(content, this.subContents_.length);
 };
 
@@ -187,10 +220,11 @@ ContentsContainer.prototype.appendSubContent = function(content) {
  * Appends a sub content by an index.  This method is chainable.
  * @param {jsdocref.publishing.Content} content Content to append.
  * @param {number} index Index.
- * @return {jsdocref.publishing.ContentsContainer} This instance.
+ * @return {jsdocref.publishing.Container} This instance.
  */
-ContentsContainer.prototype.appendSubContentAt = function(content, index) {
+Container.prototype.appendSubContentAt = function(content, index) {
   this.subContents_.splice(index, 0, content);
+  content.setParent(this);
   return this;
 };
 
@@ -200,7 +234,7 @@ ContentsContainer.prototype.appendSubContentAt = function(content, index) {
  * @param {jsdocref.publishing.Content} content to remove.
  * @return {?jsdocref.publishing.Content} Content was removed, if any.
  */
-ContentsContainer.prototype.removeSubContent = function(content) {
+Container.prototype.removeSubContent = function(content) {
   var index;
   if ((index = this.subContents_.indexOf(content)) >= 0) {
     return this.removeSubContentAt(index);
@@ -214,37 +248,24 @@ ContentsContainer.prototype.removeSubContent = function(content) {
  * @param {number} index Index.
  * @return {?jsdocref.publishing.Content} Content was removed, if any.
  */
-ContentsContainer.prototype.removeSubContentAt = function(index) {
-  return this.subContents_.splice(index, 1)[0] || null;
-};
-
-
-/**
- * Sets a footer content.  This method is chainable.
- * @param {jsdocref.publishing.Content} content Footer content.
- * @return {jsdocref.publishing.ContentsContainer} This instance.
- */
-ContentsContainer.prototype.setFooterContent = function(content) {
-  this.footer_ = content;
-  return this;
-};
-
-
-/**
- * Returns a footer content.
- * @return {jsdocref.publishing.Content} Footer content.
- */
-ContentsContainer.prototype.getFooterContent = function() {
-  return this.footer_;
+Container.prototype.removeSubContentAt = function(index) {
+  var removed;
+  if (this.subContents_[index]) {
+    removed = this.subContents_.splice(index, 1)[0];
+    removed.setParent(null);
+    return removed;
+  }
+  
+  return null;
 };
 
 
 /** @override */
-ContentsContainer.prototype.publish = function() {
+Container.prototype.publish = function() {
   var publisher = registry.getPublisher(this);
   return publisher.publish(this);
 };
 
 
 // Exports the constructor.
-module.exports = ContentsContainer;
+module.exports = Container;
