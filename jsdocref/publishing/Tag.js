@@ -2,7 +2,7 @@
 // http://orgachem.mit-license.org
 
 
-var env = require('../environment');
+var env = require('../outputMode');
 var registry = require('./registry');
 var VimHelpTagPublisher = require('./VimHelpeTagPublisher');
 var HtmlTagPublisher = require('./HtmlTagPublisher');
@@ -21,8 +21,8 @@ var Tag = function(id) {
 };
 
 
-registry.setPublisher(Tag, new VimHelpTagPublisher(), env.EnvironmentType.VIM);
-registry.setPublisher(Tag, new HtmlTagPublisher(), env.EnvironmentType.HTML);
+registry.setPublisher(Tag, new VimHelpTagPublisher(), env.OutputMode.VIM);
+registry.setPublisher(Tag, new HtmlTagPublisher(), env.OutputMode.HTML);
 
 
 /** @override */
