@@ -10,10 +10,12 @@ var VimHelpSentencePublisher = require('./VimHelpContainerPublisher');
 
 
 /**
+ * A class for container publisher for vim help.
  * @constructor
  * @implements {jsdocref.publishing.ContentPublisher}
  */
 var VimHelpContainerPublisher = function() {};
+jsdocref.addSingletonGetter(VimHelpContainerPublisher);
 
 
 /**

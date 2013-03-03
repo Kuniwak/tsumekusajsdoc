@@ -8,17 +8,34 @@
  * @constructor
  * @implements {jsdocref.publishing.Content}
  */
-ContentSentence = function() {
+Sentence = function() {
   this.contents_ = [];
+};
+
+
+/**
+ * Sub contents of the sentence.
+ * @type {Array.<jsdocref.publishing.Content>}
+ * @private
+ */
+Sentence.prototype.contents_;
+
+
+/**
+ * Returns an array of sub contents.
+ * @return {Array.<jsdocref.publishing.Content>} Sub contents.
+ */
+Sentence.prototype.getSubContents = function() {
+  return this.contents_;
 };
 
 
 /**
  * Appends a sub content to last.  This method is chainable.
  * @param {jsdocref.publishing.Content} content Content to append.
- * @return {jsdocref.publishing.ContentSentence} This instance.
+ * @return {jsdocref.publishing.Sentence} This instance.
  */
-ContentSentence.prototype.appendSubContent = function(content) {
+Sentence.prototype.appendSubContent = function(content) {
   return this.appendSubContentAt(content, this.contents_.length);
 };
 
@@ -27,9 +44,9 @@ ContentSentence.prototype.appendSubContent = function(content) {
  * Appends a sub content by an index.  This method is chainable.
  * @param {jsdocref.publishing.Content} content Content to append.
  * @param {number} index Index.
- * @return {jsdocref.publishing.ContentSentence} This instance.
+ * @return {jsdocref.publishing.Sentence} This instance.
  */
-ContentSentence.prototype.appendSubContentAt = function(content, index) {
+Sentence.prototype.appendSubContentAt = function(content, index) {
   this.contents_.splice(index, 0, content);
   return this;
 };
@@ -40,7 +57,7 @@ ContentSentence.prototype.appendSubContentAt = function(content, index) {
  * @param {jsdocref.publishing.Content} content to remove.
  * @return {?jsdocref.publishing.Content} Content was removed, if any.
  */
-ContentSentence.prototype.removeSubContent = function(content) {
+Sentence.prototype.removeSubContent = function(content) {
   var index;
   if ((index = this.contents_.indexOf(content)) >= 0) {
     return this.removeSubContentAt(index);
@@ -54,10 +71,10 @@ ContentSentence.prototype.removeSubContent = function(content) {
  * @param {number} index Index.
  * @return {?jsdocref.publishing.Content} Content was removed, if any.
  */
-ContentSentence.prototype.removeSubContentAt = function(index) {
+Sentence.prototype.removeSubContentAt = function(index) {
   return this.contents_.splice(index, 1)[0] || null;
 };
 
 
 // Exports the constructor.
-module.exports = ContentSentence;
+module.exports = Sentence;

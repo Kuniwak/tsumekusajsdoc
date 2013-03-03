@@ -2,13 +2,17 @@
 // http://orgachem.mit-license.org
 
 
+var jsdocref = require('../../jsdocref');
+
+
 
 /**
- * Base class for tag publisher.
+ * A class for tag publishers for vim help.
  * @constructor
  * @extends {jsdocref.publishing.ContentPublisher}
  */
 var VimHelpTagPublisher = function() {};
+jsdocref.addSingletonGetter(VimHelpTagPublisher);
 
 
 /** @override */
