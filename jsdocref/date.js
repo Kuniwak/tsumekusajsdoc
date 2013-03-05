@@ -17,7 +17,7 @@ var date = exports;
  * @const
  * @type {Array.<string>}
  */
-date.STANDALONESHORTMONTHS: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul',
+date.STANDALONESHORTMONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul',
       'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 
@@ -26,6 +26,6 @@ date.STANDALONESHORTMONTHS: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul',
  * @param {Date} date Date to get month.
  * @return {string} Short month name.
  */
-date.getShortMonth = function(date) {
-  return date.STANDALONESHORTMONTHS[date.getMonth()];
+date.getShortMonth = function(dateObj) {
+  return date.STANDALONESHORTMONTHS[dateObj.getMonth()];
 };
