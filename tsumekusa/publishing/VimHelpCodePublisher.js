@@ -28,7 +28,7 @@ VimHelpCodePublisher.prototype.getIndentLevel = function(code) {
 
 /** @override */
 VimHelpCodePublisher.prototype.publish = function(code) {
-  return '>\n\n' + code.getCode() + '\n\n<\n';
+  return '>\n\n' + code.getCode() + '\n';
 };
 
 

@@ -11,7 +11,7 @@ var VimHelpSentencePublisher = require('./VimHelpSentencePublisher');
 
 /**
  * A class for sentence.
- * @param {...(string|tsumekusa.publishing.InlineContent)} var_args Contents to
+ * @param {string|tsumekusa.publishing.InlineContent} var_args Contents to
  *     add.
  * @constructor
  * @extends {tsumekusa.publishing.InlineContent}
@@ -33,7 +33,7 @@ Sentence.publisher = VimHelpSentencePublisher.getInstance();
 
 /**
  * Sub contents of the sentence.
- * @type {Array.<tsumekusa.publishing.Content>}
+ * @type {Array.<tsumekusa.publishing.InineContent>}
  * @private
  */
 Sentence.prototype.contents_;
@@ -70,7 +70,7 @@ Sentence.prototype.getParent = function() {
 
 /**
  * Returns an array of sub contents.
- * @return {Array.<tsumekusa.publishing.Content>} Sub contents.
+ * @return {Array.<tsumekusa.publishing.InineContent>} Sub contents.
  */
 Sentence.prototype.getInlineContents = function() {
   return array.clone(this.contents_);
@@ -78,8 +78,31 @@ Sentence.prototype.getInlineContents = function() {
 
 
 /**
+ * Returns an array of sub contents.
+ * @param {number} index Index.
+ * @return {tsumekusa.publishing.InineContent|string} Inline content.
+ */
+Sentence.prototype.getInlineContentAt = function(index) {
+  return this.contents_[index];
+};
+
+
+/**
+ * Sets an array of sub contents.  This method is chainable.
+ * @param {number} index Index.
+ * @param {tsumekusa.publishing.InineContent|string} content Inline content.
+ * @return {tsumekusa.publishing.Sentence} This instance.
+ */
+Sentence.prototype.setInlineContentAt = function(content, index) {
+  this.contents_[index] = content;
+  return this;
+};
+
+
+/**
  * Appends inline contents.  This method is chainable.
- * @param {Array.<tsumekusa.publishing.Content>} contents Contents to append.
+ * @param {Array.<tsumekusa.publishing.InineContent>} contents Contents to
+ *     append.
  * @return {tsumekusa.publishing.Sentence} This instance.
  */
 Sentence.prototype.appendInlineContents = function(contents) {
@@ -93,7 +116,7 @@ Sentence.prototype.appendInlineContents = function(contents) {
 /**
  * Appends an inline content without a sentence to last.  This method is
  * chainable.
- * @param {tsumekusa.publishing.Content} content Content to append.
+ * @param {tsumekusa.publishing.InineContent} content Content to append.
  * @return {tsumekusa.publishing.Sentence} This instance.
  */
 Sentence.prototype.appendInlineContent = function(content) {
@@ -104,7 +127,7 @@ Sentence.prototype.appendInlineContent = function(content) {
 /**
  * Appends an inline content without a sentence by an index.  This method is
  * chainable.
- * @param {tsumekusa.publishing.Content} content Content to append.
+ * @param {tsumekusa.publishing.InineContent} content Content to append.
  * @param {number} index Index.
  * @return {tsumekusa.publishing.Sentence} This instance.
  */
@@ -124,8 +147,8 @@ Sentence.prototype.appendInlineContentAt = function(content, index) {
 
 /**
  * Removes an inline by a content.
- * @param {tsumekusa.publishing.Content} content to remove.
- * @return {?tsumekusa.publishing.Content} Content was removed, if any.
+ * @param {tsumekusa.publishing.InineContent} content to remove.
+ * @return {?tsumekusa.publishing.InineContent} Content was removed, if any.
  */
 Sentence.prototype.removeInlineContent = function(content) {
   var index;
@@ -139,7 +162,7 @@ Sentence.prototype.removeInlineContent = function(content) {
 /**
  * Removes an inline content by an index.
  * @param {number} index Index.
- * @return {?tsumekusa.publishing.Content} Content was removed, if any.
+ * @return {?tsumekusa.publishing.InineContent} Content was removed, if any.
  */
 Sentence.prototype.removeInlineContentAt = function(index) {
   var removed = this.contents_.splice(index, 1)[0] || null;
@@ -149,6 +172,21 @@ Sentence.prototype.removeInlineContentAt = function(index) {
   }
 
   return removed;
+};
+
+
+/**
+ * Extends a sentence with another sentence.  This method is chainable.
+ * @param {tsumekusa.publishing.Sentence} sentence Sentence to extend.
+ * @return {tsumekusa.publishing.Sentence} This instance.
+ */
+Sentence.prototype.extend = function(sentence) {
+  if (this === sentence) {
+    throw Error('Cannot concat self sentence.');
+  }
+
+  Array.prototype.push.apply(this.contents_, sentence.contents_);
+  return this;
 };
 
 

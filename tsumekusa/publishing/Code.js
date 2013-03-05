@@ -17,7 +17,6 @@ var VimHelpCodePublisher = require('./VimHelpCodePublisher');
  */
 var Code = function(code, opt_lang) {
   InlineContent.call(this);
-  this.code_ = code.replace(/\n+$/, '\n');
   this.lang_ = opt_lang || null;
 };
 tsumekusa.inherits(Code, InlineContent);
@@ -58,6 +57,17 @@ Code.prototype.lang_ = Code.Language.JAVASCRIPT;
 /** @override */
 Code.prototype.isBreakable = function() {
   return false;
+};
+
+
+/**
+ * Sets a code.  This method is chainable.
+ * @param {string} code Code to set.
+ * @return {tsumekusa.publishing.Code} This instance.
+ */
+Code.prototype.setCode = function(code) {
+  this.code_ = code.replace(/\n+$/, '\n');
+  return this;
 };
 
 

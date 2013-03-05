@@ -98,9 +98,16 @@ VimHelpContainerPublisher.prototype.createSubContentSeparator =
  * @param {tsumekusa.publishing.Container} container Contents container.
  * @return {string} Top content.
  */
-VimHelpContainerPublisher.prototype.createTopContent = function(container) {
-  var topContent;
-  return (topContent = container.getTopContent()) && topContent.publish();
+VimHelpContainerPublisher.prototype.createTopContents = function(container) {
+  var topContents = container.getTopContents();
+
+  if (topContents.length > 0) {
+    return topContents.map(function(topContent) {
+      return topContent.publish();
+    }).join('\n');
+  }
+
+  return null;
 };
 
 
@@ -130,7 +137,7 @@ VimHelpContainerPublisher.prototype.createSubContents = function(container) {
  */
 VimHelpContainerPublisher.prototype.createSubContentsInternal = function(
     container) {
-  return container.getSubContents().map(function(content) {
+  return container.getSubContainers().map(function(content) {
     return content.publish();
   });
 };
@@ -143,7 +150,7 @@ VimHelpContainerPublisher.prototype.publish = function(container) {
   if (header) {
     output.push(header);
   }
-  var topContent = this.createTopContent(container);
+  var topContent = this.createTopContents(container);
   if (topContent) {
     output.push(topContent);
   }
