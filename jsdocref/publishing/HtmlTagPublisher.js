@@ -30,7 +30,7 @@ HtmlTagPublisher.prototype.publish = function(tag) {
  * override this.
  * @return {jsdocref.dom.Element} Element for the tag.
  */
-HtmkTagPublisher.prototype.createDom = function() {
+HtmlTagPublisher.prototype.createDom = function() {
   return new Element('div');
 };
 

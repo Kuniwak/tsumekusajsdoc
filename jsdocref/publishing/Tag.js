@@ -2,10 +2,9 @@
 // http://orgachem.mit-license.org
 
 
-var env = require('../outputMode');
-var registry = require('./registry');
-var VimHelpTagPublisher = require('./VimHelpeTagPublisher');
-var HtmlTagPublisher = require('./HtmlTagPublisher');
+var jsdocref = require('../../jsdocref');
+var InlineContent = require('./InlineContent');
+var VimHelpTagPublisher = require('./VimHelpTagPublisher');
 
 
 
@@ -14,21 +13,33 @@ var HtmlTagPublisher = require('./HtmlTagPublisher');
  * {@link jsdocref.publishing.TagFactory.createTag} to construct.
  * @param {string} id Reference ID string.
  * @constructor
- * @implements {jsdocref.publishing.Content}
+ * @extends {jsdocref.publishing.InlineContent}
  */
 var Tag = function(id) {
+  InlineContent.call(this);
   this.setReferenceId(id);
 };
+jsdocref.inherits(Tag, InlineContent);
 
 
-registry.setPublisher(Tag, new VimHelpTagPublisher(), env.OutputMode.VIM);
-registry.setPublisher(Tag, new HtmlTagPublisher(), env.OutputMode.HTML);
+/**
+ * Default content publisher.
+ * @type {jsdocref.publishing.ContentPublisher}
+ */
+Tag.publisher = VimHelpTagPublisher.getInstance();
+
+
+/**
+ * Reference ID of the tag.
+ * @type {string}
+ * @private
+ */
+Tag.prototype.refId_;
 
 
 /** @override */
-Tag.prototype.publish = function() {
-  var publisher = registry.getPublisher(this);
-  return publisher.publish(this);
+Tag.prototype.isBreakable = function() {
+  return false;
 };
 
 
@@ -37,7 +48,7 @@ Tag.prototype.publish = function() {
  * @return {string} Context string.
  */
 Tag.prototype.getReferenceId = function() {
-  return this.contentText_;
+  return this.refId_;
 };
 
 

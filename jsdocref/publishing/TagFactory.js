@@ -43,8 +43,8 @@ TagFactory.isRegisteredId = function(id) {
  * @param {string} ref Reference tag ID.
  */
 TagFactory.registerId = function(id) {
-  if (TagFactory.isExists(id)) {
-    throw 'The tag is already registered: ' + id;
+  if (TagFactory.isRegisteredId(id)) {
+    throw Error('The tag is already registered: ' + id);
   }
   TagFactory.tagMap_[id] = true;
 };

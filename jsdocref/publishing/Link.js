@@ -2,15 +2,30 @@
 // http://orgachem.mit-license.org
 
 
+var jsdocref = require('../../jsdocref');
+var InlineContent = require('./InlineContent');
+var VimHelpLinkPublisher = require('./VimHelpLinkPublisher');
+
+
 
 /**
  * A class for link contents.
  * @param {string} tgtId Target reference ID.
  * @constructor
+ * @extends {jsdocref.publishing.InlineContent}
  */
 var Link = function(tgtId) {
+  InlineContent.call(this);
   this.setTargetReferenceId(tgtId);
 };
+jsdocref.inherits(Link, InlineContent);
+
+
+/**
+ * Default content publisher.
+ * @type {jsdocref.publishing.ContentPublisher}
+ */
+Link.publisher = VimHelpLinkPublisher.getInstance();
 
 
 /**
@@ -20,6 +35,7 @@ var Link = function(tgtId) {
  */
 Link.prototype.setTargetReferenceId = function(tgtId) {
   this.ref_ = tgtId;
+  return this;
 };
 
 
@@ -32,4 +48,11 @@ Link.prototype.getTargetReferenceId = function() {
 };
 
 
+/** @override */
+Link.prototype.isBreakable = function() {
+  return false;
+};
+
+
+// Export the constructor
 module.exports = Link;
