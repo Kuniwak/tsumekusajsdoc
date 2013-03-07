@@ -5,7 +5,8 @@
 var tsumekusa = require('../../tsumekusa');
 var BlockContent = require('./BlockContent');
 var Sentence = require('./Sentence');
-var VimHelpParagraphPublisher = require('./VimHelpParagraphPublisher');
+var VimHelpParagraphPublisher = require(
+    '../publishing/VimHelpParagraphPublisher');
 
 
 

@@ -2,10 +2,12 @@
 // http://orgachem.mit-license.org
 
 
-var fs = require('jsdoc/fs');
-var templateHelper = require('jsdoc/util/templateHelper');
+//var fs = require('jsdoc/fs');
+//var templateHelper = require('jsdoc/util/templateHelper');
 
 var Container = require('./tsumekusa/contents/Container');
+var DocletWrapper = require('./tsumekusaJsdoc/documents/DocletWrapper');
+
 var PreformattedParagraph = require(
     './tsumekusa/contents/PreformattedParagraph');
 
@@ -33,13 +35,7 @@ var topContent = function() {
 exports.publish = function(taffyData, opts, tutorials) {
   // TODO: Remove a test code.
   var version = 'alphalpha'
-  var date = new Date();
-
-  /**
-   * Map has pairs that longnames and each doclets.
-   * @type {Object.<string, jsdoc.Doclet>}
-   */
-  var symbolsMap = {};
+  var date = new Date(0);
 
   /**
    * Map has pairs that longnames and each members.
@@ -54,16 +50,44 @@ exports.publish = function(taffyData, opts, tutorials) {
   symbols.forEach(function(symbol) {
     // Create a map of a longname to the symbol.
     var longname = symbol.longname;
-    symbolsMap[longname] = symbol;
+
+    // Create a doclet wrapper for the doclet, if the wrapper is not defined.
+    if (!memberMap[longname]) {
+      memberMap[longname] = new DocletWrapper();
+    }
 
     // TODO: Use DocletWrapper
-    // Create a map of parent's longname to each members.
     var parentLongName, members;
     if (parentLongName = symbol.memberof) {
-      if (!(members = memberMap[parentLongName])) {
-        members = memberMap[parentLongName] = [];
+      // Create a doclet wrapper for the parent, if the wrapper is not defined.
+      if (!(docletWrapper = memberMap[parentLongName])) {
+        docletWrapper = memberMap[parentLongName] = new DocletWrapper();
       }
-      members.push(symbol);
+
+      // TODO: Implement inner object processing.
+      switch (symbol.kind) {
+        case 'function':
+          switch (symbol.scope) {
+            case 'static':
+              docletWrapper.appendStaticMethod(symbol);
+            case 'instance':
+              docletWrapper.appendInstanceMethod(symbol);
+            default:
+              console.warn('Unknown scope found: "' + symbol.scope + '"');
+          }
+          break;
+        case 'member':
+          switch (symbol.scope) {
+            case 'static':
+              docletWrapper.appendStaticProperty(symbol);
+            case 'instance':
+              docletWrapper.appendInstanceProperty(symbol);
+            default:
+              console.warn('Unknown scope found: "' + symbol.scope + '"');
+          }
+        default:
+          console.warn('Unknown kind found: "' + symbol.kind + '"');
+      }
     }
 
     // Classify symbols
@@ -75,20 +99,37 @@ exports.publish = function(taffyData, opts, tutorials) {
     }
   });
 
+  // TODO: Implement module, externs, global object processing.
   classes.forEach(function(classSymbol) {
     var classDoc = new ClassDocument(classSymbol, version, date);
-    classDoc.setStaticMethods();
+    classDoc.appendTopContent(topContent);
+
+    var docletWrapper;
+    if (docletWrapper = memberMap[classSymbol.longname]) {
+      classDoc.setStaticMethods(docletWrapper.staticMethods);
+      classDoc.setStaticProperties(docletWrapper.staticProperties);
+      classDoc.setInstanceMethods(docletWrapper.instanceMethods);
+      classDoc.setInstanceProperties(docletWrapper.instanceProperties);
+    }
+
     classDoc.publishToFile();
   });
 
   namespaces.forEach(function(namespaceSymbol) {
     var namespaceDoc = new NamespaceDocument(namespaceSymbol, version, date);
+    namespaceDoc.appendTopContent(topContent);
+
+    var docletWrapper;
+    if (docletWrapper = memberMap[namespaceSymbol.longname]) {
+      namespaceDoc.setStaticMethods(docletWrapper.staticMethods);
+      namespaceDoc.setStaticProperties(docletWrapper.staticProperties);
+      namespaceDoc.setInstanceMethods(docletWrapper.instanceMethods);
+      namespaceDoc.setInstanceProperties(docletWrapper.instanceProperties);
+    }
+
     namespaceDoc.publishToFile();
   });
 };
 
 
-// exports.publish = function(taffy) {
-//   var data = templateHelper.prune(taffy);
-//   data().each(function(doclet) { console.log(doclet); console.log(','); });
-// };
+exports.publish(require('./test_goog.array'));

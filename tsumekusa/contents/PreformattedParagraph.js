@@ -5,7 +5,7 @@
 var tsumekusa = require('../../tsumekusa');
 var BlockContent = require('./BlockContent');
 var VimHelpPreformattedParagraphPublisher = require(
-    './VimHelpPreformattedParagraphPublisher');
+    '../publishing/VimHelpPreformattedParagraphPublisher');
 
 
 

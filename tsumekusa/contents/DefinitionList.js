@@ -6,7 +6,7 @@ var tsumekusa = require('../../tsumekusa');
 var BlockContent = require('./BlockContent');
 var Sentence = require('./Sentence');
 var VimHelpDefinitionListPublisher = require(
-    './VimHelpDefinitionListPublisher');
+    '../publishing/VimHelpDefinitionListPublisher');
 
 
 

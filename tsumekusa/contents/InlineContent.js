@@ -19,7 +19,7 @@ tsumekusa.inherits(InlineContent, Content);
 
 
 /**
- * Whether the inline tag is unknown.  Consider it is
+ * Whether the inline tag is unknown.
  * @type {boolean}
  */
 InlineContent.prototype.unknown = false;

@@ -8,7 +8,8 @@ var BlockContent = require('./BlockContent');
 var Paragraph = require('./Paragraph');
 var Tag = require('./Tag');
 var Link = require('./Link');
-var VimHelpContainerPublisher = require('./VimHelpContainerPublisher');
+var VimHelpContainerPublisher = require(
+    '../publishing/VimHelpContainerPublisher');
 
 
 
