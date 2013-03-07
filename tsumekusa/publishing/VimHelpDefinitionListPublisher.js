@@ -103,7 +103,7 @@ VimHelpDefinitionListPublisher.prototype.publish = function(list) {
     return result.join('\n');
   }, this);
 
-  return ['', output.join('\n\n'), ''].join('\n');
+  return output.join('\n\n');
 };
 
 

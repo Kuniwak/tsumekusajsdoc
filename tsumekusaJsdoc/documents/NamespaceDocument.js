@@ -49,11 +49,13 @@ NamespaceDocument.prototype.publish = function() {
   var staticMethods = this.getStaticMethods();
   var staticProperties = this.getStaticProperties();
 
-  if (staticMethods) {
-    document.appendSubContainer(this.createStaticMethodsContainer());
+  if (staticMethods && staticMethods.length > 0) {
+    var staticMethodsContainer = this.createStaticMethodsContainer();
+    document.appendSubContainer(staticMethodsContainer.getContent());
   }
-  if (staticProperties) {
-    document.appendSubContainer(this.createStaticPropertiesContainer());
+  if (staticProperties && staticProperties.length > 0) {
+    var staticPropertiesContainer = this.createStaticPropertiesContainer();
+    document.appendSubContainer(staticPropertiesContainer.getContent());
   }
 
   return SymbolDocument.prototype.publish.call(this);
@@ -112,7 +114,7 @@ NamespaceDocument.prototype.getStaticProperties = function() {
  */
 NamespaceDocument.prototype.createStaticMethodsContainer = function() {
   return new StaticMethodsContainer(this.getSymbol(), this.getStaticMethods(),
-      this.getDocumentHelper(), this.getReferenceHelper());
+      null, this.getDocumentHelper(), this.getReferenceHelper());
 };
 
 
@@ -124,7 +126,7 @@ NamespaceDocument.prototype.createStaticMethodsContainer = function() {
  */
 NamespaceDocument.prototype.createStaticPropertiesContainer = function() {
   return new StaticPropertiesContainer(this.getSymbol(),
-      this.getStaticProperties(), this.getDocumentHelper(),
+      this.getStaticProperties(), null, this.getDocumentHelper(),
       this.getReferenceHelper());
 };
 

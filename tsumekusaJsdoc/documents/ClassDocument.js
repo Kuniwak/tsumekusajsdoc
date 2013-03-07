@@ -55,21 +55,24 @@ ClassDocument.prototype.publish = function() {
   var instanceMethods = this.getInstanceMethods();
   var instanceProperties = this.getInstanceProperties();
 
-  if (staticMethods) {
-    document.appendSubContainer(this.createStaticMethodsContainer());
+  if (staticMethods && staticMethods.length > 0) {
+    var staticMethodsContainer = this.createStaticMethodsContainer();
+    document.appendSubContainer(staticMethodsContainer.getContent());
   }
-  if (staticProperties) {
-    document.appendSubContainer(this.createStaticPropertiesContainer());
+  if (staticProperties && staticProperties.length > 0) {
+    var staticPropertiesContainer = this.createStaticPropertiesContainer();
+    document.appendSubContainer(staticPropertiesContainer.getContent());
   }
-  if (instanceMethods) {
-    document.appendSubContainer(this.createInstanceMethodsContainer());
+  if (instanceMethods && instanceMethods.length > 0) {
+    var instanceMethodsContainer = this.createInstanceMethodsContainer();
+    document.appendSubContainer(instanceMethodsContainer.getContent());
   }
-  if (instanceProperties) {
-    document.appendSubContainer(this.createInstancePropertiesContainer());
+  if (instanceProperties && instanceProperties.length > 0) {
+    var instancePropertiesContainer = this.createInstancePropertiesContainer();
+    document.appendSubContainer(instancePropertiesContainer.getContent());
   }
 
-  //return SymbolDocument.prototype.publish.call(this);
-  return document.publish();
+  return SymbolDocument.prototype.publish.call(this);
 };
 
 
@@ -169,7 +172,7 @@ ClassDocument.prototype.getInstanceProperties = function() {
  */
 ClassDocument.prototype.createStaticMethodsContainer = function() {
   return new StaticMethodsContainer(this.getSymbol(), this.getStaticMethods(),
-      this.getDocumentHelper(), this.getReferenceHelper());
+      this.getDocumentHelper(), null, this.getReferenceHelper());
 };
 
 
@@ -181,7 +184,7 @@ ClassDocument.prototype.createStaticMethodsContainer = function() {
  */
 ClassDocument.prototype.createInstanceMethodsContainer = function() {
   return new InstanceMethodsContainer(this.getSymbol(),
-      this.getInstanceMethods(), this.getDocumentHelper(),
+      this.getInstanceMethods(), null, this.getDocumentHelper(),
       this.getReferenceHelper());
 };
 
@@ -194,7 +197,7 @@ ClassDocument.prototype.createInstanceMethodsContainer = function() {
  */
 ClassDocument.prototype.createStaticPropertiesContainer = function() {
   return new StaticPropertiesContainer(this.getSymbol(),
-      this.getStaticProperties(), this.getDocumentHelper(),
+      this.getStaticProperties(), null, this.getDocumentHelper(),
       this.getReferenceHelper());
 };
 
@@ -207,7 +210,7 @@ ClassDocument.prototype.createStaticPropertiesContainer = function() {
  */
 ClassDocument.prototype.createInstancePropertiesContainer = function() {
   return new InstancePropertiesContainer(this.getSymbol(),
-      this.getInstanceProperties(), this.getDocumentHelper(),
+      this.getInstanceProperties(), null, this.getDocumentHelper(),
       this.getReferenceHelper());
 };
 

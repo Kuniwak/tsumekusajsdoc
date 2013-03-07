@@ -32,6 +32,10 @@ var SymbolDocument = function(symbol, caption, opt_topContents, opt_version,
   this.fileName_ = this.generateFileName(symbol);
   var document = new Document(caption, this.fileName_, opt_version, opt_date);
 
+  if (opt_topContents) {
+    document.setTopContents(opt_topContents);
+  }
+
   this.setContent(document);
 };
 tsumekusa.inherits(SymbolDocument, DocumentationContent);

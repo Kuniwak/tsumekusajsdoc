@@ -22,6 +22,9 @@ var DocumentationContent = require('./DocumentationContent');
 var TypeSentence = function(tag, opt_docHelper, opt_refHelper) {
   DocumentationContent.call(this, opt_docHelper, opt_refHelper);
 
+  var sentence = new Sentence(), sentenceIdx = 0;
+  this.setContent(sentence);
+
   var typeContents, typeContentsIdx = 0;
 
   if (tag.type && tag.type.names) {
@@ -38,19 +41,18 @@ var TypeSentence = function(tag, opt_docHelper, opt_refHelper) {
   else {
     typeContents = ['?'];
   }
-
-  var sentence = new Sentence();
   var orOperatorChar = this.getOrOperatorChar();
 
-  typeContents.forEach(function(type) {
+  typeContents.forEach(function(type, index) {
     sentence.appendInlineContent(type);
     sentence.appendInlineContent(orOperatorChar);
+    sentenceIdx += 2;;
   });
 
   // Remove a last OR operator.
-  sentence.removeInlineContentAt(sentence.getCount());
-
-  this.setContent(sentence);
+  if (sentenceIdx > 0) {
+    sentence.removeInlineContentAt(sentenceIdx - 1);
+  }
 };
 tsumekusa.inherits(TypeSentence, DocumentationContent);
 

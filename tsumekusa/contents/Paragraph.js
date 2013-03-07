@@ -20,7 +20,7 @@ var Paragraph = function(var_args) {
   BlockContent.call(this);
   this.sentences_ = [];
   if (var_args) {
-    this.appendSentences(Array.prototype.slice.apply(arguments, 0));
+    this.appendSentences(Array.prototype.slice.call(arguments, 0));
   }
 };
 tsumekusa.inherits(Paragraph, BlockContent);

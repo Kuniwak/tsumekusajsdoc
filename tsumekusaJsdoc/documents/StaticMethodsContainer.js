@@ -11,6 +11,8 @@ var MethodsContainer = require('./MethodsContainer');
  * A class for static methods container.
  * @param {jsdoc.Doclet} parent Symbol contains {@code members}.
  * @param {Array.<jsdoc.Doclet>} members Static member symbols.
+ * @param {?Array.<tsumekusa.contents.Paragraph>=} opt_topContents Optional top
+ *     contents.
  * @param {?tsumekusaJsdoc.documents.DocumentHelper=} opt_docHelper Optional
  *     document helper.
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
@@ -18,10 +20,11 @@ var MethodsContainer = require('./MethodsContainer');
  * @constructor
  * @extends {tsumekusaJsdoc.documents.MethodsContainer}
  */
-var StaticMethodsContainer = function(parent, members, opt_docHelper,
-      opt_refHelper) {
+var StaticMethodsContainer = function(parent, members, opt_topContents,
+      opt_docHelper, opt_refHelper) {
   MethodsContainer.call(this, parent, members, StaticMethodsContainer.CAPTION,
-      StaticMethodsContainer.MODIFIER);
+      StaticMethodsContainer.MODIFIER, opt_topContents, opt_docHelper,
+      opt_refHelper);
 };
 tsumekusa.inherits(StaticMethodsContainer, MethodsContainer);
 

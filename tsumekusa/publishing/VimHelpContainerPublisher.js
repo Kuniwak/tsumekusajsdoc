@@ -38,7 +38,7 @@ VimHelpContainerPublisher.prototype.createHeader = function(container) {
 
   var head = indexString + ' ' + container.getCaption();
   var tail = tagString;
-  return string.fillMiddle(head, tail, tsumekusa.TEXT_WIDTH);
+  return string.fillMiddle(head, tail, tsumekusa.TEXT_WIDTH) + '\n';
 };
 
 
@@ -61,7 +61,6 @@ VimHelpContainerPublisher.prototype.createFooter = function(container) {
  */
 VimHelpContainerPublisher.prototype.createIndex = function(container) {
   var ancestors = container.getAncestors();
-
   var depth, idxs;
 
   if ((depth = container.getSelfDepth()) > 1) {
@@ -89,7 +88,12 @@ VimHelpContainerPublisher.prototype.createSubContentSeparator =
   var SEP = VimHelpContainerPublisher.SEPARATORS;
   var sepLen = SEP.length;
 
-  return (i >= sepLen ? '' : string.repeat(SEP[i], tsumekusa.TEXT_WIDTH)) + '\n';
+  if (i >= sepLen) {
+    return '';
+  }
+  else {
+    return '\n' + string.repeat(SEP[i], tsumekusa.TEXT_WIDTH) + '\n';
+  }
 };
 
 
@@ -104,7 +108,7 @@ VimHelpContainerPublisher.prototype.createTopContents = function(container) {
   if (topContents.length > 0) {
     return topContents.map(function(topContent) {
       return topContent.publish();
-    }).join('\n');
+    }).join('\n\n') + '\n';
   }
 
   return null;
@@ -122,7 +126,7 @@ VimHelpContainerPublisher.prototype.createSubContents = function(container) {
 
   if (subStrings.length > 0) {
     var subsString = subStrings.join(separator);
-    return [separator, subsString].join('');
+    return separator + subsString;
   }
 
   return null;

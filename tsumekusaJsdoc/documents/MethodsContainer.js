@@ -15,6 +15,8 @@ var MethodContainer = require('./MethodContainer');
  * @param {string} caption Caption of the container such as {@code
  *     'Static members'}.
  * @param {string} modifier Modifier of the reference ID.
+ * @param {?Array.<tsumekusa.contents.Paragraph>=} opt_topContents Optional top
+ *     contents.
  * @param {?tsumekusaJsdoc.documents.DocumentHelper=} opt_docHelper Optional
  *     document helper.
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
@@ -23,16 +25,16 @@ var MethodContainer = require('./MethodContainer');
  * @extends {tsumekusaJsdoc.documents.MembersContainer}
  */
 var MethodsContainer = function(parent, members, caption, modifier,
-    opt_docHelper, opt_refHelper) {
-  MembersContainer.call(this, parent, members, caption, modifier, opt_docHelper,
-    opt_refHelper);
+    opt_topContents, opt_docHelper, opt_refHelper) {
+  MembersContainer.call(this, parent, members, caption, modifier,
+      opt_topContents, opt_docHelper, opt_refHelper);
 };
 tsumekusa.inherits(MethodsContainer, MembersContainer);
 
 
 /** @override */
 MethodsContainer.prototype.createMemberContainer = function(symbol) {
-  return new MethodContainer(symbol, this.getDocumentHelper(),
+  return new MethodContainer(symbol, null, this.getDocumentHelper(),
       this.getReferenceHelper());
 };
 

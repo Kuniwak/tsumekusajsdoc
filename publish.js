@@ -65,7 +65,6 @@ exports.publish = function(taffyData, opts, tutorials) {
       }
 
       // Classify symbols
-      // TODO: Implement inner object processing.
       switch (symbol.kind) {
         case 'function':
           switch (symbol.scope) {
@@ -74,6 +73,9 @@ exports.publish = function(taffyData, opts, tutorials) {
               break;
             case 'instance':
               docletWrapper.appendInstanceMethod(symbol);
+              break;
+            case 'inner':
+              docletWrapper.appendInnerMethod(symbol);
               break;
             default:
               console.warn('Unknown scope found: "' + symbol.scope + '"');
@@ -87,6 +89,9 @@ exports.publish = function(taffyData, opts, tutorials) {
               break;
             case 'instance':
               docletWrapper.appendInstanceProperty(symbol);
+              break;
+            case 'inner':
+              docletWrapper.appendInnerProperty(symbol);
               break;
             default:
               console.warn('Unknown scope found: "' + symbol.scope + '"');
@@ -137,4 +142,4 @@ exports.publish = function(taffyData, opts, tutorials) {
 };
 
 
-exports.publish(require('./test_goog.array').goog_array);
+exports.publish(require('./test_goog.ui.Component').goog_ui_Component);

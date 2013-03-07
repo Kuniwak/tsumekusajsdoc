@@ -18,6 +18,8 @@ var DocletWrapper = function(opt_doclet) {
   this.staticProperties = [];
   this.instanceMethods = [];
   this.instanceProperties = [];
+  this.innerMethods = [];
+  this.innerProperties = [];
 };
 
 
@@ -47,6 +49,20 @@ DocletWrapper.prototype.instanceMethods = null;
  * @type {Array.<jsdoc.Doclet>}
  */
 DocletWrapper.prototype.instanceProperties = null;
+
+
+/**
+ * An array of inner methods.
+ * @type {Array.<jsdoc.Doclet>}
+ */
+DocletWrapper.prototype.innerMethods = null;
+
+
+/**
+ * An array of inner properties.
+ * @type {Array.<jsdoc.Doclet>}
+ */
+DocletWrapper.prototype.innerProperties = null;
 
 
 /**
@@ -86,6 +102,16 @@ DocletWrapper.prototype.appendStaticMethod = function(doclet) {
 
 
 /**
+ * Appends a doclet of static property.  This method is chainable.
+ * @param {jsdoc.Doclet} doclet Doclet of static property.
+ * @param {jsdoc.structs.DocletWrapper} This instance.
+ */
+DocletWrapper.prototype.appendStaticProperty = function(doclet) {
+  this.staticProperties.push(doclet);
+};
+
+
+/**
  * Appends a doclet of instance method.  This method is chainable.
  * @param {jsdoc.Doclet} doclet Doclet of instance method.
  * @param {jsdoc.structs.DocletWrapper} This instance.
@@ -100,20 +126,31 @@ DocletWrapper.prototype.appendInstanceMethod = function(doclet) {
  * @param {jsdoc.Doclet} doclet Doclet of static property.
  * @param {jsdoc.structs.DocletWrapper} This instance.
  */
-DocletWrapper.prototype.appendStaticProperty = function(doclet) {
-  this.staticProperties.push(doclet);
-};
-
-
-/**
- * Appends a doclet of static property.  This method is chainable.
- * @param {jsdoc.Doclet} doclet Doclet of static property.
- * @param {jsdoc.structs.DocletWrapper} This instance.
- */
 DocletWrapper.prototype.appendInstanceProperty = function(doclet) {
   this.instanceProperties.push(doclet);
 };
 
+
+
+/**
+ * Appends a doclet of inner method.  This method is chainable.
+ * @param {jsdoc.Doclet} doclet Doclet of inner method.
+ * @param {jsdoc.structs.DocletWrapper} This instance.
+ */
+DocletWrapper.prototype.appendInnerMethod = function(doclet) {
+  this.innerMethods.push(doclet);
+  return this;
+};
+
+
+/**
+ * Appends a doclet of inner property.  This method is chainable.
+ * @param {jsdoc.Doclet} doclet Doclet of inner property.
+ * @param {jsdoc.structs.DocletWrapper} This instance.
+ */
+DocletWrapper.prototype.appendInnerProperty = function(doclet) {
+  this.innerProperties.push(doclet);
+};
 
 // Exports the constructor.
 module.exports = DocletWrapper;

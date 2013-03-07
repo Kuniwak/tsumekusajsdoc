@@ -16,6 +16,8 @@ var DocumentationContent = require('./DocumentationContent');
  * @param {string} caption Caption of the container such as {@code
  *     'Static members'}.
  * @param {string} modifier Modifier of the reference ID.
+ * @param {?Array.<tsumekusa.contents.Paragraph>=} opt_topContents Optional top
+ *     contents.
  * @param {?tsumekusaJsdoc.documents.DocumentHelper=} opt_docHelper Optional
  *     document helper.
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
@@ -24,16 +26,20 @@ var DocumentationContent = require('./DocumentationContent');
  * @extends {tsumekusaJsDoc.documents.DocumentationContent}
  */
 var MembersContainer = function(parent, members, caption, modifier,
-    opt_docHelper, opt_refHelper) {
+    opt_topContents, opt_docHelper, opt_refHelper) {
   DocumentationContent.call(this, opt_docHelper, opt_refHelper);
 
   var refId = this.getReferenceHelper().getReferenceId(parent, modifier);
 
   var container = new Container(caption, refId, true);
 
+  if (opt_topContents) {
+    container.setTopContents(opt_topContents);
+  }
+
   members.forEach(function(member) {
     var memberContainer = this.createMemberContainer(member);
-    container.appendSubContainer(memberContainer);
+    container.appendSubContainer(memberContainer.getContent());
   }, this);
 
   this.setContent(container);

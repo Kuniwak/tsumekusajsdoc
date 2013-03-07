@@ -3,6 +3,7 @@
 
 
 var tsumekusa = require('../../tsumekusa');
+var string = require('../../tsumekusa/string');
 var Container = require('../../tsumekusa/contents/Container');
 var Sentence = require('../../tsumekusa/contents/Sentence');
 var DefinitionList = require('../../tsumekusa/contents/DefinitionList');
@@ -17,6 +18,8 @@ var TypeSentence = require('./TypeSentence');
 /**
  * A class for a container explains a method.
  * @param {jsdoc.Doclet} symbol Method symbol.
+ * @param {?Array.<tsumekusa.contents.Paragraph>=} opt_topContents Optional top
+ *     contents.
  * @param {?tsumekusaJsdoc.documents.DocumentHelper=} opt_docHelper Optional
  *     document helper.
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
@@ -24,14 +27,10 @@ var TypeSentence = require('./TypeSentence');
  * @constructor
  * @extends {tsumekusaJsDoc.documents.MemberContainer}
  */
-var MethodContainer = function(symbol, opt_docHelper, opt_refHelper) {
-  MemberContainer.call(this, symbol, opt_docHelper, opt_refHelper);
-  var container = this.getContent();
-  var params = this.createParametersContainer(symbol);
-  var returns = this.createReturnsContainer(symbol);
-
-  container.appendSubContainer(params);
-  container.appendSubContainer(returns);
+var MethodContainer = function(symbol, opt_topContents, opt_docHelper,
+    opt_refHelper) {
+  MemberContainer.call(this, symbol, opt_topContents, opt_docHelper,
+      opt_refHelper);
 };
 tsumekusa.inherits(MethodContainer, MemberContainer);
 
@@ -68,30 +67,56 @@ MethodContainer.PARAMS_CAPTION = 'Parameters';
 MethodContainer.RETURNS_CAPTION = 'Returns';
 
 
+/**
+ * Whether document verbose detail enabled.
+ * @const
+ * @type {boolean}
+ */
+MethodContainer.VERBOSE_DETAIL = false;
+
+
+/**
+ * Indent width of a digest.
+ * @const
+ * @type {number}
+ */
+MethodContainer.DIGEST_INDENT_WIDTH = 2;
+
+
 /** @override */
-MethodContainer.prototype.createDetailSentence = function(symbol) {
+MethodContainer.prototype.createDigestSentence = function(symbol) {
+  var container = this.getContent();
   var sentence = new Sentence();
+  var whites = string.repeat(' ', MethodContainer.DIGEST_INDENT_WIDTH);
+  var params, returns;
   var paramsMax, returnsMax;
 
   // current detail string as: foobar(
-  sentence.appendInlineContent(symbol.longname + '(');
+  sentence.appendInlineContent(whites + symbol.longname + '(');
 
-  if (symbol.params) {
-    paramsMax = symbol.params.length - 1;
+  if (symbol.params && (paramsMax = symbol.params.length - 1) > 0) {
+    var params = this.createParametersContainer(symbol);
+    container.appendSubContainer(params.getContent());
+
     // current detail string as: foobar( arg1, arg2, arg3
     symbol.params.forEach(function(tag, index) {
-      var links = new TypeSentence(tag);
-      var paramName = this.createParameterNameString(tag.name);
-      sentence.extend(links.getContent());
-      sentence.appendInlineContent(paramName + (index < paramsMax ? ',' : ''));
+      var paramName = this.createParameterNameString(tag);
+      if (MethodContainer.VERBOSE_DETAIL) {
+        var links = new TypeSentence(tag);
+        sentence.extend(links.getContent());
+      }
+      sentence.appendInlineContent(index < paramsMax ? paramName + ',' :
+          paramName);
     }, this);
   }
 
   // current detail string as: foobar( arg1, arg2, arg3 )
   sentence.appendInlineContent(')');
 
-  if (symbol.returns) {
-    returnsMax = symbol.returns.length - 1;
+  if (symbol.returns && (returnsMax = symbol.returns.length - 1) > 0) {
+    var returns = this.createReturnsContainer(symbol);
+    container.appendSubContainer(returns.getContent());
+
     // current detail string as: foobar( arg1, arg2, arg3 ) =>
     sentence.appendInlineContent('=>');
 

@@ -3,6 +3,7 @@
 
 
 var tsumekusa = require('../../tsumekusa');
+var string = require('../../tsumekusa/string');
 var Sentence = require('../../tsumekusa/contents/Sentence');
 var DocumentationContent = require('./DocumentationContent');
 var MemberContainer = require('./MemberContainer');
@@ -13,6 +14,8 @@ var TypeSentence = require('./TypeSentence');
 /**
  * A class for a container explains a method.
  * @param {jsdoc.Doclet} symbol Method symbol.
+ * @param {?Array.<tsumekusa.contents.Paragraph>=} opt_topContents Optional top
+ *     contents.
  * @param {?tsumekusaJsdoc.documents.DocumentHelper=} opt_docHelper Optional
  *     document helper.
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
@@ -20,24 +23,25 @@ var TypeSentence = require('./TypeSentence');
  * @constructor
  * @extends {tsumekusaJsDoc.documents.MemberContainer}
  */
-var PropertyContainer = function(symbol, opt_docHelper, opt_refHelper) {
-  MemberContainer.call(this, symbol, opt_docHelper, opt_refHelper);
+var PropertyContainer = function(symbol, opt_topContents, opt_docHelper,
+    opt_refHelper) {
+  MemberContainer.call(this, symbol, opt_topContents, opt_docHelper,
+      opt_refHelper);
 };
 tsumekusa.inherits(PropertyContainer, MemberContainer);
 
 
 /** @override */
-PropertyContainer.prototype.createDetailSentence = function(symbol) {
+PropertyContainer.prototype.createDigestSentence = function(symbol) {
   var sentence = new Sentence();
-  var typeMax;
+  var whites = string.repeat(' ', PropertyContainer.DIGEST_INDENT_WIDTH);
 
   if (symbol.type) {
-    typeMax = symbol.type.length - 1;
 
     sentence.appendInlineContent(symbol.longname + ':');
 
     var links = new TypeSentence(symbol.type);
-    sentence.appendInlineContents(links);
+    sentence.extend(links);
   }
 
   return sentence;

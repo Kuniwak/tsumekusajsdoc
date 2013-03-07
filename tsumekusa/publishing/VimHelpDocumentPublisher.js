@@ -116,6 +116,22 @@ tsumekusa.addSingletonGetter(VimHelpContentsTablePublisher);
 VimHelpContentsTablePublisher.TABLE_MARGIN = 4;
 
 
+/**
+ * Link length to wrap.
+ * @const
+ * @type {number}
+ */
+VimHelpContentsTablePublisher.LINK_LENGTH_TO_WRAP = 25;
+
+
+/**
+ * Link length to wrap.
+ * @const
+ * @type {number}
+ */
+VimHelpContentsTablePublisher.WRAPPED_PERIODS_LENGTH = 20;
+
+
 /** @override */
 VimHelpContentsTablePublisher.prototype.createHeader = function(doc) {
   var docName = doc.getCaption();
@@ -134,7 +150,7 @@ VimHelpContentsTablePublisher.prototype.createSubContents = function(doc) {
 
 
 /** @override */
-VimHelpContentsTablePublisher.prototype.createTopContent = function(doc) {
+VimHelpContentsTablePublisher.prototype.createTopContents = function(doc) {
   var TABLE_MARGIN = VimHelpContentsTablePublisher.TABLE_MARGIN;
   var maxIdxLen = 0, idxLen;
   var maxLnkLen = 0, lnkLen;
@@ -150,6 +166,7 @@ VimHelpContentsTablePublisher.prototype.createTopContent = function(doc) {
   });
 
   subs.forEach(function(sub) {
+    // idx includes a indent
     idx = this.createContentsTableIndex(sub) + ' ' + sub.getCaption();
     idxs.push(idx);
     if ((idxLen = idx.length) > maxIdxLen) {
@@ -158,19 +175,44 @@ VimHelpContentsTablePublisher.prototype.createTopContent = function(doc) {
 
     lnk = sub.getLink().publish();
     lnks.push(lnk);
-    if ((lnkLen = lnk.length) > maxLnkLen) {
+    if ((lnkLen = lnk.length) > maxLnkLen && lnkLen <
+        VimHelpContentsTablePublisher.LINK_LENGTH_TO_WRAP) {
       maxLnkLen = lnkLen;
     }
   }, this);
 
-  var pt, ptWidth;
+  var pt, ptWidth, ws, wsWidth;
   var contents = subs.map(function(sub, i) {
     idx = idxs[i], lnk = lnks[i];
     idxLen = idx.length;
-    ptWidth = tsumekusa.TEXT_WIDTH - idxLen - maxLnkLen - /* whites on end */ 2 -
-        TABLE_MARGIN;
-    pt = string.repeat('.', ptWidth);
-    return [idx, pt, lnk].join(' ');
+    lnkLen = lnk.length;
+
+    // |<-(TABLE_MARGIN)->|<-(idxLen)->| ... |<-(lnkLen)->|<(TABLE_MARGIN)>|
+    ptWidth = tsumekusa.TEXT_WIDTH - idxLen - maxLnkLen - TABLE_MARGIN * 2 -
+        /* end whites */ 2;
+
+    if (lnkLen >= VimHelpContentsTablePublisher.LINK_LENGTH_TO_WRAP) {
+      // Wrap and right-align a link if the link length is too long.
+      pt = string.repeat('.', VimHelpContentsTablePublisher.
+          WRAPPED_PERIODS_LENGTH);
+      wsWidth = tsumekusa.TEXT_WIDTH - lnkLen - TABLE_MARGIN * 2 -
+          VimHelpContentsTablePublisher.WRAPPED_PERIODS_LENGTH;
+      ws = string.repeat(' ', wsWidth);
+      return [idx, '\n', ws, pt, ' ', lnk].join('');
+    }
+    else if (ptWidth < /* length of ' ... ' */ 5) {
+      // Wrap periods and link if index is too long
+      pt = string.repeat('.', VimHelpContentsTablePublisher.
+          WRAPPED_PERIODS_LENGTH);
+      wsWidth = tsumekusa.TEXT_WIDTH - maxLnkLen - TABLE_MARGIN * 2 -
+          VimHelpContentsTablePublisher.WRAPPED_PERIODS_LENGTH;
+      ws = string.repeat(' ', wsWidth);
+      return [idx, '\n', ws, pt, ' ', lnk].join('');
+    }
+    else {
+      pt = string.repeat('.', ptWidth);
+      return [idx, pt, lnk].join(' ');
+    }
   });
 
   return '\n' + contents.join('\n') + '\n\n';
@@ -189,7 +231,6 @@ VimHelpContentsTablePublisher.prototype.createContentsTableIndex = function(
   var current = sub;
   var ancestor = null;
 
-  console.log('For: ', sub.getReferenceId());
   while (current = current.getParent()) {
     if (current.isVisibleOnContentsTable()) {
       ancestor = current;

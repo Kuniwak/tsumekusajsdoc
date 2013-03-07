@@ -39,7 +39,7 @@ VimHelpParagraphPublisher.prototype.publish = function(paragraph) {
   var str = LineWrapper.getInstance().wrap(inlineContents, tsumekusa.TEXT_WIDTH,
                                         this.getIndentLevel(paragraph));
 
-  return ['', str, ''].join('\n');
+  return str;
 };
 
 
