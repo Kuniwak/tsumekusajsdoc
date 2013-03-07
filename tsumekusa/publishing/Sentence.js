@@ -12,21 +12,24 @@ var VimHelpSentencePublisher = require('./VimHelpSentencePublisher');
 /**
  * A class for sentence.
  * @param {string|tsumekusa.publishing.InlineContent} var_args Contents to
- *     add.
+ *     append.
  * @constructor
  * @extends {tsumekusa.publishing.InlineContent}
  */
 var Sentence = function(var_args) {
   InlineContent.call(this);
   this.contents_ = [];
-  this.appendInlineContents(Array.prototype.slice.call(arguments));
+
+  if (var_args) {
+    this.appendInlineContents(Array.prototype.slice.call(arguments));
+  }
 };
 tsumekusa.inherits(Sentence, InlineContent);
 
 
 /**
  * Default publisher for the content.
- * @type {VimHelpSentencePublisher}
+ * @type {tsumekusa.publishing.ContentPublisher}
  */
 Sentence.publisher = VimHelpSentencePublisher.getInstance();
 
@@ -172,6 +175,16 @@ Sentence.prototype.removeInlineContentAt = function(index) {
   }
 
   return removed;
+};
+
+
+/**
+ * Returns a count of inline contents included.
+ * @return {number} Count of inline contents included.
+ */
+Sentence.prototype.getCount = function() {
+  // TODO: Memorize count to fast processing
+  return this.contents_.length;
 };
 
 

@@ -19,6 +19,13 @@ tsumekusa.inherits(InlineContent, Content);
 
 
 /**
+ * Whether the inline tag is unknown.  Consider it is
+ * @type {boolean}
+ */
+InlineContent.prototype.unknown = false;
+
+
+/**
  * Whether a content allows a line break is included in.
  * @return {boolean} Whether a content allows a line break is included in.
  */

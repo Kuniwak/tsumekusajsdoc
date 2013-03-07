@@ -6,6 +6,7 @@
 /**
  * An abstract class for contents.
  * @constructor
+ * @implements {tsumekusa.publishing.IContent}
  */
 var Content = function() {};
 
@@ -17,10 +18,7 @@ var Content = function() {};
 Content.publisher = null;
 
 
-/**
- * Publishes a content.
- * @return {string} Published content.
- */
+/** @override */
 Content.prototype.publish = function() {
   var publisher = this.getPublisher();
   return publisher.publish(this);
@@ -35,7 +33,7 @@ Content.prototype.publish = function() {
 Content.prototype.getPublisher = function() {
   var publisher = this.constructor.publisher;
   if (!publisher) {
-    throw Error('Publisher not found.');
+    throw Error('Publisher was not found.');
   }
 
   return publisher;

@@ -17,8 +17,9 @@ tsumekusa.addSingletonGetter(VimHelpLinkPublisher);
 
 /** @override */
 VimHelpLinkPublisher.prototype.publish = function(link) {
-  var refId = link.getTargetReferenceId();
-  return '|' + refId + '|';
+  // Reference converting to a real link
+  var ref = link.getTargetReferenceId();
+  return '|' + ref + '|';
 };
 
 

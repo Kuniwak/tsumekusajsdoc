@@ -11,14 +11,16 @@ var VimHelpParagraphPublisher = require('./VimHelpParagraphPublisher');
 
 /**
  * A class for sentence.
- * @param {...tsumekusa.publishing.Sentence} var_args Sentences to append.
+ * @param {Array.<tsumekusa.publishing.Sentence>} var_args Sentences to append.
  * @constructor
  * @extends {tsumekusa.publishing.BlockContent}
  */
 var Paragraph = function(var_args) {
   BlockContent.call(this);
   this.sentences_ = [];
-  this.appendSentences(Array.prototype.slice.call(arguments));
+  if (var_args) {
+    this.appendSentences(Array.prototype.slice.apply(arguments, 0));
+  }
 };
 tsumekusa.inherits(Paragraph, BlockContent);
 

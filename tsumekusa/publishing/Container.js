@@ -34,7 +34,7 @@ var VimHelpContainerPublisher = require('./VimHelpContainerPublisher');
  * @extends {tsumekusa.publishing.BlockContent}
  */
 var Container = function(caption, opt_refId, opt_visible) {
-  BlockContent.call(this);
+  BlockContent.call(this, opt_refHelper);
   this.setCaption(caption);
   this.tag_ = new Tag(opt_refId || this.getReferenceId());
   this.topContents_ = [];

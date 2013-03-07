@@ -10,7 +10,8 @@ string = exports;
 
 
 /**
- * Fills with characters between a head and a tail.
+ * Fills with characters between a head and a tail.  Wrap if header and tail
+ * width is too longer.
  * @param {string} head Head string.
  * @param {string} tail Tail string.
  * @param {number} tw Text width.
@@ -24,7 +25,13 @@ string.fillMiddle = function(head, tail, tw, opt_char) {
   var charWidth = tw - headerWidth - tailWidth;
   var char = opt_char || ' ';
 
-  return head + string.repeat(char, charWidth) + tail;
+  if (charWidth <= 0) {
+    charWidth = tw - tailWidth;
+    return [head, '\n', string.repeat(char, charWidth), tail].join('');
+  }
+  else {
+    return [head, string.repeat(char, charWidth), tail].join('');
+  }
 };
 
 
