@@ -9,7 +9,7 @@ var InlineContent = require('../../tsumekusa/contents/InlineContent');
 /**
  * A class for unknown tags.  The tag will be created when an unknown inline tag
  * was found.  You can construct any tag by property of the unknown tag.
- * See {@link }
+ * See {@link tsumekusaJsdoc.documents.DocumentHelper#parseInlineContents}.
  * @param {string} type Unknown inline tag name.  An at mark was excluded.
  * @param {string} content Unknown unline tag content.
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
