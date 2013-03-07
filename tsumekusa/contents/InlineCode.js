@@ -13,7 +13,7 @@ var VimHelpInlineCodePublisher = require('./VimHelpInlineCodePublisher');
  * @param {string} code Code.
  * @param {?string=} opt_lang Optional programming language.
  * @constructor
- * @extends {tsumekusa.publishing.Code}
+ * @extends {tsumekusa.contents.Code}
  */
 var InlineCode = function(code, opt_lang) {
   Content.call(this, code, opt_lang);

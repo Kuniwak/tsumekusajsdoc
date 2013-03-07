@@ -10,11 +10,11 @@ var VimHelpListPublisher = require('./VimHelpListPublisher');
 
 /**
  * A class for ordered/unordered list contents.
- * Use {@link tsumekusa.publishing.DefinitionList} if you need.
- * @param {?tsumekusa.publishing.List.ListType=} opt_type List type.  Default
+ * Use {@link tsumekusa.contents.DefinitionList} if you need.
+ * @param {?tsumekusa.contents.List.ListType=} opt_type List type.  Default
  *     type is unordered list.
  * @constructor
- * @extends {tsumekusa.publishing.BlockContent}
+ * @extends {tsumekusa.contents.BlockContent}
  */
 var List = function(opt_type) {
   BlockContent.call(this);
@@ -45,7 +45,7 @@ List.publisher = VimHelpListPublisher.getInstance();
 
 /**
  * Listed contents.
- * @type {Array.<tsumekusa.publishing.Sentence>}
+ * @type {Array.<tsumekusa.contents.Sentence>}
  * @private
  */
 List.prototype.listeds_ = null;
@@ -53,7 +53,7 @@ List.prototype.listeds_ = null;
 
 /**
  * List type.
- * @type {tsumekusa.publishing.List.ListType}
+ * @type {tsumekusa.contents.List.ListType}
  * @private
  */
 List.prototype.type_;
@@ -61,8 +61,8 @@ List.prototype.type_;
 
 /**
  * Appends a list content.  The method is chainable.
- * @param {tsumekusa.publishing.Sentence} content Content to append.
- * @return {tsumekusa.publishing.List} This instance.
+ * @param {tsumekusa.contents.Sentence} content Content to append.
+ * @return {tsumekusa.contents.List} This instance.
  */
 List.prototype.appendListContent = function(content) {
   this.listeds_.push(content);
@@ -72,8 +72,8 @@ List.prototype.appendListContent = function(content) {
 
 /**
  * Removes a list content.
- * @param {tsumekusa.publishing.Sentence} content Content to remove.
- * @return {tsumekusa.publishing.Sentence} Removed content if exists.
+ * @param {tsumekusa.contents.Sentence} content Content to remove.
+ * @return {tsumekusa.contents.Sentence} Removed content if exists.
  */
 List.prototype.appendListContent = function(content) {
   var i = this.listeds_.indexOf(content);
@@ -86,7 +86,7 @@ List.prototype.appendListContent = function(content) {
 
 /**
  * Returns listed contents.
- * @return {Array.<tsumekusa.publishing.Sentence>} Listed contents.
+ * @return {Array.<tsumekusa.contents.Sentence>} Listed contents.
  */
 List.prototype.getListedContents = function() {
   return this.listeds_;
@@ -95,7 +95,7 @@ List.prototype.getListedContents = function() {
 
 /**
  * Returns a list type.
- * @return {tsumekusa.publishing.List.ListType} List type.
+ * @return {tsumekusa.contents.List.ListType} List type.
  */
 List.prototype.getListType = function() {
   return this.type_;

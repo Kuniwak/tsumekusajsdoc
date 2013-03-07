@@ -13,7 +13,7 @@ var VimHelpCodePublisher = require('./VimHelpCodePublisher');
  * @param {string} code Code.
  * @param {?string=} opt_lang Optional programming language.
  * @constructor
- * @extends {tsumekusa.publishing.InlineContent}
+ * @extends {tsumekusa.contents.InlineContent}
  */
 var Code = function(code, opt_lang) {
   InlineContent.call(this);
@@ -63,7 +63,7 @@ Code.prototype.isBreakable = function() {
 /**
  * Sets a code.  This method is chainable.
  * @param {string} code Code to set.
- * @return {tsumekusa.publishing.Code} This instance.
+ * @return {tsumekusa.contents.Code} This instance.
  */
 Code.prototype.setCode = function(code) {
   this.code_ = code.replace(/\n+$/, '\n');

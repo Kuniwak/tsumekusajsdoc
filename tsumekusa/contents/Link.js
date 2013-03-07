@@ -12,7 +12,7 @@ var VimHelpLinkPublisher = require('./VimHelpLinkPublisher');
  * A class for link contents.
  * @param {string} tgtId Target reference ID.
  * @constructor
- * @extends {tsumekusa.publishing.InlineContent}
+ * @extends {tsumekusa.contents.InlineContent}
  */
 var Link = function(tgtId) {
   InlineContent.call(this);
@@ -31,7 +31,7 @@ Link.publisher = VimHelpLinkPublisher.getInstance();
 /**
  * Sets a target reference id.  The method is chainable.
  * @param {string} tgtId Target reference ID.
- * @return {tsumekusa.publishing.Link} This instance.
+ * @return {tsumekusa.contents.Link} This instance.
  */
 Link.prototype.setTargetReferenceId = function(tgtId) {
   this.ref_ = tgtId;

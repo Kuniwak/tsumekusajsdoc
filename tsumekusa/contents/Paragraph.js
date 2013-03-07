@@ -11,9 +11,9 @@ var VimHelpParagraphPublisher = require('./VimHelpParagraphPublisher');
 
 /**
  * A class for sentence.
- * @param {Array.<tsumekusa.publishing.Sentence>} var_args Sentences to append.
+ * @param {Array.<tsumekusa.contents.Sentence>} var_args Sentences to append.
  * @constructor
- * @extends {tsumekusa.publishing.BlockContent}
+ * @extends {tsumekusa.contents.BlockContent}
  */
 var Paragraph = function(var_args) {
   BlockContent.call(this);
@@ -34,7 +34,7 @@ Paragraph.publisher = VimHelpParagraphPublisher.getInstance();
 
 /**
  * Sentences of the paragraph.
- * @type {Array.<tsumekusa.publishing.Sentence>}
+ * @type {Array.<tsumekusa.contents.Sentence>}
  * @private
  */
 Paragraph.prototype.sentences_;
@@ -42,7 +42,7 @@ Paragraph.prototype.sentences_;
 
 /**
  * Returns an array of sub sentences.
- * @return {Array.<tsumekusa.publishing.Sentence>} Sub sentences.
+ * @return {Array.<tsumekusa.contents.Sentence>} Sub sentences.
  */
 Paragraph.prototype.getSentences = function() {
   return this.sentences_;
@@ -51,9 +51,9 @@ Paragraph.prototype.getSentences = function() {
 
 /**
  * Appends sub contents to last.  This method is chainable.
- * @param {Array.<tsumekusa.publishing.InlineContent>} contents Sentences to
+ * @param {Array.<tsumekusa.contents.InlineContent>} contents Sentences to
  *     append.
- * @return {tsumekusa.publishing.Paragraph} This instance.
+ * @return {tsumekusa.contents.Paragraph} This instance.
  */
 Paragraph.prototype.appendSentences = function(contents) {
   contents.forEach(function(content) {
@@ -65,8 +65,8 @@ Paragraph.prototype.appendSentences = function(contents) {
 
 /**
  * Appends a sub content to last.  This method is chainable.
- * @param {tsumekusa.publishing.InlineContent} content Sentence to append.
- * @return {tsumekusa.publishing.Paragraph} This instance.
+ * @param {tsumekusa.contents.InlineContent} content Sentence to append.
+ * @return {tsumekusa.contents.Paragraph} This instance.
  */
 Paragraph.prototype.appendSentence = function(content) {
   return this.appendSentenceAt(content, this.sentences_.length);
@@ -75,11 +75,11 @@ Paragraph.prototype.appendSentence = function(content) {
 
 /**
  * Appends a sub content by an index.  This method is chainable.
- * @param {tsumekusa.publishing.InlineContent} content Sentence to append.
- *     Wrap by {@link tsumekusa.publishing.Sentence} if the content is not {@link
- *     tsumekusa.publishing.Sentence}.
+ * @param {tsumekusa.contents.InlineContent} content Sentence to append.
+ *     Wrap by {@link tsumekusa.contents.Sentence} if the content is not {@link
+ *     tsumekusa.contents.Sentence}.
  * @param {number} index Index.
- * @return {tsumekusa.publishing.Paragraph} This instance.
+ * @return {tsumekusa.contents.Paragraph} This instance.
  */
 Paragraph.prototype.appendSentenceAt = function(content, index) {
   var sentence = content;
@@ -96,8 +96,8 @@ Paragraph.prototype.appendSentenceAt = function(content, index) {
 
 /**
  * Removes a sub content by a content.
- * @param {tsumekusa.publishing.Sentence} content to remove.
- * @return {?tsumekusa.publishing.Sentence} Sentence was removed, if
+ * @param {tsumekusa.contents.Sentence} content to remove.
+ * @return {?tsumekusa.contents.Sentence} Sentence was removed, if
  *     any.
  */
 Paragraph.prototype.removeSentence = function(content) {
@@ -112,7 +112,7 @@ Paragraph.prototype.removeSentence = function(content) {
 /**
  * Removes a sub content by an index.
  * @param {number} index Index.
- * @return {?tsumekusa.publishing.Sentence} Sentence was removed, if
+ * @return {?tsumekusa.contents.Sentence} Sentence was removed, if
  *     any.
  */
 Paragraph.prototype.removeSentenceAt = function(index) {

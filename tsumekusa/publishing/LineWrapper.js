@@ -16,7 +16,7 @@ tsumekusa.addSingletonGetter(LineWrapper);
 
 /**
  * Splits on interword.
- * @param {Array.<tsumekusa.publishing.InlineContent>|string} contents Contents
+ * @param {Array.<tsumekusa.contents.InlineContent>|string} contents Contents
  *     to split.
  * @return {Array.<string>} Splited content string.
  * @protected
@@ -49,7 +49,7 @@ LineWrapper.prototype.splitWords = function(contents) {
 /**
  * Wraps contents with loose hyphenation.
  * NOTE: The method may hyphenate in a content that do not allow break in.
- * @param {Array.<tsumekusa.publishing.InlineContent>} contents Contents to wrap.
+ * @param {Array.<tsumekusa.contents.InlineContent>} contents Contents to wrap.
  * @param {number} width Text width.
  * @param {?number=} opt_indent Optional indent width.
  * @return {string} Wrapped string.

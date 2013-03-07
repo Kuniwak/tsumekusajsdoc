@@ -24,7 +24,7 @@ registry.publisherMap_ = {};
 
 /**
  * Sets a publisher by a content and an outputMode conditon.
- * @param {tsumekusa.publishing.Content} content Content.
+ * @param {tsumekusa.contents.Content} content Content.
  * @param {tsumekusa.publishing.ContentPublisher} publisher Publisher for the
  *     content.
  * @param {tsumekusa.outputMode.OutputMode} env Output mode
@@ -44,7 +44,7 @@ registry.setPublisher = function(content, publisher, env) {
 /**
  * Returns a content publisher by a content.
  *
- * @param {tsumekusa.publishing.Content} content Content.
+ * @param {tsumekusa.contents.Content} content Content.
  * @param {!tsumekusa.outputMode.OutputMode=} opt_env Optional outputMode
  *     type.  Use {@link tsumekusa.outputMode.OUTPUT_MODE} if {@code opt_env} is
  *     falsey.

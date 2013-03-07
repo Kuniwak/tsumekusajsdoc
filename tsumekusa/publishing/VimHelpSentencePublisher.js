@@ -11,7 +11,7 @@ var LineWrapper = require('./LineWrapper');
 /**
  * A class for sentence publisher for vim help.
  * @constructor
- * @implements {tsumekusa.publishing.Content}
+ * @implements {tsumekusa.contents.Content}
  */
 var VimHelpSentencePublisher = function() {};
 tsumekusa.addSingletonGetter(VimHelpSentencePublisher);
@@ -19,7 +19,7 @@ tsumekusa.addSingletonGetter(VimHelpSentencePublisher);
 
 /**
  * Returns an indent level by a sentence.
- * @param {tsumekusa.publishing.Sentence} sentence Sentence.
+ * @param {tsumekusa.contents.Sentence} sentence Sentence.
  * @return {number} Indent lebel.
  */
 VimHelpSentencePublisher.prototype.getIndentLevel = function(sentence) {

@@ -3,6 +3,8 @@
 
 
 var tsumekusa = require('../../tsumekusa');
+var Link = require('../../tsumekusa/contents/Link');
+var Sentence = require('../../tsumekusa/contents/Sentence');
 var DocumentationContent = require('./DocumentationContent');
 
 

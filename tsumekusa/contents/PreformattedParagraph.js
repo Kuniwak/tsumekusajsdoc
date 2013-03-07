@@ -13,7 +13,7 @@ var VimHelpPreformattedParagraphPublisher = require(
  * A class for preformatted paragraph.
  * @constructor
  * @param {string} content Preformatted content.
- * @extends {tsumekusa.publishing.BlockContent}
+ * @extends {tsumekusa.contents.BlockContent}
  */
 var PreformattedParagraph = function(content) {
   BlockContent.call(this);

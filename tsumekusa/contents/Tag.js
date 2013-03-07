@@ -10,10 +10,10 @@ var VimHelpTagPublisher = require('./VimHelpTagPublisher');
 
 /**
  * A class for tag contents.  Do not construct by the constructor.  Instead use
- * {@link tsumekusa.publishing.TagFactory.createTag} to construct.
+ * {@link tsumekusa.contents.TagFactory.createTag} to construct.
  * @param {string} id Reference ID string.
  * @constructor
- * @extends {tsumekusa.publishing.InlineContent}
+ * @extends {tsumekusa.contents.InlineContent}
  */
 var Tag = function(id) {
   InlineContent.call(this);
@@ -55,7 +55,7 @@ Tag.prototype.getReferenceId = function() {
 /**
  * Sets a context text.  The method is chainable.
  * @param {string} id Reference ID string.
- * @return {tsumekusa.publishing.Tag} This instance.
+ * @return {tsumekusa.contents.Tag} This instance.
  */
 Tag.prototype.setReferenceId = function(id) {
   this.refId_ = id;

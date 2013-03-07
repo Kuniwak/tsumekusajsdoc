@@ -3,6 +3,7 @@
 
 
 var tsumekusa = require('../../tsumekusa');
+var Container = require('../../tsumekusa/contents/Container');
 var DocumentationContent = require('./DocumentationContent');
 
 
@@ -33,7 +34,7 @@ tsumekusa.inherits(MemberContainer, DocumentationContent);
 /**
  * Creates a top content for a property summary.
  * @param {jsdoc.Doclet} symbol Symbol.
- * @return {Array.<tsumekusa.publishing.Paragraph>} Top contents.
+ * @return {Array.<tsumekusa.contents.Paragraph>} Top contents.
  */
 MemberContainer.prototype.createSummaryParagraphs = function(symbol) {
   var p1 = new Paragraph();

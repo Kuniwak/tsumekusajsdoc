@@ -3,6 +3,7 @@
 
 
 var tsumekusa = require('../../tsumekusa');
+var Container = require('../../tsumekusa/contents/Container');
 var DocumentationContent = require('./DocumentationContent');
 
 

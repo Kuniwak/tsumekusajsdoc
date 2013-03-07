@@ -63,7 +63,7 @@ VimHelpDocumentPublisher.prototype.createSubContentsInternal = function(doc) {
 
 /**
  * Creates a contents table.
- * @param {tsumekusa.publishing.Document} doc Document.
+ * @param {tsumekusa.contents.Document} doc Document.
  * @return {string} Table of contents.
  */
 VimHelpDocumentPublisher.prototype.createContentsTable = function(doc) {
@@ -73,7 +73,7 @@ VimHelpDocumentPublisher.prototype.createContentsTable = function(doc) {
 
 /**
  * Creates a version note.
- * @param {tsumekusa.publishing.Document} doc Document.
+ * @param {tsumekusa.contents.Document} doc Document.
  * @return {string} Version note.
  */
 VimHelpDocumentPublisher.prototype.createVersion = function(doc) {
@@ -83,7 +83,7 @@ VimHelpDocumentPublisher.prototype.createVersion = function(doc) {
 
 /**
  * Creates a last change note.
- * @param {tsumekusa.publishing.Document} doc Document.
+ * @param {tsumekusa.contents.Document} doc Document.
  * @return {string} LastChange note.
  */
 VimHelpDocumentPublisher.prototype.createLastChange = function(doc) {
@@ -179,7 +179,7 @@ VimHelpContentsTablePublisher.prototype.createTopContent = function(doc) {
 
 /**
  * Creates an index of table of contents.
- * @param {tsumekusa.publishing.Container} sub Sub container.
+ * @param {tsumekusa.contents.Container} sub Sub container.
  * @return {string} Index of table of contents.
  */
 VimHelpContentsTablePublisher.prototype.createContentsTableIndex = function(

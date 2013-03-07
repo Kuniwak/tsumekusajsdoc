@@ -11,10 +11,10 @@ var VimHelpSentencePublisher = require('./VimHelpSentencePublisher');
 
 /**
  * A class for sentence.
- * @param {string|tsumekusa.publishing.InlineContent} var_args Contents to
+ * @param {string|tsumekusa.contents.InlineContent} var_args Contents to
  *     append.
  * @constructor
- * @extends {tsumekusa.publishing.InlineContent}
+ * @extends {tsumekusa.contents.InlineContent}
  */
 var Sentence = function(var_args) {
   InlineContent.call(this);
@@ -44,7 +44,7 @@ Sentence.prototype.contents_;
 
 /**
  * Parent content.
- * @type {tsumekusa.publishing.Paragraph}
+ * @type {tsumekusa.contents.Paragraph}
  * @private
  */
 Sentence.prototype.parent_ = null;
@@ -52,8 +52,8 @@ Sentence.prototype.parent_ = null;
 
 /**
  * Sets a parent content.  This method is chainable.
- * @param {tsumekusa.publishing.Paragraph} container Parent content.
- * @return {tsumekusa.publishing.Sentence} This instance.
+ * @param {tsumekusa.contents.Paragraph} container Parent content.
+ * @return {tsumekusa.contents.Sentence} This instance.
  * @protected
  */
 Sentence.prototype.setParent = function(container) {
@@ -64,7 +64,7 @@ Sentence.prototype.setParent = function(container) {
 
 /**
  * Returns a parent content.
- * @return {tsumekusa.publishing.Paragraph} Parent content.
+ * @return {tsumekusa.contents.Paragraph} Parent content.
  */
 Sentence.prototype.getParent = function() {
   return this.parent_;
@@ -94,7 +94,7 @@ Sentence.prototype.getInlineContentAt = function(index) {
  * Sets an array of sub contents.  This method is chainable.
  * @param {number} index Index.
  * @param {tsumekusa.publishing.InineContent|string} content Inline content.
- * @return {tsumekusa.publishing.Sentence} This instance.
+ * @return {tsumekusa.contents.Sentence} This instance.
  */
 Sentence.prototype.setInlineContentAt = function(content, index) {
   this.contents_[index] = content;
@@ -106,7 +106,7 @@ Sentence.prototype.setInlineContentAt = function(content, index) {
  * Appends inline contents.  This method is chainable.
  * @param {Array.<tsumekusa.publishing.InineContent>} contents Contents to
  *     append.
- * @return {tsumekusa.publishing.Sentence} This instance.
+ * @return {tsumekusa.contents.Sentence} This instance.
  */
 Sentence.prototype.appendInlineContents = function(contents) {
   contents.forEach(function(content) {
@@ -120,7 +120,7 @@ Sentence.prototype.appendInlineContents = function(contents) {
  * Appends an inline content without a sentence to last.  This method is
  * chainable.
  * @param {tsumekusa.publishing.InineContent} content Content to append.
- * @return {tsumekusa.publishing.Sentence} This instance.
+ * @return {tsumekusa.contents.Sentence} This instance.
  */
 Sentence.prototype.appendInlineContent = function(content) {
   return this.appendInlineContentAt(content, this.contents_.length);
@@ -132,7 +132,7 @@ Sentence.prototype.appendInlineContent = function(content) {
  * chainable.
  * @param {tsumekusa.publishing.InineContent} content Content to append.
  * @param {number} index Index.
- * @return {tsumekusa.publishing.Sentence} This instance.
+ * @return {tsumekusa.contents.Sentence} This instance.
  */
 Sentence.prototype.appendInlineContentAt = function(content, index) {
   if (content instanceof Sentence) {
@@ -190,8 +190,8 @@ Sentence.prototype.getCount = function() {
 
 /**
  * Extends a sentence with another sentence.  This method is chainable.
- * @param {tsumekusa.publishing.Sentence} sentence Sentence to extend.
- * @return {tsumekusa.publishing.Sentence} This instance.
+ * @param {tsumekusa.contents.Sentence} sentence Sentence to extend.
+ * @return {tsumekusa.contents.Sentence} This instance.
  */
 Sentence.prototype.extend = function(sentence) {
   if (this === sentence) {

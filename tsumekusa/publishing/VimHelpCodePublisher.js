@@ -17,7 +17,7 @@ tsumekusa.addSingletonGetter(VimHelpCodePublisher);
 
 /**
  * Returns a indent level.
- * @param {tsumekusa.publishing.Code} code Code.
+ * @param {tsumekusa.contents.Code} code Code.
  * @return {number} Indent level.
  */
 VimHelpCodePublisher.prototype.getIndentLevel = function(code) {

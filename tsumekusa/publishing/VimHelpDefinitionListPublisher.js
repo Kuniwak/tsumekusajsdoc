@@ -49,7 +49,7 @@ VimHelpDefinitionListPublisher.prototype.getUnorderedSymbol = function() {
 /**
  * Creates a list marker.
  * @param {number} index Index of a content to create the marker.
- * @param {tsumekusa.publishing.DefinitionList.ListType} listType List type.
+ * @param {tsumekusa.contents.DefinitionList.ListType} listType List type.
  * @return {string} List marker.
  */
 VimHelpDefinitionListPublisher.prototype.createListMarker = function(index,
@@ -70,7 +70,7 @@ VimHelpDefinitionListPublisher.prototype.createListMarker = function(index,
 
 /**
  * Returns an indent level by a list.
- * @param {tsumekusa.publishing.DefinitionList} list List.
+ * @param {tsumekusa.contents.DefinitionList} list List.
  * @return {number} Indent lebel.
  */
 VimHelpDefinitionListPublisher.prototype.getIndentLevel = function(list) {

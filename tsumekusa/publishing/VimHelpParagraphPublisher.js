@@ -18,7 +18,7 @@ tsumekusa.addSingletonGetter(VimHelpParagraphPublisher);
 
 /**
  * Returns an indent level by a paragraph.
- * @param {tsumekusa.publishing.Paragraph} paragraph Paragraph.
+ * @param {tsumekusa.contents.Paragraph} paragraph Paragraph.
  * @return {number} Indent lebel.
  */
 VimHelpParagraphPublisher.prototype.getIndentLevel = function(paragraph) {

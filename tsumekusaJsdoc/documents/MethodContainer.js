@@ -3,6 +3,9 @@
 
 
 var tsumekusa = require('../../tsumekusa');
+var Container = require('../../tsumekusa/contents/Container');
+var Sentence = require('../../tsumekusa/contents/Sentence');
+var DefinitionList = require('../../tsumekusa/contents/DefinitionList');
 var DocumentationContent = require('./DocumentationContent');
 var MemberContainer = require('./MemberContainer');
 var TypeSentence = require('./TypeSentence');

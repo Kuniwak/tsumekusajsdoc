@@ -10,7 +10,7 @@ var Content = require('./Content');
 /**
  * An abstract class for block content.
  * @constructor
- * @extends {tsumekusa.publishing.Content}
+ * @extends {tsumekusa.contents.Content}
  */
 var BlockContent = function() {
   Content.call(this);

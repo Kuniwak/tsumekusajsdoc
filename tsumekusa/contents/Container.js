@@ -61,7 +61,7 @@ Container.prototype.visibility_ = false;
 
 /**
  * Parent content.
- * @type {tsumekusa.publishing.Content}
+ * @type {tsumekusa.contents.Content}
  * @private
  */
 Container.prototype.parent_ = null;
@@ -77,7 +77,7 @@ Container.prototype.caption_ = null;
 
 /**
  * Tag of the container.
- * @type {tsumekusa.publishing.Tag}
+ * @type {tsumekusa.contents.Tag}
  * @private
  */
 Container.prototype.tag_;
@@ -85,7 +85,7 @@ Container.prototype.tag_;
 
 /**
  * Top contents of the container.
- * @type {Array.<tsumekusa.publishing.Sentence>}
+ * @type {Array.<tsumekusa.contents.Sentence>}
  * @private
  */
 Container.prototype.topContents_ = null;
@@ -93,7 +93,7 @@ Container.prototype.topContents_ = null;
 
 /**
  * Sub contents of the container.
- * @type {Array.<tsumekusa.publishing.BlockContent>}
+ * @type {Array.<tsumekusa.contents.BlockContent>}
  * @private
  */
 Container.prototype.subContents_ = null;
@@ -111,7 +111,7 @@ Container.prototype.isVisibleOnContentsTable = function() {
 
 /**
  * Returns a tag of the container.
- * @return {tsumekusa.publishing.Tag} Tag of the container.
+ * @return {tsumekusa.contents.Tag} Tag of the container.
  */
 Container.prototype.getTag = function() {
   return this.tag_;
@@ -160,8 +160,8 @@ Container.prototype.getSelfDepth = function() {
 
 /**
  * Sets a parent content.  This method is chainable.
- * @param {tsumekusa.publishing.Content} content Parent content.
- * @return {tsumekusa.publishing.Container} This instance.
+ * @param {tsumekusa.contents.Content} content Parent content.
+ * @return {tsumekusa.contents.Container} This instance.
  * @protected
  */
 Container.prototype.setParent = function(content) {
@@ -172,7 +172,7 @@ Container.prototype.setParent = function(content) {
 
 /**
  * Returns a parent content.
- * @return {tsumekusa.publishing.Content} Parent content.
+ * @return {tsumekusa.contents.Content} Parent content.
  */
 Container.prototype.getParent = function() {
   return this.parent_;
@@ -225,7 +225,7 @@ Container.prototype.getReferenceId = function() {
 
 /**
  * Returns a link to the container.
- * @return {tsumekusa.publishing.Link} Link.
+ * @return {tsumekusa.contents.Link} Link.
  */
 Container.prototype.getLink = function() {
   return new Link(this.getReferenceId());
@@ -248,7 +248,7 @@ Container.prototype.getReferenceIdInternal = function(caption) {
 
 /**
  * Returns a top content.
- * @return {tsumekusa.publishing.BlockContent} Top content.
+ * @return {tsumekusa.contents.BlockContent} Top content.
  */
 Container.prototype.getTopContents = function() {
   return this.topContents_;
@@ -257,7 +257,7 @@ Container.prototype.getTopContents = function() {
 
 /**
  * Returns top contents.
- * @return {Array.<tsumekusa.publishing.BlockContent>} Top contents.
+ * @return {Array.<tsumekusa.contents.BlockContent>} Top contents.
  */
 Container.prototype.getTopContents = function() {
   return array.clone(this.topContents_);
@@ -267,7 +267,7 @@ Container.prototype.getTopContents = function() {
 /**
  * Returns a top content.
  * @param {number} index Index.
- * @return {tsumekusa.publishing.BlockContent} Top content.
+ * @return {tsumekusa.contents.BlockContent} Top content.
  */
 Container.prototype.getTopContentAt = function(index) {
   return this.getTopContents()[index];
@@ -276,8 +276,8 @@ Container.prototype.getTopContentAt = function(index) {
 
 /**
  * Appends a top content to last.  This method is chainable.
- * @param {tsumekusa.publishing.BlockContent} content Content to append.
- * @return {tsumekusa.publishing.Container} This instance.
+ * @param {tsumekusa.contents.BlockContent} content Content to append.
+ * @return {tsumekusa.contents.Container} This instance.
  */
 Container.prototype.appendTopContent = function(content) {
   return this.appendTopContentAt(content, this.topContents_.length);
@@ -286,9 +286,9 @@ Container.prototype.appendTopContent = function(content) {
 
 /**
  * Appends a top content by an index.  This method is chainable.
- * @param {tsumekusa.publishing.BlockContent} content Content to append.
+ * @param {tsumekusa.contents.BlockContent} content Content to append.
  * @param {number} index Index.
- * @return {tsumekusa.publishing.Container} This instance.
+ * @return {tsumekusa.contents.Container} This instance.
  */
 Container.prototype.appendTopContentAt = function(content, index) {
   this.topContents_.splice(index, 0, content);
@@ -301,8 +301,8 @@ Container.prototype.appendTopContentAt = function(content, index) {
 
 /**
  * Removes a top content by a content.
- * @param {tsumekusa.publishing.BlockContent} content to remove.
- * @return {?tsumekusa.publishing.BlockContent} Content was removed, if any.
+ * @param {tsumekusa.contents.BlockContent} content to remove.
+ * @return {?tsumekusa.contents.BlockContent} Content was removed, if any.
  */
 Container.prototype.removeTopContent = function(content) {
   var index;
@@ -316,7 +316,7 @@ Container.prototype.removeTopContent = function(content) {
 /**
  * Removes a top content by an index.
  * @param {number} index Index.
- * @return {?tsumekusa.publishing.BlockContent} Content was removed, if any.
+ * @return {?tsumekusa.contents.BlockContent} Content was removed, if any.
  */
 Container.prototype.removeTopContentAt = function(index) {
   var removed;
@@ -334,7 +334,7 @@ Container.prototype.removeTopContentAt = function(index) {
 
 /**
  * Returns sub contents.
- * @return {Array.<tsumekusa.publishing.Container>} Sub contents.
+ * @return {Array.<tsumekusa.contents.Container>} Sub contents.
  */
 Container.prototype.getSubContainers = function() {
   return array.clone(this.subContents_);
@@ -344,7 +344,7 @@ Container.prototype.getSubContainers = function() {
 /**
  * Returns a sub content.
  * @param {number} index Index.
- * @return {tsumekusa.publishing.Container} Sub content.
+ * @return {tsumekusa.contents.Container} Sub content.
  */
 Container.prototype.getSubContainerAt = function(index) {
   return this.getSubContainers()[index];
@@ -353,8 +353,8 @@ Container.prototype.getSubContainerAt = function(index) {
 
 /**
  * Appends a sub content to last.  This method is chainable.
- * @param {tsumekusa.publishing.Container} content Content to append.
- * @return {tsumekusa.publishing.Container} This instance.
+ * @param {tsumekusa.contents.Container} content Content to append.
+ * @return {tsumekusa.contents.Container} This instance.
  */
 Container.prototype.appendSubContainer = function(content) {
   return this.appendSubContainerAt(content, this.subContents_.length);
@@ -363,9 +363,9 @@ Container.prototype.appendSubContainer = function(content) {
 
 /**
  * Appends a sub content by an index.  This method is chainable.
- * @param {tsumekusa.publishing.Container} content Content to append.
+ * @param {tsumekusa.contents.Container} content Content to append.
  * @param {number} index Index.
- * @return {tsumekusa.publishing.Container} This instance.
+ * @return {tsumekusa.contents.Container} This instance.
  */
 Container.prototype.appendSubContainerAt = function(content, index) {
   this.subContents_.splice(index, 0, content);
@@ -378,8 +378,8 @@ Container.prototype.appendSubContainerAt = function(content, index) {
 
 /**
  * Removes a sub content by a content.
- * @param {tsumekusa.publishing.Container} content to remove.
- * @return {?tsumekusa.publishing.Container} Content was removed, if any.
+ * @param {tsumekusa.contents.Container} content to remove.
+ * @return {?tsumekusa.contents.Container} Content was removed, if any.
  */
 Container.prototype.removeSubContainer = function(content) {
   var index;
@@ -393,7 +393,7 @@ Container.prototype.removeSubContainer = function(content) {
 /**
  * Removes a sub content by an index.
  * @param {number} index Index.
- * @return {?tsumekusa.publishing.Container} Content was removed, if any.
+ * @return {?tsumekusa.contents.Container} Content was removed, if any.
  */
 Container.prototype.removeSubContainerAt = function(index) {
   var removed;

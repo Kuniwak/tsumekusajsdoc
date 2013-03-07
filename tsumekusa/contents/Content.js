@@ -6,7 +6,7 @@
 /**
  * An abstract class for contents.
  * @constructor
- * @implements {tsumekusa.publishing.IContent}
+ * @implements {tsumekusa.contents.IContent}
  */
 var Content = function() {};
 

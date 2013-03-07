@@ -10,7 +10,7 @@ var Content = require('./Content');
 /**
  * An abstract class for inline contents.
  * @constructor
- * @extends {tsumekusa.publishing.Content}
+ * @extends {tsumekusa.contents.Content}
  */
 var InlineContent = function() {
   Content.call(this);

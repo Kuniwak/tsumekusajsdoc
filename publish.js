@@ -5,9 +5,9 @@
 var fs = require('jsdoc/fs');
 var templateHelper = require('jsdoc/util/templateHelper');
 
-var Container = require('./tsumekusa/publishing/Container');
+var Container = require('./tsumekusa/contents/Container');
 var PreformattedParagraph = require(
-    './tsumekusa/publishing/PreformattedParagraph');
+    './tsumekusa/contents/PreformattedParagraph');
 
 var topContent = function() {
   var aa = [
@@ -77,6 +77,7 @@ exports.publish = function(taffyData, opts, tutorials) {
 
   classes.forEach(function(classSymbol) {
     var classDoc = new ClassDocument(classSymbol, version, date);
+    classDoc.setStaticMethods();
     classDoc.publishToFile();
   });
 

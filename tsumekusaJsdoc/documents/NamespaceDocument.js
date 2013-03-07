@@ -3,7 +3,7 @@
 
 
 var tsumekusa = require('../../tsumekusa');
-var Document = require('../../tsumekusa/publishing/Document');
+var Document = require('../../tsumekusa/contents/Document');
 var SymbolDocument = require('./SymbolDocument');
 var StaticMethodsContainer = require('./StaticMethodsContainer');
 var StaticPropertiesContainer = require('./StaticPropertiesContainer');

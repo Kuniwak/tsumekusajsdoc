@@ -27,9 +27,9 @@ VimHelpContainerPublisher.SEPARATORS = '=-';
 
 /**
  * Returns a header content.
- * @param {tsumekusa.publishing.Container} container Contents container
+ * @param {tsumekusa.contents.Container} container Contents container
  *     to create a header.
- * @return {tsumekusa.publishing.Content} Header content.
+ * @return {tsumekusa.contents.Content} Header content.
  */
 VimHelpContainerPublisher.prototype.createHeader = function(container) {
   var indexString = this.createIndex(container);
@@ -44,9 +44,9 @@ VimHelpContainerPublisher.prototype.createHeader = function(container) {
 
 /**
  * Returns a footer content.
- * @param {tsumekusa.publishing.Container} container Contents container
+ * @param {tsumekusa.contents.Container} container Contents container
  *     to create a footer.
- * @return {tsumekusa.publishing.Content} Footer content.
+ * @return {tsumekusa.contents.Content} Footer content.
  */
 VimHelpContainerPublisher.prototype.createFooter = function(container) {
   return null;
@@ -56,7 +56,7 @@ VimHelpContainerPublisher.prototype.createFooter = function(container) {
 /**
  * Creates an index string on head of a header.  Index string foemat as: {@code
  * 1.1.2}.
- * @param {tsumekusa.publishing.Container} container Contents container.
+ * @param {tsumekusa.contents.Container} container Contents container.
  * @return {string} Index string.
  */
 VimHelpContainerPublisher.prototype.createIndex = function(container) {
@@ -80,7 +80,7 @@ VimHelpContainerPublisher.prototype.createIndex = function(container) {
 
 /**
  * Creates a separator between sub contents.
- * @param {tsumekusa.publishing.Container} container Contents container.
+ * @param {tsumekusa.contents.Container} container Contents container.
  * @return {string} Separator.
  */
 VimHelpContainerPublisher.prototype.createSubContentSeparator =
@@ -95,7 +95,7 @@ VimHelpContainerPublisher.prototype.createSubContentSeparator =
 
 /**
  * Creates a top content.
- * @param {tsumekusa.publishing.Container} container Contents container.
+ * @param {tsumekusa.contents.Container} container Contents container.
  * @return {string} Top content.
  */
 VimHelpContainerPublisher.prototype.createTopContents = function(container) {
@@ -113,7 +113,7 @@ VimHelpContainerPublisher.prototype.createTopContents = function(container) {
 
 /**
  * Creates sub contents.
- * @param {tsumekusa.publishing.Container} container Contents container.
+ * @param {tsumekusa.contents.Container} container Contents container.
  * @return {string} Sub contents.
  */
 VimHelpContainerPublisher.prototype.createSubContents = function(container) {
@@ -131,7 +131,7 @@ VimHelpContainerPublisher.prototype.createSubContents = function(container) {
 
 /**
  * Creates a sub contents string internally.
- * @param {tsumekusa.publishing.Container} container Contents container.
+ * @param {tsumekusa.contents.Container} container Contents container.
  * @return {Array.<string>} Sub contents.
  * @protected
  */

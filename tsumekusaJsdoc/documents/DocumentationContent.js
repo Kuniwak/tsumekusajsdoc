@@ -13,7 +13,7 @@
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
  *     reference helper.
  * @constructor
- * @implements {tsumekusa.publishing.IContent}
+ * @implements {tsumekusa.contents.IContent}
  */
 var DocumentationContent = function(opt_docHelper, opt_refHelper) {
   this.docHelper_ = opt_docHelper || DocumentHelper.getInstance();
@@ -41,7 +41,7 @@ DocumentationContent.prototype.getReferenceHelper = function() {
 
 /**
  * Sets a container.  The method is chainable.
- * @param {tsumekusa.publishing.Content} container Content.
+ * @param {tsumekusa.contents.Content} container Content.
  * @return {tsumekusaJsdoc.documents.DocumentationContent} This instance.
  * @protected
  */
@@ -53,7 +53,7 @@ DocumentationContent.prototype.setContent = function(container) {
 
 /**
  * Returns a container.
- * @return {tsumekusa.publishing.Content} Content.
+ * @return {tsumekusa.contents.Content} Content.
  * @protected
  */
 DocumentationContent.prototype.getContent = function() {

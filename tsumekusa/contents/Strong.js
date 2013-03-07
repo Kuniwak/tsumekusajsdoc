@@ -12,7 +12,7 @@ var VimHelpStrongPublisher = require('./VimHelpStrongPublisher');
  * A class for strong (highlight) word.
  * @param {string} word Word to highlight.
  * @constructor
- * @extends {tsumekusa.publishing.InlineContent}
+ * @extends {tsumekusa.contents.InlineContent}
  */
 var Strong = function(word) {
   InlineContent.call(this);

@@ -2,7 +2,7 @@
 // http://orgachem.mit-license.org
 
 var tsumekusa = require('../../tsumekusa');
-var InlineContent = require('../../tsumekusa/publishing/InlineContent');
+var InlineContent = require('../../tsumekusa/contents/InlineContent');
 
 
 
@@ -15,7 +15,7 @@ var InlineContent = require('../../tsumekusa/publishing/InlineContent');
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
  *     reference helper.
  * @constructor
- * @extends {tsumekusa.publishing.InlineContent}
+ * @extends {tsumekusa.contents.InlineContent}
  */
 var UnkownInlineTag = function(type, content) {
   InlineContent.call(this);

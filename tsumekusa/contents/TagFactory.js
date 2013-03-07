@@ -22,7 +22,7 @@ TagFactory.tagMap_ = {};
 /**
  * Creates a new tag.
  * @param {string} ref Reference tag ID.
- * @return {tsumekusa.publishing.Tag}
+ * @return {tsumekusa.contents.Tag}
  */
 TagFactory.createTag = function(id) {
   TagFactory.registerId(id);

@@ -9,7 +9,7 @@ var tsumekusa = require('../../tsumekusa');
 /**
  * A class for preformatted paragrapg publisher.
  * @constructor
- * @implements {tsumekusa.publishing.ContentPublisher};
+ * @implements {tsumekusa.publishing.ContentPublisher}
  */
 var VimHelpPreformattedParagraphPublisher = function() {};
 tsumekusa.addSingletonGetter(VimHelpPreformattedParagraphPublisher);

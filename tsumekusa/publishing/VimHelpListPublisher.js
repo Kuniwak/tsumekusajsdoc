@@ -20,7 +20,7 @@ tsumekusa.addSingletonGetter(VimHelpListPublisher);
 /**
  * Creates a list marker.
  * @param {number} index Index of a content to create the marker.
- * @param {tsumekusa.publishing.List.ListType} listType List type.
+ * @param {tsumekusa.contents.List.ListType} listType List type.
  * @return {string} List marker.
  */
 VimHelpListPublisher.prototype.createListMarker = function(index, listType) {
@@ -37,7 +37,7 @@ VimHelpListPublisher.prototype.createListMarker = function(index, listType) {
 
 /**
  * Returns an indent level by a list.
- * @param {tsumekusa.publishing.List} list List.
+ * @param {tsumekusa.contents.List} list List.
  * @return {number} Indent lebel.
  */
 VimHelpListPublisher.prototype.getIndentLevel = function(list) {
