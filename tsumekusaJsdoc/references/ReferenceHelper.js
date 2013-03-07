@@ -14,7 +14,7 @@ var tsumekusa = require('../../tsumekusa');
  * @constructor
  */
 var ReferenceHelper = function() {};
-tsumekusa.addSingletonGetter(DocReferenceHelper);
+tsumekusa.addSingletonGetter(ReferenceHelper);
 
 
 /**
@@ -25,7 +25,17 @@ tsumekusa.addSingletonGetter(DocReferenceHelper);
  * @return {string} Reference ID.
  */
 ReferenceHelper.prototype.getReferenceId = function(symbol, opt_modifier) {
-  return symbol.longname + '-' + opt_modifier;
+  return opt_modifier ? symbol.longname + '-' + opt_modifier: symbol.longname;
+};
+
+
+/**
+ * Returns a file name of the symbol.
+ * @param {jsdoc.Doclet} symbol Symbol to generate the file name.
+ * @return {string} File name of the symbol.
+ */
+ReferenceHelper.prototype.getFileName = function(symbol) {
+  return symbol.longname;
 };
 
 

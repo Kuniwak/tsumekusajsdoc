@@ -30,6 +30,7 @@ LineWrapper.prototype.splitWords = function(contents) {
   contents.forEach(function(content) {
     if (content.publish) {
       str = content.publish();
+      console.log(content);
       if (content.isBreakable()) {
         words = words.concat(str.split(whiteRegExp));
       }

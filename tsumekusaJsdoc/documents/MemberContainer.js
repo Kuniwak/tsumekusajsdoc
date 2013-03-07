@@ -4,6 +4,9 @@
 
 var tsumekusa = require('../../tsumekusa');
 var Container = require('../../tsumekusa/contents/Container');
+var Paragraph = require('../../tsumekusa/contents/Paragraph');
+
+var tsumekusaJsdoc = require('../../tsumekusaJsdoc');
 var DocumentationContent = require('./DocumentationContent');
 
 
@@ -38,7 +41,8 @@ tsumekusa.inherits(MemberContainer, DocumentationContent);
  */
 MemberContainer.prototype.createSummaryParagraphs = function(symbol) {
   var p1 = new Paragraph();
-  var desc = this.getPublishingHelper().createSentence(symbol.description);
+  var desc = this.getDocumentHelper().createSentence(symbol.description ||
+      tsumekusaJsdoc.NO_DESCRIPTION);
   p1.appendSentence(desc);
 
   var p2 = new Paragraph();
@@ -54,7 +58,7 @@ MemberContainer.prototype.createSummaryParagraphs = function(symbol) {
  * @param {jsdoc.Doclet} symbol Symbol.
  * @return {tsumekusa.publishing.Setence} Property detail sentence.
  */
-PublishingHelper.prototype.createDetailSentence = tsumekusa.abstractMethod;
+MemberContainer.prototype.createDetailSentence = tsumekusa.abstractMethod;
 
 
 // Exports the constructor.

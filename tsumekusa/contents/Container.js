@@ -35,7 +35,7 @@ var VimHelpContainerPublisher = require(
  * @extends {tsumekusa.publishing.BlockContent}
  */
 var Container = function(caption, opt_refId, opt_visible) {
-  BlockContent.call(this, opt_refHelper);
+  BlockContent.call(this);
   this.setCaption(caption);
   this.tag_ = new Tag(opt_refId || this.getReferenceId());
   this.topContents_ = [];
@@ -248,11 +248,12 @@ Container.prototype.getReferenceIdInternal = function(caption) {
 
 
 /**
- * Returns a top content.
- * @return {tsumekusa.contents.BlockContent} Top content.
+ * Sets a top content.  This method is chainable.
+ * @param {Array.<tsumekusa.contents.BlockContent>} contents Top contents.
+ * @return {tsumekusa.contents.Container} This instance.
  */
-Container.prototype.getTopContents = function() {
-  return this.topContents_;
+Container.prototype.setTopContents = function(contents) {
+  this.topContents_ = contents;
 };
 
 

@@ -3,13 +3,17 @@
 
 
 var tsumekusa = require('../../tsumekusa');
+var Document = require('../../tsumekusa/contents/Document');
 var DocumentationContent = require('./DocumentationContent');
 
 
 
 /**
- * A class for document explains a class.
- * @param {jsdoc.Doclet} symbol Class symbol.
+ * A class for document explains a symbol such as class or namespace.
+ * @param {jsdoc.Doclet} symbol Symbol.
+ * @param {string} caption Caption of the document.
+ * @param {?Array.<tsumekusa.contents.Paragraph>=} opt_topContents Optional top
+ *     contents.
  * @param {?string=} opt_version Optional version identifier.
  * @param {?Date=} opt_date Optional date object.
  * @param {?tsumekusaJsdoc.documents.DocumentHelper=} opt_docHelper Optional
@@ -19,8 +23,8 @@ var DocumentationContent = require('./DocumentationContent');
  * @constructor
  * @extends {tsumekusaJsDoc.documents.DocumentationContent}
  */
-var SymbolDocument = function(symbol, caption, opt_version, opt_date,
-    opt_docHelper, opt_refHelper) {
+var SymbolDocument = function(symbol, caption, opt_topContents, opt_version,
+    opt_date, opt_docHelper, opt_refHelper) {
   DocumentationContent.call(this, opt_docHelper, opt_refHelper);
 
   this.symbol_ = symbol;
@@ -87,3 +91,7 @@ SymbolDocument.prototype.generateFileName = function(symbol) {
   var refHelper = this.getReferenceHelper();
   return fileName = refHelper.getFileName(symbol);
 };
+
+
+// Exports the constructor.
+module.exports = SymbolDocument;

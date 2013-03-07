@@ -13,6 +13,8 @@ var StaticPropertiesContainer = require('./StaticPropertiesContainer');
 /**
  * A class for document explains a namespace.
  * @param {jsdoc.Doclet} symbol Namespace symbol.
+ * @param {?Array.<tsumekusa.contents.Paragraph>=} opt_topContents Optional top
+ *     contents.
  * @param {?string=} opt_version Optional version identifier.
  * @param {?Date=} opt_date Optional date object.
  * @param {?tsumekusaJsdoc.documents.DocumentHelper=} opt_docHelper Optional
@@ -22,10 +24,10 @@ var StaticPropertiesContainer = require('./StaticPropertiesContainer');
  * @constructor
  * @extends {tsumekusaJsDoc.documents.SymbolDocument}
  */
-var NamespaceDocument = function(symbol, opt_version, opt_date, opt_docHelper,
-    opt_refHelper) {
-  SymbolDocument.call(this, symbol, ClassDocument.CAPTION, opt_version,
-      opt_date, opt_docHelper, opt_refHelper);
+var NamespaceDocument = function(symbol, opt_topContents, opt_version, opt_date,
+    opt_docHelper, opt_refHelper) {
+  SymbolDocument.call(this, symbol, NamespaceDocument.CAPTION, opt_topContents,
+      opt_version, opt_date, opt_docHelper, opt_refHelper);
 };
 tsumekusa.inherits(NamespaceDocument, SymbolDocument);
 
@@ -43,7 +45,6 @@ NamespaceDocument.CAPTION = 'Namespace';
 NamespaceDocument.prototype.publish = function() {
   // TODO: Aboid lazy members setting. Or apply builder pattern.
   var document = this.getContent();
-  var symbol = this.getSymbol();
 
   var staticMethods = this.getStaticMethods();
   var staticProperties = this.getStaticProperties();

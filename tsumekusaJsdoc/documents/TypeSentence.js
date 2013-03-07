@@ -34,8 +34,6 @@ var TypeSentence = function(tag, opt_docHelper, opt_refHelper) {
     if (tag.nullable) {
       typeContents[typeContentsIdx++] = 'null';
     }
-
-    return typeContents;
   }
   else {
     typeContents = ['?'];
@@ -64,6 +62,12 @@ tsumekusa.inherits(TypeSentence, DocumentationContent);
  */
 TypeSentence.prototype.getOrOperatorChar = function() {
   return '|';
+};
+
+
+/** @override */
+TypeSentence.prototype.isBreakable = function() {
+  return this.getContent().isBreakable();
 };
 
 

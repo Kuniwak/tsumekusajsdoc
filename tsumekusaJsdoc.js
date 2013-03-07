@@ -28,3 +28,11 @@ tsumekusaJsdoc.INLINE_TAG_DISABLED = false;
  * @type {boolean}
  */
 tsumekusaJsdoc.HTML_DISABLED = false;
+
+
+/**
+ * Default description when a description was not defined.
+ * @const
+ * @type {string}
+ */
+tsumekusaJsdoc.NO_DESCRIPTION = 'No description.';

@@ -10,19 +10,19 @@ var InlineContent = require('../../tsumekusa/contents/InlineContent');
  * A class for unknown tags.  The tag will be created when an unknown inline tag
  * was found.  You can construct any tag by property of the unknown tag.
  * See {@link }
- * @param {string} type Unkown inline tag name.  An at mark was excluded.
- * @param {string} content Unkown unline tag content.
+ * @param {string} type Unknown inline tag name.  An at mark was excluded.
+ * @param {string} content Unknown unline tag content.
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
  *     reference helper.
  * @constructor
  * @extends {tsumekusa.contents.InlineContent}
  */
-var UnkownInlineTag = function(type, content) {
+var UnknownInlineTag = function(type, content) {
   InlineContent.call(this);
   this.type = type;
   this.content = content;
 };
-tsumekusa.inherits(UnkownInlineTag, InlineContent);
+tsumekusa.inherits(UnknownInlineTag, InlineContent);
 
 
 /**
@@ -33,14 +33,14 @@ UnknownInlineTag.prototype.unknown = true;
 
 
 /**
- * Unkown tag name.
+ * Unknown tag name.
  * @type {string}
  */
 UnknownInlineTag.prototype.type = null;
 
 
 /**
- * Unkown tag content.
+ * Unknown tag content.
  * @type {boolean}
  */
 UnknownInlineTag.prototype.content = null;
@@ -50,8 +50,8 @@ UnknownInlineTag.prototype.content = null;
 /**
  * A class for unknown tag publisher.
  */
-var UnkownInlineTagPublisher = function() {};
-tsumekusa.addSingletonGetter(UnkownInlineTagPublisher);
+var UnknownInlineTagPublisher = function() {};
+tsumekusa.addSingletonGetter(UnknownInlineTagPublisher);
 
 
 /**
@@ -59,12 +59,12 @@ tsumekusa.addSingletonGetter(UnkownInlineTagPublisher);
  * only curly braces and atmark) if an unknown tag was published.
  *
  * Note: The method warn that unknown tag was come.
- * @param {tsumekusa.publishing.UnkownTag} tag Unkown tag to publish.
- * @return {string} Unkown tag content.
+ * @param {tsumekusa.publishing.UnknownTag} tag Unknown tag to publish.
+ * @return {string} Unknown tag content.
  */
-UnkownInlineTagPublisher.prototype.publish = function(tag) {
-  console.warn('Unkown tag is found. The type is: "' + tag.type + '", and the' +
-               ' content is: "' + tag.content +'"');
+UnknownInlineTagPublisher.prototype.publish = function(tag) {
+  console.warn('Unknown tag is found. The type is: "' + tag.type + '", and ' +
+      'the content is: "' + tag.content +'"');
   return tag.content;
 };
 
@@ -72,6 +72,6 @@ UnkownInlineTagPublisher.prototype.publish = function(tag) {
 
 /**
  * Default content publisher.
- * @type {tsumekusa.publishing.UnkownInlineTagPublisher}
+ * @type {tsumekusa.publishing.UnknownInlineTagPublisher}
  */
-UnkownInlineTag.publisher = new UnkownInlineTagPublisher();
+UnknownInlineTag.publisher = new UnknownInlineTagPublisher();

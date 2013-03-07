@@ -15,6 +15,8 @@ var InstancePropertiesContainer = require('./InstancePropertiesContainer');
 /**
  * A class for document explains a class.
  * @param {jsdoc.Doclet} symbol Class symbol.
+ * @param {?Array.<tsumekusa.contents.Paragraph>=} opt_topContents Optional top
+ *     contents.
  * @param {?string=} opt_version Optional version identifier.
  * @param {?Date=} opt_date Optional date object.
  * @param {?tsumekusaJsdoc.documents.DocumentHelper=} opt_docHelper Optional
@@ -24,10 +26,10 @@ var InstancePropertiesContainer = require('./InstancePropertiesContainer');
  * @constructor
  * @extends {tsumekusaJsDoc.documents.SymbolDocument}
  */
-var ClassDocument = function(symbol, opt_version, opt_date, opt_docHelper,
-    opt_refHelper) {
-  SymbolDocument.call(this, symbol, ClassDocument.CAPTION, opt_version,
-      opt_date, opt_docHelper, opt_refHelper);
+var ClassDocument = function(symbol, opt_topContents, opt_version, opt_date,
+    opt_docHelper, opt_refHelper) {
+  SymbolDocument.call(this, symbol, ClassDocument.CAPTION, opt_topContents,
+      opt_version, opt_date, opt_docHelper, opt_refHelper);
 };
 tsumekusa.inherits(ClassDocument, SymbolDocument);
 
@@ -66,7 +68,8 @@ ClassDocument.prototype.publish = function() {
     document.appendSubContainer(this.createInstancePropertiesContainer());
   }
 
-  return SymbolDocument.prototype.publish.call(this);
+  //return SymbolDocument.prototype.publish.call(this);
+  return document.publish();
 };
 
 

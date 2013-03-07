@@ -27,7 +27,7 @@ var PropertiesContainer = function(parent, members, caption, modifier,
   MembersContainer.call(this, parent, members, caption, modifier, opt_docHelper,
     opt_refHelper);
 };
-tsumekusa.inherits(PropertiesContainer, tsumekusaJsdoc.documents.MembersContainer);
+tsumekusa.inherits(PropertiesContainer, MembersContainer);
 
 
 /** @override */
@@ -35,3 +35,7 @@ PropertiesContainer.prototype.createMemberContainer = function(symbol) {
   return new PropertyContainer(symbol, this.getDocumentHelper(),
       this.getReferenceHelper());
 };
+
+
+// Exports the constructor.
+module.exports = PropertiesContainer;

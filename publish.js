@@ -5,13 +5,14 @@
 //var fs = require('jsdoc/fs');
 //var templateHelper = require('jsdoc/util/templateHelper');
 
-var Container = require('./tsumekusa/contents/Container');
+var ClassDocument = require('./tsumekusaJsdoc/documents/ClassDocument');
+var NamespaceDocument = require('./tsumekusaJsdoc/documents/NamespaceDocument');
 var DocletWrapper = require('./tsumekusaJsdoc/documents/DocletWrapper');
 
 var PreformattedParagraph = require(
     './tsumekusa/contents/PreformattedParagraph');
 
-var topContent = function() {
+var topContents = function() {
   var aa = [
     '     ________                           __    _ __',
     '    / ____/ /___  _______  __________  / /   (_) /_  _________ ________  __',
@@ -21,10 +22,8 @@ var topContent = function() {
     '                                                                  /____/'
   ].join('\n');
 
-  return new PreformattedParagraph(aa);
+  return [new PreformattedParagraph(aa)];
 }();
-
-
 
 
 /**
@@ -34,7 +33,7 @@ var topContent = function() {
  */
 exports.publish = function(taffyData, opts, tutorials) {
   // TODO: Remove a test code.
-  var version = 'alphalpha'
+  var version = 'alphalpha';
   var date = new Date(0);
 
   /**
@@ -43,7 +42,8 @@ exports.publish = function(taffyData, opts, tutorials) {
    */
   var memberMap = {};
 
-  var symbols = templateHelper.prune(taffy).get();
+  //var symbols = templateHelper.prune(taffy).get();
+  var symbols = taffyData().get();
   var classes = [], classesIdx = 0;
   var namespaces = [], namespacesIdx = 0;
 
@@ -64,45 +64,52 @@ exports.publish = function(taffyData, opts, tutorials) {
         docletWrapper = memberMap[parentLongName] = new DocletWrapper();
       }
 
+      // Classify symbols
       // TODO: Implement inner object processing.
       switch (symbol.kind) {
         case 'function':
           switch (symbol.scope) {
             case 'static':
               docletWrapper.appendStaticMethod(symbol);
+              break;
             case 'instance':
               docletWrapper.appendInstanceMethod(symbol);
+              break;
             default:
               console.warn('Unknown scope found: "' + symbol.scope + '"');
+              break;
           }
           break;
         case 'member':
           switch (symbol.scope) {
             case 'static':
               docletWrapper.appendStaticProperty(symbol);
+              break;
             case 'instance':
               docletWrapper.appendInstanceProperty(symbol);
+              break;
             default:
               console.warn('Unknown scope found: "' + symbol.scope + '"');
+              break;
           }
+          break;
+        case 'namespace':
+          namespaces[namespacesIdx++] = symbol;
+          break;
+        case 'class':
+          classes[classesIdx++] = symbol;
+          break;
         default:
           console.warn('Unknown kind found: "' + symbol.kind + '"');
+          break;
       }
     }
 
-    // Classify symbols
-    switch (symbol.kind) {
-      case 'namespace': 
-        namespaces[namespacesIdx++] = symbol;
-      case 'class':
-        classes[classesIdx++] = symbol;
-    }
   });
 
   // TODO: Implement module, externs, global object processing.
   classes.forEach(function(classSymbol) {
-    var classDoc = new ClassDocument(classSymbol, version, date);
-    classDoc.appendTopContent(topContent);
+    var classDoc = new ClassDocument(classSymbol, topContents, version, date);
 
     var docletWrapper;
     if (docletWrapper = memberMap[classSymbol.longname]) {
@@ -116,15 +123,13 @@ exports.publish = function(taffyData, opts, tutorials) {
   });
 
   namespaces.forEach(function(namespaceSymbol) {
-    var namespaceDoc = new NamespaceDocument(namespaceSymbol, version, date);
-    namespaceDoc.appendTopContent(topContent);
+    var namespaceDoc = new NamespaceDocument(namespaceSymbol, topContents,
+        version, date);
 
     var docletWrapper;
     if (docletWrapper = memberMap[namespaceSymbol.longname]) {
       namespaceDoc.setStaticMethods(docletWrapper.staticMethods);
       namespaceDoc.setStaticProperties(docletWrapper.staticProperties);
-      namespaceDoc.setInstanceMethods(docletWrapper.instanceMethods);
-      namespaceDoc.setInstanceProperties(docletWrapper.instanceProperties);
     }
 
     namespaceDoc.publishToFile();
@@ -132,4 +137,4 @@ exports.publish = function(taffyData, opts, tutorials) {
 };
 
 
-exports.publish(require('./test_goog.array'));
+exports.publish(require('./test_goog.array').goog_array);

@@ -5,8 +5,8 @@
 var tsumekusa = require('../../tsumekusa');
 var string = require('../string');
 var date = require('../date');
-var TagFactory = require('./TagFactory');
-var Link = require('./Link');
+var TagFactory = require('../contents/TagFactory');
+var Link = require('../contents/Link');
 var VimHelpContainerPublisher = require('./VimHelpContainerPublisher');
 
 

@@ -27,7 +27,7 @@ var MethodsContainer = function(parent, members, caption, modifier,
   MembersContainer.call(this, parent, members, caption, modifier, opt_docHelper,
     opt_refHelper);
 };
-tsumekusa.inherits(MethodsContainer, tsumekusaJsdoc.documents.MembersContainer);
+tsumekusa.inherits(MethodsContainer, MembersContainer);
 
 
 /** @override */
@@ -35,3 +35,7 @@ MethodsContainer.prototype.createMemberContainer = function(symbol) {
   return new MethodContainer(symbol, this.getDocumentHelper(),
       this.getReferenceHelper());
 };
+
+
+// Exports the constructor.
+module.exports = MethodsContainer;

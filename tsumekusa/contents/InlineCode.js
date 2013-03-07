@@ -17,7 +17,7 @@ var VimHelpInlineCodePublisher = require(
  * @extends {tsumekusa.contents.Code}
  */
 var InlineCode = function(code, opt_lang) {
-  Content.call(this, code, opt_lang);
+  Code.call(this, code, opt_lang);
 };
 tsumekusa.inherits(InlineCode, Code);
 

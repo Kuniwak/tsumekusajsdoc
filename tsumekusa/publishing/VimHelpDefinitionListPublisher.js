@@ -54,7 +54,7 @@ VimHelpDefinitionListPublisher.prototype.getUnorderedSymbol = function() {
  */
 VimHelpDefinitionListPublisher.prototype.createListMarker = function(index,
     listType) {
-  var DefinitionList = require('./DefinitionList');
+  var DefinitionList = require('../contents/DefinitionList');
   switch (listType) {
     case DefinitionList.ListType.NO_MARKER:
       return null;
@@ -80,7 +80,7 @@ VimHelpDefinitionListPublisher.prototype.getIndentLevel = function(list) {
 
 /** @override */
 VimHelpDefinitionListPublisher.prototype.publish = function(list) {
-  var DefinitionList = require('./DefinitionList');
+  var DefinitionList = require('../contents/DefinitionList');
   var wrapper = LineWrapper.getInstance();
   var markerWidth = 0, indentLevel = this.getIndentLevel(list);
 

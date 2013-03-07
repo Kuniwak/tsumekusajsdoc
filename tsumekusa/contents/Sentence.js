@@ -51,6 +51,12 @@ Sentence.prototype.contents_;
 Sentence.prototype.parent_ = null;
 
 
+/** @override */
+Sentence.prototype.isBreakable = function() {
+  return true;
+};
+
+
 /**
  * Sets a parent content.  This method is chainable.
  * @param {tsumekusa.contents.Paragraph} container Parent content.

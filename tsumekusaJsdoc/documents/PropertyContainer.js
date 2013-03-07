@@ -3,6 +3,7 @@
 
 
 var tsumekusa = require('../../tsumekusa');
+var Sentence = require('../../tsumekusa/contents/Sentence');
 var DocumentationContent = require('./DocumentationContent');
 var MemberContainer = require('./MemberContainer');
 var TypeSentence = require('./TypeSentence');
@@ -22,17 +23,26 @@ var TypeSentence = require('./TypeSentence');
 var PropertyContainer = function(symbol, opt_docHelper, opt_refHelper) {
   MemberContainer.call(this, symbol, opt_docHelper, opt_refHelper);
 };
+tsumekusa.inherits(PropertyContainer, MemberContainer);
 
 
 /** @override */
 PropertyContainer.prototype.createDetailSentence = function(symbol) {
   var sentence = new Sentence();
-  var typeMax = symbol.type.length - 1;
+  var typeMax;
 
-  sentence.appendInlineContent(symbol.longname + ':');
+  if (symbol.type) {
+    typeMax = symbol.type.length - 1;
 
-  var links = new TypeSentence(symbol.type);
-  sentence.appendInlineContents(links);
+    sentence.appendInlineContent(symbol.longname + ':');
+
+    var links = new TypeSentence(symbol.type);
+    sentence.appendInlineContents(links);
+  }
 
   return sentence;
 };
+
+
+// Exports the constructor.
+module.exports = PropertyContainer;

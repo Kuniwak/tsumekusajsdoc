@@ -6,6 +6,8 @@ var tsumekusa = require('../../tsumekusa');
 var Container = require('../../tsumekusa/contents/Container');
 var Sentence = require('../../tsumekusa/contents/Sentence');
 var DefinitionList = require('../../tsumekusa/contents/DefinitionList');
+
+var tsumekusaJsdoc = require('../../tsumekusaJsdoc');
 var DocumentationContent = require('./DocumentationContent');
 var MemberContainer = require('./MemberContainer');
 var TypeSentence = require('./TypeSentence');
@@ -24,13 +26,14 @@ var TypeSentence = require('./TypeSentence');
  */
 var MethodContainer = function(symbol, opt_docHelper, opt_refHelper) {
   MemberContainer.call(this, symbol, opt_docHelper, opt_refHelper);
-  var container = this.getContainer();
+  var container = this.getContent();
   var params = this.createParametersContainer(symbol);
   var returns = this.createReturnsContainer(symbol);
 
   container.appendSubContainer(params);
   container.appendSubContainer(returns);
 };
+tsumekusa.inherits(MethodContainer, MemberContainer);
 
 
 /**
@@ -49,37 +52,58 @@ MethodContainer.PARAMS_MODIFIER = 'params';
 MethodContainer.RETURNS_MODIFIER = 'returns';
 
 
+/**
+ * Default caption for parameters section.
+ * @const
+ * @type {string}
+ */
+MethodContainer.PARAMS_CAPTION = 'Parameters';
+
+
+/**
+ * Default caption for returns section.
+ * @const
+ * @type {string}
+ */
+MethodContainer.RETURNS_CAPTION = 'Returns';
+
+
 /** @override */
 MethodContainer.prototype.createDetailSentence = function(symbol) {
   var sentence = new Sentence();
-  var paramsMax = symbol.params.length - 1;
-  var returnsMax = symbol.returns.length - 1;
+  var paramsMax, returnsMax;
 
   // current detail string as: foobar(
   sentence.appendInlineContent(symbol.longname + '(');
 
-  // current detail string as: foobar( arg1, arg2, arg3
-  symbol.params.forEach(function(tag, index) {
-    var links = new TypeSentence(tag);
-    var paramName = this.createParameterNameString(tag.name);
-    sentence.appendInlineContents(links);
-    sentence.appendInlineContent(paramName + (index < paramsMax ? ',' : ''));
-  }, this);
+  if (symbol.params) {
+    paramsMax = symbol.params.length - 1;
+    // current detail string as: foobar( arg1, arg2, arg3
+    symbol.params.forEach(function(tag, index) {
+      var links = new TypeSentence(tag);
+      var paramName = this.createParameterNameString(tag.name);
+      sentence.extend(links.getContent());
+      sentence.appendInlineContent(paramName + (index < paramsMax ? ',' : ''));
+    }, this);
+  }
 
   // current detail string as: foobar( arg1, arg2, arg3 )
   sentence.appendInlineContent(')');
 
-  // current detail string as: foobar( arg1, arg2, arg3 ) =>
-  sentence.appendInlineContent('=>');
+  if (symbol.returns) {
+    returnsMax = symbol.returns.length - 1;
+    // current detail string as: foobar( arg1, arg2, arg3 ) =>
+    sentence.appendInlineContent('=>');
 
-  // current detail string as: foobar( arg1, arg2, arg3 ) => val
-  symbol.returns.forEach(function(tag, index) {
-    var links = new TypeSentence(tag);
-    sentence.appendInlineContents(links);
-    if (index < returnsMax) {
-      sentence.appendInlineContent(',');
-    }
-  }, this);
+    // current detail string as: foobar( arg1, arg2, arg3 ) => val
+    symbol.returns.forEach(function(tag, index) {
+      var links = new TypeSentence(tag);
+      sentence.extend(links);
+      if (index < returnsMax) {
+        sentence.appendInlineContent(',');
+      }
+    }, this);
+  }
 
   return sentence;
 };
@@ -151,24 +175,26 @@ MethodContainer.ParametersContainer = function(symbol, parent, opt_docHelper,
   var refId = this.getReferenceHelper().getReferenceId(symbol, MethodContainer.
       PARAMS_MODIFIER);
 
-  var container = new Container(PublishingHelper.PARAMS_CAPTION, refId);
+  var container = new Container(MethodContainer.PARAMS_CAPTION, refId);
   var defs = new DefinitionList(DefinitionList.ListType.UNORDERED);
 
   if (symbol.params) {
     symbol.params.forEach(function(tag) {
-      var desc = docHelper.createSentence(tag.text);
+      var desc = docHelper.createSentence(tag.text || tsumekusaJsdoc.
+          NO_DESCRIPTION);
 
       var signature = new TypeSentence(tag);
       var paramName = parent.createParameterNameString(tag);
 
       // Add the type name to head.
-      signature.appendInlineContentAt(paramName + ':', 0);
+      signature.getContent().appendInlineContentAt(paramName + ':', 0);
 
       defs.appendDefinition(signature, desc);
     }, this);
   }
 
   container.appendTopContent(defs);
+  this.setContent(container);
 };
 tsumekusa.inherits(MethodContainer.ParametersContainer, DocumentationContent);
 
@@ -193,12 +219,13 @@ MethodContainer.ReturnsContainer = function(symbol, parent, opt_docHelper,
   var refId = this.getReferenceHelper().getReferenceId(symbol, MethodContainer.
       RETURNS_MODIFIER);
 
-  var container = new Container(PublishingHelper.RETURNS_CAPTION, refId);
+  var container = new Container(MethodContainer.RETURNS_CAPTION, refId);
   var defs = new DefinitionList(DefinitionList.ListType.UNORDERED);
 
   if (symbol.returns) {
     symbol.returns.forEach(function(tag) {
-      var desc = docHelper.createSentence(tag.text);
+      var desc = docHelper.createSentence(tag.text || tsumekusaJsdoc.
+          NO_DESCRIPTION);
 
       var signature = new TypeSentence(tag);
 
@@ -207,8 +234,9 @@ MethodContainer.ReturnsContainer = function(symbol, parent, opt_docHelper,
   }
 
   container.appendTopContent(defs);
+  this.setContent(container);
 };
-tsumekusa.inherits(MethodContainer.ParametersContainer, DocumentationContent);
+tsumekusa.inherits(MethodContainer.ReturnsContainer, DocumentationContent);
 
 
 // Exports the constructor.

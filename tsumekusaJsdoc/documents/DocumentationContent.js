@@ -2,6 +2,9 @@
 // http://orgachem.mit-license.org
 
 
+var DocumentHelper = require('./DocumentHelper');
+var ReferenceHelper = require('../references/ReferenceHelper');
+
 
 /**
  * A class for a content for Jsdoc with tsumekusa.  This class stores 2 helpers
@@ -17,7 +20,7 @@
  */
 var DocumentationContent = function(opt_docHelper, opt_refHelper) {
   this.docHelper_ = opt_docHelper || DocumentHelper.getInstance();
-  this.refHelper_ = opt_refHelper || RefereneHelper.getInstance();
+  this.refHelper_ = opt_refHelper || ReferenceHelper.getInstance();
 };
 
 
@@ -40,24 +43,24 @@ DocumentationContent.prototype.getReferenceHelper = function() {
 
 
 /**
- * Sets a container.  The method is chainable.
- * @param {tsumekusa.contents.Content} container Content.
+ * Sets a content.  The method is chainable.
+ * @param {tsumekusa.contents.Content} content Content.
  * @return {tsumekusaJsdoc.documents.DocumentationContent} This instance.
  * @protected
  */
-DocumentationContent.prototype.setContent = function(container) {
-  this.container_ = container;
+DocumentationContent.prototype.setContent = function(content) {
+  this.content_ = content;
   return this;
 };
 
 
 /**
- * Returns a container.
+ * Returns a content.
  * @return {tsumekusa.contents.Content} Content.
  * @protected
  */
 DocumentationContent.prototype.getContent = function() {
-  return this.container_;
+  return this.content_;
 };
 
 

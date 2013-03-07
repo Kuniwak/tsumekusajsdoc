@@ -3,9 +3,10 @@
 
 var tsumekusa = require('../../tsumekusa');
 var tsumekusaJsdoc = require('../../tsumekusaJsdoc');
-var InlineCode = require('../../tsumekusa/publishing/InlineCode');
+var Sentence = require('../../tsumekusa/contents/Sentence');
+var InlineCode = require('../../tsumekusa/contents/InlineCode');
 var Link = require('../../tsumekusa/contents/Link');
-var UnknownInlineTag = require('../../tsumekusa/publishing/UnknownInlineTag');
+var UnknownInlineTag = require('./UnknownInlineTag');
 
 
 
@@ -28,15 +29,16 @@ tsumekusa.addSingletonGetter(DocumentHelper);
 DocumentHelper.prototype.parseInlineContents = function(string) {
   // Return an original string if no inline code.
   var contents = [string], contentsIdx = 0;
+  var that = this;
 
   if (!tsumekusaJsdoc.INLINE_TAG_DISABLED) {
     // TODO: Implement HTML tag parser
     string.replace(/([^\{]+)\{@([\S]+)\s+([^\}]+)\}/g, function(matched, pre,
         tagName, tagContent) {
           contents[contentsIdx++] = pre;
-          contents[contentsIdx++] = this.createInlineContent(tagName,
+          contents[contentsIdx++] = that.createInlineContent(tagName,
               tagContent);
-        }, this);
+        });
   }
 
   return contents;

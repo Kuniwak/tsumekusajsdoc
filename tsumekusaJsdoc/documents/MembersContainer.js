@@ -32,7 +32,7 @@ var MembersContainer = function(parent, members, caption, modifier,
   var container = new Container(caption, refId, true);
 
   members.forEach(function(member) {
-    var memberContainer = this.createMemberContainer(symbol);
+    var memberContainer = this.createMemberContainer(member);
     container.appendSubContainer(memberContainer);
   }, this);
 

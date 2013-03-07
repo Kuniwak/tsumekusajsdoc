@@ -19,7 +19,7 @@ var VimHelpDocumentPublisher = require(
  * @extends {tsumekusa.contents.Container}
  */
 var Document = function(caption, filename, opt_version, opt_date) {
-  Container.call(this, caption, filename, opt_refHelper);
+  Container.call(this, caption, filename);
   this.version_ = opt_version;
   this.date_ = opt_date || new Date();
 };
