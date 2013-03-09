@@ -3,6 +3,7 @@
 
 
 var tsumekusa = require('../../tsumekusa');
+var string = require('../string');
 
 
 
