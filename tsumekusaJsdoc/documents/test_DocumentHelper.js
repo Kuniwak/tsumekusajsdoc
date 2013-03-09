@@ -53,7 +53,7 @@ exports.testResolveInlineLink = function(test) {
 
 exports.testCreateParagraphs = function(test) {
   var docHelper = new DocumentHelper();
-  var VALIED_STRING_1 = 'pretext\n<ul><li>line1<li>line2<li>line3</ul>\nposttext';
+  var VALIED_STRING_1 = 'pretext\n<ul><li>line1<li>line2<li>{@tag line3}</ul>\nposttext';
   var paragraphs = docHelper.createParagraphs(VALIED_STRING_1);
   test.equal(paragraphs.length, 3);
 
@@ -91,16 +91,5 @@ exports.testCreateParagraphs = function(test) {
   test.equals(s5.getInlineContents().length, 1);
   var i5 = s5.getInlineContents()[0];
   test.equal(i5, 'posttext');
-  test.done();
-};
-
-
-exports.teste = function(test) {
-  var docHelper = new DocumentHelper();
-
-  var VALIED_STRING_1 = 'Adds the specified component as a child of this component at the given 0-based index.  Both {@code addChild} and {@code addChildAt} assume the following contract between parent and child components:  <ul>    <li>the child component\'s element must be a descendant of the parent        component\'s element, and    <li>the DOM state of the child component must be consistent with the DOM        state of the parent component (see {@code isInDocument}) in the        steady state -- the exception is to addChildAt(child, i, false) and        then immediately decorate/render the child.  </ul>  In particular, {@code parent.addChild(child)} will throw an error if the child component is already in the document, but the parent isn\'t.  Clients of this API may call {@code addChild} and {@code addChildAt} with {@code opt_render} set to true.  If {@code opt_render} is true, calling these methods will automatically render the child component\'s element into the parent component\'s element.  However, {@code parent.addChild(child, true)} will throw an error if:  <ul>    <li>the parent component has no DOM (i.e. {@code parent.getElement()} is        null), or    <li>the child component is already in the document, regardless of the        parent\'s DOM state.  </ul>  If {@code opt_render} is true and the parent component is not already in the document, {@code enterDocument} will not be called on this component at this point.  Finally, this method also throws an error if the new child already has a different parent, or the given index is out of bounds.';
-
-  docHelper.createParagraphs(VALIED_STRING_1);
-
   test.done();
 };
