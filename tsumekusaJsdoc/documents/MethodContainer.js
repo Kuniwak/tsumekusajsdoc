@@ -75,24 +75,15 @@ MethodContainer.RETURNS_CAPTION = 'Returns';
 MethodContainer.VERBOSE_DETAIL = false;
 
 
-/**
- * Indent width of a digest.
- * @const
- * @type {number}
- */
-MethodContainer.DIGEST_INDENT_WIDTH = 2;
-
-
 /** @override */
 MethodContainer.prototype.createDigestSentence = function(symbol) {
   var container = this.getContent();
   var sentence = new Sentence();
-  var whites = string.repeat(' ', MethodContainer.DIGEST_INDENT_WIDTH);
   var params, returns;
   var paramsMax, returnsMax;
 
   // current detail string as: foobar(
-  sentence.appendInlineContent(whites + symbol.longname + '(');
+  sentence.appendInlineContent('>> ' + symbol.longname + '(');
 
   if (symbol.params && (paramsMax = symbol.params.length - 1) > 0) {
     var params = this.createParametersContainer(symbol);

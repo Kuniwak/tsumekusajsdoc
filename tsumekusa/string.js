@@ -71,6 +71,57 @@ string.collapseBreakingSpaces = function(str) {
 
 
 /**
+ * Trims white spaces to the left and right of a string.
+ *
+ * This method is clone of
+ * {@link http://closure-library.googlecode.com/svn/docs/index.html}.
+ *
+ * @param {string} str The string to trim.
+ * @return {string} A trimmed copy of {@code str}.
+ */
+string.trim = function(str) {
+  // Since IE doesn't include non-breaking-space (0xa0) in their \s character
+  // class (as required by section 7.2 of the ECMAScript spec), we explicitly
+  // include it in the regexp to enforce consistent cross-browser behavior.
+  return str.replace(/^[\s\xa0]+|[\s\xa0]+$/g, '');
+};
+
+
+/**
+ * Trims whitespaces at the left end of a string.
+ *
+ * This method is clone of
+ * {@link http://closure-library.googlecode.com/svn/docs/index.html}.
+ *
+ * @param {string} str The string to left trim.
+ * @return {string} A trimmed copy of {@code str}.
+ */
+string.trimLeft = function(str) {
+  // Since IE doesn't include non-breaking-space (0xa0) in their \s character
+  // class (as required by section 7.2 of the ECMAScript spec), we explicitly
+  // include it in the regexp to enforce consistent cross-browser behavior.
+  return str.replace(/^[\s\xa0]+/, '');
+};
+
+
+/**
+ * Trims whitespaces at the right end of a string.
+ *
+ * This method is clone of
+ * {@link http://closure-library.googlecode.com/svn/docs/index.html}.
+ *
+ * @param {string} str The string to right trim.
+ * @return {string} A trimmed copy of {@code str}.
+ */
+string.trimRight = function(str) {
+  // Since IE doesn't include non-breaking-space (0xa0) in their \s character
+  // class (as required by section 7.2 of the ECMAScript spec), we explicitly
+  // include it in the regexp to enforce consistent cross-browser behavior.
+  return str.replace(/[\s\xa0]+$/, '');
+};
+
+
+/**
  * Repeats a string n times.
  *
  * This method is clone of

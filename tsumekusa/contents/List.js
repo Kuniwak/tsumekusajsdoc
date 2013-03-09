@@ -75,7 +75,7 @@ List.prototype.appendListContent = function(content) {
  * @param {tsumekusa.contents.Sentence} content Content to remove.
  * @return {tsumekusa.contents.Sentence} Removed content if exists.
  */
-List.prototype.appendListContent = function(content) {
+List.prototype.removeListContent = function(content) {
   var i = this.listeds_.indexOf(content);
   if (i >= 0) {
     this.listeds_.splice(i, 1) || null;

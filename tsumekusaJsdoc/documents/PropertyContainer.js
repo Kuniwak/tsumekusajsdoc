@@ -34,11 +34,9 @@ tsumekusa.inherits(PropertyContainer, MemberContainer);
 /** @override */
 PropertyContainer.prototype.createDigestSentence = function(symbol) {
   var sentence = new Sentence();
-  var whites = string.repeat(' ', PropertyContainer.DIGEST_INDENT_WIDTH);
 
   if (symbol.type) {
-
-    sentence.appendInlineContent(symbol.longname + ':');
+    sentence.appendInlineContent('>> ' + symbol.longname + ':');
 
     var links = new TypeSentence(symbol.type);
     sentence.extend(links);

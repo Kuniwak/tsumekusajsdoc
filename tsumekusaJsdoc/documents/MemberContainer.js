@@ -47,16 +47,15 @@ tsumekusa.inherits(MemberContainer, DocumentationContent);
  * @return {Array.<tsumekusa.contents.Paragraph>} Top contents.
  */
 MemberContainer.prototype.createSummaryParagraphs = function(symbol) {
-  var p1 = new Paragraph();
+  var digest = new Paragraph();
   var format = this.createDigestSentence(symbol);
-  p1.appendSentence(format);
+  digest.appendSentence(format);
 
-  var p2 = new Paragraph();
-  var desc = this.getDocumentHelper().createSentence(symbol.description ||
-      tsumekusaJsdoc.NO_DESCRIPTION);
-  p2.appendSentence(desc);
-
-  return [p1, p2];
+  var paragraphs = this.getDocumentHelper().createParagraphs(
+      symbol.description || tsumekusaJsdoc.NO_DESCRIPTION, symbol);
+  
+  paragraphs.unshift(digest);
+  return paragraphs;
 };
 
 

@@ -73,6 +73,7 @@ SymbolDocument.prototype.publishToFile = function() {
   // TODO: ansynchronize
   //fs.writeFileSync(this.fileName_, this.publishToFileInternal(), 'utf8');
   console.log(this.publishToFileInternal());
+  //this.publishToFileInternal();
 };
 
 
@@ -86,6 +87,7 @@ SymbolDocument.prototype.publishToFileInternal = function() {
 };
 
 
+// TODO: Move this method into DocumentPublisher.
 /**
  * Generates a file name of the document to publish.
  * @return {string} File name.
@@ -93,7 +95,7 @@ SymbolDocument.prototype.publishToFileInternal = function() {
  */
 SymbolDocument.prototype.generateFileName = function(symbol) {
   var refHelper = this.getReferenceHelper();
-  return fileName = refHelper.getFileName(symbol);
+  return fileName = refHelper.getFileName(symbol) + '.txt';
 };
 
 

@@ -3,7 +3,6 @@
 
 
 var tsumekusa = require('../../tsumekusa');
-var List = require('./List');
 var LineWrapper = require('./LineWrapper');
 
 
@@ -24,6 +23,7 @@ tsumekusa.addSingletonGetter(VimHelpListPublisher);
  * @return {string} List marker.
  */
 VimHelpListPublisher.prototype.createListMarker = function(index, listType) {
+  var List = require('../contents/List');
   switch (listType) {
     case List.ListType.UNORDERED:
       return '*';
@@ -48,11 +48,12 @@ VimHelpListPublisher.prototype.getIndentLevel = function(list) {
 /** @override */
 VimHelpListPublisher.prototype.publish = function(list) {
   var marker, listType = list.getListType(), inlineContents;
+
   var listeds = list.getListedContents().map(function(sentence, index) {
     marker = this.createListMarker(index, listType);
     inlineContents = sentence.getInlineContents();
     // set marker at the head
-    inlineContents.shift(marker);
+    inlineContents.unshift(marker);
     return LineWrapper.getInstance().wrap(inlineContents,
         tsumekusa.TEXT_WIDTH, this.getIndentLevel(list));
   }, this);

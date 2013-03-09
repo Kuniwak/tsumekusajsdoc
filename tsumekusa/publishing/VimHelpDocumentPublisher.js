@@ -113,23 +113,15 @@ tsumekusa.addSingletonGetter(VimHelpContentsTablePublisher);
  * @const
  * @type {number}
  */
-VimHelpContentsTablePublisher.TABLE_MARGIN = 4;
+VimHelpContentsTablePublisher.TABLE_MARGIN = 2;
 
 
 /**
- * Link length to wrap.
+ * Minimum wrapped periods length.
  * @const
  * @type {number}
  */
-VimHelpContentsTablePublisher.LINK_LENGTH_TO_WRAP = 25;
-
-
-/**
- * Link length to wrap.
- * @const
- * @type {number}
- */
-VimHelpContentsTablePublisher.WRAPPED_PERIODS_LENGTH = 20;
+VimHelpContentsTablePublisher.WRAPPED_PERIODS_MIN_LENGTH = 3;
 
 
 /** @override */
@@ -151,7 +143,10 @@ VimHelpContentsTablePublisher.prototype.createSubContents = function(doc) {
 
 /** @override */
 VimHelpContentsTablePublisher.prototype.createTopContents = function(doc) {
+  var TEXT_WIDTH = tsumekusa.TEXT_WIDTH;
   var TABLE_MARGIN = VimHelpContentsTablePublisher.TABLE_MARGIN;
+  var PT_WIDTH = VimHelpContentsTablePublisher.WRAPPED_PERIODS_MIN_LENGTH;
+
   var maxIdxLen = 0, idxLen;
   var maxLnkLen = 0, lnkLen;
   var subs = [], subsIdx = 0;
@@ -169,14 +164,15 @@ VimHelpContentsTablePublisher.prototype.createTopContents = function(doc) {
     // idx includes a indent
     idx = this.createContentsTableIndex(sub) + ' ' + sub.getCaption();
     idxs.push(idx);
+
     if ((idxLen = idx.length) > maxIdxLen) {
       maxIdxLen = idxLen;
     }
 
     lnk = sub.getLink().publish();
     lnks.push(lnk);
-    if ((lnkLen = lnk.length) > maxLnkLen && lnkLen <
-        VimHelpContentsTablePublisher.LINK_LENGTH_TO_WRAP) {
+
+    if ((lnkLen = lnk.length) > maxLnkLen) {
       maxLnkLen = lnkLen;
     }
   }, this);
@@ -187,26 +183,13 @@ VimHelpContentsTablePublisher.prototype.createTopContents = function(doc) {
     idxLen = idx.length;
     lnkLen = lnk.length;
 
-    // |<-(TABLE_MARGIN)->|<-(idxLen)->| ... |<-(lnkLen)->|<(TABLE_MARGIN)>|
-    ptWidth = tsumekusa.TEXT_WIDTH - idxLen - maxLnkLen - TABLE_MARGIN * 2 -
-        /* end whites */ 2;
+    ptWidth = TEXT_WIDTH - TABLE_MARGIN - idxLen - lnkLen - 2;
 
-    if (lnkLen >= VimHelpContentsTablePublisher.LINK_LENGTH_TO_WRAP) {
-      // Wrap and right-align a link if the link length is too long.
-      pt = string.repeat('.', VimHelpContentsTablePublisher.
-          WRAPPED_PERIODS_LENGTH);
-      wsWidth = tsumekusa.TEXT_WIDTH - lnkLen - TABLE_MARGIN * 2 -
-          VimHelpContentsTablePublisher.WRAPPED_PERIODS_LENGTH;
+    if (ptWidth < 3) { // 3 is length of '...'
+      wsWidth = TEXT_WIDTH - TABLE_MARGIN * 2 - maxLnkLen - PT_WIDTH + 1;
       ws = string.repeat(' ', wsWidth);
-      return [idx, '\n', ws, pt, ' ', lnk].join('');
-    }
-    else if (ptWidth < /* length of ' ... ' */ 5) {
-      // Wrap periods and link if index is too long
-      pt = string.repeat('.', VimHelpContentsTablePublisher.
-          WRAPPED_PERIODS_LENGTH);
-      wsWidth = tsumekusa.TEXT_WIDTH - maxLnkLen - TABLE_MARGIN * 2 -
-          VimHelpContentsTablePublisher.WRAPPED_PERIODS_LENGTH;
-      ws = string.repeat(' ', wsWidth);
+      ptWidth = TEXT_WIDTH - TABLE_MARGIN * 2 - lnkLen + 1 - wsWidth;
+      pt = string.repeat('.', ptWidth);
       return [idx, '\n', ws, pt, ' ', lnk].join('');
     }
     else {

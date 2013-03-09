@@ -9,18 +9,18 @@ var InlineContent = require('../../tsumekusa/contents/InlineContent');
 /**
  * A class for unknown tags.  The tag will be created when an unknown inline tag
  * was found.  You can construct any tag by property of the unknown tag.
- * See {@link tsumekusaJsdoc.documents.DocumentHelper#parseInlineContents}.
+ * See {@link tsumekusaJsdoc.documents.DocumentHelper#parseInlineTags}.
  * @param {string} type Unknown inline tag name.  An at mark was excluded.
  * @param {string} content Unknown unline tag content.
- * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
- *     reference helper.
+ * @param {?jsdoc.Doclet=} opt_current Optional current doclet.
  * @constructor
  * @extends {tsumekusa.contents.InlineContent}
  */
-var UnknownInlineTag = function(type, content) {
+var UnknownInlineTag = function(type, content, opt_current) {
   InlineContent.call(this);
   this.type = type;
   this.content = content;
+  this.current = opt_current || null;
 };
 tsumekusa.inherits(UnknownInlineTag, InlineContent);
 
@@ -75,3 +75,7 @@ UnknownInlineTagPublisher.prototype.publish = function(tag) {
  * @type {tsumekusa.publishing.UnknownInlineTagPublisher}
  */
 UnknownInlineTag.publisher = new UnknownInlineTagPublisher();
+
+
+// Exports the constructor.
+module.exports = UnknownInlineTag;

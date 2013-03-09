@@ -25,12 +25,12 @@ tsumekusa.addSingletonGetter(ReferenceHelper);
  * @return {string} Reference ID.
  */
 ReferenceHelper.prototype.getReferenceId = function(symbol, opt_modifier) {
-  return opt_modifier ? symbol.longname + '-' + opt_modifier: symbol.longname;
+  return opt_modifier ? symbol.longname + '-' + opt_modifier : symbol.longname;
 };
 
 
 /**
- * Returns a file name of the symbol.
+ * Returns a file name of the symbol without an extension.
  * @param {jsdoc.Doclet} symbol Symbol to generate the file name.
  * @return {string} File name of the symbol.
  */

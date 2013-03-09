@@ -3,32 +3,22 @@
 
 
 var tsumekusa = require('../../tsumekusa');
-var InlineContent = require('./InlineContent');
+var BlockContent = require('./BlockContent');
 var VimHelpCodePublisher = require('../publishing/VimHelpCodePublisher');
 
 
 
 /**
- * A class for code.
+ * A class for code block.
  * @param {string} code Code.
- * @param {?string=} opt_lang Optional programming language.
  * @constructor
- * @extends {tsumekusa.contents.InlineContent}
+ * @extends {tsumekusa.contents.BlockContent}
  */
-var Code = function(code, opt_lang) {
-  InlineContent.call(this);
-  this.lang_ = opt_lang || null;
+var Code = function(code) {
+  BlockContent.call(this);
+  this.setCode(code);
 };
-tsumekusa.inherits(Code, InlineContent);
-
-
-/**
- * Programming language names.
- * @enum {string}
- */
-Code.Language = {
-  JAVASCRIPT: 'javascript'
-};
+tsumekusa.inherits(Code, BlockContent);
 
 
 /**
@@ -43,21 +33,7 @@ Code.publisher = VimHelpCodePublisher.getInstance();
  * @type {string}
  * @private
  */
-Code.prototype.code_;
-
-
-/**
- * Programming language of the code.
- * @type {string}
- * @private
- */
-Code.prototype.lang_ = Code.Language.JAVASCRIPT;
-
-
-/** @override */
-Code.prototype.isBreakable = function() {
-  return false;
-};
+Code.prototype.code_ = null;
 
 
 /**
@@ -77,15 +53,6 @@ Code.prototype.setCode = function(code) {
  */
 Code.prototype.getCode = function() {
   return this.code_;
-};
-
-
-/**
- * Returns a language of the code.
- * @return {string} Programming language.
- */
-Code.prototype.getLanguage = function() {
-  return this.lang_;
 };
 
 

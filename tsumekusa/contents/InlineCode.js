@@ -3,7 +3,8 @@
 
 
 var tsumekusa = require('../../tsumekusa');
-var Code = require('./Code');
+var string = require('../../tsumekusa/string');
+var InlineContent = require('./InlineContent');
 var VimHelpInlineCodePublisher = require(
     '../publishing/VimHelpInlineCodePublisher');
 
@@ -11,15 +12,15 @@ var VimHelpInlineCodePublisher = require(
 
 /**
  * A class for inline code.
- * @param {string} code Code.
- * @param {?string=} opt_lang Optional programming language.
+ * @param {string} code inline code.
  * @constructor
- * @extends {tsumekusa.contents.Code}
+ * @extends {tsumekusa.contents.InlineContent}
  */
-var InlineCode = function(code, opt_lang) {
-  Code.call(this, code, opt_lang);
+var InlineCode = function(code) {
+  InlineContent.call(this);
+  this.setCode(code);
 };
-tsumekusa.inherits(InlineCode, Code);
+tsumekusa.inherits(InlineCode, InlineContent);
 
 
 /**
@@ -27,6 +28,40 @@ tsumekusa.inherits(InlineCode, Code);
  * @type {tsumekusa.publishing.ContentPublisher}
  */
 InlineCode.publisher = VimHelpInlineCodePublisher.getInstance();
+
+
+/**
+ * Code in the content.
+ * @type {string}
+ * @private
+ */
+InlineCode.prototype.code_ = null;
+
+
+/** @override */
+InlineCode.prototype.isBreakable = function() {
+  return false;
+};
+
+
+/**
+ * Sets a code.  This method is chainable.
+ * @param {string} code Code to set.
+ * @return {tsumekusa.contents.Code} This instance.
+ */
+InlineCode.prototype.setCode = function(code) {
+  this.code_ = string.trim(code);
+  return this;
+};
+
+
+/**
+ * Returns a code.
+ * @return {string} Code.
+ */
+InlineCode.prototype.getCode = function() {
+  return this.code_;
+};
 
 
 // Exports the constructor.
