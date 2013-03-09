@@ -142,6 +142,3 @@ exports.publish = function(taffyData, opts, tutorials) {
     namespaceDoc.publishToFile();
   });
 };
-
-
-exports.publish(require('./test_goog.ui.Component').goog_ui_Component);
