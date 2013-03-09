@@ -205,7 +205,9 @@ Parser.prototype._parseTags = function(force){
 			this._writeComment(rawData);
 		}
 		else if(lastTagSep === "<"){
-			elementData = rawData.trimLeft();
+			// Rhino in Jsdoc is not support trimLeft OrgaChem
+			elementData = rawData.replace(/^[\s\xa0]+/, '');
+			// elementData = rawData.trimLeft();
 			if(elementData.charAt(0) === "/"){
 				//elementData = elementData.substr(1).trim();
 				elementData = this._parseTagName(elementData.substr(1));
