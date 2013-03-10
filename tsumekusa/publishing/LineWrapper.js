@@ -49,8 +49,8 @@ LineWrapper.prototype.splitWords = function(contents) {
 
 /**
  * Wraps contents with loose hyphenation.
- * NOTE: The method may hyphenate in a content that do not allow break in when
- * the content is longer than given text width..
+ * NOTE: The method may hyphenate in a content that do not allow line break in
+ * when the content is longer than given text width.
  * @param {Array.<tsumekusa.contents.InlineContent>} contents Contents to wrap.
  * @param {number} width Text width.
  * @param {?tsumekusa.publishing.LineWrapper.Indent=} opt_indent Optional
