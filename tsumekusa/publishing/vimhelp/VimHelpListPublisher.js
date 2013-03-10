@@ -2,8 +2,8 @@
 // http://orgachem.mit-license.org
 
 
-var tsumekusa = require('../../tsumekusa');
-var LineWrapper = require('./LineWrapper');
+var tsumekusa = require('../../../tsumekusa');
+var LineWrapper = require('../../../tsumekusa/LineWrapper');
 
 
 
@@ -23,7 +23,7 @@ tsumekusa.addSingletonGetter(VimHelpListPublisher);
  * @return {string} List marker.
  */
 VimHelpListPublisher.prototype.createListMarker = function(index, listType) {
-  var List = require('../contents/List');
+  var List = require('../../../tsumekusa/contents/List');
   switch (listType) {
     case List.ListType.UNORDERED:
       return '*';

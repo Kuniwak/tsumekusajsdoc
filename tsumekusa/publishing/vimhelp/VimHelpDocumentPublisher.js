@@ -2,12 +2,13 @@
 // http://orgachem.mit-license.org
 
 
-var tsumekusa = require('../../tsumekusa');
-var string = require('../string');
-var date = require('../date');
-var TagFactory = require('../contents/TagFactory');
-var Link = require('../contents/Link');
-var VimHelpContainerPublisher = require('./VimHelpContainerPublisher');
+var tsumekusa = require('../../../tsumekusa');
+var string = require('../../../tsumekusa/string');
+var date = require('../../../tsumekusa/date');
+var TagFactory = require('../../../tsumekusa/contents/TagFactory');
+var Link = require('../../../tsumekusa/contents/Link');
+var VimHelpContainerPublisher = require(
+    '../../../tsumekusa/VimHelpContainerPublisher');
 
 
 

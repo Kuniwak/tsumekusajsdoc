@@ -3,8 +3,8 @@
 
 
 
-var tsumekusa = require('../../tsumekusa');
-var LineWrapper = require('./LineWrapper');
+var tsumekusa = require('../../../tsumekusa');
+var LineWrapper = require('../../../tsumekusa/LineWrapper');
 
 
 

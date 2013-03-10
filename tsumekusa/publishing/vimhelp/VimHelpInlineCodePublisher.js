@@ -2,7 +2,7 @@
 // http://orgachem.mit-license.org
 
 
-var tsumekusa = require('../../tsumekusa');
+var tsumekusa = require('../../../tsumekusa');
 
 
 /**

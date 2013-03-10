@@ -2,8 +2,8 @@
 // http://orgachem.mit-license.org
 
 
-var tsumekusa = require('../../tsumekusa');
-var LineWrapper = require('./LineWrapper');
+var tsumekusa = require('../../../tsumekusa');
+var LineWrapper = require('../../../tsumekusa/publishing/LineWrapper');
 
 
 
@@ -54,7 +54,7 @@ VimHelpDefinitionListPublisher.prototype.getUnorderedSymbol = function() {
  */
 VimHelpDefinitionListPublisher.prototype.createListMarker = function(index,
     listType) {
-  var DefinitionList = require('../contents/DefinitionList');
+  var DefinitionList = require('../../../tsumekusa/contents/DefinitionList');
   switch (listType) {
     case DefinitionList.ListType.NO_MARKER:
       return null;
@@ -80,7 +80,7 @@ VimHelpDefinitionListPublisher.prototype.getIndentLevel = function(list) {
 
 /** @override */
 VimHelpDefinitionListPublisher.prototype.publish = function(list) {
-  var DefinitionList = require('../contents/DefinitionList');
+  var DefinitionList = require('../../../tsumekusa/contents/DefinitionList');
   var wrapper = LineWrapper.getInstance();
   var markerWidth = 0, indentLevel = this.getIndentLevel(list);
 

@@ -2,8 +2,8 @@
 // http://orgachem.mit-license.org
 
 
-var tsumekusa = require('../../tsumekusa');
-var string = require('../string');
+var tsumekusa = require('../../../tsumekusa');
+var string = require('../../../tsumekusa/string');
 
 
 
@@ -174,5 +174,5 @@ VimHelpContainerPublisher.prototype.publish = function(container) {
 };
 
 
-// Export the constructor
+// Export the constructor.
 module.exports = VimHelpContainerPublisher;
