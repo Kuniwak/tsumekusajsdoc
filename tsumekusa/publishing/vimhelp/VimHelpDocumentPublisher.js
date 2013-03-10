@@ -7,8 +7,9 @@ var string = require('../../../tsumekusa/string');
 var date = require('../../../tsumekusa/date');
 var TagFactory = require('../../../tsumekusa/contents/TagFactory');
 var Link = require('../../../tsumekusa/contents/Link');
+var vimhelp = require('../../../tsumekusa/publishing/vimhelp');
 var VimHelpContainerPublisher = require(
-    '../../../tsumekusa/VimHelpContainerPublisher');
+    '../../../tsumekusa/publishing/vimhelp/VimHelpContainerPublisher');
 
 
 
@@ -132,7 +133,7 @@ VimHelpContentsTablePublisher.prototype.createHeader = function(doc) {
 
   var head = 'CONTENTS';
   var tail = tag.publish();
-  return string.fillMiddle(head, tail, tsumekusa.TEXT_WIDTH);
+  return string.fillMiddle(head, tail, vimhelp.TEXT_WIDTH);
 };
 
 
@@ -144,7 +145,7 @@ VimHelpContentsTablePublisher.prototype.createSubContents = function(doc) {
 
 /** @override */
 VimHelpContentsTablePublisher.prototype.createTopContents = function(doc) {
-  var TEXT_WIDTH = tsumekusa.TEXT_WIDTH;
+  var TEXT_WIDTH = vimhelp.TEXT_WIDTH;
   var TABLE_MARGIN = VimHelpContentsTablePublisher.TABLE_MARGIN;
   var PT_WIDTH = VimHelpContentsTablePublisher.WRAPPED_PERIODS_MIN_LENGTH;
 

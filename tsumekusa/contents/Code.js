@@ -4,7 +4,8 @@
 
 var tsumekusa = require('../../tsumekusa');
 var BlockContent = require('./BlockContent');
-var VimHelpCodePublisher = require('../publishing/VimHelpCodePublisher');
+var VimHelpCodePublisher = require(
+    '../publishing/vimhelp/VimHelpCodePublisher');
 
 
 

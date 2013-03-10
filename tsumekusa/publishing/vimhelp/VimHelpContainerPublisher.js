@@ -4,6 +4,7 @@
 
 var tsumekusa = require('../../../tsumekusa');
 var string = require('../../../tsumekusa/string');
+var vimhelp = require('../../../tsumekusa/publishing/vimhelp');
 
 
 
@@ -38,7 +39,7 @@ VimHelpContainerPublisher.prototype.createHeader = function(container) {
 
   var head = indexString + ' ' + container.getCaption();
   var tail = tagString;
-  return string.fillMiddle(head, tail, tsumekusa.TEXT_WIDTH) + '\n';
+  return string.fillMiddle(head, tail, vimhelp.TEXT_WIDTH) + '\n';
 };
 
 
@@ -92,7 +93,7 @@ VimHelpContainerPublisher.prototype.createSubContentSeparator =
     return '';
   }
   else {
-    return '\n' + string.repeat(SEP[i], tsumekusa.TEXT_WIDTH) + '\n';
+    return '\n' + string.repeat(SEP[i], vimhelp.TEXT_WIDTH) + '\n';
   }
 };
 

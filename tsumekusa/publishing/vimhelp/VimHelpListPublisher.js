@@ -3,7 +3,8 @@
 
 
 var tsumekusa = require('../../../tsumekusa');
-var LineWrapper = require('../../../tsumekusa/LineWrapper');
+var LineWrapper = require('../../../tsumekusa/publishing/LineWrapper');
+var vimhelp = require('../../../tsumekusa/publishing/vimhelp');
 
 
 
@@ -47,18 +48,46 @@ VimHelpListPublisher.prototype.getIndentLevel = function(list) {
 
 /** @override */
 VimHelpListPublisher.prototype.publish = function(list) {
-  var marker, listType = list.getListType(), inlineContents;
+  var marker, listType = list.getListType(), inlineContents, indent;
+  var indentLv = this.getIndentLevel();
+  var wrapper = LineWrapper.getInstance();
 
   var listeds = list.getListedContents().map(function(sentence, index) {
     marker = this.createListMarker(index, listType);
+    indent = new VimHelpListPublisher.Indent(indentLv, marker.length);
+
     inlineContents = sentence.getInlineContents();
+
     // set marker at the head
     inlineContents.unshift(marker);
-    return LineWrapper.getInstance().wrap(inlineContents,
-        tsumekusa.TEXT_WIDTH, this.getIndentLevel(list));
+
+    return wrapper.wrap(inlineContents, vimhelp.TEXT_WIDTH, indent);
   }, this);
 
   return listeds.join('\n\n');
+};
+
+
+
+/**
+ * A class for list indent.
+ * @param {number} indent Indent width of a list.
+ * @param {number} markerWidth List marker width.
+ * @constructor
+ * @extends {tsumekusa.publishing.LineWrapper}
+ */
+VimHelpListPublisher.Indent = function(indent, markerWidth) {
+  LineWrapper.Indent.call(this, indent);
+  this.markerWidth_ = markerWidth + 1; // Add white space width.
+};
+tsumekusa.inherits(VimHelpListPublisher.Indent, LineWrapper.Indent);
+
+
+/** @override */
+VimHelpListPublisher.Indent.prototype.getIndentWidth = function(
+    lineIdx) {
+  var width = LineWrapper.Indent.prototype.getIndentWidth.call(this, lineIdx);
+  return width + (lineIdx > 0 ? this.markerWidth_ : 0);
 };
 
 

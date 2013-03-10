@@ -4,7 +4,8 @@
 
 var tsumekusa = require('../../tsumekusa');
 var InlineContent = require('./InlineContent');
-var VimHelpLinkPublisher = require('../publishing/VimHelpLinkPublisher');
+var VimHelpLinkPublisher = require(
+    '../publishing/vimhelp/VimHelpLinkPublisher');
 
 
 

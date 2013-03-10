@@ -2,9 +2,9 @@
 // http://orgachem.mit-license.org
 
 
-
 var tsumekusa = require('../../../tsumekusa');
-var LineWrapper = require('../../../tsumekusa/LineWrapper');
+var LineWrapper = require('../../../tsumekusa/publishing/LineWrapper');
+var vimhelp = require('../../../tsumekusa/publishing/vimhelp');
 
 
 
@@ -30,7 +30,7 @@ VimHelpSentencePublisher.prototype.getIndentLevel = function(sentence) {
 /** @override */
 VimHelpSentencePublisher.prototype.publish = function(sentence) {
   return LineWrapper.getInstance().wrap(sentence.getInlineContents(),
-                                        tsumekusa.TEXT_WIDTH);
+                                        vimhelp.TEXT_WIDTH);
 };
 
 

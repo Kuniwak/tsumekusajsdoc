@@ -5,7 +5,7 @@
 var tsumekusa = require('../../tsumekusa')
 var Container = require('./Container');
 var VimHelpDocumentPublisher = require(
-    '../publishing/VimHelpDocumentPublisher');
+    '../publishing/vimhelp/VimHelpDocumentPublisher');
 
 
 

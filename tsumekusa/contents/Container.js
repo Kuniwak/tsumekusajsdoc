@@ -9,7 +9,7 @@ var Paragraph = require('./Paragraph');
 var Tag = require('./Tag');
 var Link = require('./Link');
 var VimHelpContainerPublisher = require(
-    '../publishing/VimHelpContainerPublisher');
+    '../publishing/vimhelp/VimHelpContainerPublisher');
 
 
 

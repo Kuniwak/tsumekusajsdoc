@@ -3,7 +3,8 @@
 
 
 var tsumekusa = require('../../../tsumekusa');
-var LineWrapper = require('../../../tsumekusa/LineWrapper');
+var consoleDoc = require('../../../tsumekusa/publishing/consoleDoc');
+var LineWrapper = require('../../../tsumekusa/publishing/LineWrapper');
 
 
 
@@ -41,24 +42,52 @@ ConsoleDocListPublisher.prototype.createListMarker = function(index, listType) {
  * @return {number} Indent lebel.
  */
 ConsoleDocListPublisher.prototype.getIndentLevel = function(list) {
-  return 4;
+  return 2;
 };
 
 
 /** @override */
 ConsoleDocListPublisher.prototype.publish = function(list) {
-  var marker, listType = list.getListType(), inlineContents;
+  var marker, listType = list.getListType(), inlineContents, indent;
+  var indentLv = this.getIndentLevel();
+  var wrapper = LineWrapper.getInstance();
 
   var listeds = list.getListedContents().map(function(sentence, index) {
     marker = this.createListMarker(index, listType);
+    indent = new ConsoleDocContainerPublisher.Indent(indentLv, marker.length);
+
     inlineContents = sentence.getInlineContents();
+
     // set marker at the head
     inlineContents.unshift(marker);
-    return LineWrapper.getInstance().wrap(inlineContents,
-        tsumekusa.TEXT_WIDTH, this.getIndentLevel(list));
+
+    return wrapper.wrap(inlineContents, consoleDoc.TEXT_WIDTH, indent);
   }, this);
 
   return listeds.join('\n\n');
+};
+
+
+
+/**
+ * A class for list indent.
+ * @param {number} indent Indent width of a list.
+ * @param {number} markerWidth List marker width.
+ * @constructor
+ * @extends {tsumekusa.publishing.LineWrapper}
+ */
+ConsoleDocListPublisher.Indent = function(indent, markerWidth) {
+  LineWrapper.Indent.call(this, indent);
+  this.markerWidth_ = markerWidth_;
+};
+tsumekusa.inherits(ConsoleDocListPublisher.Indent, LineWrapper.Indent);
+
+
+/** @override */
+ConsoleDocListPublisher.Indent.prototype.getIndentWidth = function(
+    lineIdx) {
+  var width = LineWrapper.Indent.prototype.getIndentWidth.call(this, lineIdx);
+  return width + (lineIdx > 0 ? this.markerWidth_ : 0);
 };
 
 

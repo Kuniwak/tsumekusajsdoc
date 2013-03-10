@@ -3,7 +3,8 @@
 
 
 var tsumekusa = require('../../../tsumekusa');
-var LineWrapper = require('../../../tsumekusa/LineWrapper');
+var LineWrapper = require('../../../tsumekusa/publishing/LineWrapper');
+var vimhelp = require('../../../tsumekusa/publishing/vimhelp');
 
 
 
@@ -36,7 +37,7 @@ VimHelpParagraphPublisher.prototype.publish = function(paragraph) {
     return sentence.getInlineContents();
   }));
 
-  var str = LineWrapper.getInstance().wrap(inlineContents, tsumekusa.TEXT_WIDTH,
+  var str = LineWrapper.getInstance().wrap(inlineContents, vimhelp.TEXT_WIDTH,
                                         this.getIndentLevel(paragraph));
 
   return str;
