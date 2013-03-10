@@ -77,6 +77,7 @@ LineWrapper.prototype.wrap = function(contents, width, opt_indent) {
   var indentWidth;
   var textWidth;
 
+  // TODO: Split to WrappedString class
   var appendBreak = function() {
     indentWidth = indent.getIndentWidth(++lineIdx);
     whites = string.repeat(white, indentWidth);
