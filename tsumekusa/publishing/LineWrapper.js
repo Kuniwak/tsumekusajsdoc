@@ -8,7 +8,7 @@ var string = require('../string');
 
 
 /**
- * A class for line wrap strategy.
+ * A singleton class for line wrap strategy.
  * @constructor
  */
 var LineWrapper = function() {};
