@@ -78,7 +78,7 @@ ConsoleDocListPublisher.prototype.publish = function(list) {
  */
 ConsoleDocListPublisher.Indent = function(indent, markerWidth) {
   LineWrapper.Indent.call(this, indent);
-  this.markerWidth_ = markerWidth_;
+  this.markerWidth_ = markerWidth;
 };
 tsumekusa.inherits(ConsoleDocListPublisher.Indent, LineWrapper.Indent);
 
