@@ -54,14 +54,14 @@ ConsoleDocListPublisher.prototype.publish = function(list) {
 
   var listeds = list.getListedContents().map(function(sentence, index) {
     marker = this.createListMarker(index, listType);
-    indent = new ConsoleDocContainerPublisher.Indent(indentLv, marker.length);
+    indent = new ConsoleDocListPublisher.Indent(indentLv, marker.length);
 
     inlineContents = sentence.getInlineContents();
 
     // set marker at the head
     inlineContents.unshift(marker);
 
-    return wrapper.wrap(inlineContents, consoleDoc.TEXT_WIDTH, indent);
+    return wrapper.wrap(inlineContents, vimhelp.TEXT_WIDTH, indent);
   }, this);
 
   return listeds.join('\n\n');
