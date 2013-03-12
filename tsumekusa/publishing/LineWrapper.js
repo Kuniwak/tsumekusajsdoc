@@ -49,22 +49,31 @@ LineWrapper.prototype.splitWords = function(contents) {
 
 /**
  * Wraps contents with loose hyphenation.
+ * Give your indent object to {@code opt_indent} or indent width if you want to
+ * indentation. The indent object have to be implemented a {@code
+ * getIndentWidth(lineNo)} that can return an indent width by a line number.
+ *
+ * <pre>
+ * |-        base line width        -|
+ * |- indent width -|-  line width  -|
+ * </pre>
+ *
  * NOTE: The method may hyphenate in a content that do not allow line break in
  * when the content is longer than given text width.
  * @param {Array.<tsumekusa.contents.InlineContent>} contents Contents to wrap.
- * @param {number} width Text width.
+ * @param {number} baseLineWidth Base line width.
  * @param {?tsumekusa.publishing.LineWrapper.Indent=} opt_indent Optional
  *     indent.  No indent if undefined.
  * @return {string} Wrapped string.
  */
-LineWrapper.prototype.wrap = function(contents, width, opt_indent) {
+LineWrapper.prototype.wrap = function(contents, baseLineWidth, opt_indent) {
   var indent = opt_indent || new LineWrapper.Indent();
   var white = ' ';
 
   var words = this.splitWords(contents);
 
-  if (width <= 0) {
-    throw Error('Width is too shorter: ' + width);
+  if (baseLineWidth <= 0) {
+    throw Error('Width is too shorter: ' + baseLineWidth);
   }
 
   // lineLen is excluded indent width.
@@ -75,17 +84,17 @@ LineWrapper.prototype.wrap = function(contents, width, opt_indent) {
   var arr = [whites], arrIdx = 1;
 
   var indentWidth;
-  var textWidth;
+  var currentLineWidtn;
 
   // TODO: Split to WrappedString class
   var appendBreak = function() {
     indentWidth = indent.getIndentWidth(++lineIdx);
     whites = string.repeat(white, indentWidth);
     arr[arrIdx++] = '\n' + whites;
-    textWidth = width - indentWidth;
-    if (textWidth <= 0) {
+    currentLineWidtn = baseLineWidth - indentWidth;
+    if (currentLineWidtn <= 0) {
       throw Error('Indent width is greater than a width: ' + indentWidth +
-                  '>=' + width);
+                  '>=' + baseLineWidth);
     }
     lineLen = 0;
   };
@@ -103,27 +112,27 @@ LineWrapper.prototype.wrap = function(contents, width, opt_indent) {
   words.forEach(function(word, idx) {
     var wordLen = word.length;
     indentWidth = indent.getIndentWidth(lineIdx);
-    textWidth = width - indentWidth;
+    currentLineWidtn = baseLineWidth - indentWidth;
 
     // Whether hyphenation is necessary.
-    if (wordLen > textWidth) {
+    if (wordLen > currentLineWidtn) {
       // Whether hyphen is insertable at last. A hyphen is not insertable when a
       // remainder is less than 3 chars (a white, a char, a hyphen).
-      if (textWidth - lineLen < 3) {
+      if (currentLineWidtn - lineLen < 3) {
         appendBreak();
       }
       else {
         appendWhite();
       }
       var start = 0;
-      var end = textWidth - lineLen;
+      var end = currentLineWidtn - lineLen;
 
       while (end < wordLen) {
         end -= 1; // 1 is a hyphen width.
         appendWord(word.slice(start, end) + '-');
         appendBreak();
         start = end;
-        end = start + textWidth;
+        end = start + currentLineWidtn;
       }
 
       appendWord(word.slice(start, wordLen));
@@ -132,7 +141,7 @@ LineWrapper.prototype.wrap = function(contents, width, opt_indent) {
       // Whether a word exists before the word.
       if (idx > 0) {
         // Whether a word and a white fall inside within the text width.
-        if (wordLen + 1 <= textWidth - lineLen) {
+        if (wordLen + 1 <= currentLineWidtn - lineLen) {
           appendWhite();
         }
         // Whether a line break is necessary.
