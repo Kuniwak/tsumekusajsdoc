@@ -4,7 +4,7 @@
 
 
 /**
- * An abstract class for contents.
+ * An abstract class for contents.  This class provide a publishing system.
  * @constructor
  * @implements {tsumekusa.contents.IContent}
  */

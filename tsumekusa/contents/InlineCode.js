@@ -3,7 +3,6 @@
 
 
 var tsumekusa = require('../../tsumekusa');
-var string = require('../../tsumekusa/string');
 var InlineContent = require('./InlineContent');
 var VimHelpInlineCodePublisher = require(
     '../publishing/vimhelp/VimHelpInlineCodePublisher');
@@ -50,7 +49,7 @@ InlineCode.prototype.isBreakable = function() {
  * @return {tsumekusa.contents.Code} This instance.
  */
 InlineCode.prototype.setCode = function(code) {
-  this.code_ = string.trim(code);
+  this.code_ = code;
   return this;
 };
 

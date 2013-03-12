@@ -3,8 +3,8 @@
 
 
 var tsumekusa = require('../../tsumekusa');
+var ContentArray = require('./ContentArray');
 var BlockContent = require('./BlockContent');
-var Sentence = require('./Sentence');
 var VimHelpDefinitionListPublisher = require(
     '../publishing/vimhelp/VimHelpDefinitionListPublisher');
 
@@ -20,7 +20,7 @@ var VimHelpDefinitionListPublisher = require(
  */
 var DefinitionList = function(opt_type) {
   BlockContent.call(this);
-  this.definitions_ = [];
+  this.definitions_ = new ContentArray();
   this.type_ = opt_type || DefinitionList.ListType.NO_MARKER;
 };
 tsumekusa.inherits(DefinitionList, BlockContent);
@@ -49,7 +49,8 @@ DefinitionList.publisher = VimHelpDefinitionListPublisher.getInstance();
 
 /**
  * Definitions.
- * @type {Array.<tsumekusa.publishing.Definition>}
+ * @type {tsumekusa.contents.ContentArray.<
+ *     tsumekusa.contents.DefinitionList.Definition>}
  * @private
  */
 DefinitionList.prototype.definitions_ = null;
@@ -72,44 +73,20 @@ DefinitionList.prototype.getListType = function() {
 };
 
 
+// Methods for definitions manipulation {{{
 /**
- * Appends a definition.  The method is chainable.
- * @param {tsumekusa.contents.Sentence} caption Definition caption.
- * @param {tsumekusa.contents.Sentence} content Definition content.
+ * Creates a new definition.
+ * @param {tsumekusa.contents.Paragraph} term Definition term.
+ * @param {tsumekusa.contents.ContentArray.<tsumekusa.contents.BlockContent>}
+ *     descs Definition content.
  * @param {?tsumekusa.contents.DefinitionList.ListType=} opt_type List type.
  *     Default is same type parent list.
- * @return {tsumekusa.contents.DefinitionList} This instance.
+ * @return {tsumekusa.contents.DefinitionList.Definition} Created definition.
+ * @protected
  */
-DefinitionList.prototype.appendDefinition = function(caption, content,
-                                                     opt_type) {
-  this.definitions_.push(new DefinitionList.Definition(caption, content,
-      opt_type || this.getListType()));
-  return this;
-};
-
-
-/**
- * Removes a definition.
- * @param {?tsumekusa.contents.DefinitionList.Definition} definition Definition
- *     to remove.  Returns null if the definition is not found.
- * @return {tsumekusa.contents.DefinitionList.Definition} Removed definition if
- *     exists.
- */
-DefinitionList.prototype.removeDefinition = function(definition) {
-  var i = this.definitions_.indexOf(definition);
-  if (i >= 0) {
-    return this.definitions_.splice(i, 1) || null;
-  }
-  return null;
-};
-
-
-/**
- * Returns definitions.
- * @return {Array.<tsumekusa.publishing.Definition>} Definitions.
- */
-DefinitionList.prototype.getDefinitions = function() {
-  return this.definitions_;
+DefinitionList.prototype.createDefinition = function(term, descs, opt_type) {
+  return new DefinitionList.Definition(term, descs, opt_type ||
+      this.getListType());
 };
 
 
@@ -120,71 +97,176 @@ DefinitionList.prototype.getDefinitions = function() {
  * @protected
  */
 DefinitionList.prototype.getDefinitionAt = function(index) {
-  return this.getDefinitions()[index];
+  return this.definitions_.getChildAt(index);
 };
 
 
 /**
- * Returns a definition caption.
- * @param {number} index Index of a definition to get.
- * @return {tsumekusa.contents.Sentence} Definition caption.
+ * Adds a new definition.  The method is chainable.
+ * @param {tsumekusa.contents.Paragraph} term Definition term.
+ * @param {tsumekusa.contents.ContentArray.<tsumekusa.contents.BlockContent>}
+ *     descs Definition content.
+ * @param {?tsumekusa.contents.DefinitionList.ListType=} opt_type List type.
+ *     Default is same type parent list.
+ * @return {tsumekusa.contents.DefinitionList} This instance.
  */
-DefinitionList.prototype.getDefinitionCaptionAt = function(index) {
+DefinitionList.prototype.addDefinition = function(term, descs, opt_type) {
+  var definition = this.createDefinition(term, descs, opt_type);
+  definition.setParent(this);
+  this.definitions_.addChild(definition);
+  return this;
+};
+
+
+/**
+ * Adds a new definition at the given 0-based index.  The method is chainable.
+ * @param {tsumekusa.contents.Paragraph} term Definition term.
+ * @param {tsumekusa.contents.ContentArray.<tsumekusa.contents.BlockContent>}
+ *     descs Definition content.
+ * @param {number} index 0-based index.
+ * @param {?tsumekusa.contents.DefinitionList.ListType=} opt_type List type.
+ *     Default is same type parent list.
+ * @return {tsumekusa.contents.DefinitionList} This instance.
+ */
+DefinitionList.prototype.addDefinitionAt = function(term, descs, index,
+    opt_type) {
+  var definition = this.createDefinition(term, descs, opt_type);
+  definition.setParent(this);
+  this.definitions_.addChildAt(definition, index);
+  return this;
+};
+
+
+/**
+ * Removes the specified definition.
+ * @param {tsumekusa.contents.DefinitionList.Definition} definition Definition
+ *     to remove.
+ * @return {?tsumekusa.contents.DefinitionList.Definition} Removed definition if
+ *     any.
+ */
+DefinitionList.prototype.removeDefinition = function(definition) {
+  var removed = this.definitions_.removeChild(definition);
+  if (removed) {
+    removed.setParent(null);
+  }
+
+  return removed;
+};
+
+
+/**
+ * Removes the specified definition at the given 0-based index.
+ * @param {number} index 0-based index.
+ * @return {?tsumekusa.contents.DefinitionList.Definition} Removed definition if
+ *     any.
+ */
+DefinitionList.prototype.removeDefinitionAt = function(index) {
+  var removed = this.definitions_.removeChildAt(index);
+  if (removed) {
+    removed.setParent(null);
+  }
+
+  return removed;
+};
+
+
+/**
+ * Returns definitions.
+ * @return {tsumekusa.contents.ContentArray.<
+ *     tsumekusa.contents.DefinitionList.Definition>} Definitions.
+ */
+DefinitionList.prototype.getDefinitions = function() {
+  return this.definitions_;
+};
+
+
+/**
+ * Returns a definition term.
+ * @param {number} index Index of a definition to get.
+ * @return {tsumekusa.contents.Paragraph} Definition term.
+ */
+DefinitionList.prototype.getTermAt = function(index) {
   var definition;
-  return (definition = this.getDefinitionAt(index)) && definition.getCaption();
+  return (definition = this.getDefinitionAt(index)) && definition.getTerm();
 };
 
 
 /**
  * Returns a definition content.
  * @param {number} index Index of a definition to get.
- * @return {tsumekusa.contents.Sentence} Definition content.
+ * @return {tsumekusa.contents.ContentArray.<tsumekusa.contents.BlockContent>}
+ *     Definition content.
  */
-DefinitionList.prototype.getDefinitionContentAt = function(index) {
+DefinitionList.prototype.getDescriptionAt = function(index) {
   var definition;
-  return (definition = this.getDefinitionAt(index)) && definition.getContent();
+  return (definition = this.getDefinitionAt(index)) &&
+      definition.getDescriptions();
 };
+//}}}
 
 
 
+// Definition class {{{
 /**
  * A class for definition.
- * @param {tsumekusa.contents.Sentence} caption Definition caption.
- * @param {tsumekusa.contents.Sentence} content Definition content.
  * @param {tsumekusa.contents.DefinitionList.ListType} type List type.
+ * @param {tsumekusa.contents.Paragraph|string} term Definition term.
+ * @param {tsumekusa.contents.ContentArray.<tsumekusa.contents.BlockContent>}
+ *    descs Block contents as descriptions of the definition.
  * @constructor
  */
-DefinitionList.Definition = function(caption, content, type) {
-  this.caption_ = caption instanceof Sentence ? caption : new Sentence(caption);
-  this.content_ = content instanceof Sentence ? content : new Sentence(content);
+DefinitionList.Definition = function(type, term, descs) {
+  BlockContent.call(this);
+  this.term_ = typeof term === 'string' ? new Paragraph(term) :
+      term;
+  this.descs_ = descs;
   this.type_ = type;
 };
+tsumekusa.inherits(List.ListItem, BlockContent);
 
 
 /**
- * Returns a caption.
- * @return {tsumekusa.contents.Sentence} Definition caption.
- */
-DefinitionList.Definition.prototype.getCaption = function() {
-  return this.caption_;
-};
-
-
-/**
- * Returns a content.
- * @return {tsumekusa.contents.Sentence} Definition content.
- */
-DefinitionList.Definition.prototype.getContent = function() {
-  return this.content_;
-};
-
-
-/**
- * List type.
+ * List type of the definition.
  * @type {tsumekusa.contents.DefinitionList.ListType}
  * @private
  */
 DefinitionList.Definition.prototype.type_;
+
+
+/**
+ * Paragraph as a term of the definition.
+ * @type {tsumekusa.contents.Paragraph}
+ * @private
+ */
+DefinitionList.Definition.prototype.term_;
+
+
+/**
+ * Block contents as descriptions of the definition.
+ * @type {tsumekusa.contents.ContentArray.<tsumekusa.contents.BlockContent>}
+ * @private
+ */
+DefinitionList.Definition.prototype.descs_;
+
+
+/**
+ * Returns a paragraph as a term of the definition.
+ * @return {tsumekusa.contents.Paragraph} Paragraph as a term of the
+ *     definition.
+ */
+DefinitionList.Definition.prototype.getTerm = function() {
+  return this.term_;
+};
+
+
+/**
+ * Returns block contents as descriptions of the definition.
+ * @return {tsumekusa.contents.ContentArray.<tsumekusa.contents.BlockContent>}
+ *     Definition content.
+ */
+DefinitionList.Definition.prototype.getDescriptions = function() {
+  return this.descs_;
+};
 
 
 /**
@@ -194,6 +276,7 @@ DefinitionList.Definition.prototype.type_;
 DefinitionList.Definition.prototype.getListType = function() {
   return this.type_;
 };
+//}}}
 
 
 // Export the constructor

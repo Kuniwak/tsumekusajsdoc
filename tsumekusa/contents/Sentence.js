@@ -16,6 +16,7 @@ var VimHelpSentencePublisher = require(
  *     append.
  * @constructor
  * @extends {tsumekusa.contents.InlineContent}
+ * @deprecated Use {@link tsumekusa.contents.Paragraph}
  */
 var Sentence = function(var_args) {
   InlineContent.call(this);

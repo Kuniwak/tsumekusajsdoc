@@ -21,30 +21,32 @@ TagFactory.tagMap_ = {};
 
 /**
  * Creates a new tag.
- * @param {string} ref Reference tag ID.
- * @return {tsumekusa.contents.Tag}
+ * @param {string} refId Reference tag ID.
+ * @return {tsumekusa.contents.Tag} Created tag.
  */
-TagFactory.createTag = function(id) {
-  TagFactory.registerId(id);
-  return new Tag(id);
+TagFactory.createTag = function(refId) {
+  TagFactory.registerId(refId);
+  return new Tag(refId);
 };
 
 
 /**
  * Whether a tag has an ID is already registered.
+ * @param {string} refId Reference tag ID.
+ * @return {boolean} Whether a tag has an ID is already registered.
  */
-TagFactory.isRegisteredId = function(id) {
-  return !!TagFactory.tagMap_[id];
+TagFactory.isRegisteredId = function(refId) {
+  return !!TagFactory.tagMap_[refId];
 };
 
 
 /**
  * Registers a tag ID.
- * @param {string} ref Reference tag ID.
+ * @param {string} refId Reference tag ID.
  */
-TagFactory.registerId = function(id) {
-  if (TagFactory.isRegisteredId(id)) {
-    throw Error('The tag is already registered: ' + id);
+TagFactory.registerId = function(refId) {
+  if (TagFactory.isRegisteredId(refId)) {
+    throw Error('The tag is already registered: ' + refId);
   }
-  TagFactory.tagMap_[id] = true;
+  TagFactory.tagMap_[refId] = true;
 };

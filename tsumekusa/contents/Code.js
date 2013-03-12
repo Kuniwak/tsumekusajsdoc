@@ -3,6 +3,7 @@
 
 
 var tsumekusa = require('../../tsumekusa');
+var string = require('../../tsumekusa/string');
 var BlockContent = require('./BlockContent');
 var VimHelpCodePublisher = require(
     '../publishing/vimhelp/VimHelpCodePublisher');
@@ -43,7 +44,7 @@ Code.prototype.code_ = null;
  * @return {tsumekusa.contents.Code} This instance.
  */
 Code.prototype.setCode = function(code) {
-  this.code_ = code.replace(/\n+$/, '\n');
+  this.code_ = string.trim(code);
   return this;
 };
 
