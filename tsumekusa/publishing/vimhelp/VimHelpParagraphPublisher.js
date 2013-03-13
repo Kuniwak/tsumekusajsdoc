@@ -2,43 +2,31 @@
 // http://orgachem.mit-license.org
 
 
-var tsumekusa = require('../../../tsumekusa');
-var LineWrapper = require('../../../tsumekusa/publishing/LineWrapper');
-var vimhelp = require('../../../tsumekusa/publishing/vimhelp');
+var basePath = '../../../tsumekusa';
+var tsumekusa = require(basePath);
+var LineWrapper = require(basePath + '/publishing/LineWrapper');
+var vimhelp = require(basePath + '/publishing/vimhelp');
+var ParagraphPublisher = require(basePath + '/publishing/ParagraphPublisher');
 
 
 
 /**
  * A class for paragraph publisher for vim help.
  * @constructor
- * @implements {tsumekusa.publishing.ContentPublisher}
+ * @implements {tsumekusa.publishing.ParagraphPublisher}
  */
-var VimHelpParagraphPublisher = function() {};
-tsumekusa.addSingletonGetter(VimHelpParagraphPublisher);
-
-
-/**
- * Returns an indent level by a paragraph.
- * @param {tsumekusa.contents.Paragraph} paragraph Paragraph.
- * @return {number} Indent lebel.
- */
-VimHelpParagraphPublisher.prototype.getIndentLevel = function(paragraph) {
-  return 0;
+var VimHelpParagraphPublisher = function() {
+  ParagraphPublisher.call(this);
 };
+tsumekusa.inherits(VimHelpParagraphPublisher, ParagraphPublisher);
+tsumekusa.addSingletonGetter(VimHelpParagraphPublisher);
 
 
 /** @override */
 VimHelpParagraphPublisher.prototype.publish = function(paragraph) {
-  var sentences = paragraph.getSentences();
-
-  // concat all sentences
-  var inlineContents = Array.prototype.concat.apply([],
-      sentences.map(function(sentence) {
-    return sentence.getInlineContents();
-  }));
-
-  var str = LineWrapper.getInstance().wrap(inlineContents, vimhelp.TEXT_WIDTH,
-                                        this.getIndentLevel(paragraph));
+  var wrapper = LineWrapper.getInstance();
+  var indent = new LineWrapper.Indent(this.getIndentLevel(paragraph));
+  var str = wrapper.wrap(inlineContents, vimhelp.TEXT_WIDTH, indent);
 
   return str;
 };

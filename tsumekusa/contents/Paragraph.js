@@ -2,18 +2,18 @@
 // http://orgachem.mit-license.org
 
 
-var tsumekusa = require('../../tsumekusa');
-var ContentArray = require('./ContentArray');
-var BlockContent = require('./BlockContent');
-var VimHelpParagraphPublisher = require(
-    '../publishing/vimhelp/VimHelpParagraphPublisher');
+var basePath = '../../tsumekusa';
+var tsumekusa = require(basePath);
+var ContentArray = require(basePath + '/contents/ContentArray');
+var BlockContent = require(basePath + '/contents/BlockContent');
+var ParagraphPublisher = require(basePath + '/publishing/ParagraphPublisher');
 
 
 
 /**
  * A class for sentence.
- * @param {Array.<tsumekusa.contents.InlineContent|string>} var_args Inline
- *     contents to append.
+ * @param {tsumekusa.contents.InlineContent|string} var_args Inline contents to
+ *     append.
  * @constructor
  * @extends {tsumekusa.contents.BlockContent}
  */
@@ -31,9 +31,9 @@ tsumekusa.inherits(Paragraph, BlockContent);
 
 /**
  * Default content publisher.
- * @type {tsumekusa.publishing.ContentPublisher}
+ * @type {tsumekusa.publishing.ParagraphPublisher}
  */
-Paragraph.publisher = VimHelpParagraphPublisher.getInstance();
+Paragraph.publisher = ParagraphPublisher.getInstance();
 
 
 /**
