@@ -6,11 +6,24 @@
 /**
  * A class for content array.  This class do not support any publishing.  You
  * can implement publish method for each case.
+ * @param {?tsumekusa.contents.IContent=} opt_parent Optional parent.  Sets the
+ *     parent to a child when the child is added, if {@code opt_parent} was
+ *     given.
  * @constructor
  */
-var ContentArray = function() {
+var ContentArray = function(opt_parent) {
   this.children_ = [];
+  this.setParent(opt_parent || null);
 };
+
+
+/**
+ * Content as a parent of children in the array.  It means that a child can see
+ * a parent through the array.
+ * @type {?tsumekusa.contents.IContent}
+ * @private
+ */
+ContentArray.prototype.parent_ = null;
 
 
 /**
@@ -27,6 +40,27 @@ ContentArray.prototype.children_ = null;
  */
 ContentArray.prototype.getCount = function() {
   return this.children_.length;
+};
+
+
+/**
+ * Sets a content as a parent of children.
+ * @param {tsumekusa.contents.IContent} parent Parent content.
+ */
+ContentArray.prototype.setParent = function(parent) {
+  this.parent_ = parent;
+  this.getChildren().forEach(function(child) {
+    child.setParent(parent);
+  });
+};
+
+
+/**
+ * Returns a content as a parent of children.
+ * @return {tsumekusa.contents.IContent} Parent content.
+ */
+ContentArray.prototype.getParent = function() {
+  return this.parent_;
 };
 
 
@@ -78,6 +112,9 @@ ContentArray.prototype.addChild = function(content) {
  * @return {tsumekusa.contents.ContentArray.<T>} This instance.
  */
 ContentArray.prototype.addChildAt = function(content, index) {
+  if (this.parent_) {
+    content.setParent(this.parent_);
+  }
   this.children_.splice(index, 0, content);
   return this;
 };
@@ -108,6 +145,10 @@ ContentArray.prototype.removeChildAt = function(index) {
   var removed;
   if (this.children_[index]) {
     removed = this.children_.splice(index, 1)[0];
+
+    if (this.parent_) {
+      removed.setParent(null);
+    }
     return removed;
   }
 

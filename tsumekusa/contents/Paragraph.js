@@ -23,7 +23,7 @@ var Paragraph = function(var_args) {
   this.inlineContents_ = new ContentArray();
 
   if (var_args) {
-    this.appendSentences(Array.prototype.slice.call(arguments, 0));
+    this.addInlineContents(Array.prototype.slice.call(arguments, 0));
   }
 };
 tsumekusa.inherits(Paragraph, BlockContent);
@@ -51,6 +51,20 @@ Paragraph.prototype.inlineContents_;
  */
 Paragraph.prototype.getInlineContents = function() {
   return this.inlineContents_.getChildren();
+};
+
+
+/**
+ * Adds inline contents at the last.
+ * @param {Array.<tsumekusa.contents.InlineContent|string>} contents Inline
+ *     contents or strings to add.
+ * @return {tsumekusa.contents.Paragraph} This instance.
+ */
+Paragraph.prototype.addInlineContents = function(contents) {
+  contents.forEach(function(content) {
+    this.addInlineContent(content);
+  }, this);
+  return this;
 };
 
 
