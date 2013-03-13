@@ -2,15 +2,14 @@
 // http://orgachem.mit-license.org
 
 
-var tsumekusa = require('../../tsumekusa');
-var string = require('../../tsumekusa/string');
-var BlockContent = require('./BlockContent');
-var VimHelpCodePublisher = require(
-    '../publishing/vimhelp/VimHelpCodePublisher');
+var basePath = '../../tsumekusa';
+var tsumekusa = require(basePath);
+var BlockContent = require(basePath + '/contents/BlockContent');
+var CodePublisher = require(basePath + '/publishing/CodePublisher');
 
 
 
-/**
+/**,vs
  * A class for code block.
  * @param {string} code Code.
  * @constructor
@@ -27,7 +26,7 @@ tsumekusa.inherits(Code, BlockContent);
  * Default content publisher.
  * @type {tsumekusa.publishing.ContentPublisher}
  */
-Code.publisher = VimHelpCodePublisher.getInstance();
+Code.publisher = CodePublisher.getInstance();
 
 
 /**
@@ -44,7 +43,7 @@ Code.prototype.code_ = null;
  * @return {tsumekusa.contents.Code} This instance.
  */
 Code.prototype.setCode = function(code) {
-  this.code_ = string.trim(code);
+  this.code_ = code;
   return this;
 };
 

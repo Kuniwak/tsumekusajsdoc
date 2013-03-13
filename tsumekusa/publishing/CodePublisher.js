@@ -1,8 +1,7 @@
 // This script licensed under the MIT.
 // http://orgachem.mit-license.org
 
-
-var basePath = '../../../tsumekusa';
+var basePath = '../../tsumekusa';
 var tsumekusa = require(basePath);
 
 
@@ -11,15 +10,16 @@ var tsumekusa = require(basePath);
  * @constructor
  * @implements {tsumekusa.publishing.ContentPublisher}
  */
-var VimHelpInlineCodePublisher = function() {};
-tsumekusa.addSingletonGetter(VimHelpInlineCodePublisher);
+var CodePublisher = function() {};
+tsumekusa.addSingletonGetter(CodePublisher);
 
 
 /** @override */
-VimHelpInlineCodePublisher.prototype.publish = function(code) {
-  return '{' + code.getCode() + '}';
+CodePublisher.prototype.publish = function(code) {
+  console.warn('The output mode do not support a code: ' + code.getCode());
+  return code.getCode();
 };
 
 
 // Exports the constructor.
-module.exports = VimHelpInlineCodePublisher;
+module.exports = CodePublisher;
