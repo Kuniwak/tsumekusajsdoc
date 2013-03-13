@@ -2,16 +2,21 @@
 // http://orgachem.mit-license.org
 
 
-var tsumekusa = require('../../../tsumekusa');
+var basePath = '../../../tsumekusa';
+var tsumekusa = require(basePath);
+var LinkPublisher = require(basePath + '/publishing/LinkPublisher');
 
 
 
 /**
  * A class for link publisher for Vim help.
  * @constructor
- * @implements {tsumekusa.publishing.ContentPublisher}
+ * @extends {tsumekusa.publishing.LinkPublisher}
  */
-var VimHelpLinkPublisher = function() {};
+var VimHelpLinkPublisher = function() {
+  LinkPublisher.call(this);
+};
+tsumekusa.inherits(VimHelpLinkPublisher, LinkPublisher);
 tsumekusa.addSingletonGetter(VimHelpLinkPublisher);
 
 

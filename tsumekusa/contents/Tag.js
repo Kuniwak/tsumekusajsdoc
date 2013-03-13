@@ -2,10 +2,10 @@
 // http://orgachem.mit-license.org
 
 
-var tsumekusa = require('../../tsumekusa');
-var InlineContent = require('./InlineContent');
-var VimHelpTagPublisher = require(
-    '../publishing/vimhelp/VimHelpTagPublisher');
+var basePath = '../../tsumekusa';
+var tsumekusa = require(basePath);
+var InlineContent = require(basePath + '/contents/InlineContent');
+var TagPublisher = require(basePath + '/publishing/TagPublisher');
 
 
 
@@ -25,9 +25,9 @@ tsumekusa.inherits(Tag, InlineContent);
 
 /**
  * Default content publisher.
- * @type {tsumekusa.publishing.ContentPublisher}
+ * @type {tsumekusa.publishing.TagPublisher}
  */
-Tag.publisher = VimHelpTagPublisher.getInstance();
+Tag.publisher = TagPublisher.getInstance();
 
 
 /**

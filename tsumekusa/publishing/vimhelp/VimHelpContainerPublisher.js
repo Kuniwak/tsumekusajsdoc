@@ -26,6 +26,13 @@ tsumekusa.addSingletonGetter(VimHelpContainerPublisher);
 VimHelpContainerPublisher.SEPARATORS = '=-';
 
 
+/** @override */
+VimHelpContainerPublisher.prototype.getIndentLevel = function(content) {
+  var parent = content.getParent();
+  return parent ? parent.getPublisher().getIndentLevel(parent) : 0;
+};
+
+
 /**
  * Returns a header content.
  * @param {tsumekusa.contents.Container} container Contents container
@@ -64,16 +71,16 @@ VimHelpContainerPublisher.prototype.createIndex = function(container) {
   var ancestors = container.getAncestors();
   var depth, idxs;
 
-  if ((depth = container.getSelfDepth()) > 1) {
+  if ((depth = container.getDepth()) > 1) {
     ancestors.push(container);
     idxs = ancestors.map(function(content) {
-      return content.getSelfIndex() + 1;
+      return content.getIndex() + 1;
     });
     idxs.shift();
     return idxs.join('.');
   }
   else {
-    return container.getSelfDepth() + '.';
+    return container.getDepth() + '.';
   }
 };
 
@@ -85,15 +92,15 @@ VimHelpContainerPublisher.prototype.createIndex = function(container) {
  */
 VimHelpContainerPublisher.prototype.createSubContentSeparator =
     function(container) {
-  var i = container.getSelfDepth();
+  var i = container.getDepth();
   var SEP = VimHelpContainerPublisher.SEPARATORS;
-  var sepLen = SEP.length;
+  var sepChar;
 
-  if (i >= sepLen) {
+  if (sepChar = SEP[i]) {
     return '';
   }
   else {
-    return '\n' + string.repeat(SEP[i], vimhelp.TEXT_WIDTH) + '\n';
+    return '\n' + string.repeat(sepChar, vimhelp.TEXT_WIDTH) + '\n';
   }
 };
 
@@ -106,10 +113,10 @@ VimHelpContainerPublisher.prototype.createSubContentSeparator =
 VimHelpContainerPublisher.prototype.createTopContents = function(container) {
   var topContents = container.getTopContents();
 
-  if (topContents.length > 0) {
-    return topContents.map(function(topContent) {
+  if (topContents.getCount() > 0) {
+    return topContents.getChildren().map(function(topContent) {
       return topContent.publish();
-    }).join('\n\n') + '\n';
+    }).join('\n') + '\n';
   }
 
   return null;
@@ -142,7 +149,7 @@ VimHelpContainerPublisher.prototype.createSubContents = function(container) {
  */
 VimHelpContainerPublisher.prototype.createSubContentsInternal = function(
     container) {
-  return container.getSubContainers().map(function(content) {
+  return container.getSubContainers().getChildren().map(function(content) {
     return content.publish();
   });
 };
