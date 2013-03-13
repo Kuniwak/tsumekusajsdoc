@@ -2,11 +2,12 @@
 // http://orgachem.mit-license.org
 
 
-var tsumekusa = require('../../tsumekusa');
-var ContentArray = require('./ContentArray');
-var BlockContent = require('./BlockContent');
-var VimHelpDefinitionListPublisher = require(
-    '../publishing/vimhelp/VimHelpDefinitionListPublisher');
+var basePath = '../../tsumekusa';
+var tsumekusa = require(basePath);
+var ContentArray = require(basePath + '/contents/ContentArray');
+var BlockContent = require(basePath + '/contents/BlockContent');
+var DefinitionListPublisher = require(basePath + 
+    '/publishing/DefinitionListPublisher');
 
 
 
@@ -42,9 +43,9 @@ DefinitionList.ListType = {
 
 /**
  * Default content publisher.
- * @type {tsumekusa.publishing.ContentPublisher}
+ * @type {tsumekusa.publishing.DefinitionPublisher}
  */
-DefinitionList.publisher = VimHelpDefinitionListPublisher.getInstance();
+DefinitionList.publisher = DefinitionListPublisher.getInstance();
 
 
 /**
@@ -209,20 +210,20 @@ DefinitionList.prototype.getDescriptionAt = function(index) {
 // Definition class {{{
 /**
  * A class for definition.
- * @param {tsumekusa.contents.DefinitionList.ListType} type List type.
  * @param {tsumekusa.contents.Paragraph|string} term Definition term.
  * @param {tsumekusa.contents.ContentArray.<tsumekusa.contents.BlockContent>}
  *    descs Block contents as descriptions of the definition.
+ * @param {tsumekusa.contents.DefinitionList.ListType} type List type.
  * @constructor
  */
-DefinitionList.Definition = function(type, term, descs) {
+DefinitionList.Definition = function(term, descs, type) {
   BlockContent.call(this);
   this.term_ = typeof term === 'string' ? new Paragraph(term) :
       term;
   this.descs_ = descs;
   this.type_ = type;
 };
-tsumekusa.inherits(List.ListItem, BlockContent);
+tsumekusa.inherits(DefinitionList.Definition, BlockContent);
 
 
 /**
