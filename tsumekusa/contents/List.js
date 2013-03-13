@@ -2,11 +2,11 @@
 // http://orgachem.mit-license.org
 
 
-var tsumekusa = require('../../tsumekusa');
-var ContentArray = require('./ContentArray');
-var BlockContent = require('./BlockContent');
-var VimHelpListPublisher = require(
-    '../publishing/vimhelp/VimHelpListPublisher');
+var basePath = '../../tsumekusa';
+var tsumekusa = require(basePath);
+var ContentArray = require(basePath + '/contents/ContentArray');
+var BlockContent = require(basePath + '/contents/BlockContent');
+var ListPublisher = require(basePath + '/publishing/ListPublisher');
 
 
 
@@ -20,7 +20,7 @@ var VimHelpListPublisher = require(
  */
 var List = function(opt_type) {
   BlockContent.call(this);
-  this.listeds_ = new ContentArray();
+  this.listeds_ = new ContentArray(this);
   this.type_ = opt_type || List.ListType.UNORDERED;
 };
 tsumekusa.inherits(List, BlockContent);
@@ -32,9 +32,9 @@ tsumekusa.inherits(List, BlockContent);
  */
 List.ListType = {
   /** Ordered list type. */
-  ORDERED: 0,
+  ORDERED: 1,
   /** Unordered list type. */
-  UNORDERED: 1
+  UNORDERED: 2
 };
 
 
@@ -42,7 +42,7 @@ List.ListType = {
  * Default content publisher.
  * @type {tsumekusa.publishing.ContentPublisher}
  */
-List.publisher = VimHelpListPublisher.getInstance();
+List.publisher = ListPublisher.getInstance();
 
 
 /**
@@ -76,7 +76,6 @@ List.prototype.getListType = function() {
  * @return {tsumekusa.contents.List} This instance.
  */
 List.prototype.addListItem = function(content) {
-  contents.setParent(content);
   this.listeds_.addChild(content);
   return this;
 };
@@ -90,7 +89,6 @@ List.prototype.addListItem = function(content) {
  * @return {tsumekusa.contents.List} This instance.
  */
 List.prototype.addListItemAt = function(content, index) {
-  contents.setParent(content);
   this.listeds_.addChildAt(content, index);
   return this;
 };
@@ -102,11 +100,7 @@ List.prototype.addListItemAt = function(content, index) {
  * @return {tsumekusa.contents.BlockContent} Removed content, if any.
  */
 List.prototype.removeListItem = function(content) {
-  var removed = this.listeds_.removeChild(content);
-  if (removed) {
-    removed.setParent(null);
-  }
-  return removed;
+  return this.listeds_.removeChild(content);
 };
 
 
@@ -116,11 +110,7 @@ List.prototype.removeListItem = function(content) {
  * @return {tsumekusa.contents.BlockContent} Removed content, if any.
  */
 List.prototype.removeListItemAt = function(index) {
-  var removed = this.listeds_.removeChildAt(index);
-  if (removed) {
-    removed.setParent(null);
-  }
-  return removed;
+  return this.listeds_.removeChildAt(index);
 };
 
 
@@ -129,24 +119,23 @@ List.prototype.removeListItemAt = function(index) {
  * @return {tsumekusa.contents.ContentArray.<tsumekusa.contents.BlockContent>}
  *     Listed contents.
  */
-List.prototype.getListedContents = function() {
+List.prototype.getListItems = function() {
   return this.listeds_;
 };
 
 
 
 /**
- * A class for list item.
- * @param {tsumekusa.contents.List.ListType} type List type of the item.
- * @param {tsumekusa.contents.Paragraph} paragraph Paragraph of the item.
+ * A class for list items.
+ * @param {tsumekusa.contents.ContentArray.<tsumekusa.contents.BlockContent>}
+ *     blocks Block contents in the item.
+ * @param {?tsumekusa.contents.List.ListType=} type List type of the item.
  * @constructor
  */
-List.ListItem = function(type, paragraph) {
-  BlockContent.call(this);
-  this.type_ = type;
-  this.paragraph_ = paragraph;
+List.ListItem = function(blocks, opt_type) {
+  this.type_ = opt_type;
+  this.blocks_ = blocks;
 };
-tsumekusa.inherits(List.ListItem, BlockContent);
 
 
 /**
@@ -158,16 +147,37 @@ List.ListItem.prototype.type_;
 
 
 /**
- * List type of the item.
- * @type {tsumekusa.contents.Paragraph}
+ * Paragraphs of the item..
+ * @type {tsumekusa.contents.ContentArray.<tsumekusa.contents.BlockContent>}
  * @private
  */
-List.ListItem.prototype.paragraph_;
+List.ListItem.prototype.blocks_;
 
 
 /**
- * Returns a list type of the item.
- * @return {tsumekusa.contents.List.ListType} List type of the item.
+ * Sets a list as a parent of the item.
+ * @param {tsumekusa.contents.List} parent List as a parent of the item.
+ */
+List.ListItem.prototype.setParent = function(parent) {
+  if (!this.type_ && parent) {
+    this.type_ = parent.getListType();
+  }
+  this.blocks_.setParent(parent);
+};
+
+
+/**
+ * Returns a list as a parent of the item.
+ * @return {tsumekusa.contents.List} List as a parent of the item.
+ */
+List.ListItem.prototype.getParent = function() {
+  return this.blocks_.getParent();
+};
+
+
+/**
+ * Returns a list type.
+ * @return {tsumekusa.contents.List.ListType} List type.
  */
 List.ListItem.prototype.getListType = function() {
   return this.type_;
@@ -175,11 +185,12 @@ List.ListItem.prototype.getListType = function() {
 
 
 /**
- * Returns a Paragraph of the item.
- * @return {tsumekusa.contents.Paragraph} Paragraph of the item.
+ * Returns block contents as descriptions of the definition.
+ * @return {tsumekusa.contents.ContentArray.<tsumekusa.contents.BlockContent>}
+ *     Definition content.
  */
-List.ListItem.prototype.getParagraph = function() {
-  return this.paragraph_;
+List.ListItem.prototype.getBlockContents = function() {
+  return this.blocks_;
 };
 
 
