@@ -1,10 +1,13 @@
 // This script licensed under the MIT.
 // http://orgachem.mit-license.org
 
-var DefinitionList = require('../../contents/DefinitionList');
-var Paragraph = require('../../contents/Paragraph');
-var ContentArray = require('../../contents/ContentArray');
-var VimHelpDefinitionListPublisher = require('./VimHelpDefinitionListPublisher');
+var basePath = '../../../tsumekusa';
+var DefinitionList = require(basePath + '/contents/DefinitionList');
+var Paragraph = require(basePath + '/contents/Paragraph');
+var ContentArray = require(basePath + '/contents/ContentArray');
+var VimHelpDefinitionListPublisher = require(basePath +
+    '/publishing/vimhelp/VimHelpDefinitionListPublisher');
+
 var publisher = VimHelpDefinitionListPublisher.getInstance();
 
 exports.testPublish = function(test) {
@@ -28,9 +31,24 @@ exports.testPublish = function(test) {
   descs3.addChild(new Paragraph('Desc3-2'));
   defList.addDefinition(term3, descs3, DefinitionList.ListType.UNORDERED);
 
-  test.equal(publisher.publish(defList), '  Term1\n    Desc1-1\n    Desc1-2\n\n  1) Term2\n     Desc2-1\n     Desc2-2\n\n  - Term3\n    Desc3-1\n    Desc3-2');
+  var CORRECT = [
+    '  Term1',
+    '    Desc1-1',
+    '    Desc1-2',
+    '',
+    '  1) Term2',
+    '     Desc2-1',
+    '     Desc2-2',
+    '',
+    '  - Term3',
+    '    Desc3-1',
+    '    Desc3-2'
+  ].join('\n');
 
-  // Check whether the publish method is bang
-  test.equal(publisher.publish(defList), '  Term1\n    Desc1-1\n    Desc1-2\n\n  1) Term2\n     Desc2-1\n     Desc2-2\n\n  - Term3\n    Desc3-1\n    Desc3-2');
+  test.equal(publisher.publish(defList), CORRECT);
+
+  // Check whether the publish method is unbang
+  test.equal(publisher.publish(defList), CORRECT);
+
   test.done();
 };
