@@ -4,10 +4,14 @@
 
 var basePath = '../../../tsumekusa';
 var tsumekusa = require(basePath);
-var vimhelp = require(basePath + '/publishing/vimhelp');
 var string = require(basePath + '/string');
+var PreformattedParagraph = require(basePath +
+    '/contents/PreformattedParagraph');
+var vimhelp = require(basePath + '/publishing/vimhelp');
 var BlockContentPublisher = require(basePath +
     '/publishing/BlockContentPublisher');
+var PreformattedParagraphPublisher = require(basePath +
+    '/PreformattedParagraphPublisher');
 
 
 
@@ -40,13 +44,14 @@ VimHelpCodePublisher.prototype.getIndentLevel = function(content) {
 
 /** @override */
 VimHelpCodePublisher.prototype.publish = function(code) {
-  // TODO: Wrap if the cord line is too long.
-  var codeLines = string.trim(code.getCode()).split('\n');
-  var publishedCode = codeLines.map(function(line) {
-    return string.repeat(' ', VimHelpCodePublisher.INDENT_WIDTH) + line;
-  }).join('\n');
+  var codeString = string.trim(code.getCode());
 
-  return '>\n' + publishedCode + '\n';
+  // Borrow preformatted paragraph publisher
+  var pre = new PreformattedParagraph(codeString);
+  var prePublisher = PreformattedParagraph.getInstance();
+  var publishedCode = prePublisher.publish(pre);
+
+  return '>' + publishedCode;
 };
 
 

@@ -4,7 +4,7 @@
 
 var basePath = '../../../tsumekusa';
 var tsumekusa = require(basePath);
-var LineWrapper = require(basePath + '/publishing/LineWrapper');
+var WordWrapper = require(basePath + '/publishing/WordWrapper');
 var vimhelp = require(basePath + '/publishing/vimhelp');
 var ParagraphPublisher = require(basePath + '/publishing/ParagraphPublisher');
 
@@ -24,8 +24,8 @@ tsumekusa.addSingletonGetter(VimHelpParagraphPublisher);
 
 /** @override */
 VimHelpParagraphPublisher.prototype.publish = function(paragraph) {
-  var wrapper = LineWrapper.getInstance();
-  var indent = new LineWrapper.Indent(this.getIndentLevel(paragraph));
+  var wrapper = WordWrapper.getInstance();
+  var indent = new WordWrapper.Indent(this.getIndentLevel(paragraph));
   var str = wrapper.wrap(inlineContents, vimhelp.TEXT_WIDTH, indent);
 
   return str;

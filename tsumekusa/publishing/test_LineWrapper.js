@@ -3,10 +3,10 @@
 
 var LOREM_IPSUM = ['Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'];
 
-var LineWrapper = require('./LineWrapper');
+var WordWrapper = require('./WordWrapper');
 
 exports.testWrap = function(test) {
-  var wrapper = new LineWrapper();
+  var wrapper = new WordWrapper();
   var wrapped;
 
   // General condition
@@ -19,7 +19,7 @@ exports.testWrap = function(test) {
 
   test.equal(wrapper.wrap(LOREM_IPSUM, 5), wrapped);
 
-  var indent = new LineWrapper.Indent();
+  var indent = new WordWrapper.Indent();
   indent.getIndentWidth = function(lineIdx) {
     return lineIdx;
   };

@@ -4,26 +4,26 @@
 var Benchmark = require('../../node_modules/benchmark');
 var basePath = '../../tsumekusa';
 var string = require(basePath + '/string');
-var LineWrapper = require(basePath + '/publishing/LineWrapper');
-var LineWrapper2 = require(basePath + '/publishing/LineWrapper2');
+var WordWrapper = require(basePath + '/publishing/WordWrapper');
+var WordWrapper2 = require(basePath + '/publishing/WordWrapper2');
 
 var BASE_LINE_WIDTH = 80;
 var HYPHENATION_LINE_WIDTH = 5;
 
-var INDENT_CONST = new LineWrapper.Indent(10);
-var INDENT_LINEAR = new LineWrapper.Indent(0);
+var INDENT_CONST = new WordWrapper.Indent(10);
+var INDENT_LINEAR = new WordWrapper.Indent(0);
 INDENT_LINEAR.getIndentWidth = function(lineIdx) {
   return Math.floor(lineIdx / 8);
 };
 
-var wrapper = new LineWrapper()
-var wrapper2 = new LineWrapper2(BASE_LINE_WIDTH);
+var wrapper = new WordWrapper()
+var wrapper2 = new WordWrapper2(BASE_LINE_WIDTH);
 
-var wrapperConst = new LineWrapper()
-var wrapper2Const = new LineWrapper2(BASE_LINE_WIDTH, INDENT_CONST);
+var wrapperConst = new WordWrapper()
+var wrapper2Const = new WordWrapper2(BASE_LINE_WIDTH, INDENT_CONST);
 
-var wrapperLinear = new LineWrapper()
-var wrapper2Linear = new LineWrapper2(BASE_LINE_WIDTH, INDENT_LINEAR);
+var wrapperLinear = new WordWrapper()
+var wrapper2Linear = new WordWrapper2(BASE_LINE_WIDTH, INDENT_LINEAR);
 
 // Definition of Lorem Ipsum {{{
 var LOREM_IPSUM = ['Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc blandit sodales libero nec faucibus. Donec mattis arcu ac orci volutpat sit amet volutpat nunc tristique. Vivamus viverra pulvinar est vestibulum varius. Curabitur et enim eros, a rhoncus nisl. Curabitur cursus posuere lacus, nec tristique massa sagittis nec. Quisque ac ante et ante luctus ultrices. Donec mattis elementum lacus, et adipiscing enim tempus at.',
@@ -38,36 +38,36 @@ var LOREM_IPSUM = ['Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nun
 var suite = new Benchmark.Suite();
 
 suite
-    .add('LineWrapper#wrap with no indent', function() {
-      var wrapper = new LineWrapper()
+    .add('WordWrapper#wrap with no indent', function() {
+      var wrapper = new WordWrapper()
       wrapper.wrap(LOREM_IPSUM, BASE_LINE_WIDTH);
     })
-    .add('LineWrapper2#wrap with no indent', function() {
-      var wrapper2 = new LineWrapper2(BASE_LINE_WIDTH);
+    .add('WordWrapper2#wrap with no indent', function() {
+      var wrapper2 = new WordWrapper2(BASE_LINE_WIDTH);
       wrapper2.wrap(LOREM_IPSUM);
     })
-    .add('LineWrapper#wrap with constant width indent', function() {
-      var wrapper = new LineWrapper()
+    .add('WordWrapper#wrap with constant width indent', function() {
+      var wrapper = new WordWrapper()
       wrapper.wrap(LOREM_IPSUM, BASE_LINE_WIDTH, INDENT_CONST);
     })
-    .add('LineWrapper2#wrap with constant width indent', function() {
-      var wrapper2 = new LineWrapper2(BASE_LINE_WIDTH, INDENT_CONST);
+    .add('WordWrapper2#wrap with constant width indent', function() {
+      var wrapper2 = new WordWrapper2(BASE_LINE_WIDTH, INDENT_CONST);
       wrapper2.wrap(LOREM_IPSUM);
     })
-    .add('LineWrapper#wrap with linear width indent', function() {
-      var wrapper = new LineWrapper()
+    .add('WordWrapper#wrap with linear width indent', function() {
+      var wrapper = new WordWrapper()
       wrapper.wrap(LOREM_IPSUM, BASE_LINE_WIDTH, INDENT_LINEAR);
     })
-    .add('LineWrapper2#wrap with linear width indent', function() {
-      var wrapper2 = new LineWrapper2(BASE_LINE_WIDTH, INDENT_LINEAR);
+    .add('WordWrapper2#wrap with linear width indent', function() {
+      var wrapper2 = new WordWrapper2(BASE_LINE_WIDTH, INDENT_LINEAR);
       wrapper2.wrap(LOREM_IPSUM);
     })
-    .add('LineWrapper#wrap with hyphenation', function() {
-      var wrapper = new LineWrapper()
+    .add('WordWrapper#wrap with hyphenation', function() {
+      var wrapper = new WordWrapper()
       wrapper.wrap(LOREM_IPSUM, HYPHENATION_LINE_WIDTH);
     })
-    .add('LineWrapper2#wrap with hyphenation', function() {
-      var wrapper2 = new LineWrapper2(HYPHENATION_LINE_WIDTH);
+    .add('WordWrapper2#wrap with hyphenation', function() {
+      var wrapper2 = new WordWrapper2(HYPHENATION_LINE_WIDTH);
       wrapper2.wrap(LOREM_IPSUM);
     })
     .on('complete', function() {

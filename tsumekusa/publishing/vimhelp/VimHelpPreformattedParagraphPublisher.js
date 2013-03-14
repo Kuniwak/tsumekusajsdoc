@@ -2,7 +2,12 @@
 // http://orgachem.mit-license.org
 
 
-var tsumekusa = require('../../../tsumekusa');
+var basePath = '../../../tsumekusa';
+var tsumekusa = require(basePath);
+var vimhelp = require(basePath + '/publishing/vimhelp');
+var string = require(basePath + '/string');
+var BlockContentPublisher = require(basePath +
+    '/publishing/BlockContentPublisher');
 
 
 
@@ -11,14 +16,12 @@ var tsumekusa = require('../../../tsumekusa');
  * @constructor
  * @implements {tsumekusa.publishing.ContentPublisher}
  */
-var VimHelpPreformattedParagraphPublisher = function() {};
-tsumekusa.addSingletonGetter(VimHelpPreformattedParagraphPublisher);
-
-
-/** @override */
-VimHelpPreformattedParagraphPublisher.prototype.publish = function(pre) {
-  return '\n' + pre.getContent() + '\n';
+var VimHelpPreformattedParagraphPublisher = function() {
+  BlockContentPublisher.call(this);
 };
+tsumekusa.inherits(VimHelpPreformattedParagraphPublisher,
+    BlockContentPublisher);
+tsumekusa.addSingletonGetter(VimHelpPreformattedParagraphPublisher);
 
 
 // Exports the constructor.

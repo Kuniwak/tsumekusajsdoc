@@ -4,7 +4,7 @@
 
 var basePath = '../../../tsumekusa';
 var tsumekusa = require(basePath);
-var LineWrapper = require(basePath + '/publishing/LineWrapper');
+var WordWrapper = require(basePath + '/publishing/WordWrapper');
 var ListPublisher = require(basePath + '/publishing/ListPublisher');
 var vimhelp = require(basePath + '/publishing/vimhelp');
 
