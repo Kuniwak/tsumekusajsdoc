@@ -121,7 +121,7 @@ DefinitionPublisher.prototype.publish = function(content) {
   var inlineContentsInTerm = content.getTerm().getInlineContents();
   var blockContentsInDesc = content.getDescriptions().getChildren();
   var listType = content.getListType();
-  var dispWidth = this.dispWidth_;
+  var dispWidth = this.getDisplayWidth();
   var index = content.getIndex();
   var marker = this.createListMarker(index, listType);
 

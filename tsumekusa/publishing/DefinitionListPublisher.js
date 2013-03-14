@@ -4,7 +4,6 @@
 
 var basePath = '../../tsumekusa';
 var tsumekusa = require(basePath);
-var array = require(basePath + '/array');
 var BlockContentPublisher = require(basePath +
     '/publishing/BlockContentPublisher');
 
