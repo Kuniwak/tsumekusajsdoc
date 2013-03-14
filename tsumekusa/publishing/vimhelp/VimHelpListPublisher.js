@@ -13,10 +13,11 @@ var vimhelp = require(basePath + '/publishing/vimhelp');
 /**
  * A class for list publisher for vim help.
  * @constructor
- * @implements {tsumekusa.publishing.ContentPublisher}
+ * @implements {tsumekusa.publishing.IContentPublisher}
  */
 var VimHelpListPublisher = function() {
-  ListPublisher.call(this, vimhelp.TEXT_WIDTH);
+  ListPublisher.call(this);
+  this.setDisplayWidth(vimhelp.TEXT_WIDTH);
 };
 tsumekusa.inherits(VimHelpListPublisher, ListPublisher);
 tsumekusa.addSingletonGetter(VimHelpListPublisher);

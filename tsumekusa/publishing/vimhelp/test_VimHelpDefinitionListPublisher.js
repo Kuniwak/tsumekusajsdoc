@@ -7,8 +7,11 @@ var Paragraph = require(basePath + '/contents/Paragraph');
 var ContentArray = require(basePath + '/contents/ContentArray');
 var VimHelpDefinitionListPublisher = require(basePath +
     '/publishing/vimhelp/VimHelpDefinitionListPublisher');
+var VimHelpDefinitionPublisher = require(basePath +
+    '/publishing/vimhelp/VimHelpDefinitionPublisher');
 
 var publisher = VimHelpDefinitionListPublisher.getInstance();
+DefinitionList.Definition.publisher = new VimHelpDefinitionPublisher();
 
 exports.testPublish = function(test) {
   var defList = new DefinitionList();

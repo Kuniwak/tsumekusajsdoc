@@ -292,6 +292,7 @@ DefinitionList.Definition.prototype.getListType = function() {
  * @return {number} Index of the definition.
  */
 DefinitionList.Definition.prototype.getIndex = function() {
+  // TODO: Caching index.
   var parent = this.getParent();
   return parent.indexOfDefinitions(this);
 };

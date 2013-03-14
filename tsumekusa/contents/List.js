@@ -7,6 +7,7 @@ var tsumekusa = require(basePath);
 var ContentArray = require(basePath + '/contents/ContentArray');
 var BlockContent = require(basePath + '/contents/BlockContent');
 var ListPublisher = require(basePath + '/publishing/ListPublisher');
+var ListItemPublisher = require(basePath + '/publishing/ListItemPublisher');
 
 
 
@@ -40,7 +41,7 @@ List.ListType = {
 
 /**
  * Default content publisher.
- * @type {tsumekusa.publishing.ContentPublisher}
+ * @type {tsumekusa.publishing.ListPublisher}
  */
 List.publisher = ListPublisher.getInstance();
 
@@ -124,6 +125,16 @@ List.prototype.getListItems = function() {
 };
 
 
+/**
+ * Returns a 0-based index of the specified list item.
+ * @param {tsumekusa.contents.List.ListItem} item List item.
+ * @return {number} Index of the specified definition.
+ */
+List.prototype.indexOfList = function(item) {
+  return this.listeds_.getChildren().indexOf(item);
+};
+
+
 
 /**
  * A class for list items.
@@ -133,9 +144,18 @@ List.prototype.getListItems = function() {
  * @constructor
  */
 List.ListItem = function(blocks, opt_type) {
+  BlockContent.call(this);
   this.type_ = opt_type;
   this.blocks_ = blocks;
 };
+tsumekusa.inherits(List.ListItem, BlockContent);
+
+
+/**
+ * Default content publisher.
+ * @type {tsumekusa.publishing.ListItemPublisher}
+ */
+List.ListItem.publisher = ListItemPublisher.getInstance();
 
 
 /**
@@ -155,42 +175,32 @@ List.ListItem.prototype.blocks_;
 
 
 /**
- * Sets a list as a parent of the item.
- * @param {tsumekusa.contents.List} parent List as a parent of the item.
- */
-List.ListItem.prototype.setParent = function(parent) {
-  if (!this.type_ && parent) {
-    this.type_ = parent.getListType();
-  }
-  this.blocks_.setParent(parent);
-};
-
-
-/**
- * Returns a list as a parent of the item.
- * @return {tsumekusa.contents.List} List as a parent of the item.
- */
-List.ListItem.prototype.getParent = function() {
-  return this.blocks_.getParent();
-};
-
-
-/**
  * Returns a list type.
  * @return {tsumekusa.contents.List.ListType} List type.
  */
 List.ListItem.prototype.getListType = function() {
-  return this.type_;
+  return this.type_ || (this.type_ = this.getParent().getListType());
 };
 
 
 /**
  * Returns block contents as descriptions of the definition.
  * @return {tsumekusa.contents.ContentArray.<tsumekusa.contents.BlockContent>}
- *     Definition content.
+ *     List item.
  */
 List.ListItem.prototype.getBlockContents = function() {
   return this.blocks_;
+};
+
+
+/**
+ * Returns a 0-based index of the definition.
+ * @return {number} Index of the definition.
+ */
+List.ListItem.prototype.getIndex = function() {
+  // TODO: Caching index.
+  var parent = this.getParent();
+  return parent.indexOfList(this);
 };
 
 

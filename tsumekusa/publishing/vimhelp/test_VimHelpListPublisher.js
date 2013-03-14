@@ -8,8 +8,12 @@ var Paragraph = require(basePath + '/contents/Paragraph');
 var ContentArray = require(basePath + '/contents/ContentArray');
 var VimHelpListPublisher = require(basePath +
     '/publishing/vimhelp/VimHelpListPublisher');
+var VimHelpListItemPublisher = require(basePath +
+    '/publishing/vimhelp/VimHelpListItemPublisher');
 
 var publisher = new VimHelpListPublisher();
+List.ListItem.publisher = new VimHelpListItemPublisher();
+
 
 exports.testPublish = function(test) {
   var list1 = new List();
