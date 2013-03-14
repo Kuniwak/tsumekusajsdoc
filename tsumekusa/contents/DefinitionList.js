@@ -8,6 +8,8 @@ var ContentArray = require(basePath + '/contents/ContentArray');
 var BlockContent = require(basePath + '/contents/BlockContent');
 var DefinitionListPublisher = require(basePath + 
     '/publishing/DefinitionListPublisher');
+var DefinitionPublisher = require(basePath + 
+    '/publishing/DefinitionPublisher');
 
 
 
@@ -21,7 +23,7 @@ var DefinitionListPublisher = require(basePath +
  */
 var DefinitionList = function(opt_type) {
   BlockContent.call(this);
-  this.definitions_ = new ContentArray();
+  this.definitions_ = new ContentArray(this);
   this.type_ = opt_type || DefinitionList.ListType.NO_MARKER;
 };
 tsumekusa.inherits(DefinitionList, BlockContent);
@@ -43,7 +45,7 @@ DefinitionList.ListType = {
 
 /**
  * Default content publisher.
- * @type {tsumekusa.publishing.DefinitionPublisher}
+ * @type {tsumekusa.publishing.DefinitionListPublisher}
  */
 DefinitionList.publisher = DefinitionListPublisher.getInstance();
 
@@ -92,10 +94,19 @@ DefinitionList.prototype.createDefinition = function(term, descs, opt_type) {
 
 
 /**
+ * Returns a 0-based index of the specified definition.
+ * @param {tsumekusa.contents.DefinitionList.Definition} def Definition.
+ * @return {number} Index of the specified definition.
+ */
+DefinitionList.prototype.indexOfDefinitions = function(def) {
+  return this.definitions_.getChildren().indexOf(def);
+};
+
+
+/**
  * Returns a definition by index.
  * @param {number} index Index of a definition to get.
  * @return {tsumekusa.contents.DefinitionList.Definition} Definition.
- * @protected
  */
 DefinitionList.prototype.getDefinitionAt = function(index) {
   return this.definitions_.getChildAt(index);
@@ -113,7 +124,6 @@ DefinitionList.prototype.getDefinitionAt = function(index) {
  */
 DefinitionList.prototype.addDefinition = function(term, descs, opt_type) {
   var definition = this.createDefinition(term, descs, opt_type);
-  definition.setParent(this);
   this.definitions_.addChild(definition);
   return this;
 };
@@ -132,7 +142,6 @@ DefinitionList.prototype.addDefinition = function(term, descs, opt_type) {
 DefinitionList.prototype.addDefinitionAt = function(term, descs, index,
     opt_type) {
   var definition = this.createDefinition(term, descs, opt_type);
-  definition.setParent(this);
   this.definitions_.addChildAt(definition, index);
   return this;
 };
@@ -147,10 +156,6 @@ DefinitionList.prototype.addDefinitionAt = function(term, descs, index,
  */
 DefinitionList.prototype.removeDefinition = function(definition) {
   var removed = this.definitions_.removeChild(definition);
-  if (removed) {
-    removed.setParent(null);
-  }
-
   return removed;
 };
 
@@ -163,10 +168,6 @@ DefinitionList.prototype.removeDefinition = function(definition) {
  */
 DefinitionList.prototype.removeDefinitionAt = function(index) {
   var removed = this.definitions_.removeChildAt(index);
-  if (removed) {
-    removed.setParent(null);
-  }
-
   return removed;
 };
 
@@ -227,6 +228,13 @@ tsumekusa.inherits(DefinitionList.Definition, BlockContent);
 
 
 /**
+ * Default content publisher.
+ * @type {tsumekusa.publishing.DefinitionPublisher}
+ */
+DefinitionList.Definition.publisher = DefinitionPublisher.getInstance();
+
+
+/**
  * List type of the definition.
  * @type {tsumekusa.contents.DefinitionList.ListType}
  * @private
@@ -276,6 +284,16 @@ DefinitionList.Definition.prototype.getDescriptions = function() {
  */
 DefinitionList.Definition.prototype.getListType = function() {
   return this.type_;
+};
+
+
+/**
+ * Returns a 0-based index of the definition.
+ * @return {number} Index of the definition.
+ */
+DefinitionList.Definition.prototype.getIndex = function() {
+  var parent = this.getParent();
+  return parent.indexOfDefinitions(this);
 };
 //}}}
 

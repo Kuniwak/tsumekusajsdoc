@@ -8,7 +8,7 @@ var ContentArray = require(basePath + '/contents/ContentArray');
 var DefinitionListPublisher = require(basePath +
     '/publishing/DefinitionListPublisher');
 
-var publisher = new DefinitionListPublisher(80);
+var publisher = new DefinitionListPublisher();
 
 
 exports.testPublish = function(test) {
