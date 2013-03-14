@@ -4,7 +4,7 @@
 
 var basePath = '../../tsumekusa';
 var tsumekusa = require(basePath);
-var LineWrapper = require(basePath + '/publishing/LineWrapper');
+var WordWrapper = require(basePath + '/publishing/WordWrapper');
 var BlockContentPublisher = require(basePath +
     '/publishing/BlockContentPublisher');
 
@@ -12,13 +12,11 @@ var BlockContentPublisher = require(basePath +
 
 /**
  * A class for paragraph publisher for vim help.
- * @param {number} width Text width for the paragraph.
  * @constructor
  * @implements {tsumekusa.publishing.ContentPublisher}
  */
-var ParagraphPublisher = function(width) {
+var ParagraphPublisher = function() {
   BlockContentPublisher.call(this);
-  this.textWidth_ = width;
 };
 tsumekusa.inherits(ParagraphPublisher, BlockContentPublisher);
 tsumekusa.addSingletonGetter(ParagraphPublisher);
@@ -26,12 +24,10 @@ tsumekusa.addSingletonGetter(ParagraphPublisher);
 
 /** @override */
 ParagraphPublisher.prototype.publish = function(paragraph) {
-  var wrapper = LineWrapper.getInstance();
-  var indent = new LineWrapper.Indent(this.getIndentLevel(paragraph));
-  var str = wrapper.wrap(paragraph.getInlineContents(), this.textWidth_,
-      indent);
+  var indent = new WordWrapper.Indent(this.getIndentWidth(paragraph));
+  var wrapper = new WordWrapper(this.getDisplayWidth(), indent);
 
-  return str;
+  return wrapper.wrap(paragraph.getInlineContents());
 };
 
 

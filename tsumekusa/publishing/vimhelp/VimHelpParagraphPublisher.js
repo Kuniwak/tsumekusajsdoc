@@ -17,19 +17,10 @@ var ParagraphPublisher = require(basePath + '/publishing/ParagraphPublisher');
  */
 var VimHelpParagraphPublisher = function() {
   ParagraphPublisher.call(this);
+  this.setDisplayWidth(vimhelp.TEXT_WIDTH);
 };
 tsumekusa.inherits(VimHelpParagraphPublisher, ParagraphPublisher);
 tsumekusa.addSingletonGetter(VimHelpParagraphPublisher);
-
-
-/** @override */
-VimHelpParagraphPublisher.prototype.publish = function(paragraph) {
-  var wrapper = WordWrapper.getInstance();
-  var indent = new WordWrapper.Indent(this.getIndentLevel(paragraph));
-  var str = wrapper.wrap(inlineContents, vimhelp.TEXT_WIDTH, indent);
-
-  return str;
-};
 
 
 // Export the constructor
