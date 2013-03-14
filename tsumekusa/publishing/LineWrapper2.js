@@ -20,17 +20,20 @@ var string = require('../string');
  *
  * @param {number} baseLineWidth A base line width.
  * @param {number|tsumekusa.publishing.LineWrapper.Indent=} opt_indent Optional
- *     indent object or indent width.  No indentation if falsey.
+ *     strategy to indent or an indent width.  No indentation if falsey.
+ * @param {?tsumekusa.publishing.LineWrapper.WordSplitter=} opt_splitter
+ *     Optional strategy to detect word boundaries.  In default, detect a word
+ *     boundray when white spaces or line breaks are found.
  * @constructor
  */
 var LineWrapper = function(baseLineWidth, opt_indent, opt_splitter) {
-  this.buffer_ = new LineWrapper.LineBuffer();
-
   if (baseLineWidth <= 1) {
     throw Error('Width is too shorter: ' + baseLineWidth);
   }
 
+  this.buffer_ = new LineWrapper.LineBuffer();
   this.baseLineWidth_ = baseLineWidth;
+  this.splitter_ = opt_splitter || new LineWrapper.WordSplitter();
 
   if (opt_indent) {
     this.indent_ = typeof opt_indent === 'number' ?
@@ -39,8 +42,6 @@ var LineWrapper = function(baseLineWidth, opt_indent, opt_splitter) {
   else {
     this.indent_ = new LineWrapper.Indent();
   }
-
-  this.splitter_ = opt_splitter || new LineWrapper.WordSplitter();
 
   this.refreshCurrentLineWidth_();
 };
@@ -60,6 +61,14 @@ LineWrapper.prototype.indent_ = null;
  * @private
  */
 LineWrapper.prototype.buffer_ = null;
+
+
+/**
+ * Word boundray detection strategy.
+ * @type {tsumekusa.publishing.LineWrapper.WordSplitter}
+ * @private
+ */
+LineWrapper.prototype.splitter_ = null;
 
 
 /**
@@ -145,6 +154,10 @@ LineWrapper.prototype.breakLine_ = function() {
 };
 
 
+/**
+ * Refreshes a current line width by a base line width and an indent width.
+ * @private
+ */
 LineWrapper.prototype.refreshCurrentLineWidth_ = function() {
   var baseLineWidth = this.baseLineWidth_;
   var indentWidth = this.indent_.getIndentWidth(this.buffer_.
