@@ -8,7 +8,7 @@ var string = require('../string');
 
 
 /**
- * A class for line wrap strategy.  The class can indent for each line.
+ * A class for word wrap strategy.  The class can indent for each line.
  * Give your indent object to {@code opt_indent} or indent width if you want to
  * indentation. The indent object have to be implemented a {@code
  * getIndentWidth(lineNo)} that can return an indent width by a line number.
@@ -19,56 +19,55 @@ var string = require('../string');
  * </pre>
  *
  * @param {number} baseLineWidth A base line width.
- * @param {number|tsumekusa.publishing.LineWrapper.Indent=} opt_indent Optional
+ * @param {number|tsumekusa.publishing.WordWrapper.Indent=} opt_indent Optional
  *     strategy to indent or an indent width.  No indentation if falsey.
- * @param {?tsumekusa.publishing.LineWrapper.WordSplitter=} opt_splitter
+ * @param {?tsumekusa.publishing.WordWrapper.WordSplitter=} opt_splitter
  *     Optional strategy to detect word boundaries.  In default, detect a word
- *     boundray when white spaces or line breaks are found.
+ *     boundray when white spaces or word wraps are found.
  * @constructor
  */
-var LineWrapper = function(baseLineWidth, opt_indent, opt_splitter) {
+var WordWrapper = function(baseLineWidth, opt_indent, opt_splitter) {
   if (baseLineWidth <= 1) {
     throw Error('Width is too shorter: ' + baseLineWidth);
   }
 
-  this.buffer_ = new LineWrapper.LineBuffer();
   this.baseLineWidth_ = baseLineWidth;
-  this.splitter_ = opt_splitter || new LineWrapper.WordSplitter();
+  this.splitter_ = opt_splitter || new WordWrapper.WordSplitter();
 
   if (opt_indent) {
     this.indent_ = typeof opt_indent === 'number' ?
-        new LineWrapper.Indent(opt_indent) : opt_indent;
+        new WordWrapper.Indent(opt_indent) : opt_indent;
   }
   else {
-    this.indent_ = new LineWrapper.Indent();
+    this.indent_ = new WordWrapper.Indent();
   }
 
-  this.refreshCurrentLineWidth_();
+  this.init();
 };
 
 
 /**
  * Indent strategy.
- * @type {tsumekusa.publishing.LineWrapper.Indent}
+ * @type {tsumekusa.publishing.WordWrapper.Indent}
  * @private
  */
-LineWrapper.prototype.indent_ = null;
+WordWrapper.prototype.indent_ = null;
 
 
 /**
  * Line buffer.
- * @type {tsumekusa.publishing.LineWrapper.LineBuffer}
+ * @type {tsumekusa.publishing.WordWrapper.LineBuffer}
  * @private
  */
-LineWrapper.prototype.buffer_ = null;
+WordWrapper.prototype.buffer_ = null;
 
 
 /**
  * Word boundray detection strategy.
- * @type {tsumekusa.publishing.LineWrapper.WordSplitter}
+ * @type {tsumekusa.publishing.WordWrapper.WordSplitter}
  * @private
  */
-LineWrapper.prototype.splitter_ = null;
+WordWrapper.prototype.splitter_ = null;
 
 
 /**
@@ -76,7 +75,7 @@ LineWrapper.prototype.splitter_ = null;
  * @type {number}
  * @private
  */
-LineWrapper.prototype.baseLineWidth_ = null;
+WordWrapper.prototype.baseLineWidth_ = null;
 
 
 /**
@@ -84,17 +83,35 @@ LineWrapper.prototype.baseLineWidth_ = null;
  * @type {number}
  * @private
  */
-LineWrapper.prototype.currentLineWidth_ = null;
+WordWrapper.prototype.currentLineWidth_ = null;
 
 
 /**
- * Wraps contents with loose hyphenation.
- * NOTE: The method may hyphenate in a content that do not allow line break in
- * when the content is longer than given text width.
+ * Initialize the instance.
+ * @protected
+ */
+WordWrapper.prototype.init = function() {
+  this.buffer_ = new WordWrapper.LineBuffer();
+  this.refreshCurrentLineWidth_();
+};
+
+
+/**
+ * Word wraps the given contents.  Hypenate if a word length is greater than the
+ * given base line width (but it may ignore rules of word-breaking).
+ *
+ * NOTE: The method may hyphenate in a content that do not allow word wrap in
+ * when the content is longer than the given text width.
  * @param {Array.<tsumekusa.contents.InlineContent>} contents Contents to wrap.
+ * @param {?boolean=} opt_keepBreak Whether keep original line breaks.  In
+ *     default, line breaks are not kept.
  * @return {string} Wrapped string.
  */
-LineWrapper.prototype.wrap = function(contents) {
+WordWrapper.prototype.wrap = function(contents, opt_keepBreak) {
+  if (opt_keepBreak) {
+    return this.wrapKeepingBr(contents);
+  }
+
   var words = this.splitter_.split(contents);
   var baseLineWidth = this.baseLineWidth_;
   var buffer = this.buffer_;
@@ -140,6 +157,53 @@ LineWrapper.prototype.wrap = function(contents) {
     return indentWhites + line.join(' ');
   }).join('\n');
 
+  // Prepare next processing.
+  this.init();
+
+  return output;
+};
+
+
+/**
+ * Word wraps keeping line breaks.
+ * @param {Array.<tsumekusa.contents.InlineContent>} contents Contents to wrap.
+ * @return {string} Wrapped string.
+ * @protected
+ */
+WordWrapper.prototype.wrapKeepingBr = function(contents) {
+  var lines = [], linesIdx = 0, lastLine;
+
+  contents.forEach(function(content) {
+    if (typeof content === 'string') {
+      var newLines = content.split(/\n/);
+      var firstLineString = newLines.shift();
+
+      if (lastLine = lines[linesIdx]) {
+        // Concat last line and first line was splitted
+        lastLine.push(firstLineString);
+      }
+      else {
+        lastLine = lines[linesIdx] = [firstLineString];
+      }
+
+      newLines.forEach(function(newLine) {
+        lines[++linesIdx] = [newLine];
+      });
+    }
+    else {
+      if (lastLine = lines[linesIdx]) {
+        lastLine.push(content);
+      }
+      else {
+        lastLine = lines[linesIdx] = [content];
+      }
+    }
+  });
+
+  var output = lines.map(function(line, lineNo) {
+    return this.wrap(line);
+  }, this).join('\n');
+
   return output;
 };
 
@@ -148,7 +212,7 @@ LineWrapper.prototype.wrap = function(contents) {
  * Breaks a current line.
  * @private
  */
-LineWrapper.prototype.breakLine_ = function() {
+WordWrapper.prototype.breakLine_ = function() {
   this.buffer_.breakLine();
   this.refreshCurrentLineWidth_();
 };
@@ -158,7 +222,7 @@ LineWrapper.prototype.breakLine_ = function() {
  * Refreshes a current line width by a base line width and an indent width.
  * @private
  */
-LineWrapper.prototype.refreshCurrentLineWidth_ = function() {
+WordWrapper.prototype.refreshCurrentLineWidth_ = function() {
   var baseLineWidth = this.baseLineWidth_;
   var indentWidth = this.indent_.getIndentWidth(this.buffer_.
       getCurrentLineNumber());
@@ -175,12 +239,12 @@ LineWrapper.prototype.refreshCurrentLineWidth_ = function() {
 
 
 /**
- * A class for indent for {@link tsumekusa.publishing.LineWrapper#wrap}.
+ * A class for indent for {@link tsumekusa.publishing.WordWrapper#wrap}.
  * @param {?number=} opt_indentWidth Optional indent width.  No indentation if
  *     falsey.
  * @constructor
  */
-LineWrapper.Indent = function(opt_indentWidth) {
+WordWrapper.Indent = function(opt_indentWidth) {
   this.indentWidth_ = opt_indentWidth || 0;
 };
 
@@ -190,7 +254,7 @@ LineWrapper.Indent = function(opt_indentWidth) {
  * @param {number} lineNo Line number that is indent insert before.
  * @return {number} Indent width.
  */
-LineWrapper.Indent.prototype.getIndentWidth = function(lineNo) {
+WordWrapper.Indent.prototype.getIndentWidth = function(lineNo) {
   return this.indentWidth_;
 };
 
@@ -198,11 +262,11 @@ LineWrapper.Indent.prototype.getIndentWidth = function(lineNo) {
 
 /**
  * A class for word spliting strategy.  The class is word boundray detecting
- * strategy for {@link tsumekusa.publishing.LineWrapper#wrap}. The {@code wrap}
+ * strategy for {@link tsumekusa.publishing.WordWrapper#wrap}. The {@code wrap}
  * method get word boundaries using {@link #split} in the class.
  * @constructor
  */
-LineWrapper.WordSplitter = function() {};
+WordWrapper.WordSplitter = function() {};
 
 
 /**
@@ -214,24 +278,24 @@ LineWrapper.WordSplitter = function() {};
  * @return {Array.<string>} Splited content string.
  * @protected
  */
-LineWrapper.WordSplitter.prototype.split = function(contents) {
+WordWrapper.WordSplitter.prototype.split = function(contents) {
   var words = [];
   var whiteRegExp = /\s+/;
   var str;
 
   // Split on breakable point.
   contents.forEach(function(content) {
-    if (content.publish) {
+    if (typeof content === 'string') {
+      words.push.apply(words, content.split(whiteRegExp));
+    }
+    else {
       str = content.publish();
       if (content.isBreakable()) {
-        words = words.concat(str.split(whiteRegExp));
+        words.push.apply(words, str.split(whiteRegExp));
       }
       else {
         words.push(str);
       }
-    }
-    else {
-      words = words.concat(content.split(whiteRegExp));
     }
   });
 
@@ -244,7 +308,7 @@ LineWrapper.WordSplitter.prototype.split = function(contents) {
  * A class for line buffers.
  * @constructor
  */
-LineWrapper.LineBuffer = function() {
+WordWrapper.LineBuffer = function() {
   this.lines_ = [];
 
   // Initialize lines.
@@ -257,7 +321,7 @@ LineWrapper.LineBuffer = function() {
  * @type {Array.<Array.<string>>}
  * @private
  */
-LineWrapper.LineBuffer.prototype.lines_ = null;
+WordWrapper.LineBuffer.prototype.lines_ = null;
 
 
 /**
@@ -265,7 +329,7 @@ LineWrapper.LineBuffer.prototype.lines_ = null;
  * @type {number}
  * @private
  */
-LineWrapper.LineBuffer.prototype.currentLineNo_ = null;
+WordWrapper.LineBuffer.prototype.currentLineNo_ = null;
 
 
 /**
@@ -273,7 +337,7 @@ LineWrapper.LineBuffer.prototype.currentLineNo_ = null;
  * @type {number}
  * @private
  */
-LineWrapper.LineBuffer.prototype.currentWordCount_ = null;
+WordWrapper.LineBuffer.prototype.currentWordCount_ = null;
 
 
 /**
@@ -281,15 +345,15 @@ LineWrapper.LineBuffer.prototype.currentWordCount_ = null;
  * @type {number}
  * @private
  */
-LineWrapper.LineBuffer.prototype.currentLineLen_ = null;
+WordWrapper.LineBuffer.prototype.currentLineLen_ = null;
 
 
 /**
  * Appends a word. This method is chainable.
  * @param {string} word Word string.
- * @return {tsumekusa.publishing.LineWrapper.LineBuffer} This instance.
+ * @return {tsumekusa.publishing.WordWrapper.LineBuffer} This instance.
  */
-LineWrapper.LineBuffer.prototype.appendWord = function(word) {
+WordWrapper.LineBuffer.prototype.appendWord = function(word) {
   this.currentLine_[this.currentWordCount_++] = word;
   this.currentLineLen_ += word.length;
   return this;
@@ -300,9 +364,9 @@ LineWrapper.LineBuffer.prototype.appendWord = function(word) {
  * Swicth to a line has given line number.  Creates a new line if the line is
  * not exists.  This methods is chainable.
  * @param {number} lineNo Index of a line is swich to.
- * @return {tsumekusa.publishing.LineWrapper.LineBuffer} This instance.
+ * @return {tsumekusa.publishing.WordWrapper.LineBuffer} This instance.
  */
-LineWrapper.LineBuffer.prototype.switchLine = function(lineNo) {
+WordWrapper.LineBuffer.prototype.switchLine = function(lineNo) {
   this.currentLineNo_ = lineNo;
 
   // Creates a new line if the specified line is not exists.
@@ -322,10 +386,10 @@ LineWrapper.LineBuffer.prototype.switchLine = function(lineNo) {
 
 
 /**
- * Appends a line break.  This method is chainable.
- * @return {tsumekusa.publishing.LineWrapper.LineBuffer} This instance.
+ * Appends a word wrap.  This method is chainable.
+ * @return {tsumekusa.publishing.WordWrapper.LineBuffer} This instance.
  */
-LineWrapper.LineBuffer.prototype.breakLine = function() {
+WordWrapper.LineBuffer.prototype.breakLine = function() {
   this.switchLine(++this.currentLineNo_);
   return this;
 };
@@ -335,7 +399,7 @@ LineWrapper.LineBuffer.prototype.breakLine = function() {
  * Returns a current line length.
  * @return {number} Current line length.
  */
-LineWrapper.LineBuffer.prototype.getCurrentLineLength = function() {
+WordWrapper.LineBuffer.prototype.getCurrentLineLength = function() {
   return this.currentLineLen_ + (this.currentWordCount_ > 1 ?
       this.currentWordCount_ - 1 : 0);
 };
@@ -345,7 +409,7 @@ LineWrapper.LineBuffer.prototype.getCurrentLineLength = function() {
  * Returns an current line number.
  * @return {number} Current liNe number.
  */
-LineWrapper.LineBuffer.prototype.getCurrentLineNumber = function() {
+WordWrapper.LineBuffer.prototype.getCurrentLineNumber = function() {
   return this.currentLineNo_;
 };
 
@@ -354,7 +418,7 @@ LineWrapper.LineBuffer.prototype.getCurrentLineNumber = function() {
  * Returns an current word count.
  * @return {number} Current word count.
  */
-LineWrapper.LineBuffer.prototype.getCurrentWordCount = function() {
+WordWrapper.LineBuffer.prototype.getCurrentWordCount = function() {
   return this.currentWordCount_;
 };
 
@@ -363,10 +427,10 @@ LineWrapper.LineBuffer.prototype.getCurrentWordCount = function() {
  * Returns an array of lines.
  * @return {Array.<Array.<string>>} Array of lines.
  */
-LineWrapper.LineBuffer.prototype.getLines = function() {
+WordWrapper.LineBuffer.prototype.getLines = function() {
   return this.lines_;
 };
 
 
 // Exports the constructor
-module.exports = LineWrapper;
+module.exports = WordWrapper;
