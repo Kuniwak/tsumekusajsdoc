@@ -16,38 +16,6 @@ tsumekusa.addSingletonGetter(LineWrapper);
 
 
 /**
- * Splits on interword.
- * @param {Array.<tsumekusa.contents.InlineContent>|string} contents Contents
- *     to split.
- * @return {Array.<string>} Splited content string.
- * @protected
- */
-LineWrapper.prototype.splitWords = function(contents) {
-  var words = [];
-  var whiteRegExp = /\s+/;
-  var str;
-
-  // Split on breakable point.
-  contents.forEach(function(content) {
-    if (content.publish) {
-      str = content.publish();
-      if (content.isBreakable()) {
-        words = words.concat(str.split(whiteRegExp));
-      }
-      else {
-        words.push(str);
-      }
-    }
-    else {
-      words = words.concat(content.split(whiteRegExp));
-    }
-  });
-
-  return words;
-};
-
-
-/**
  * Wraps contents with loose hyphenation.
  * Give your indent object to {@code opt_indent} or indent width if you want to
  * indentation. The indent object have to be implemented a {@code
@@ -60,17 +28,24 @@ LineWrapper.prototype.splitWords = function(contents) {
  *
  * NOTE: The method may hyphenate in a content that do not allow line break in
  * when the content is longer than given text width.
- * @param {Array.<tsumekusa.contents.InlineContent>} contents Contents to wrap.
+ * @param {Array.<tsumekusa.contents.InlineContent>|string} inlineContents
+ *     Inline contents or strings to wrap.
  * @param {number} baseLineWidth Base line width.
  * @param {?tsumekusa.publishing.LineWrapper.Indent=} opt_indent Optional
- *     indent.  No indent if undefined.
+ *     indent.  No indent if falsey.
+ * @param {?tsumekusa.publishing.LineWrapper.WordSplitter=} opt_splitter Optional
+ *     word spliting strategy.  In default, uses {@link
+ *     tsumekusa.publishing.LineWrapper.WordSplitter}.
+ * @param {boolean=} opt_keepBreak Whether line breaks are kept.  Default is not
+ *     kept.
  * @return {string} Wrapped string.
  */
-LineWrapper.prototype.wrap = function(contents, baseLineWidth, opt_indent) {
+LineWrapper.prototype.wrap = function(inlineContents, baseLineWidth, opt_indent,
+    opt_splitter, opt_keepBreak) {
+  var splitter = opt_splitter || new LineWrapper.WordSplitter();
+  var words = splitter.split(inlineContents);
   var indent = opt_indent || new LineWrapper.Indent();
   var white = ' ';
-
-  var words = this.splitWords(contents);
 
   if (baseLineWidth <= 0) {
     throw Error('Width is too shorter: ' + baseLineWidth);
@@ -159,6 +134,8 @@ LineWrapper.prototype.wrap = function(contents, baseLineWidth, opt_indent) {
 
 /**
  * A class for indent for {@link tsumekusa.publishing.LineWrapper#wrap}.
+ * @param {?number=} opt_indentWidth Optional indent width.  Default is 0 as no
+ *     indentation.
  * @constructor
  */
 LineWrapper.Indent = function(opt_indentWidth) {
@@ -173,6 +150,50 @@ LineWrapper.Indent = function(opt_indentWidth) {
  */
 LineWrapper.Indent.prototype.getIndentWidth = function(lineIdx) {
   return this.indentWidth_;
+};
+
+
+
+/**
+ * A class for word spliting strategy.  The class is word boundray detecting
+ * strategy for {@link tsumekusa.publishing.LineWrapper#wrap}. The {@code wrap}
+ * method get word boundaries using {@link #split} in the class.
+ * @constructor
+ */
+LineWrapper.WordSplitter = function() {};
+
+
+/**
+ * Splits on interword and returns an array of words.  Default strategy is:
+ * Use {@link tsumekusa.contents.InlineContent#isBreakable} when inline content
+ * was arrived.  Wraps in the content if the {@code isBreakable} returns a true.
+ * @param {Array.<tsumekusa.contents.InlineContent>|string} contents Contents
+ *     to split.
+ * @return {Array.<string>} Splited content string.
+ * @protected
+ */
+LineWrapper.WordSplitter.prototype.split = function(contents) {
+  var words = [];
+  var whiteRegExp = /\s+/;
+  var str;
+
+  // Split on breakable point.
+  contents.forEach(function(content) {
+    if (content.publish) {
+      str = content.publish();
+      if (content.isBreakable()) {
+        words = words.concat(str.split(whiteRegExp));
+      }
+      else {
+        words.push(str);
+      }
+    }
+    else {
+      words = words.concat(content.split(whiteRegExp));
+    }
+  });
+
+  return words;
 };
 
 

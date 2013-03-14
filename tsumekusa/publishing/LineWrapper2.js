@@ -23,7 +23,7 @@ var string = require('../string');
  *     indent object or indent width.  No indentation if falsey.
  * @constructor
  */
-var LineWrapper = function(baseLineWidth, opt_indent) {
+var LineWrapper = function(baseLineWidth, opt_indent, opt_splitter) {
   this.buffer_ = new LineWrapper.LineBuffer();
 
   if (baseLineWidth <= 1) {
@@ -39,6 +39,8 @@ var LineWrapper = function(baseLineWidth, opt_indent) {
   else {
     this.indent_ = new LineWrapper.Indent();
   }
+
+  this.splitter_ = opt_splitter || new LineWrapper.WordSplitter();
 
   this.refreshCurrentLineWidth_();
 };
@@ -77,38 +79,6 @@ LineWrapper.prototype.currentLineWidth_ = null;
 
 
 /**
- * Splits on interword.
- * @param {Array.<tsumekusa.contents.InlineContent>|string} contents Contents
- *     to split.
- * @return {Array.<string>} Splited content string.
- * @protected
- */
-LineWrapper.prototype.splitWords = function(contents) {
-  var words = [];
-  var whiteRegExp = /\s+/;
-  var str;
-
-  // Split on breakable point.
-  contents.forEach(function(content) {
-    if (content.publish) {
-      str = content.publish();
-      if (content.isBreakable()) {
-        words = words.concat(str.split(whiteRegExp));
-      }
-      else {
-        words.push(str);
-      }
-    }
-    else {
-      words = words.concat(content.split(whiteRegExp));
-    }
-  });
-
-  return words;
-};
-
-
-/**
  * Wraps contents with loose hyphenation.
  * NOTE: The method may hyphenate in a content that do not allow line break in
  * when the content is longer than given text width.
@@ -116,7 +86,7 @@ LineWrapper.prototype.splitWords = function(contents) {
  * @return {string} Wrapped string.
  */
 LineWrapper.prototype.wrap = function(contents) {
-  var words = this.splitWords(contents);
+  var words = this.splitter_.split(contents);
   var baseLineWidth = this.baseLineWidth_;
   var buffer = this.buffer_;
   var indent = this.indent_;
@@ -214,6 +184,50 @@ LineWrapper.Indent.prototype.getIndentWidth = function(lineNo) {
 
 
 /**
+ * A class for word spliting strategy.  The class is word boundray detecting
+ * strategy for {@link tsumekusa.publishing.LineWrapper#wrap}. The {@code wrap}
+ * method get word boundaries using {@link #split} in the class.
+ * @constructor
+ */
+LineWrapper.WordSplitter = function() {};
+
+
+/**
+ * Splits on interword and returns an array of words.  Default strategy is:
+ * Use {@link tsumekusa.contents.InlineContent#isBreakable} when inline content
+ * was arrived.  Wraps in the content if the {@code isBreakable} returns a true.
+ * @param {Array.<tsumekusa.contents.InlineContent>|string} contents Contents
+ *     to split.
+ * @return {Array.<string>} Splited content string.
+ * @protected
+ */
+LineWrapper.WordSplitter.prototype.split = function(contents) {
+  var words = [];
+  var whiteRegExp = /\s+/;
+  var str;
+
+  // Split on breakable point.
+  contents.forEach(function(content) {
+    if (content.publish) {
+      str = content.publish();
+      if (content.isBreakable()) {
+        words = words.concat(str.split(whiteRegExp));
+      }
+      else {
+        words.push(str);
+      }
+    }
+    else {
+      words = words.concat(content.split(whiteRegExp));
+    }
+  });
+
+  return words;
+};
+
+
+
+/**
  * A class for line buffers.
  * @constructor
  */
@@ -278,7 +292,7 @@ LineWrapper.LineBuffer.prototype.appendWord = function(word) {
 LineWrapper.LineBuffer.prototype.switchLine = function(lineNo) {
   this.currentLineNo_ = lineNo;
 
-  // Creates a new line if a line has the number is not exists.
+  // Creates a new line if the specified line is not exists.
   if (this.lines_[lineNo]) {
     this.currentWordCount_ = (this.currentLine_ = this.lines_[lineNo]).length;
     this.currentLineLen_ = this.currentLine_.join('').length;
