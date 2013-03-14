@@ -4,8 +4,6 @@
 
 var basePath = '../../../tsumekusa';
 var tsumekusa = require(basePath);
-var array = require(basePath + '/array');
-var WordWrapper = require(basePath + '/publishing/WordWrapper');
 var vimhelp = require(basePath + '/publishing/vimhelp');
 var DefinitionListPublisher = require(basePath +
     '/publishing/DefinitionListPublisher');
@@ -15,10 +13,11 @@ var DefinitionListPublisher = require(basePath +
 /**
  * A class for list publisher for vim help.
  * @constructor
- * @extends {tsumekusa.publishing.ContentPublisher}
+ * @extends {tsumekusa.publishing.IContentPublisher}
  */
 var VimHelpDefinitionListPublisher = function() {
-  DefinitionListPublisher.call(this, vimhelp.TEXT_WIDTH);
+  DefinitionListPublisher.call(this);
+  this.setDisplayWidth(vimhelp.TEXT_WIDTH);
 };
 tsumekusa.inherits(VimHelpDefinitionListPublisher, DefinitionListPublisher);
 tsumekusa.addSingletonGetter(VimHelpDefinitionListPublisher);
