@@ -4,7 +4,7 @@
 
 var tsumekusa = require('../../tsumekusa');
 var array = require('../array');
-var Content = require('./Content');
+var BlockContent = require('./BlockContent');
 var ContentArray = require('./ContentArray');
 var Paragraph = require('./Paragraph');
 var Tag = require('./Tag');
@@ -41,32 +41,20 @@ var VimHelpContainerPublisher = require(
  * @param {?boolean=} opt_visible Optional flag that controls a visibility on a
  *     table of contents.
  * @constructor
- * @extends {tsumekusa.contents.Content}
+ * @extends {tsumekusa.contents.BlockContent}
  */
 var Container = function(caption, opt_refId, opt_visible) {
-  Content.call(this);
+  // TODO: Do not inherit BlockContent. Because the container do not allow to
+  // add a Container as a top contents of a container, or it makes to be able to
+  // support markdown.
+  BlockContent.call(this);
   this.setCaption(caption);
   this.tag_ = new Tag(opt_refId || this.getReferenceId());
-  this.topBlocks_ = new ContentArray();
-  this.subContents_ = new ContentArray();
+  this.topBlocks_ = new ContentArray(this);
+  this.subContainers_ = new ContentArray(this);
   this.visibility_ = opt_visible || false;
 };
-tsumekusa.inherits(Container, Content);
-
-
-/**
- * Default publisher for the container.
- * @type {tsumekusa.publisher.VimHelpContainerPublisher}
- */
-Container.publisher = VimHelpContainerPublisher.getInstance();
-
-
-/**
- * Container as a parent of the content.
- * @type {tsumekusa.contents.Container}
- * @private
- */
-Container.prototype.parent_ = null;
+tsumekusa.inherits(Container, BlockContent);
 
 
 /**
@@ -106,7 +94,7 @@ Container.prototype.topBlocks_ = null;
  * @type {tsumekusa.contents.ContentArray.<tsumekusa.contents.BlockContent>}
  * @private
  */
-Container.prototype.subContents_ = null;
+Container.prototype.subContainers_ = null;
 
 
 /**
@@ -186,40 +174,6 @@ Container.prototype.getReferenceIdInternal = function(caption) {
 
 
 // Methods for a parent and children relationship {{{
-/**
- * Returns a block content as a parent of the content.
- * @return {tsumekusa.contents.IContent} Parent content.
- */
-Container.prototype.getParent = function() {
-  return this.parent_;
-};
-
-
-/**
- * Sets a block content as parent.  This method is chainable.
- * @param {tsumekusa.contents.Container} parent Parent.
- * @return {tsumekusa.contents.Container} This instance.
- */
-Container.prototype.setParent = function(parent) {
-  this.parent_ = parent;
-  return this;
-};
-
-
-/**
- * Returns ancestor block contents.
- * @return {Array.<tsumekusa.contents.Container>} Ancestor block contents.
- */
-Container.prototype.getAncestors = function() {
-  var ancestors = [];
-  var current = this;
-
-  while (current = current.getParent()) {
-    ancestors.unshift(current);
-  }
-
-  return ancestors;
-};
 
 
 /**
@@ -273,71 +227,15 @@ Container.prototype.getTopContents = function() {
 //}}}
 
 
-// Methods for sub containers manipulation {{{
 /**
  * Returns sub contents.
  * @return {tsumekusa.contents.ContentArray.<tsumekusa.contents.BlockContent>}
  *     Containers as children of the container.
  */
 Container.prototype.getSubContainers = function() {
-  return this.subContents_;
+  return this.subContainers_;
 };
 
-
-/**
- * Adds a sub container at the last.  This method is chainable.
- * @param {tsumekusa.contents.Container} container Sub container to add.
- * @return {tsumekusa.contents.Container} This instance.
- */
-Container.prototype.addSubContainer = function(container) {
-  container.setParent(this);
-  this.subContents_.addChild(container);
-  return this;
-};
-
-
-/**
- * Adds a sub container at the given 0-based index.  This method is chainable.
- * @param {tsumekusa.contents.Container} container Sub container to add.
- * @param {number} index 0-based index.
- * @return {tsumekusa.contents.Container} This instance.
- */
-Container.prototype.addSubContainerAt = function(container, index) {
-  container.setParent(this);
-  this.subContents_.addChildAt(container, index);
-  return this;
-};
-
-
-/**
- * Removes the specified sub container.
- * @param {tsumekusa.contents.Container} container Sub container to remove.
- * @return {tsumekusa.contents.Container} Removed sub container, if any.
- */
-Container.prototype.removeSubContainer = function(container) {
-  var removed = this.subContents_.removeChild(container);
-
-  if (removed) {
-    removed.setParent(null);
-  }
-  return removed;
-};
-
-
-/**
- * Removes the specified sub container at the given 0-based index.
- * @param {number} index 0-based index.
- * @return {tsumekusa.contents.Container} Removed sub container, if any.
- */
-Container.prototype.removeSubContainerAt = function(index) {
-  var removed = this.subContents_.removeChildAt(index);
-
-  if (removed) {
-    removed.setParent(null);
-  }
-  return removed;
-};
-//}}}
 
 // Exports the constructor.
 module.exports = Container;

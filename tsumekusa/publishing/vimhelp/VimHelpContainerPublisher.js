@@ -6,20 +6,20 @@ var basePath = '../../../tsumekusa';
 var tsumekusa = require(basePath);
 var string = require(basePath + '/string');
 var vimhelp = require(basePath + '/publishing/vimhelp');
-var BlockContentPublisher = require(basePath + '/publishing/BlockContentPublisher');
+var ContainerPublisher = require(basePath + '/publishing/ContainerPublisher');
 
 
 
 /**
- * A class for container publisher for vim help.
+ * A singleton class for container publisher for vim help.
  * @constructor
- * @implements {tsumekusa.publishing.IContentPublisher}
+ * @extends {tsumekusa.publishing.ContainerPublisher}
  */
 var VimHelpContainerPublisher = function() {
-  BlockContentPublisher.call(this);
+  ContainerPublisher.call(this);
   this.setDisplayWidth(vimhelp.TEXT_WIDTH);
 };
-tsumekusa.inherits(VimHelpContainerPublisher, BlockContentPublisher);
+tsumekusa.inherits(VimHelpContainerPublisher, ContainerPublisher);
 tsumekusa.addSingletonGetter(VimHelpContainerPublisher);
 
 
@@ -33,37 +33,20 @@ VimHelpContainerPublisher.SEPARATORS = '=-';
 
 
 /** @override */
-VimHelpContainerPublisher.prototype.getIndentLevel = function(content) {
-  var parent = content.getParent();
-  return parent ? parent.getPublisher().getIndentLevel(parent) : 0;
-};
-
-
-/**
- * Returns a header content.
- * @param {tsumekusa.contents.Container} container Contents container
- *     to create a header.
- * @return {tsumekusa.contents.Content} Header content.
- */
-VimHelpContainerPublisher.prototype.createHeader = function(container) {
-  var indexString = this.createIndex(container);
-  var tag = container.getTag();
+VimHelpContainerPublisher.prototype.getHeader = function(content) {
+  var indexString = this.createIndex(content);
+  var tag = content.getTag();
   var tagString = tag.publish();
 
-  var head = indexString + ' ' + container.getCaption();
+  var head = indexString + ' ' + content.getCaption();
   var tail = tagString;
-  return string.fillMiddle(head, tail, vimhelp.TEXT_WIDTH) + '\n';
+  return string.fillMiddle(head, tail, this.getDisplayWidth()) + '\n';
 };
 
 
-/**
- * Returns a footer content.
- * @param {tsumekusa.contents.Container} container Contents container
- *     to create a footer.
- * @return {tsumekusa.contents.Content} Footer content.
- */
-VimHelpContainerPublisher.prototype.createFooter = function(container) {
-  return null;
+/** @override */
+VimHelpContainerPublisher.prototype.getIndentWidthInternal = function(content, width) {
+  return content.getDepth() > 2 ? 2 : 0;
 };
 
 
@@ -86,106 +69,24 @@ VimHelpContainerPublisher.prototype.createIndex = function(container) {
     return idxs.join('.');
   }
   else {
-    return container.getDepth() + '.';
+    return container.getIndex() + 1 + '.';
   }
-};
-
-
-/**
- * Creates a separator between sub contents.
- * @param {tsumekusa.contents.Container} container Contents container.
- * @return {string} Separator.
- */
-VimHelpContainerPublisher.prototype.createSubContentSeparator =
-    function(container) {
-  var i = container.getDepth();
-  var SEP = VimHelpContainerPublisher.SEPARATORS;
-  var sepChar;
-
-  if (sepChar = SEP[i]) {
-    return '';
-  }
-  else {
-    return '\n' + string.repeat(sepChar, vimhelp.TEXT_WIDTH) + '\n';
-  }
-};
-
-
-/**
- * Creates a top content.
- * @param {tsumekusa.contents.Container} container Contents container.
- * @return {string} Top content.
- */
-VimHelpContainerPublisher.prototype.createTopContents = function(container) {
-  var topContents = container.getTopContents();
-
-  if (topContents.getCount() > 0) {
-    return topContents.getChildren().map(function(topContent) {
-      return topContent.publish();
-    }).join('\n') + '\n';
-  }
-
-  return null;
-};
-
-
-/**
- * Creates sub contents.
- * @param {tsumekusa.contents.Container} container Contents container.
- * @return {string} Sub contents.
- */
-VimHelpContainerPublisher.prototype.createSubContents = function(container) {
-  var separator = this.createSubContentSeparator(container);
-  var subStrings = this.createSubContentsInternal(container);
-
-  if (subStrings.length > 0) {
-    var subsString = subStrings.join(separator);
-    return separator + subsString;
-  }
-
-  return null;
-};
-
-
-/**
- * Creates a sub contents string internally.
- * @param {tsumekusa.contents.Container} container Contents container.
- * @return {Array.<string>} Sub contents.
- * @protected
- */
-VimHelpContainerPublisher.prototype.createSubContentsInternal = function(
-    container) {
-  return container.getSubContainers().getChildren().map(function(content) {
-    return content.publish();
-  });
 };
 
 
 /** @override */
-VimHelpContainerPublisher.prototype.publish = function(container) {
-  var output = [];
-  var header = this.createHeader(container);
-  if (header) {
-    output.push(header);
-  }
-  var topContent = this.createTopContents(container);
-  if (topContent) {
-    output.push(topContent);
+VimHelpContainerPublisher.prototype.getSubContainerSeparator = function(
+    container) {
+  var depth = container.getDepth();
+  var sepChar;
+  if (sepChar = VimHelpContainerPublisher.SEPARATORS[depth]) {
+    return '\n' + string.repeat(sepChar, this.getDisplayWidth()) + '\n';
   }
   else {
-    output.push('');
+    return null;
   }
-  var subContents = this.createSubContents(container);
-  if (subContents) {
-    output.push(subContents);
-  }
-  var footer = this.createFooter(container);
-  if (footer) {
-    output.push(footer);
-  }
-
-  return output.join('\n');
 };
+
 
 
 // Export the constructor.
