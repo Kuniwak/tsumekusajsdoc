@@ -7,14 +7,14 @@
  * An interface for content publishers.
  * @interface
  */
-var ContentPublisher = function() {};
+var IContentPublisher = function() {};
 
 
 /**
  * Publishes a content.
  * @param {Content} content Content to publish.
  */
-ContentPublisher.prototype.publish;
+IContentPublisher.prototype.publish;
 
 
 // Exports the constructor.

@@ -9,7 +9,7 @@ var tsumekusa = require('../../../tsumekusa');
 /**
  * A class for strong word publisher for vim help.
  * @constructor
- * @implements {tsumekusa.publishing.ContentPublisher}
+ * @implements {tsumekusa.publishing.IContentPublisher}
  */
 var VimHelpStrongPublisher = function() {};
 tsumekusa.addSingletonGetter(VimHelpStrongPublisher);

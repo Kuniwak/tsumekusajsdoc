@@ -2,18 +2,24 @@
 // http://orgachem.mit-license.org
 
 
-var tsumekusa = require('../../../tsumekusa');
-var string = require('../../../tsumekusa/string');
-var vimhelp = require('../../../tsumekusa/publishing/vimhelp');
+var basePath = '../../../tsumekusa';
+var tsumekusa = require(basePath);
+var string = require(basePath + '/string');
+var vimhelp = require(basePath + '/publishing/vimhelp');
+var BlockContentPublisher = require(basePath + '/publishing/BlockContentPublisher');
 
 
 
 /**
  * A class for container publisher for vim help.
  * @constructor
- * @implements {tsumekusa.publishing.ContentPublisher}
+ * @implements {tsumekusa.publishing.IContentPublisher}
  */
-var VimHelpContainerPublisher = function() {};
+var VimHelpContainerPublisher = function() {
+  BlockContentPublisher.call(this);
+  this.setDisplayWidth(vimhelp.TEXT_WIDTH);
+};
+tsumekusa.inherits(VimHelpContainerPublisher, BlockContentPublisher);
 tsumekusa.addSingletonGetter(VimHelpContainerPublisher);
 
 

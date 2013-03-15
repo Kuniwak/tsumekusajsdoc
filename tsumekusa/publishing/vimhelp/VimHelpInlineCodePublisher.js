@@ -9,7 +9,7 @@ var tsumekusa = require(basePath);
 /**
  * A singleton class for inline code publisher for vim help.
  * @constructor
- * @implements {tsumekusa.publishing.ContentPublisher}
+ * @implements {tsumekusa.publishing.IContentPublisher}
  */
 var VimHelpInlineCodePublisher = function() {};
 tsumekusa.addSingletonGetter(VimHelpInlineCodePublisher);

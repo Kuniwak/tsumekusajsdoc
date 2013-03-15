@@ -8,10 +8,9 @@ var string = require(basePath + '/string');
 var PreformattedParagraph = require(basePath +
     '/contents/PreformattedParagraph');
 var vimhelp = require(basePath + '/publishing/vimhelp');
+var WordWrapper = require(basePath + '/publishing/WordWrapper');
 var BlockContentPublisher = require(basePath +
     '/publishing/BlockContentPublisher');
-var PreformattedParagraphPublisher = require(basePath +
-    '/PreformattedParagraphPublisher');
 
 
 
@@ -22,6 +21,7 @@ var PreformattedParagraphPublisher = require(basePath +
  */
 var VimHelpCodePublisher = function() {
   BlockContentPublisher.call(this);
+  this.setDisplayWidth(vimhelp.TEXT_WIDTH);
 };
 tsumekusa.inherits(VimHelpCodePublisher, BlockContentPublisher);
 tsumekusa.addSingletonGetter(VimHelpCodePublisher);
@@ -42,14 +42,23 @@ VimHelpCodePublisher.prototype.getIndentLevel = function(content) {
 };
 
 
+/**
+ * Creates an object for indentation.  Override the method if you want to change
+ * a strategy to indent.
+ * @return {tsumekusa.publishing.WordWrapper.Indent} Created object fot
+ *     indentation.
+ * @protected
+ */
+VimHelpCodePublisher.prototype.createIndent = function() {
+  return new WordWrapper.Indent(this.getIndentLevel());
+};
+
+
 /** @override */
 VimHelpCodePublisher.prototype.publish = function(code) {
   var codeString = string.trim(code.getCode());
-
-  // Borrow preformatted paragraph publisher
-  var pre = new PreformattedParagraph(codeString);
-  var prePublisher = PreformattedParagraph.getInstance();
-  var publishedCode = prePublisher.publish(pre);
+  var indent = this.createIndent();
+  var wrapper = new WordWrapper(this.getDisplatWidth(), indent);
 
   return '>' + publishedCode;
 };

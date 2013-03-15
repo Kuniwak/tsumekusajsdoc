@@ -13,7 +13,7 @@ var BlockContentPublisher = require(basePath +
 /**
  * A class for paragraph publisher for vim help.
  * @constructor
- * @implements {tsumekusa.publishing.ContentPublisher}
+ * @implements {tsumekusa.publishing.IContentPublisher}
  */
 var ParagraphPublisher = function() {
   BlockContentPublisher.call(this);

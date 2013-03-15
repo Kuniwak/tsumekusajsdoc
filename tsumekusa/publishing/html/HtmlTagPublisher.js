@@ -10,7 +10,7 @@ var files = require('../files');
 /**
  * Base class for tag publisher.
  * @constructor
- * @implements {tsumekusa.publishing.ContentPublisher}
+ * @implements {tsumekusa.publishing.IContentPublisher}
  */
 var HtmlTagPublisher = function() {};
 

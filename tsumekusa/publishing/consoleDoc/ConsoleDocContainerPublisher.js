@@ -9,7 +9,7 @@ var tsumekusa = require('../../../tsumekusa');
 /**
  * A class for container publisher for console.
  * @constructor
- * @implements {tsumekusa.publishing.ContentPublisher}
+ * @implements {tsumekusa.publishing.IContentPublisher}
  */
 var ConsoleDocContainerPublisher = function() {};
 tsumekusa.addSingletonGetter(ConsoleDocContainerPublisher);

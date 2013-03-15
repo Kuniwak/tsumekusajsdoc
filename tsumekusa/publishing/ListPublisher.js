@@ -12,7 +12,7 @@ var BlockContentPublisher = require(basePath +
 /**
  * A class for list publisher for vim help.
  * @constructor
- * @implements {tsumekusa.publishing.ContentPublisher}
+ * @implements {tsumekusa.publishing.IContentPublisher}
  */
 var ListPublisher = function() {
   BlockContentPublisher.call(this);

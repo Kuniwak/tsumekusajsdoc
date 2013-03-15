@@ -6,7 +6,7 @@
 /**
  * An abstract class for block content publisher.
  * @constructor
- * @implements {tsumekusa.publishing.ContentPublisher}
+ * @implements {tsumekusa.publishing.IContentPublisher}
  */
 var BlockContentPublisher = function() {};
 

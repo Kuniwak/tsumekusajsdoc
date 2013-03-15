@@ -1,6 +1,7 @@
 // This script licensed under the MIT.
 // http://orgachem.mit-license.org
 
+
 var basePath = '../../tsumekusa';
 var tsumekusa = require(basePath);
 
@@ -9,7 +10,7 @@ var tsumekusa = require(basePath);
 /**
  * A class for link content publisher.
  * @constructor
- * @implements {tsumekusa.publishing.ContentPublisher}
+ * @implements {tsumekusa.publishing.IContentPublisher}
  */
 var LinkPublisher = function() {};
 tsumekusa.addSingletonGetter(LinkPublisher);
