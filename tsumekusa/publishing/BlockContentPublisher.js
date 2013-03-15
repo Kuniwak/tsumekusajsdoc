@@ -2,6 +2,10 @@
 // http://orgachem.mit-license.org
 
 
+var basePath = '../../tsumekusa';
+var WordWrapper = require(basePath + '/publishing/WordWrapper');
+
+
 
 /**
  * An abstract class for block content publisher.
@@ -105,7 +109,7 @@ BlockContentPublisher.prototype.getIndent = function(content) {
  * @protected
  */
 BlockContentPublisher.prototype.getWordWrapper = function(content) {
-  return new WordWrapper(this.getDisplatWidth(), this.getIndent(content));
+  return new WordWrapper(this.getDisplayWidth(), this.getIndent(content));
 };
 
 
