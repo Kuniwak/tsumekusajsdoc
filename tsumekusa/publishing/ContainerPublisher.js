@@ -58,16 +58,56 @@ ContainerPublisher.prototype.publishHeader = function(container) {
 
 
 /**
+ * Returns an array of block contents as top contents.  You can override the
+ * method, if you want to add/remove any top contents.
+ * @param {tsumekusa.contents.Container} container Container content.
+ * @return {?Array.<string>} Top contents strings, if any.
+ * @protected
+ */
+ContainerPublisher.prototype.publishTopContentsInternal = function(container) {
+  var topContents = container.getTopContents().getChildren();
+  if (topContents.length > 0) {
+    return topContents.map(function(topContent) {
+      return topContent.publish();
+    });
+  }
+  else {
+    return null;
+  }
+};
+
+
+/**
  * Publishes top contents string.
  * @param {tsumekusa.contents.Container} container Container content.
  * @return {?string} Sub containers string, if any.
  */
 ContainerPublisher.prototype.publishTopContents = function(container) {
-  var topContents = container.getTopContents().getChildren();
-  if (topContents.length > 0) {
-    return topContents.map(function(topContent) {
-      return topContent.publish();
-    }).join(string.repeat('\n', ContainerPublisher.PARAGRAPH_SPACE + 1));
+  var topContents;
+  if (topContents = this.publishTopContentsInternal(container)) {
+    return topContents.join(string.repeat('\n',
+        ContainerPublisher.PARAGRAPH_SPACE + 1));
+  }
+  else {
+    return null;
+  }
+};
+
+
+/**
+ * Returns an array of block contents as sub containers.  You can override the
+ * method, if you want to add/remove any sub containers.
+ * @param {tsumekusa.contents.Container} container Container content.
+ * @return {?Array.<string>} Sub containers strings, if any.
+ * @protected
+ */
+ContainerPublisher.prototype.publishSubContainersInternal = function(
+    container) {
+  var subContainers = container.getSubContainers().getChildren();
+  if (subContainers.length > 0) {
+    return subContainers.map(function(subContainer) {
+      return subContainer.publish();
+    });
   }
   else {
     return null;
@@ -81,12 +121,11 @@ ContainerPublisher.prototype.publishTopContents = function(container) {
  * @return {?string} Sub containers string, if any.
  */
 ContainerPublisher.prototype.publishSubContainers = function(container) {
-  var subContainers = container.getSubContainers().getChildren();
   var subContainerSeparator = this.getSubContainerSeparator(container) || '\n';
-  if (subContainers.length > 0) {
-    var subContainersString = subContainers.map(function(subContainer) {
-      return subContainer.publish();
-    }).join(subContainerSeparator);
+  var subContainersStrings = this.publishSubContainersInternal(container);
+
+  if (subContainersStrings) {
+    var subContainersString = subContainersStrings.join(subContainerSeparator);
 
     return [
       subContainerSeparator,
