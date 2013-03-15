@@ -3,54 +3,81 @@
 
 
 
-var tsumekusa = require('../../tsumekusa');
-var env = require('../outputMode');
+var basePath = '../../tsumekusa';
+var tsumekusa = require(basePath);
+var defaults = require(basePath + '/publishing/DefaultPublishers');
 
 
 /**
- * Namespace for registry for contents and publishers.
+ * Namespace for registry for publishers.
+ * @name tsumekusa.registry
  * @namespace
  */
 var registry = exports;
 
 
 /**
- * @type {Object.<tsumekusa.outputMode.OutputMode, Object.<number,
- * tsumekusa.publishing.ContentPublisher>>}
- * @private
+ * Registers content publishers by publishers map.
+ * @param {Object.<function(new:tsumekusa.publishing.IContentPublisher)>} map
+ *     Content publishers map.
  */
-registry.publisherMap_ = {};
+registry.registerContentPublishers = function(map) {
+  registry.registerContentPublisher(
+      require(basePath + '/contents/Code'), map.CODE || defaults.CODE);
 
+  registry.registerContentPublisher(
+      require(basePath + '/contents/Container'),
+      map.CONTAINER || defaults.CONTAINER);
 
-/**
- * Sets a publisher by a content and an outputMode conditon.
- * @param {tsumekusa.contents.Content} content Content.
- * @param {tsumekusa.publishing.ContentPublisher} publisher Publisher for the
- *     content.
- * @param {tsumekusa.outputMode.OutputMode} env Output mode
- *     condition.
- */
-registry.setPublisher = function(content, publisher, env) {
-  var uid = tsumekusa.getUid(content);
+  registry.registerContentPublisher(
+      require(basePath + '/contents/DefinitionList').Definition,
+      map.DEFINITION_LIST || defaults.DEFINITION_LIST);
 
-  if (!registry.publisherMap_[env]) {
-    registry.publisherMap_[env] = {};
-  }
+  registry.registerContentPublisher(
+      require(basePath + '/contents/DefinitionList'),
+      map.DEFINITION || defaults.DEFINITION);
 
-  registry.publisherMap_[env][uid] = publisher;
+  registry.registerContentPublisher(
+      require(basePath + '/contents/Document'),
+      map.DOCUMENT || defaults.DOCUMENT);
+
+  registry.registerContentPublisher(
+      require(basePath + '/contents/InlineCode'),
+      map.INLINE_CODE || defaults.INLINE_CODE);
+
+  registry.registerContentPublisher(
+      require(basePath + '/contents/Link'), map.LINK || defaults.LINK);
+
+  registry.registerContentPublisher(
+      require(basePath + '/contents/List'), map.LIST || defaults.LIST);
+
+  registry.registerContentPublisher(
+      require(basePath + '/contents/List').ListItem,
+      map.LIST_ITEM || defaults.LIST_ITEM);
+
+  registry.registerContentPublisher(
+      require(basePath + '/contents/Paragraph'),
+      map.PARAGRAPH || defaults.PARAGRAPH);
+
+  registry.registerContentPublisher(
+      require(basePath + '/contents/PreformattedParagraph'),
+      map.PREFORMATTED_PARAGRAPH || defaults.PREFORMATTED_PARAGRAPH);
+
+  registry.registerContentPublisher(
+      require(basePath + '/contents/strong'), map.STRONG || defaults.STRONG);
+
+  registry.registerContentPublisher(
+      require(basePath + '/contents/tag'), map.TAG || defaults.TAG);
 };
 
 
 /**
- * Returns a content publisher by a content.
- *
- * @param {tsumekusa.contents.Content} content Content.
- * @param {!tsumekusa.outputMode.OutputMode=} opt_env Optional outputMode
- *     type.  Use {@link tsumekusa.outputMode.OUTPUT_MODE} if {@code opt_env} is
- *     falsey.
+ * Registers a content-publisher pair.
+ * @param {function(new:tsumekusa.contents.IContent)} content Content
+ *     constructor to register.
+ * @param {function(new:tsumekusa.contents.IContentPublisher)} publisher Content
+ *     publisher constructor to register.
  */
-registry.getPublisher = function(content, opt_env) {
-  var envType = opt_env || env.OUTPUT_MODE;
-  var uid = tsumekusa.getUid(content);
-  return registry.publisherMap_[envType][uid];
+registry.registerContentPublisher = function(content, publisher) {
+  content.publisher = publisher;
 };
