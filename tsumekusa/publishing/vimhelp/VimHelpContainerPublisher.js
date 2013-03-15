@@ -33,7 +33,7 @@ VimHelpContainerPublisher.SEPARATORS = '=-';
 
 
 /** @override */
-VimHelpContainerPublisher.prototype.getHeader = function(content) {
+VimHelpContainerPublisher.prototype.publishHeader = function(content) {
   var indexString = this.createIndex(content);
   var tag = content.getTag();
   var tagString = tag.publish();
