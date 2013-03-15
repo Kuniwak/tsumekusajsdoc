@@ -96,7 +96,7 @@ DefinitionPublisher.prototype.getUnorderedSymbol = function() {
  */
 DefinitionPublisher.prototype.getIndentForTerms = function(def, marker) {
   var indentWidth = marker ? marker.length + /* a white space width */ 1 : 0;
-  return new DefinitionPublisher.Indent(this.getIndentWidth(def), indentWidth);
+  return new WordWrapper.Indent(this.getIndentWidth(def), indentWidth);
 };
 
 
@@ -141,29 +141,6 @@ DefinitionPublisher.prototype.publish = function(content) {
   }).join('\n');
 
   return [term, desc].join('\n');
-};
-
-
-
-/**
- * A class for list indent.
- * @param {number} indent Indent width of a list.
- * @param {number} markerWidth  marker width.
- * @constructor
- * @extends {tsumekusa.publishing.WordWrapper}
- */
-DefinitionPublisher.Indent = function(indent, markerWidth) {
-  WordWrapper.Indent.call(this, indent);
-  this.markerWidth_ = markerWidth;
-};
-tsumekusa.inherits(DefinitionPublisher.Indent, WordWrapper.Indent);
-
-
-/** @override */
-DefinitionPublisher.Indent.prototype.getIndentWidth = function(lineIdx) {
-  var indentWidth = WordWrapper.Indent.prototype.getIndentWidth.call(this,
-      lineIdx);
-  return lineIdx > 0 ? indentWidth + this.markerWidth_ : indentWidth;
 };
 
 

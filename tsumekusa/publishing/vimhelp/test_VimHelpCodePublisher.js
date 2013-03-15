@@ -7,8 +7,7 @@ var Code = require(basePath + '/contents/Code');
 var VimHelpCodePublisher = require(basePath +
     '/publishing/vimhelp/VimHelpCodePublisher');
 
-
-var publisher = VimHelpCodePublisher.getInstance();
+Code.publisher = new VimHelpCodePublisher();
 
 exports.testPublish = function(test) {
   var code = new Code([
@@ -19,15 +18,13 @@ exports.testPublish = function(test) {
     ''
   ].join('\n'));
 
-
   var CORRECT = [
     '>',
     '      var foobar = function() {',
-    '        alert("Foobar");',
+    '       alert("Foobar");',
     '      };',
-    ''
   ].join('\n');
 
-  test.equal(publisher.publish(code), CORRECT);
+  test.equal(code.publish(), CORRECT);
   test.done();
 };

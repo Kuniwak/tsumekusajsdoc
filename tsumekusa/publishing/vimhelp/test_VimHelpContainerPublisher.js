@@ -118,7 +118,6 @@ exports.testPublish = function(test) {
     'Donec metus justo, iaculis eget elementum at, gravida vitae ligula. Curabitur',
     'ac pellentesque lectus. Praesent vitae augue at nulla pulvinar varius a mattis',
     'tortor. Sed non orci at leo auctor cursus.',
-    ''
   ].join('\n');
 
   test.equal(container1.publish(), CORRECT);

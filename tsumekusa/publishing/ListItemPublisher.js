@@ -40,6 +40,7 @@ ListItemPublisher.MarkSymbol = {
 };
 
 
+
 /**
  * Returns a symbol used in ordered lists.
  * @param {number} index Index of the list.
@@ -100,7 +101,7 @@ ListItemPublisher.prototype.createListMarker = function(index, listType) {
 ListItemPublisher.prototype.getHeadIndent = function(item, marker) {
   var indentWidth = marker.length +
       /* a white space is between marker and a sentence*/ 1;
-  return new ListItemPublisher.Indent(this.getIndentWidth(item), indentWidth);
+  return new WordWrapper.Indent(this.getIndentWidth(item), indentWidth);
 };
 
 
@@ -142,30 +143,6 @@ ListItemPublisher.prototype.publish = function(item) {
   }));
 
   return output.join('\n');
-};
-
-
-
-/**
- * A class for list indent.
- * @param {number} indent Indent width of a list.
- * @param {number} markerWidth List marker width.
- * @constructor
- * @extends {tsumekusa.publishing.WordWrapper}
- */
-ListItemPublisher.Indent = function(indent, markerWidth) {
-  WordWrapper.Indent.call(this, indent);
-  this.markerWidth_ = markerWidth; // Add white space width.
-};
-tsumekusa.inherits(ListItemPublisher.Indent, WordWrapper.Indent);
-
-
-/** @override */
-ListItemPublisher.Indent.prototype.getIndentWidth = function(
-    lineIdx) {
-  var indentWidth = WordWrapper.Indent.prototype.getIndentWidth.call(this,
-      lineIdx);
-  return lineIdx > 0 ? indentWidth + this.markerWidth_ : indentWidth;
 };
 
 

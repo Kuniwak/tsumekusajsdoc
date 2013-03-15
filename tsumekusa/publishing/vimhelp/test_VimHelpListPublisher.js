@@ -11,7 +11,7 @@ var VimHelpListPublisher = require(basePath +
 var VimHelpListItemPublisher = require(basePath +
     '/publishing/vimhelp/VimHelpListItemPublisher');
 
-var publisher = new VimHelpListPublisher();
+List.publisher = new VimHelpListPublisher();
 List.ListItem.publisher = new VimHelpListItemPublisher();
 
 
@@ -69,7 +69,7 @@ exports.testPublish = function(test) {
     '       Item8'
   ].join('\n');
 
-  test.equal(publisher.publish(list1), CORRECT);
+  test.equal(list1.publish(), CORRECT);
 
   test.done();
 };

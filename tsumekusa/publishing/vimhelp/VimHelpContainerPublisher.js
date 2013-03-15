@@ -24,6 +24,22 @@ tsumekusa.addSingletonGetter(VimHelpContainerPublisher);
 
 
 /**
+ * Height of paragraph bottom margin.
+ * @const
+ * @type {number}
+ */
+VimHelpContainerPublisher.PARAGRAPH_BOTTOM_MARGIN = 1;
+
+
+/**
+ * Height of heahder bottom margin.
+ * @const
+ * @type {number}
+ */
+VimHelpContainerPublisher.HEADER_BOTTOM_MARGIN = 1;
+
+
+/**
  * Separator characters.  First char is used in top level container, and second
  * char is used in second level container.
  * @const
@@ -40,13 +56,14 @@ VimHelpContainerPublisher.prototype.publishHeader = function(content) {
 
   var head = indexString + ' ' + content.getCaption();
   var tail = tagString;
-  return string.fillMiddle(head, tail, this.getDisplayWidth()) + '\n';
+  return string.fillMiddle(head, tail, this.getDisplayWidth()) +
+      string.repeat('\n', VimHelpContainerPublisher.HEADER_BOTTOM_MARGIN + 1);
 };
 
 
 /** @override */
-VimHelpContainerPublisher.prototype.getIndentWidthInternal = function(content, width) {
-  return content.getDepth() > 2 ? 2 : 0;
+VimHelpContainerPublisher.prototype.getIndentWidth = function(content) {
+  return 0;
 };
 
 
@@ -78,9 +95,13 @@ VimHelpContainerPublisher.prototype.createIndex = function(container) {
 VimHelpContainerPublisher.prototype.getSubContainerSeparator = function(
     container) {
   var depth = container.getDepth();
+  var width = this.getDisplayWidth();
   var sepChar;
   if (sepChar = VimHelpContainerPublisher.SEPARATORS[depth]) {
-    return '\n' + string.repeat(sepChar, this.getDisplayWidth()) + '\n';
+    var paragraphBtmMargin = string.repeat('\n', VimHelpContainerPublisher.
+        PARAGRAPH_BOTTOM_MARGIN + 1);
+
+    return paragraphBtmMargin + string.repeat(sepChar, width) + '\n';
   }
   else {
     return null;

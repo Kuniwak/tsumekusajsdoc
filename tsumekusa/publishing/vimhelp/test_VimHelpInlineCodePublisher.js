@@ -7,11 +7,11 @@ var InlineCode = require(basePath + '/contents/InlineCode');
 var VimHelpInlineCodePublisher = require(basePath +
     '/publishing/vimhelp/VimHelpInlineCodePublisher');
 
-var publisher = VimHelpInlineCodePublisher.getInstance();
+InlineCode.publisher = new VimHelpInlineCodePublisher();
 
 exports.testPublish = function(test) {
   var code = new InlineCode('foo.bar()');
 
-  test.equal(publisher.publish(code), '{foo.bar()}');
+  test.equal(code.publish(), '{foo.bar()}');
   test.done();
 };

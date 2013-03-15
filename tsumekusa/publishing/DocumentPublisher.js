@@ -6,7 +6,7 @@ var basePath = '../../tsumekusa/';
 var tsumekusa = require(basePath);
 var ContentsTable = require(basePath + '/contents/ContentsTable');
 var ContainerPublisher = require(basePath + '/publishing/ContainerPublisher');
-
+var WordWrapper = require(basePath + '/publishing/WordWrapper');
 
 
 /**
@@ -18,6 +18,7 @@ var DocumentPublisher = function() {
   ContainerPublisher.call(this);
 };
 tsumekusa.inherits(DocumentPublisher, ContainerPublisher);
+tsumekusa.addSingletonGetter(DocumentPublisher);
 
 
 /**
@@ -26,6 +27,18 @@ tsumekusa.inherits(DocumentPublisher, ContainerPublisher);
  * @type {boolean}
  */
 DocumentPublisher.ENABLED_CONTENTS_TABLE = true;
+
+
+/** @override */
+DocumentPublisher.prototype.publishHeader = function(container) {
+  var indent = this.getCaptionIndent(container);
+  var width = this.getDisplayWidth();
+  var wrapper = new WordWrapper(width, indent);
+  var caption = container.getCaption();
+
+  return wrapper.wrap([caption]) + string.repeat('\n',
+      ContainerPublisher.HEADER_BOTTOM_MARGIN + 1);
+};
 
 
 /**
@@ -50,6 +63,12 @@ DocumentPublisher.prototype.publishSubContainersInternal = function(container) {
     }
   }
   return subContainers;
+};
+
+
+/** @override */
+DocumentPublisher.prototype.getIndentWidth = function(content) {
+  return this.getParentIndentWidth(content);
 };
 
 

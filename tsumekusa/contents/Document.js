@@ -17,7 +17,7 @@ var Container = require('./Container');
  * @extends {tsumekusa.contents.Container}
  */
 var Document = function(caption, filename, opt_version, opt_date) {
-  Container.call(this, caption, filename);
+  Container.call(this, caption, filename, true);
   this.version_ = opt_version;
   this.date_ = opt_date || new Date();
 };

@@ -6,12 +6,12 @@ var Link = require(basePath + '/contents/Link');
 var VimHelpLinkPublisher = require(basePath +
     '/publishing/vimhelp/VimHelpLinkPublisher');
 
-var publisher = new VimHelpLinkPublisher();
+Link.publisher = new VimHelpLinkPublisher();
 
 exports.testPublish = function(test) {
   var link = new Link('foobar');
 
-  test.equal(publisher.publish(link), '|foobar|');
+  test.equal(link.publish(), '|foobar|');
 
   test.done();
 };

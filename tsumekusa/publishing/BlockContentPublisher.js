@@ -17,7 +17,7 @@ var BlockContentPublisher = function() {};
 
 /**
  * Display width.  Usually the property is used in a console.
- * @type {?number}
+ * @type {number}
  * @private
  */
 BlockContentPublisher.prototype.dispWidth_ = Number.MAX_VALUE;
@@ -42,12 +42,13 @@ BlockContentPublisher.prototype.getDisplayWidth = function() {
 
 
 /**
- * Returns an indent width of the content.
+ * Returns an indent width of a content as a parent of the content.
  * @param {tsumekusa.contents.BlockContent} content Block content to get an
  *     indent width.
  * @return {number} Indent width.
+ * @protected
  */
-BlockContentPublisher.prototype.getIndentWidth = function(content) {
+BlockContentPublisher.prototype.getParentIndentWidth = function(content) {
   var parent, indentWidth;
   if (parent = content.getParent()) {
     var publisher = parent.getPublisher();
@@ -65,29 +66,26 @@ BlockContentPublisher.prototype.getIndentWidth = function(content) {
         indentWidth);
   }
 
-  return this.getIndentWidthInternal(content, indentWidth);
+  return indentWidth;
 };
 
 
 /**
- * Returns an indent width of the content.
+ * Returns an indent width of the content.  Override the methods if you need to
+ * change an indentation width.
  * @param {tsumekusa.contents.BlockContent} content Block content to get an
  *     indent width.
- * @param {number} width Indent width of a content as a parent of the {@code
- *     content}.  It is 0, if the parent is not defined.
- * @return {number} Indent width of the {@code content}.
- * @protected
+ * @return {number} Indent width.
  */
-BlockContentPublisher.prototype.getIndentWidthInternal = function(content,
-    width) {
-  return width;
+BlockContentPublisher.prototype.getIndentWidth = function(content) {
+  var indentWidth = this.getParentIndentWidth(content);
+  return indentWidth;
 };
 
 
 /**
- * Returns an object for indentation.  Override the method if you want to change
- * a strategy to indent.  In defaultm constant width indentation by {@link
- * #getIndentWidth}.
+ * Returns an object for indentation.  Override the method if you need to change
+ * an indentation.  In default, indent by a width from {@link #getIndentWidth}.
  * @param {tsumekusa.contents.BlockContent} content Block content to get an
  *     object for indentation.
  * @return {tsumekusa.publishing.WordWrapper.Indent} Created object for

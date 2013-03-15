@@ -239,23 +239,34 @@ WordWrapper.prototype.refreshCurrentLineWidth_ = function() {
 
 
 /**
- * A class for indent for {@link tsumekusa.publishing.WordWrapper#wrap}.
- * @param {?number=} opt_indentWidth Optional indent width.  No indentation if
- *     falsey.
+ * A class for indent for {@link tsumekusa.publishing.WordWrapper#wrap}.  This
+ * class support two-step indent. For example, {@code new Indent(3, 5)} as
+ * bellow:
+ * <pre>
+ *    First indent (as opt_first)
+ *      Second indent (as opt_after)
+ *      Third indent (as opt_after)
+ *      ...
+ * </pre>
+ * @param {?number=} opt_first Indent width to insert before first line. Default
+ *     width is 0 (no indent).
+ * @param {?number=} opt_after Indent width to insert before lines without first
+ *     line.  Default width is same as {@code opt_first}.
  * @constructor
  */
-WordWrapper.Indent = function(opt_indentWidth) {
-  this.indentWidth_ = opt_indentWidth || 0;
+WordWrapper.Indent = function(opt_first, opt_after) {
+  this.first_ = opt_first || 0;
+  this.after_ = opt_after || this.first_;
 };
 
 
 /**
  * Returns indent width by line number.
- * @param {number} lineNo Line number that is indent insert before.
+ * @param {number} lineNo 0-based line number that is indent insert before.
  * @return {number} Indent width.
  */
 WordWrapper.Indent.prototype.getIndentWidth = function(lineNo) {
-  return this.indentWidth_;
+  return lineNo > 0 ? this.after_ : this.first_;
 };
 
 

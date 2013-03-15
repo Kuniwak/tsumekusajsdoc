@@ -36,31 +36,21 @@ VimHelpCodePublisher.INDENT_WIDTH = 6;
 
 
 /** @override */
-VimHelpCodePublisher.prototype.getIndentLevel = function(content) {
-  return BlockContentPublisher.prototype.getIndentLevel.call(this, content) +
-      VimHelpCodePublisher.INDENT_WIDTH;
-};
-
-
-/**
- * Creates an object for indentation.  Override the method if you want to change
- * a strategy to indent.
- * @return {tsumekusa.publishing.WordWrapper.Indent} Created object fot
- *     indentation.
- * @protected
- */
-VimHelpCodePublisher.prototype.createIndent = function() {
-  return new WordWrapper.Indent(this.getIndentLevel());
+VimHelpCodePublisher.prototype.getIndentWidth = function(content) {
+  var indentWidth = this.getParentIndentWidth(content);
+  return indentWidth + VimHelpCodePublisher.INDENT_WIDTH;
 };
 
 
 /** @override */
 VimHelpCodePublisher.prototype.publish = function(code) {
   var codeString = string.trim(code.getCode());
-  var indent = this.createIndent();
-  var wrapper = new WordWrapper(this.getDisplatWidth(), indent);
+  var wrapper = this.getWordWrapper(code);
+  codeString = string.trimRight(wrapper.wrap([codeString], true));
 
-  return '>' + publishedCode;
+  // TODO: Keep indent
+
+  return '>\n' + codeString;
 };
 
 

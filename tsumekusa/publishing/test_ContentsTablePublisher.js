@@ -54,7 +54,6 @@ exports.testPublish = function(test) {
 
   var CORRECT = [
     'CONTENTS',
-    '',
     '  1. container2',
     '     1.1 container3',
     '  2. container4'

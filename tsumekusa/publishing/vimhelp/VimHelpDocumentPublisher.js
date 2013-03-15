@@ -2,14 +2,15 @@
 // http://orgachem.mit-license.org
 
 
-var tsumekusa = require('../../../tsumekusa');
-var string = require('../../../tsumekusa/string');
-var date = require('../../../tsumekusa/date');
-var TagFactory = require('../../../tsumekusa/contents/TagFactory');
-var Link = require('../../../tsumekusa/contents/Link');
-var vimhelp = require('../../../tsumekusa/publishing/vimhelp');
-var VimHelpContainerPublisher = require(
-    '../../../tsumekusa/publishing/vimhelp/VimHelpContainerPublisher');
+var basePath = '../../../tsumekusa';
+var tsumekusa = require(basePath);
+var string = require(basePath + '/string');
+var date = require(basePath + '/date');
+var TagFactory = require(basePath + '/contents/TagFactory');
+var Link = require(basePath + '/contents/Link');
+var vimhelp = require(basebasePath + '/publishing/vimhelp');
+var VimHelpContainerPublisher = require(basePath +
+    '/publishing/vimhelp/VimHelpContainerPublisher');
 
 
 
@@ -33,26 +34,25 @@ VimHelpDocumentPublisher.MAKE_INDEX_ENABLED = true;
 
 
 /** @override */
-VimHelpDocumentPublisher.prototype.createHeader = function(doc) {
+VimHelpDocumentPublisher.prototype.publishHeader = function(doc) {
   var tag = doc.getTag();
   var tagString = tag.publish();
   var version = this.createVersion(doc);
   var lastChange = this.createLastChange(doc);
 
-  return tagString + '\t' + version + '  ' + lastChange;
+  return tagString + '\t' + version + '  ' + lastChange + '\n';
 };
 
 
 /** @override */
-VimHelpDocumentPublisher.prototype.createFooter = function(doc) {
-  var separator = this.createSubContentSeparator(doc);
-  return separator + 'vim:tw=78:sw=4:ts=8:ft=help:norl:';
+VimHelpDocumentPublisher.prototype.publishFooter = function(doc) {
+  return 'vim:tw=78:sw=4:ts=8:ft=help:norl:';
 };
 
 
 /** @override */
-VimHelpDocumentPublisher.prototype.createSubContentsInternal = function(doc) {
-  var strs = VimHelpContainerPublisher.prototype.createSubContentsInternal.
+VimHelpDocumentPublisher.prototype.publishSubContents = function(doc) {
+  var strs = VimHelpContainerPublisher.prototype.publishSubContents.
       call(this, doc);
 
   if (VimHelpDocumentPublisher.MAKE_INDEX_ENABLED) {
@@ -136,6 +136,12 @@ VimHelpContentsTablePublisher.prototype.createHeader = function(doc) {
   return string.fillMiddle(head, tail, vimhelp.TEXT_WIDTH);
 };
 
+
+/** @override */
+VimHelpContentsTablePublisher.prototype.publishSubContainersInternal = function(
+    container) {
+
+};
 
 /** @override */
 VimHelpContentsTablePublisher.prototype.createSubContents = function(doc) {

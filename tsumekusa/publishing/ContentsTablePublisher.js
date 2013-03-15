@@ -47,7 +47,8 @@ ContentsTablePublisher.CAPTION = 'CONTENTS';
 
 /** @override */
 ContentsTablePublisher.prototype.publishHeader = function(container) {
-  return ContentsTablePublisher.CAPTION + '\n';
+  return ContentsTablePublisher.CAPTION + string.repeat('\n',
+      ContainerPublisher.HEADER_BOTTOM_MARGIN + 1);
 };
 
 
@@ -111,6 +112,8 @@ ContentsTablePublisher.prototype.createContentsTableHead = function(
   var current = container;
   var ancestor = null;
 
+  debugger;
+
   while (current = current.getParent()) {
     if (current.isVisibleOnContentsTable()) {
       ancestor = current;
@@ -119,7 +122,7 @@ ContentsTablePublisher.prototype.createContentsTableHead = function(
   }
 
   var indentWidth;
-  if (ancestor.getParent()) {
+  if (ancestor && ancestor.getParent()) {
     var ancestorIdx = this.createContentsTableHead(ancestor);
     indentWidth = ancestorIdx.length + /* white space width */ 1;
   }
@@ -130,30 +133,6 @@ ContentsTablePublisher.prototype.createContentsTableHead = function(
 
   var idx = this.createIndex(container);
   return indentWhites + idx;
-};
-
-
-/**
- * Creates an index string on head of a header.  Index string foemat as: {@code
- * 1.1.2}.
- * @param {tsumekusa.contents.Container} container Contents container.
- * @return {string} Index string.
- */
-ContentsTablePublisher.prototype.createIndex = function(container) {
-  var ancestors = container.getAncestors();
-  var depth, idxs;
-
-  if ((depth = container.getDepth()) > 1) {
-    ancestors = ancestors.concat(container);
-    idxs = ancestors.map(function(content) {
-      return content.getIndex() + 1;
-    });
-    idxs.shift();
-    return idxs.join('.');
-  }
-  else {
-    return container.getIndex() + 1 + '.';
-  }
 };
 
 

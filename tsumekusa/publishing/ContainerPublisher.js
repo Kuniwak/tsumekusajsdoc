@@ -5,6 +5,7 @@ var basePath = '../../tsumekusa';
 var tsumekusa = require(basePath);
 var BlockContentPublisher = require(basePath +
     '/publishing/BlockContentPublisher');
+var WordWrapper = require(basePath + '/publishing/WordWrapper');
 
 
 
@@ -21,6 +22,22 @@ tsumekusa.addSingletonGetter(ContainerPublisher);
 
 
 /**
+ * Indent width to be increased by a parent indent width.
+ * @const
+ * @type {number}
+ */
+ContainerPublisher.INDENT_WIDTH = 2;
+
+
+/**
+ * Width of indent before a caption to be increased by a parent indent width.
+ * @const
+ * @type {number}
+ */
+ContainerPublisher.CAPTION_INDENT_WIDTH = 0;
+
+
+/**
  * Paragraph space height.
  * @const
  * @type {number}
@@ -29,7 +46,7 @@ ContainerPublisher.PARAGRAPH_SPACE = 1;
 
 
 /**
- * Paragraph space height.
+ * Height of paragraph bottom margin.
  * @const
  * @type {number}
  */
@@ -37,11 +54,67 @@ ContainerPublisher.PARAGRAPH_BOTTOM_MARGIN = 1;
 
 
 /**
- * Bottom margin on a header.
+ * Height of heahder bottom margin.
  * @const
  * @type {number}
  */
-ContainerPublisher.HEADER_BOTTOM_MARGIN = 1;
+ContainerPublisher.HEADER_BOTTOM_MARGIN = 0;
+
+
+/**
+ * Returns an indent width of the content caption.
+ * @param {tsumekusa.contents.BlockContent} content Block content to get an
+ *     indent width.
+ * @return {number} Indent width.
+ */
+ContainerPublisher.prototype.getCaptionIndentWidth = function(content) {
+  var indentWidth = this.getParentIndentWidth(content);
+  return indentWidth + ContainerPublisher.CAPTION_INDENT_WIDTH;
+};
+
+
+/** @override */
+ContainerPublisher.prototype.getIndentWidth = function(content) {
+  var indentWidth = this.getCaptionIndentWidth(content);
+  return indentWidth + ContainerPublisher.INDENT_WIDTH;
+};
+
+
+/**
+ * Returns an indent width of the content caption.
+ * @param {tsumekusa.contents.BlockContent} content Block content to get an
+ *     indent width.
+ * @return {number} Indent width.
+ */
+ContainerPublisher.prototype.getCaptionIndent = function(content, idxLen) {
+  var capIndentWidth = this.getCaptionIndentWidth(content);
+  var indentWidth = this.getIndentWidth(content);
+  return new WordWrapper.Indent(capIndentWidth, indentWidth);
+};
+
+
+/**
+ * Creates an index string on head of a header.  Index string foemat as: {@code
+ * 1.1.2}.
+ * @param {tsumekusa.contents.Container} container Contents container.
+ * @return {string} Index string.
+ */
+ContainerPublisher.prototype.createIndex = function(container) {
+  var ancestors = container.getAncestors();
+  var depth, idxs;
+
+  if ((depth = container.getDepth()) > 1) {
+    ancestors = ancestors.concat(container);
+    idxs = ancestors.map(function(content) {
+      return content.getIndex() + 1;
+    });
+    idxs.shift();
+    return idxs.join('.');
+  }
+  else {
+    return container.getIndex() + 1 + '.';
+  }
+};
 
 
 /**
@@ -50,10 +123,14 @@ ContainerPublisher.HEADER_BOTTOM_MARGIN = 1;
  * @return {?string} Header content string, if any.
  */
 ContainerPublisher.prototype.publishHeader = function(container) {
-  var wrapper = this.getWordWrapper(container);
-  return wrapper.wrap([container.getCaption()]) +
-      string.repeat('\n', ContainerPublisher.HEADER_BOTTOM_MARGIN + 1 -
-      ContainerPublisher.PARAGRAPH_BOTTOM_MARGIN);
+  var indent = this.getCaptionIndent(container);
+  var width = this.getDisplayWidth();
+  var wrapper = new WordWrapper(width, indent);
+  var index = this.createIndex(container);
+  var caption = container.getCaption();
+
+  return wrapper.wrap([index, caption]) +
+      string.repeat('\n', ContainerPublisher.HEADER_BOTTOM_MARGIN + 1);
 };
 
 
@@ -121,7 +198,8 @@ ContainerPublisher.prototype.publishSubContainersInternal = function(
  * @return {?string} Sub containers string, if any.
  */
 ContainerPublisher.prototype.publishSubContainers = function(container) {
-  var subContainerSeparator = this.getSubContainerSeparator(container) || '\n';
+  var subContainerSeparator = this.getSubContainerSeparator(container) ||
+      string.repeat('\n', ContainerPublisher.PARAGRAPH_BOTTOM_MARGIN + 1);
   var subContainersStrings = this.publishSubContainersInternal(container);
 
   if (subContainersStrings) {
@@ -130,7 +208,6 @@ ContainerPublisher.prototype.publishSubContainers = function(container) {
     return [
       subContainerSeparator,
       subContainersString,
-      string.repeat('\n', ContainerPublisher.PARAGRAPH_BOTTOM_MARGIN)
     ].join('');
   }
   else {
@@ -156,12 +233,6 @@ ContainerPublisher.prototype.publishFooter = function(container) {
  */
 ContainerPublisher.prototype.getSubContainerSeparator = function(container) {
   return null;
-};
-
-
-/** @override */
-ContainerPublisher.prototype.getIndentWidthInternal = function(content, width) {
-  return width + 2;
 };
 
 
@@ -193,8 +264,7 @@ ContainerPublisher.prototype.publish = function(content) {
     ].join('');
   }
 
-  return output.join(string.repeat('\n',
-      ContainerPublisher.PARAGRAPH_BOTTOM_MARGIN));
+  return output.join('');
 };
 
 

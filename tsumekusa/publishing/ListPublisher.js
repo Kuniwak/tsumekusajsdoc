@@ -30,8 +30,9 @@ ListPublisher.INDENT_WIDTH = 2;
 
 
 /** @override */
-ListPublisher.prototype.getIndentWidthInternal = function(content, width) {
-  return width + ListPublisher.INDENT_WIDTH;
+ListPublisher.prototype.getIndentWidth = function(content) {
+  var indentWidth = this.getParentIndentWidth(content);
+  return indentWidth + ListPublisher.INDENT_WIDTH;
 };
 
 

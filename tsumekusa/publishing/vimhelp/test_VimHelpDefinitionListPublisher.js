@@ -5,12 +5,13 @@ var basePath = '../../../tsumekusa';
 var DefinitionList = require(basePath + '/contents/DefinitionList');
 var Paragraph = require(basePath + '/contents/Paragraph');
 var ContentArray = require(basePath + '/contents/ContentArray');
+
 var VimHelpDefinitionListPublisher = require(basePath +
     '/publishing/vimhelp/VimHelpDefinitionListPublisher');
 var VimHelpDefinitionPublisher = require(basePath +
     '/publishing/vimhelp/VimHelpDefinitionPublisher');
 
-var publisher = VimHelpDefinitionListPublisher.getInstance();
+DefinitionList.publisher = new VimHelpDefinitionListPublisher();
 DefinitionList.Definition.publisher = new VimHelpDefinitionPublisher();
 
 exports.testPublish = function(test) {
@@ -48,10 +49,10 @@ exports.testPublish = function(test) {
     '    Desc3-2'
   ].join('\n');
 
-  test.equal(publisher.publish(defList), CORRECT);
+  test.equal(defList.publish(), CORRECT);
 
   // Check whether the publish method is unbang
-  test.equal(publisher.publish(defList), CORRECT);
+  test.equal(defList.publish(), CORRECT);
 
   test.done();
 };

@@ -30,9 +30,9 @@ DefinitionListPublisher.INDENT_WIDTH = 2;
 
 
 /** @override */
-DefinitionListPublisher.prototype.getIndentWidthInternal = function(content,
-    width) {
-  return width + DefinitionListPublisher.INDENT_WIDTH;
+DefinitionListPublisher.prototype.getIndentWidth = function(content) {
+  var indentWidth = this.getParentIndentWidth(content);
+  return indentWidth + DefinitionListPublisher.INDENT_WIDTH;
 };
 
 
