@@ -2,10 +2,10 @@
 // http://orgachem.mit-license.org
 
 
-var tsumekusa = require('../../tsumekusa');
-var InlineContent = require('./InlineContent');
-var VimHelpStrongPublisher = require(
-    '../publishing/vimhelp/VimHelpStrongPublisher');
+var basePath = '../../tsumekusa';
+var tsumekusa = require(basePath);
+var InlineContent = require(basePath + '/contents/InlineContent');
+var StrongPublisher = require(basePath + '/publishing/StrongPublisher');
 
 
 
@@ -17,16 +17,17 @@ var VimHelpStrongPublisher = require(
  */
 var Strong = function(word) {
   InlineContent.call(this);
-  this.word_ = word;
+  this.content_ = word;
 };
 tsumekusa.inherits(Strong, InlineContent);
 
 
 /**
- * Default content publisher.
- * @type {tsumekusa.publishing.ContentPublisher}
+ * Strong content.
+ * @type {string}
+ * @private
  */
-Strong.publisher = VimHelpStrongPublisher.getInstance();
+Strong.prototype.content_ = null;
 
 
 /** @override */
@@ -36,11 +37,11 @@ Strong.prototype.isBreakable = function() {
 
 
 /**
- * Returns a strong word.
- * @return {string} Word.
+ * Returns a strong content.
+ * @return {string} Content string.
  */
-Strong.prototype.getWord = function() {
-  return this.word_;
+Strong.prototype.getContent = function() {
+  return this.content_;
 };
 
 

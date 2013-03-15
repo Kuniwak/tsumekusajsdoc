@@ -74,7 +74,8 @@ BlockContentPublisher.prototype.getIndentWidth = function(content) {
  * @return {number} Indent width of the {@code content}.
  * @protected
  */
-BlockContentPublisher.prototype.getIndentWidthInternal = function(content, width) {
+BlockContentPublisher.prototype.getIndentWidthInternal = function(content,
+    width) {
   return width;
 };
 
