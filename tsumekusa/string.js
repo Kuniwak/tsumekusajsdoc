@@ -10,8 +10,8 @@ string = exports;
 
 
 /**
- * Fills with characters between a head and a tail.  Wrap if header and tail
- * width is too longer.
+ * Fills with characters between a head and a tail.  Word wrraps if header and
+ * tail width is too longer.
  * @param {string} head Head string.
  * @param {string} tail Tail string.
  * @param {number} tw Text width.
@@ -49,7 +49,7 @@ string.collapseWhitespace = function(str) {
   // Since IE doesn't include non-breaking-space (0xa0) in their \s character
   // class (as required by section 7.2 of the ECMAScript spec), we explicitly
   // include it in the regexp to enforce consistent cross-browser behavior.
-  return str.replace(/[\s\xa0]+/g, ' ').replace(/^\s+|\s+$/g, '');
+  return str.replace(/\s+/g, ' ').replace(/^\s+|\s+$/g, '');
 };
 
 
@@ -83,7 +83,7 @@ string.trim = function(str) {
   // Since IE doesn't include non-breaking-space (0xa0) in their \s character
   // class (as required by section 7.2 of the ECMAScript spec), we explicitly
   // include it in the regexp to enforce consistent cross-browser behavior.
-  return str.replace(/^[\s\xa0]+|[\s\xa0]+$/g, '');
+  return str.replace(/^\s+|\s+$/g, '');
 };
 
 
@@ -100,7 +100,7 @@ string.trimLeft = function(str) {
   // Since IE doesn't include non-breaking-space (0xa0) in their \s character
   // class (as required by section 7.2 of the ECMAScript spec), we explicitly
   // include it in the regexp to enforce consistent cross-browser behavior.
-  return str.replace(/^[\s\xa0]+/, '');
+  return str.replace(/^\s+/, '');
 };
 
 
@@ -117,7 +117,7 @@ string.trimRight = function(str) {
   // Since IE doesn't include non-breaking-space (0xa0) in their \s character
   // class (as required by section 7.2 of the ECMAScript spec), we explicitly
   // include it in the regexp to enforce consistent cross-browser behavior.
-  return str.replace(/[\s\xa0]+$/, '');
+  return str.replace(/\s+$/, '');
 };
 
 
