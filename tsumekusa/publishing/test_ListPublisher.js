@@ -4,11 +4,16 @@
 
 var basePath = '../../tsumekusa';
 var List = require(basePath + '/contents/List');
+var ListItem = List.ListItem;
 var Paragraph = require(basePath + '/contents/Paragraph');
 var ContentArray = require(basePath + '/contents/ContentArray');
+var ParagraphPublisher = require(basePath + '/publishing/ParagraphPublisher');
 var ListPublisher = require(basePath + '/publishing/ListPublisher');
+var ListItemPublisher = require(basePath + '/publishing/ListItemPublisher');
 
-var publisher = new ListPublisher(80);
+Paragraph.publisher = new ParagraphPublisher();
+List.publisher = new ListPublisher();
+ListItem.publisher = new ListItemPublisher();
 
 exports.testPublish = function(test) {
   var list1 = new List();
@@ -64,7 +69,6 @@ exports.testPublish = function(test) {
     '       Item8'
   ].join('\n');
 
-  test.equal(publisher.publish(list1), CORRECT);
-
+  test.equal(list1.publish(), CORRECT);
   test.done();
 };

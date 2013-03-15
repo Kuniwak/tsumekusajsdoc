@@ -8,12 +8,14 @@ var PreformattedParagraph = require(basePath +
 var PreformattedParagraphPublisher = require(basePath +
     '/publishing/PreformattedParagraphPublisher');
 
-var publisher = new PreformattedParagraphPublisher();
-publisher.setDisplayWidth(80);
 
 var LOREM_IPSUM = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\nUt enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\nDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.\nExcepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
 
-exports.testPublish = function(test) {
+
+exports.testPublishWithDisplayWidth = function(test) {
+  PreformattedParagraph.publisher = new PreformattedParagraphPublisher();
+  PreformattedParagraph.publisher.setDisplayWidth(80);
+
   var p = new PreformattedParagraph(LOREM_IPSUM);
 
   var CORRECT = [
@@ -29,6 +31,20 @@ exports.testPublish = function(test) {
     ''
   ].join('\n');
 
-  test.equal(publisher.publish(p), CORRECT);
+  test.equal(p.publish(), CORRECT);
+  test.done();
+};
+
+exports.testPublish = function(test) {
+  PreformattedParagraph.publisher = new PreformattedParagraphPublisher();
+  var p = new PreformattedParagraph(LOREM_IPSUM);
+
+  var CORRECT = [
+    '',
+    'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\nUt enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\nDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.\nExcepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    ''
+  ].join('\n');
+
+  test.equal(p.publish(), CORRECT);
   test.done();
 };

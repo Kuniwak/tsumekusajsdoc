@@ -5,7 +5,6 @@
 var basePath = '../../tsumekusa';
 var tsumekusa = require(basePath);
 var InlineContent = require(basePath + '/contents/InlineContent');
-var StrongPublisher = require(basePath + '/publishing/StrongPublisher');
 
 
 
@@ -20,6 +19,13 @@ var Strong = function(word) {
   this.content_ = word;
 };
 tsumekusa.inherits(Strong, InlineContent);
+
+
+/**
+ * Default content publisher.
+ * @type {tsumekusa.publishing.StorngPublisher}
+ */
+Strong.publisher = null;
 
 
 /**

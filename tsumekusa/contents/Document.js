@@ -4,8 +4,6 @@
 
 var tsumekusa = require('../../tsumekusa');
 var Container = require('./Container');
-var VimHelpDocumentPublisher = require(
-    '../publishing/vimhelp/VimHelpDocumentPublisher');
 
 
 
@@ -28,9 +26,9 @@ tsumekusa.inherits(Document, Container);
 
 /**
  * Default content publisher.
- * @type {tsumekusa.publishing.ContentPublisher}
+ * @type {tsumekusa.publishing.DocumentPublisher}
  */
-Document.publisher = VimHelpDocumentPublisher.getInstance();
+Document.publisher = null;
 
 
 /**

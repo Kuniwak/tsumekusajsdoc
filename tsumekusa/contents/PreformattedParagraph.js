@@ -4,8 +4,6 @@
 
 var tsumekusa = require('../../tsumekusa');
 var BlockContent = require('./BlockContent');
-var VimHelpPreformattedParagraphPublisher = require(
-    '../publishing/vimhelp/VimHelpPreformattedParagraphPublisher');
 
 
 
@@ -23,20 +21,19 @@ tsumekusa.inherits(PreformattedParagraph, BlockContent);
 
 
 /**
+ * Default content publisher.
+ * @type {tsumekusa.publishing.PreformattedParagraphPublisher}
+ */
+PreformattedParagraph.publisher = null;
+
+
+/**
  * Returns a preformatted content.
  * @return {string} Preformatted content.
  */
 PreformattedParagraph.prototype.getContent = function() {
   return this.content_;
 };
-
-
-/**
- * Default content publisher.
- * @type {tsumekusa.publishing.ContentPublisher}
- */
-PreformattedParagraph.publisher = VimHelpPreformattedParagraphPublisher.
-    getInstance();
 
 
 

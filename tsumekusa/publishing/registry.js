@@ -30,6 +30,10 @@ registry.registerContentPublishers = function(map) {
       map.CONTAINER || defaults.CONTAINER);
 
   registry.registerContentPublisher(
+      require(basePath + '/contents/ContentsTable'),
+      map.CONTENTS_TABLE || defaults.CONTENTS_TABLE);
+
+  registry.registerContentPublisher(
       require(basePath + '/contents/DefinitionList').Definition,
       map.DEFINITION_LIST || defaults.DEFINITION_LIST);
 
@@ -64,10 +68,10 @@ registry.registerContentPublishers = function(map) {
       map.PREFORMATTED_PARAGRAPH || defaults.PREFORMATTED_PARAGRAPH);
 
   registry.registerContentPublisher(
-      require(basePath + '/contents/strong'), map.STRONG || defaults.STRONG);
+      require(basePath + '/contents/Strong'), map.STRONG || defaults.STRONG);
 
   registry.registerContentPublisher(
-      require(basePath + '/contents/tag'), map.TAG || defaults.TAG);
+      require(basePath + '/contents/Tag'), map.TAG || defaults.TAG);
 };
 
 

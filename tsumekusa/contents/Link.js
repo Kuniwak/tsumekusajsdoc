@@ -24,9 +24,9 @@ tsumekusa.inherits(Link, InlineContent);
 
 /**
  * Default content publisher.
- * @type {tsumekusa.publishing.ContentPublisher}
+ * @type {tsumekusa.publishing.LinkPublisher}
  */
-Link.publisher = LinkPublisher.getInstance();
+Link.publisher = null;
 
 
 /**

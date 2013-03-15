@@ -3,12 +3,17 @@
 
 var basePath = '../../tsumekusa';
 var DefinitionList = require(basePath + '/contents/DefinitionList');
+var Definition = DefinitionList.Definition;
 var Paragraph = require(basePath + '/contents/Paragraph');
 var ContentArray = require(basePath + '/contents/ContentArray');
+var ParagraphPublisher = require(basePath + '/publishing/ParagraphPublisher');
 var DefinitionListPublisher = require(basePath +
     '/publishing/DefinitionListPublisher');
+var DefinitionPublisher = require(basePath + '/publishing/DefinitionPublisher');
 
-var publisher = new DefinitionListPublisher();
+Paragraph.publisher = new ParagraphPublisher();
+DefinitionList.publisher = new DefinitionListPublisher();
+Definition.publisher = new DefinitionPublisher();
 
 
 exports.testPublish = function(test) {
@@ -46,10 +51,10 @@ exports.testPublish = function(test) {
     '    Desc3-2'
   ].join('\n');
 
-  test.equal(publisher.publish(defList), CORRECT);
+  test.equal(defList.publish(), CORRECT);
 
   // Check whether the publish method is unbang
-  test.equal(publisher.publish(defList), CORRECT);
+  test.equal(defList.publish(), CORRECT);
 
   test.done();
 };

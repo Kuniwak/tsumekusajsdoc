@@ -6,7 +6,6 @@ var basePath = '../../tsumekusa';
 var tsumekusa = require(basePath);
 var ContentArray = require(basePath + '/contents/ContentArray');
 var BlockContent = require(basePath + '/contents/BlockContent');
-var ParagraphPublisher = require(basePath + '/publishing/ParagraphPublisher');
 
 
 
@@ -33,7 +32,7 @@ tsumekusa.inherits(Paragraph, BlockContent);
  * Default content publisher.
  * @type {tsumekusa.publishing.ParagraphPublisher}
  */
-Paragraph.publisher = ParagraphPublisher.getInstance();
+Paragraph.publisher = null;
 
 
 /**

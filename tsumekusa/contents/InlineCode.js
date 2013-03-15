@@ -6,7 +6,6 @@ var basePath = '../../tsumekusa';
 var tsumekusa = require(basePath);
 var InlineCode = require(basePath + '/contents/InlineCode');
 var InlineContent = require(basePath + '/contents/InlineContent');
-var InlineCodePublisher = require(basePath + '/publishing/InlineCodePublisher');
 
 
 
@@ -25,9 +24,9 @@ tsumekusa.inherits(InlineCode, InlineContent);
 
 /**
  * Default content publisher.
- * @type {tsumekusa.publishing.ContentPublisher}
+ * @type {tsumekusa.publishing.InlineCodePublisher}
  */
-InlineCode.publisher = InlineCodePublisher.getInstance();
+InlineCode.publisher = null;
 
 
 /**

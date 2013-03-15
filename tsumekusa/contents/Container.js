@@ -58,6 +58,13 @@ tsumekusa.inherits(Container, BlockContent);
 
 
 /**
+ * Default content publisher.
+ * @type {tsumekusa.publishing.ContainerPublisher}
+ */
+Container.publisher = null;
+
+
+/**
  * Visibirity flag that controls a visibility on a table of contents.
  * @type {boolean}
  * @private

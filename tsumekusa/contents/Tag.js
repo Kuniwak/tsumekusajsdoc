@@ -5,7 +5,6 @@
 var basePath = '../../tsumekusa';
 var tsumekusa = require(basePath);
 var InlineContent = require(basePath + '/contents/InlineContent');
-var TagPublisher = require(basePath + '/publishing/TagPublisher');
 
 
 
@@ -27,7 +26,7 @@ tsumekusa.inherits(Tag, InlineContent);
  * Default content publisher.
  * @type {tsumekusa.publishing.TagPublisher}
  */
-Tag.publisher = TagPublisher.getInstance();
+Tag.publisher = null;
 
 
 /**

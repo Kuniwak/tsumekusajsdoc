@@ -5,11 +5,10 @@
 var basePath = '../../tsumekusa';
 var tsumekusa = require(basePath);
 var BlockContent = require(basePath + '/contents/BlockContent');
-var CodePublisher = require(basePath + '/publishing/CodePublisher');
 
 
 
-/**,vs
+/**
  * A class for code block.
  * @param {string} code Code.
  * @constructor
@@ -24,9 +23,9 @@ tsumekusa.inherits(Code, BlockContent);
 
 /**
  * Default content publisher.
- * @type {tsumekusa.publishing.ContentPublisher}
+ * @type {tsumekusa.publishing.CodePublisher}
  */
-Code.publisher = CodePublisher.getInstance();
+Code.publisher = null;
 
 
 /**

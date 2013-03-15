@@ -6,8 +6,6 @@ var basePath = '../../tsumekusa';
 var tsumekusa = require(basePath);
 var ContentArray = require(basePath + '/contents/ContentArray');
 var BlockContent = require(basePath + '/contents/BlockContent');
-var ListPublisher = require(basePath + '/publishing/ListPublisher');
-var ListItemPublisher = require(basePath + '/publishing/ListItemPublisher');
 
 
 
@@ -43,7 +41,7 @@ List.ListType = {
  * Default content publisher.
  * @type {tsumekusa.publishing.ListPublisher}
  */
-List.publisher = ListPublisher.getInstance();
+List.publisher = null;
 
 
 /**
@@ -155,7 +153,7 @@ tsumekusa.inherits(List.ListItem, BlockContent);
  * Default content publisher.
  * @type {tsumekusa.publishing.ListItemPublisher}
  */
-List.ListItem.publisher = ListItemPublisher.getInstance();
+List.ListItem.publisher = null;
 
 
 /**

@@ -13,7 +13,7 @@ var Content = function() {};
 
 /**
  * Default content publisher.
- * @type {tsumekusa.publishing.ContentPublisher}
+ * @type {tsumekusa.publishing.ContentIPublisher}
  */
 Content.publisher = null;
 
