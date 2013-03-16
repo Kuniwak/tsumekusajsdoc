@@ -14,12 +14,12 @@ var consoleDoc = require(basePath + '/publishing/consoleDoc');
  * @constructor
  * @extends {tsumekusa.publishing.ListPublisher}
  */
-var ConsoleDocListPublisher = function() {
+var ConsoleListPublisher = function() {
   ListPublisher(this, consoleDoc.TEXT_WIDTH);
 };
-tsumekusa.inherits(ConsoleDocListPublisher, ListPublisher);
-tsumekusa.addSingletonGetter(ConsoleDocListPublisher);
+tsumekusa.inherits(ConsoleListPublisher, ListPublisher);
+tsumekusa.addSingletonGetter(ConsoleListPublisher);
 
 
 // Export the constructor
-module.exports = ConsoleDocListPublisher;
+module.exports = ConsoleListPublisher;

@@ -6,30 +6,30 @@ var tsumekusa = require('../../../tsumekusa');
 var string = require('../../../tsumekusa/string');
 var date = require('../../../tsumekusa/date');
 var consoleDoc = require('../../../tsumekusa/consoleDoc');
-var ConsoleDocContainerPublisher = require(
-    '../../../tsumekusa/publishing/ConsoleDocContainerPublisher');
+var ConsoleContainerPublisher = require(
+    '../../../tsumekusa/publishing/ConsoleContainerPublisher');
 
 
 
 /**
  * A class for document publisher for console.
  * @constructor
- * @extends {ConsoleDocContainerPublisher}
+ * @extends {ConsoleContainerPublisher}
  */
-var ConsoleDocDocumentPublisher = function() {
-  ConsoleDocContainerPublisher.call(this);
+var ConsoleDocumentPublisher = function() {
+  ConsoleContainerPublisher.call(this);
 };
-tsumekusa.inherits(ConsoleDocDocumentPublisher, ConsoleDocContainerPublisher);
+tsumekusa.inherits(ConsoleDocumentPublisher, ConsoleContainerPublisher);
 
 
 /** @override */
-ConsoleDocDocumentPublisher.prototype.createHeader = function(doc) {
+ConsoleDocumentPublisher.prototype.createHeader = function(doc) {
   return null;
 };
 
 
 /** @override */
-ConsoleDocDocumentPublisher.prototype.createFooter = function(doc) {
+ConsoleDocumentPublisher.prototype.createFooter = function(doc) {
   var now = doc.getDate();
   var year = now.getFullYear();
   var month = date.getShortMonth(now);
@@ -46,4 +46,4 @@ ConsoleDocDocumentPublisher.prototype.createFooter = function(doc) {
 
 
 // Export the constructor.
-module.exports = ConsoleDocDocumentPublisher;
+module.exports = ConsoleDocumentPublisher;

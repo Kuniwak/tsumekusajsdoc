@@ -15,12 +15,12 @@ var consoleDoc = require(basePath + '/publishing/consoleDoc');
  * @constructor
  * @extends {tsumekusa.publishing.DefinitionListPublisher}
  */
-var ConsoleDocDefinitionListPublisher = function() {
+var ConsoleDefinitionListPublisher = function() {
   DefinitionListPublisher.call(this, consoleDoc.TEXT_WIDTH);
 };
-tsumekusa.inherits(ConsoleDocDefinitionListPublisher, DefinitionListPublisher);
-tsumekusa.addSingletonGetter(ConsoleDocDefinitionListPublisher);
+tsumekusa.inherits(ConsoleDefinitionListPublisher, DefinitionListPublisher);
+tsumekusa.addSingletonGetter(ConsoleDefinitionListPublisher);
 
 
 // Export the constructor
-module.exports = ConsoleDocDefinitionListPublisher;
+module.exports = ConsoleDefinitionListPublisher;

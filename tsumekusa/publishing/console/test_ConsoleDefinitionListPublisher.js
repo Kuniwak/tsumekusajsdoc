@@ -5,10 +5,10 @@ var basePath = '../../../tsumekusa';
 var DefinitionList = require(basePath + '/contents/DefinitionList');
 var Paragraph = require(basePath + '/contents/Paragraph');
 var ContentArray = require(basePath + '/contents/ContentArray');
-var ConsoleDocDefinitionListPublisher = require(basePath +
-    '/publishing/consoleDoc/ConsoleDocDefinitionListPublisher');
+var ConsoleDefinitionListPublisher = require(basePath +
+    '/publishing/consoleDoc/ConsoleDefinitionListPublisher');
 
-var publisher = ConsoleDocDefinitionListPublisher.getInstance();
+var publisher = ConsoleDefinitionListPublisher.getInstance();
 
 exports.testPublish = function(test) {
   var defList = new DefinitionList();

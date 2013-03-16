@@ -11,8 +11,8 @@ var tsumekusa = require('../../../tsumekusa');
  * @constructor
  * @implements {tsumekusa.publishing.IContentPublisher}
  */
-var ConsoleDocContainerPublisher = function() {};
-tsumekusa.addSingletonGetter(ConsoleDocContainerPublisher);
+var ConsoleContainerPublisher = function() {};
+tsumekusa.addSingletonGetter(ConsoleContainerPublisher);
 
 
 /**
@@ -20,7 +20,7 @@ tsumekusa.addSingletonGetter(ConsoleDocContainerPublisher);
  * @param {tsumekusa.contents.Container} container Contents container.
  * @return {string} Published a header string.
  */
-ConsoleDocContainerPublisher.prototype.createHeader = function(container) {
+ConsoleContainerPublisher.prototype.createHeader = function(container) {
   return this.getCaption().toUpperCase();
 };
 
@@ -30,7 +30,7 @@ ConsoleDocContainerPublisher.prototype.createHeader = function(container) {
  * @param {tsumekusa.contents.Container} container Contents container.
  * @return {string} Published a footer string.
  */
-ConsoleDocContainerPublisher.prototype.createFooter = function(container) {
+ConsoleContainerPublisher.prototype.createFooter = function(container) {
   return null;
 };
 
@@ -40,7 +40,7 @@ ConsoleDocContainerPublisher.prototype.createFooter = function(container) {
  * @param {tsumekusa.contents.Container} container Contents container.
  * @return {string} Top content.
  */
-ConsoleDocContainerPublisher.prototype.createTopContents = function(container) {
+ConsoleContainerPublisher.prototype.createTopContents = function(container) {
   var topContents = container.getTopContents();
 
   if (topContents.length > 0) {
@@ -58,7 +58,7 @@ ConsoleDocContainerPublisher.prototype.createTopContents = function(container) {
  * @param {tsumekusa.contents.Container} container Contents container.
  * @return {string} Sub contents.
  */
-ConsoleDocContainerPublisher.prototype.createSubContents = function(container) {
+ConsoleContainerPublisher.prototype.createSubContents = function(container) {
   var subContents = container.getSubContainers();
 
   if (subContents.length > 0) {
@@ -72,7 +72,7 @@ ConsoleDocContainerPublisher.prototype.createSubContents = function(container) {
 
 
 /** @override */
-ConsoleDocContainerPublisher.prototype.publish = function(container) {
+ConsoleContainerPublisher.prototype.publish = function(container) {
   var output = [];
   var header = this.createHeader(container);
   if (header) {
@@ -99,4 +99,4 @@ ConsoleDocContainerPublisher.prototype.publish = function(container) {
 
 
 // Export the constructor.
-module.exports = ConsoleDocContainerPublisher;
+module.exports = ConsoleContainerPublisher;
