@@ -2,11 +2,25 @@
 // http://orgachem.mit-license.org
 
 
-var DocumentHelper = require('./DocumentHelper');
-var Paragraph = require('../../tsumekusa/contents/Paragraph');
-var Sentence = require('../../tsumekusa/contents/Sentence');
-var List = require('../../tsumekusa/contents/List');
+var tsumekusaPath = '../../tsumekusa';
+var basePath = '../../tsumekusaJsdoc';
 
+var DocumentHelper = require(basePath + '/documents/DocumentHelper');
+
+
+var testParagraph = function(p, text, test) {
+  test.ok(p !== undefined && p !== null);
+  test.equal(typeof p.getInlineContents, 'function');
+  test.equal(p.getInlineContents().length, 1);
+  test.equal(p.getInlineContents()[0], text);
+};
+
+var testListItem = function(li, text, test) {
+  test.ok(li !== undefined && li !== null);
+  test.equal(typeof li.getBlockContents, 'function');
+  test.equal(li.getBlockContents().getCount(), 1);
+  testParagraph(li.getBlockContents().getChildAt(0), text, test);
+};
 
 exports.testParseInlineTags = function(test) {
   var VALIED_STRING_1 = 'abcdefghi {@some hoghogehoge} hogehoge.';
@@ -53,43 +67,46 @@ exports.testResolveInlineLink = function(test) {
 
 exports.testCreateParagraphs = function(test) {
   var docHelper = new DocumentHelper();
-  var VALIED_STRING_1 = 'pretext\n<ul><li>line1<li>line2<li>{@tag line3}</ul>\nposttext';
-  var paragraphs = docHelper.createParagraphs(VALIED_STRING_1);
-  test.equal(paragraphs.length, 3);
+  var VALIED_STRING_1 = 'pretext\n<ul><li>line1<li>line2<li>{@code line3}</ul>\nposttext';
 
-  var p1 = paragraphs[0];
-  test.ok(p1 instanceof Paragraph);
-  var s1 = p1.getSentences()[0];
-  test.ok(s1 instanceof Sentence);
-  test.equals(s1.getInlineContents().length, 1);
-  var i1 = s1.getInlineContents()[0];
-  test.equal(i1, 'pretext');
+  var blocks = docHelper.parseBlocks(VALIED_STRING_1);
 
-  var l1 = paragraphs[1];
-  test.ok(l1 instanceof List);
-  test.equal(l1.getListedContents().length, 3);
-  var s2 = l1.getListedContents()[0];
-  test.ok(s2 instanceof Sentence);
-  test.equals(s2.getInlineContents().length, 1);
-  var i2 = s2.getInlineContents()[0];
-  test.equals(i2, 'line1');
-  var s3 = l1.getListedContents()[1];
-  test.ok(s2 instanceof Sentence);
-  test.equals(s3.getInlineContents().length, 1);
-  var i3 = s3.getInlineContents()[0];
-  test.equals(i3, 'line2');
-  var s4 = l1.getListedContents()[2];
-  test.ok(s2 instanceof Sentence);
-  test.equals(s4.getInlineContents().length, 1);
-  var i4 = s4.getInlineContents()[0];
-  test.equals(i4, 'line3');
+  test.equal(blocks.length, 3);
 
-  var p2 = paragraphs[2];
-  test.ok(p2 instanceof Paragraph);
-  var s5 = p2.getSentences()[0];
-  test.ok(s1 instanceof Sentence);
-  test.equals(s5.getInlineContents().length, 1);
-  var i5 = s5.getInlineContents()[0];
-  test.equal(i5, 'posttext');
+  var p1 = blocks[0];
+  testParagraph(p1, 'pretext', test);
+
+  var ul = blocks[1];
+  test.ok(ul !== undefined && ul !== null);
+  test.equal(typeof ul.getListItems, 'function');
+  test.equal(ul.getListItems().getCount(), 3);
+
+  var li1 = ul.getListItems().getChildAt(0);
+  testListItem(li1, 'line1', test);
+
+  var li2 = ul.getListItems().getChildAt(1);
+  testListItem(li2, 'line2', test);
+
+  var li3 = ul.getListItems().getChildAt(2);
+  test.ok(li3 !== undefined && li3 !== null);
+  test.equal(typeof li3.getBlockContents, 'function');
+  test.equal(li3.getBlockContents().getCount(), 1);
+
+  var p2 = li3.getBlockContents().getChildAt(0);
+  test.ok(p2 !== undefined && p2 !== null);
+  test.equal(typeof p2.getInlineContents, 'function');
+  test.equal(p2.getInlineContents().length, 1);
+
+  var code = p2.getInlineContents()[0];
+  test.ok(code !== undefined && code !== null);
+  test.equal(typeof code.getCode, 'function');
+  test.equal(code.getCode(), 'line3');
+
+  var p3 = blocks[2];
+  testParagraph(p3, 'posttext', test);
+
   test.done();
 };
+
+
+//exports.testCreateParagraphs({done: function() {}, equal: function() {}, ok: function() {}});
