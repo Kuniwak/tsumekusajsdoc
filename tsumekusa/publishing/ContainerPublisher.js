@@ -258,6 +258,9 @@ ContainerPublisher.prototype.publish = function(content) {
 
   var footer;
   if (footer = this.publishFooter(content)) {
+    var subContainerSeparator = this.getSubContainerSeparator(content) ||
+        string.repeat('\n', ContainerPublisher.PARAGRAPH_BOTTOM_MARGIN + 1);
+
     output[outputIdx++] = [
       subContainerSeparator,
       footer

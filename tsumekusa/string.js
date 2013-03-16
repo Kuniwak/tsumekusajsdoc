@@ -36,6 +36,22 @@ string.fillMiddle = function(head, tail, tw, opt_char) {
 
 
 /**
+ * Pull right the given string.
+ * @param {string} str String to pull right.
+ * @param {number} tw Text width.
+ * @return {string} Builded string.
+ */
+string.pullRight = function(str, tw, opt_char) {
+  var whiteWidth = tw - str.length;
+  if (whiteWidth < 0) {
+    throw Error('Given string is too long: "' + str + '"');
+  }
+
+  return string.repeat(' ', whiteWidth) + str;
+};
+
+
+/**
  * Converts multiple whitespace chars (spaces, non-breaking-spaces, new lines
  * and tabs) to a single space, and strips leading and trailing whitespace.
  *
