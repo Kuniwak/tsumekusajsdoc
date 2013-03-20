@@ -94,6 +94,18 @@ ContentArray.prototype.hasChildren = function() {
 
 
 /**
+ * Adds the specified contents of this array to last.
+ * @param {Array.<T>} contents Contents to add.
+ * @return {tsumekusa.contents.ContentArray.<T>} This instance.
+ */
+ContentArray.prototype.addChildren = function(contents) {
+  contents.forEach(function(content) {
+    this.addChild(content);
+  }, this);
+};
+
+
+/**
  * Adds the specified content of this array to last.
  * @param {T} content Content to add.
  * @return {tsumekusa.contents.ContentArray.<T>} This instance.
