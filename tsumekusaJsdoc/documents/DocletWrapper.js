@@ -14,6 +14,7 @@ var DocletWrapper = function(opt_doclet) {
     this.setOriginalDoclet(opt_doclet);
   }
 
+  this.ancestors = null;
   this.staticMethods = [];
   this.staticProperties = [];
   this.instanceMethods = [];
@@ -21,6 +22,13 @@ var DocletWrapper = function(opt_doclet) {
   this.innerMethods = [];
   this.innerProperties = [];
 };
+
+
+/**
+ * Ancestors if any.
+ * @type {?Array.<tsumekusaJsdoc.documents.DocletWrapper>}
+ */
+DocletWrapper.prototype.ancestors = null;
 
 
 /**
@@ -63,6 +71,16 @@ DocletWrapper.prototype.innerMethods = null;
  * @type {Array.<jsdoc.Doclet>}
  */
 DocletWrapper.prototype.innerProperties = null;
+
+
+/**
+ * Sets ancestors of the doclet.  This method is chainable.
+ * @param {?Array.<tsumekusaJsdoc.documents.DocletWrapper>}
+ */
+DocletWrapper.prototype.setAncestors = function(ancestors) {
+  this.ancestors = ancestors;
+  return this;
+};
 
 
 /**

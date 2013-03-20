@@ -2,18 +2,22 @@
 // http://orgachem.mit-license.org
 
 
-var tsumekusa = require('../../tsumekusa');
-var string = require('../../tsumekusa/string');
-var Sentence = require('../../tsumekusa/contents/Sentence');
+var tsumekusaPath = '../../tsumekusa';
+var tsumekusa = require(tsumekusaPath);
+var string = require(tsumekusaPath + '/string');
+
+var basePath = '../../tsumekusaJsdoc';
+var tsumekusaJsdoc = require(basePath);
 var DocumentationContent = require('./DocumentationContent');
 var MemberContainer = require('./MemberContainer');
-var TypeSentence = require('./TypeSentence');
+var Type = require('./Type');
+var ObjectDigest = require(basePath + '/documents/ObjectDigest');
 
 
 
 /**
- * A class for a container explains a method.
- * @param {jsdoc.Doclet} symbol Method symbol.
+ * A class for a container explains a property.
+ * @param {tsumekusaJsdoc.documents.DocletWrapper} symbol Property symbol.
  * @param {?Array.<tsumekusa.contents.Paragraph>=} opt_topContents Optional top
  *     contents.
  * @param {?tsumekusaJsdoc.documents.DocumentHelper=} opt_docHelper Optional
@@ -21,7 +25,7 @@ var TypeSentence = require('./TypeSentence');
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
  *     reference helper.
  * @constructor
- * @extends {tsumekusaJsDoc.documents.MemberContainer}
+ * @extends {tsumekusaJsdoc.documents.MemberContainer}
  */
 var PropertyContainer = function(symbol, opt_topContents, opt_docHelper,
     opt_refHelper) {
@@ -32,17 +36,8 @@ tsumekusa.inherits(PropertyContainer, MemberContainer);
 
 
 /** @override */
-PropertyContainer.prototype.createDigestSentence = function(symbol) {
-  var sentence = new Sentence();
-
-  if (symbol.type) {
-    sentence.appendInlineContent('>> ' + symbol.longname + ':');
-
-    var links = new TypeSentence(symbol.type);
-    sentence.extend(links);
-  }
-
-  return sentence;
+PropertyContainer.prototype.createDigest = function(symbol) {
+  return new ObjectDigest(symbol);
 };
 
 

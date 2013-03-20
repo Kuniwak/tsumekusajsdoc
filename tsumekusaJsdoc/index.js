@@ -31,6 +31,48 @@ tsumekusaJsdoc.HTML_DISABLED = false;
 
 
 /**
+ * Whether the symbol has parameters.
+ * @param {jsdoc.Doclet} symbol Symbol to check.
+ * @return {boolean} Whether the symbol has method.
+ */
+tsumekusaJsdoc.hasParam = function(symbol) {
+   return symbol.params && symbol.params.length > 0;
+};
+
+
+/**
+ * Whether the symbol has returns.
+ * @param {jsdoc.Doclet} symbol Symbol to check.
+ * @return {boolean} Whether the symbol has method.
+ */
+tsumekusaJsdoc.hasReturn = function(symbol) {
+   return symbol.returns && symbol.returns.length > 0;
+};
+
+
+/**
+ * Returns a decorated param name by tag.
+ * @param {jsdoc.Tag} tag Param tag.
+ * @return {string} Decorated param name.
+ */
+tsumekusaJsdoc.decorateParamName = function(tag) {
+  var name = tag.name;
+
+  // display 'foo...' as the tag name if the parameter is variable.
+  if (tag.variable) {
+    name += '...';
+  }
+
+  // display '[foo]' as the tag name if the parameter is optional.
+  if (tag.optional) {
+    name = '[' + name + ']';
+  }
+
+  return name;
+};
+
+
+/**
  * Default description when a description was not defined.
  * @const
  * @type {string}

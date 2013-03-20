@@ -23,7 +23,7 @@ var DocumentationContent = require('./DocumentationContent');
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
  *     reference helper.
  * @constructor
- * @extends {tsumekusaJsDoc.documents.DocumentationContent}
+ * @extends {tsumekusaJsdoc.documents.DocumentationContent}
  */
 var MembersContainer = function(parent, members, caption, modifier,
     opt_topContents, opt_docHelper, opt_refHelper) {

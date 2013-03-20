@@ -2,9 +2,13 @@
 // http://orgachem.mit-license.org
 
 
-var tsumekusa = require('../../tsumekusa');
-var Document = require('../../tsumekusa/contents/Document');
-var DocumentationContent = require('./DocumentationContent');
+var tsumekusaPath = '../../tsumekusa';
+var tsumekusa = require(tsumekusaPath);
+var Document = require(tsumekusaPath + '/contents/Document');
+
+var basePath = '../../tsumekusaJsdoc';
+var DocumentationContent = require(basePath +
+    '/documents/DocumentationContent');
 
 
 
@@ -21,7 +25,7 @@ var DocumentationContent = require('./DocumentationContent');
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
  *     reference helper.
  * @constructor
- * @extends {tsumekusaJsDoc.documents.DocumentationContent}
+ * @extends {tsumekusaJsdoc.documents.DocumentationContent}
  */
 var SymbolDocument = function(symbol, caption, opt_topContents, opt_version,
     opt_date, opt_docHelper, opt_refHelper) {

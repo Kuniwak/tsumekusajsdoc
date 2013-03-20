@@ -2,16 +2,21 @@
 // http://orgachem.mit-license.org
 
 
-var tsumekusa = require('../../tsumekusa');
-var string = require('../../tsumekusa/string');
-var Container = require('../../tsumekusa/contents/Container');
-var Sentence = require('../../tsumekusa/contents/Sentence');
-var DefinitionList = require('../../tsumekusa/contents/DefinitionList');
+var tsumekusaPath = '../../tsumekusa';
+var tsumekusa = require(tsumekusaPath);
+var string = require(tsumekusaPath + '/string');
+var Container = require(tsumekusaPath + '/contents/Container');
+var ContentArray = require(tsumekusaPath + '/contents/ContentArray');
+var Paragraph = require(tsumekusaPath + '/contents/Paragraph');
+var DefinitionList = require(tsumekusaPath + '/contents/DefinitionList');
 
-var tsumekusaJsdoc = require('../../tsumekusaJsdoc');
-var DocumentationContent = require('./DocumentationContent');
-var MemberContainer = require('./MemberContainer');
-var TypeSentence = require('./TypeSentence');
+var basePath = '../../tsumekusaJsdoc';
+var tsumekusaJsdoc = require(basePath);
+var DocumentationContent = require(basePath +
+    '/documents/DocumentationContent');
+var MemberContainer = require(basePath + '/documents/MemberContainer');
+var Type = require(basePath + '/documents/Type');
+var FunctionDigest = require(basePath + '/documents/FunctionDigest');
 
 
 
@@ -25,12 +30,22 @@ var TypeSentence = require('./TypeSentence');
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
  *     reference helper.
  * @constructor
- * @extends {tsumekusaJsDoc.documents.MemberContainer}
+ * @extends {tsumekusaJsdoc.documents.MemberContainer}
  */
 var MethodContainer = function(symbol, opt_topContents, opt_docHelper,
     opt_refHelper) {
   MemberContainer.call(this, symbol, opt_topContents, opt_docHelper,
       opt_refHelper);
+
+  var container = this.getContent();
+  var subContainers = container.getSubContainers();
+
+  if (tsumekusaJsdoc.hasParam(symbol)) {
+    subContainers.addChild(this.createParametersContainer(symbol));
+  }
+  if (tsumekusaJsdoc.hasReturn(symbol)) {
+    subContainers.addChild(this.createReturnsContainer(symbol));
+  }
 };
 tsumekusa.inherits(MethodContainer, MemberContainer);
 
@@ -68,82 +83,17 @@ MethodContainer.RETURNS_CAPTION = 'Returns';
 
 
 /**
- * Whether document verbose detail enabled.
+ * Whether document verbose parameters enabled.
  * @const
  * @type {boolean}
  */
-MethodContainer.VERBOSE_DETAIL = false;
+MethodContainer.VERBOSE_PARAM = false;
 
 
 /** @override */
-MethodContainer.prototype.createDigestSentence = function(symbol) {
-  var container = this.getContent();
-  var sentence = new Sentence();
-  var params, returns;
-  var paramsMax, returnsMax;
-
-  // current detail string as: foobar(
-  sentence.appendInlineContent('>> ' + symbol.longname + '(');
-
-  if (symbol.params && (paramsMax = symbol.params.length - 1) > 0) {
-    var params = this.createParametersContainer(symbol);
-    container.appendSubContainer(params.getContent());
-
-    // current detail string as: foobar( arg1, arg2, arg3
-    symbol.params.forEach(function(tag, index) {
-      var paramName = this.createParameterNameString(tag);
-      if (MethodContainer.VERBOSE_DETAIL) {
-        var links = new TypeSentence(tag);
-        sentence.extend(links.getContent());
-      }
-      sentence.appendInlineContent(index < paramsMax ? paramName + ',' :
-          paramName);
-    }, this);
-  }
-
-  // current detail string as: foobar( arg1, arg2, arg3 )
-  sentence.appendInlineContent(')');
-
-  if (symbol.returns && (returnsMax = symbol.returns.length - 1) > 0) {
-    var returns = this.createReturnsContainer(symbol);
-    container.appendSubContainer(returns.getContent());
-
-    // current detail string as: foobar( arg1, arg2, arg3 ) =>
-    sentence.appendInlineContent('=>');
-
-    // current detail string as: foobar( arg1, arg2, arg3 ) => val
-    symbol.returns.forEach(function(tag, index) {
-      var links = new TypeSentence(tag);
-      sentence.extend(links);
-      if (index < returnsMax) {
-        sentence.appendInlineContent(',');
-      }
-    }, this);
-  }
-
-  return sentence;
-};
-
-
-/**
- * Creates a parameter name string.
- * @param {jsdoc.Tag} tag Parameter tag.
- * @return {string} Parameter name.
- */
-MethodContainer.prototype.createParameterNameString = function(tag) {
-  var name = tag.name;
-
-  // display 'foo...' as the tag name if the parameter is variable.
-  if (tag.variable) {
-    name += '...';
-  }
-
-  // display '[foo]' as the tag name if the parameter is optional.
-  if (tag.optional) {
-    name = '[' + name + ']';
-  }
-
-  return name;
+MethodContainer.prototype.createDigest = function(symbol) {
+  return new FunctionDigest(symbol, this.getDocumentHelper(),
+      this.getReferenceHelper());
 };
 
 
@@ -181,7 +131,7 @@ MethodContainer.prototype.createReturnsContainer = function(symbol) {
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
  *     reference helper.
  * @constructor
- * @extends {tsumekusaJsDoc.documents.DocumentationContent}
+ * @extends {tsumekusaJsdoc.documents.DocumentationContent}
  */
 MethodContainer.ParametersContainer = function(symbol, parent, opt_docHelper,
     opt_refHelper) {
@@ -192,24 +142,24 @@ MethodContainer.ParametersContainer = function(symbol, parent, opt_docHelper,
       PARAMS_MODIFIER);
 
   var container = new Container(MethodContainer.PARAMS_CAPTION, refId);
+  var topContents = container.getTopContents();
   var defs = new DefinitionList(DefinitionList.ListType.UNORDERED);
+  topContents.addChild(defs);
 
   if (symbol.params) {
     symbol.params.forEach(function(tag) {
-      var desc = docHelper.createSentence(tag.text || tsumekusaJsdoc.
-          NO_DESCRIPTION);
+      var desc = new ContentArray();
+      desc.addChildren(docHelper.parseBlocks(tag.text || tsumekusaJsdoc.
+          NO_DESCRIPTION));
 
-      var signature = new TypeSentence(tag);
-      var paramName = parent.createParameterNameString(tag);
+      var type = new Type(tag);
+      var paramName = tsumekusaJsdoc.decorateParamName(tag);
+      var caption = new Paragraph(paramName + ':', type);
 
-      // Add the type name to head.
-      signature.getContent().appendInlineContentAt(paramName + ':', 0);
-
-      defs.appendDefinition(signature, desc);
+      defs.addDefinition(caption, desc);
     }, this);
   }
 
-  container.appendTopContent(defs);
   this.setContent(container);
 };
 tsumekusa.inherits(MethodContainer.ParametersContainer, DocumentationContent);
@@ -225,7 +175,7 @@ tsumekusa.inherits(MethodContainer.ParametersContainer, DocumentationContent);
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
  *     reference helper.
  * @constructor
- * @extends {tsumekusaJsDoc.documents.DocumentationContent}
+ * @extends {tsumekusaJsdoc.documents.DocumentationContent}
  */
 MethodContainer.ReturnsContainer = function(symbol, parent, opt_docHelper,
     opt_refHelper) {
@@ -240,16 +190,18 @@ MethodContainer.ReturnsContainer = function(symbol, parent, opt_docHelper,
 
   if (symbol.returns) {
     symbol.returns.forEach(function(tag) {
-      var desc = docHelper.createSentence(tag.text || tsumekusaJsdoc.
-          NO_DESCRIPTION);
+      var desc = new ContentArray();
+      desc.addChildren(docHelper.parseBlocks(tag.text || tsumekusaJsdoc.
+          NO_DESCRIPTION));
 
-      var signature = new TypeSentence(tag);
+      var type = new Type(tag);
+      var caption = new Paragraph(type);
 
-      defs.appendDefinition(signature, desc);
+      defs.addDefinition(caption, desc);
     }, this);
   }
 
-  container.appendTopContent(defs);
+  container.addTopContent(defs);
   this.setContent(container);
 };
 tsumekusa.inherits(MethodContainer.ReturnsContainer, DocumentationContent);

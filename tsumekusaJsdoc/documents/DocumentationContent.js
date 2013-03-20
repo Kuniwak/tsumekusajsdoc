@@ -26,7 +26,7 @@ var DocumentationContent = function(opt_docHelper, opt_refHelper) {
 
 /**
  * Returns a document helper.
- * @return {tsumekusaJsDoc.documents.DocumentHelper}
+ * @return {tsumekusaJsdoc.documents.DocumentHelper}
  */
 DocumentationContent.prototype.getDocumentHelper = function() {
   return this.docHelper_;
@@ -35,7 +35,7 @@ DocumentationContent.prototype.getDocumentHelper = function() {
 
 /**
  * Returns a renference helper.
- * @return {tsumekusaJsDoc.references.ReferenceHelper}
+ * @return {tsumekusaJsdoc.references.ReferenceHelper}
  */
 DocumentationContent.prototype.getReferenceHelper = function() {
   return this.refHelper_;
@@ -44,7 +44,7 @@ DocumentationContent.prototype.getReferenceHelper = function() {
 
 /**
  * Sets a content.  The method is chainable.
- * @param {tsumekusa.contents.Content} content Content.
+ * @param {tsumekusa.contents.IContent} content Content.
  * @return {tsumekusaJsdoc.documents.DocumentationContent} This instance.
  * @protected
  */
@@ -56,11 +56,20 @@ DocumentationContent.prototype.setContent = function(content) {
 
 /**
  * Returns a content.
- * @return {tsumekusa.contents.Content} Content.
+ * @return {tsumekusa.contents.IContent} Content.
  * @protected
  */
 DocumentationContent.prototype.getContent = function() {
   return this.content_;
+};
+
+
+/**
+ * Sets a parent content to a wrapped content.
+ * @param {tsumekusaJsdoc.contents.IContent} parent Parent to set.
+ */
+DocumentationContent.prototype.setParent = function(parent) {
+  this.content_.setParent(parent);
 };
 
 

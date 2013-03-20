@@ -22,7 +22,7 @@ var StaticPropertiesContainer = require('./StaticPropertiesContainer');
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
  *     reference helper.
  * @constructor
- * @extends {tsumekusaJsDoc.documents.SymbolDocument}
+ * @extends {tsumekusaJsdoc.documents.SymbolDocument}
  */
 var NamespaceDocument = function(symbol, opt_topContents, opt_version, opt_date,
     opt_docHelper, opt_refHelper) {

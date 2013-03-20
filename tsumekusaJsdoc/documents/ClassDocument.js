@@ -2,13 +2,20 @@
 // http://orgachem.mit-license.org
 
 
-var tsumekusa = require('../../tsumekusa');
-var Document = require('../../tsumekusa/contents/Document');
-var SymbolDocument = require('./SymbolDocument');
-var StaticMethodsContainer = require('./StaticMethodsContainer');
-var InstanceMethodsContainer = require('./InstanceMethodsContainer');
-var StaticPropertiesContainer = require('./StaticPropertiesContainer');
-var InstancePropertiesContainer = require('./InstancePropertiesContainer');
+var tsumekusaPath = '../../tsumekusa';
+var tsumekusa = require(tsumekusaPath);
+var Document = require(tsumekusaPath + '/contents/Document');
+
+var basePath = '../../tsumekusaJsdoc';
+var SymbolDocument = require(basePath + '/documents/SymbolDocument');
+var StaticMethodsContainer = require(basePath +
+    '/documents/StaticMethodsContainer');
+var InstanceMethodsContainer = require(basePath +
+    '/documents/InstanceMethodsContainer');
+var StaticPropertiesContainer = require(basePath +
+    '/documents/StaticPropertiesContainer');
+var InstancePropertiesContainer = require(basePath +
+    '/documents/InstancePropertiesContainer');
 
 
 
@@ -24,7 +31,7 @@ var InstancePropertiesContainer = require('./InstancePropertiesContainer');
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
  *     reference helper.
  * @constructor
- * @extends {tsumekusaJsDoc.documents.SymbolDocument}
+ * @extends {tsumekusaJsdoc.documents.SymbolDocument}
  */
 var ClassDocument = function(symbol, opt_topContents, opt_version, opt_date,
     opt_docHelper, opt_refHelper) {

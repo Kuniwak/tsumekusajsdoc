@@ -65,7 +65,7 @@ exports.testResolveInlineLink = function(test) {
 };
 
 
-exports.testCreateParagraphs = function(test) {
+exports.testCreateBlocks = function(test) {
   var docHelper = new DocumentHelper();
   var VALIED_STRING_1 = 'pretext\n<ul><li>line1<li>line2<li>{@code line3}</ul>\nposttext';
 
@@ -109,4 +109,4 @@ exports.testCreateParagraphs = function(test) {
 };
 
 
-//exports.testCreateParagraphs({done: function() {}, equal: function() {}, ok: function() {}});
+//exports.testCreateBlocks({done: function() {}, equal: function() {}, ok: function() {}});

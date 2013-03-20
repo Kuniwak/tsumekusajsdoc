@@ -2,12 +2,15 @@
 // http://orgachem.mit-license.org
 
 
-var tsumekusa = require('../../tsumekusa');
-var Container = require('../../tsumekusa/contents/Container');
-var Paragraph = require('../../tsumekusa/contents/Paragraph');
+var tsumekusaPath = '../../tsumekusa';
+var tsumekusa = require(tsumekusaPath);
+var Container = require(tsumekusaPath + '/contents/Container');
+var Paragraph = require(tsumekusaPath + '/contents/Paragraph');
 
-var tsumekusaJsdoc = require('../../tsumekusaJsdoc');
-var DocumentationContent = require('./DocumentationContent');
+var basePath = '../../tsumekusaJsdoc';
+var tsumekusaJsdoc = require(basePath);
+var DocumentationContent = require(basePath +
+    '/documents/DocumentationContent');
 
 
 
@@ -21,50 +24,49 @@ var DocumentationContent = require('./DocumentationContent');
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
  *     reference helper.
  * @constructor
- * @extends {tsumekusaJsDoc.documents.DocumentationContent}
+ * @extends {tsumekusaJsdoc.documents.DocumentationContent}
  */
 var MemberContainer = function(symbol, opt_topContents, opt_docHelper,
     opt_refHelper) {
   DocumentationContent.call(this, opt_docHelper, opt_refHelper);
   var refId = this.getReferenceHelper().getReferenceId(symbol);
   var container = new Container(symbol.longname, refId, true);
-
   this.setContent(container);
 
-  var paragraphs = this.createSummaryParagraphs(symbol);
-  container.setTopContents(paragraphs);
+  var topBlocks = container.getTopContents();
+
+  var blocks = this.createSummaryBlocks(symbol);
+  topBlocks.addChildren(blocks);
 
   if (opt_topContents) {
-    container.setTopContents(opt_topContents);
+    topBlocks.addChildren(opt_topContents);
   }
 };
 tsumekusa.inherits(MemberContainer, DocumentationContent);
 
 
 /**
- * Creates a top content for a property summary.
+ * Creates a top content for a member summary.
  * @param {jsdoc.Doclet} symbol Symbol.
- * @return {Array.<tsumekusa.contents.Paragraph>} Top contents.
+ * @return {Array.<tsumekusa.contents.BlockContent>} Top contents.
  */
-MemberContainer.prototype.createSummaryParagraphs = function(symbol) {
+MemberContainer.prototype.createSummaryBlocks = function(symbol) {
   var digest = new Paragraph();
-  var format = this.createDigestSentence(symbol);
-  digest.appendSentence(format);
+  digest.addInlineContent(this.createDigest(symbol));
 
-  var paragraphs = this.getDocumentHelper().createParagraphs(
+  var blocks = this.getDocumentHelper().parseBlocks(
       symbol.description || tsumekusaJsdoc.NO_DESCRIPTION, symbol);
   
-  paragraphs.unshift(digest);
-  return paragraphs;
+  return [digest].concat(blocks);
 };
 
 
 /**
- * Creates a property format.  For example, {@code 'foo: string | null'}.
+ * Creates a member digest such as {@code 'foo: string | null'}.
  * @param {jsdoc.Doclet} symbol Symbol.
- * @return {tsumekusa.publishing.Setence} Property detail sentence.
+ * @return {tsumekusaJsdoc.documents.Digest} Member digest.
  */
-MemberContainer.prototype.createDigestSentence = tsumekusa.abstractMethod;
+MemberContainer.prototype.createDigest = tsumekusa.abstractMethod;
 
 
 // Exports the constructor.
