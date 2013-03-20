@@ -9,9 +9,9 @@ var LinkPublisher = require(tsumekusaPath + '/publishing/LinkPublisher');
 Link.publisher = new LinkPublisher();
 
 var basePath = '../../tsumekusaJsdoc';
-var DocletWrapper = require(basePath + '/components/DocletWrapper');
+var DocletWrapper = require(basePath + '/dom/DocletWrapper');
 var InheritanceHierarchyChart = require(basePath +
-    '/components/InheritanceHierarchyChart');
+    '/dom/InheritanceHierarchyChart');
 
 
 exports.testPublish = function(test) {

@@ -6,8 +6,8 @@ var tsumekusaPath = '../../tsumekusa';
 var tsumekusa = require(tsumekusaPath);
 
 var basePath = '../../tsumekusaJsdoc';
-var Digest = require(basePath + '/components/Digest');
-var Type = require(basePath + '/components/Type');
+var Digest = require(basePath + '/dom/Digest');
+var Type = require(basePath + '/dom/Type');
 
 
 
@@ -16,12 +16,12 @@ var Type = require(basePath + '/components/Type');
  * {@code foo.bar: Foo|Bar}
  *
  * @param {jsdoc.Doclet} symbol Object symbol.
- * @param {?tsumekusaJsdoc.components.DocumentHelper=} opt_docHelper Optional
+ * @param {?tsumekusaJsdoc.dom.DocumentHelper=} opt_docHelper Optional
  *     document helper.
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
  *     reference helper.
  * @constructor
- * @extends {tsumekusaJsdoc.components.Digest}
+ * @extends {tsumekusaJsdoc.dom.Digest}
  */
 var ObjectDigest = function(symbol, opt_docHelper, opt_refHelper) {
   Digest.call(this, symbol, opt_docHelper, opt_refHelper);

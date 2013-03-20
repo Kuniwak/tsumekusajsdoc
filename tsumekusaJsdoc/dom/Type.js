@@ -8,19 +8,19 @@ var Link = require(tsumekusaPath + '/dom/Link');
 
 var basePath = '../../tsumekusaJsdoc';
 var DocumentationContent = require(basePath +
-    '/components/DocumentationContent');
+    '/dom/DocumentationContent');
 
 
 
 /**
  * A class for type notation.
  * @param {jsdoc.Tag} tag Tag.
- * @param {?tsumekusaJsdoc.components.DocumentHelper=} opt_docHelper Optional
+ * @param {?tsumekusaJsdoc.dom.DocumentHelper=} opt_docHelper Optional
  *     document helper.
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
  *     reference helper.
  * @constructor
- * @extends {tsumekusaJsdoc.components.DocumentationContent}
+ * @extends {tsumekusaJsdoc.dom.DocumentationContent}
  */
 var Type = function(tag, opt_docHelper, opt_refHelper) {
   DocumentationContent.call(this, opt_docHelper, opt_refHelper);

@@ -13,12 +13,12 @@ var DocumentationContent = require('./DocumentationContent');
 /**
  * A class for a symbol digest.
  * @param {jsdoc.Doclet} symbol Method symbol.
- * @param {?tsumekusaJsdoc.components.DocumentHelper=} opt_docHelper Optional
+ * @param {?tsumekusaJsdoc.dom.DocumentHelper=} opt_docHelper Optional
  *     document helper.
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
  *     reference helper.
  * @constructor
- * @extends {tsumekusaJsdoc.components.DocumentationContent}
+ * @extends {tsumekusaJsdoc.dom.DocumentationContent}
  */
 var Digest = function(symbol, opt_docHelper, opt_refHelper) {
   DocumentationContent.call(this, opt_docHelper, opt_refHelper);

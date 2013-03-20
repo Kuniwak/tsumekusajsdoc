@@ -5,7 +5,7 @@
 var tsumekusaPath = '../../tsumekusa';
 var basePath = '../../tsumekusaJsdoc';
 
-var DocumentHelper = require(basePath + '/components/DocumentHelper');
+var DocumentHelper = require(basePath + '/dom/DocumentHelper');
 
 
 var testParagraph = function(p, text, test) {

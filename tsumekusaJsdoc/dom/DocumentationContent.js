@@ -8,10 +8,10 @@ var ReferenceHelper = require('../references/ReferenceHelper');
 
 /**
  * A class for a content for Jsdoc with tsumekusa.  This class stores 2 helpers
- * as {@link tsumekusaJsdoc.components.DocumentHelper} and {@link
+ * as {@link tsumekusaJsdoc.dom.DocumentHelper} and {@link
  * tsumekusaJsdoc.references.ReferenceHelper}. These helpers make strategy
  * changes such as: parsing inline tag, generating references.
- * @param {?tsumekusaJsdoc.components.DocumentHelper=} opt_docHelper Optional
+ * @param {?tsumekusaJsdoc.dom.DocumentHelper=} opt_docHelper Optional
  *     document helper.
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
  *     reference helper.
@@ -26,7 +26,7 @@ var DocumentationContent = function(opt_docHelper, opt_refHelper) {
 
 /**
  * Returns a document helper.
- * @return {tsumekusaJsdoc.components.DocumentHelper}
+ * @return {tsumekusaJsdoc.dom.DocumentHelper}
  */
 DocumentationContent.prototype.getDocumentHelper = function() {
   return this.docHelper_;
@@ -45,7 +45,7 @@ DocumentationContent.prototype.getReferenceHelper = function() {
 /**
  * Sets a content.  The method is chainable.
  * @param {tsumekusa.dom.IContent} content Content.
- * @return {tsumekusaJsdoc.components.DocumentationContent} This instance.
+ * @return {tsumekusaJsdoc.dom.DocumentationContent} This instance.
  * @protected
  */
 DocumentationContent.prototype.setContent = function(content) {

@@ -17,12 +17,12 @@ var StaticPropertiesContainer = require('./StaticPropertiesContainer');
  *     contents.
  * @param {?string=} opt_version Optional version identifier.
  * @param {?Date=} opt_date Optional date object.
- * @param {?tsumekusaJsdoc.components.DocumentHelper=} opt_docHelper Optional
+ * @param {?tsumekusaJsdoc.dom.DocumentHelper=} opt_docHelper Optional
  *     document helper.
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
  *     reference helper.
  * @constructor
- * @extends {tsumekusaJsdoc.components.SymbolDocument}
+ * @extends {tsumekusaJsdoc.dom.SymbolDocument}
  */
 var NamespaceDocument = function(symbol, opt_topContents, opt_version, opt_date,
     opt_docHelper, opt_refHelper) {
@@ -108,7 +108,7 @@ NamespaceDocument.prototype.getStaticProperties = function() {
 
 /**
  * Creates a container explains static methods of the class.
- * @return {tsumekusaJsdoc.components.StaticMethodsContainer} Static methods
+ * @return {tsumekusaJsdoc.dom.StaticMethodsContainer} Static methods
  *     container.
  * @protected
  */
@@ -120,7 +120,7 @@ NamespaceDocument.prototype.createStaticMethodsContainer = function() {
 
 /**
  * Creates a container explains static properties of the class.
- * @return {tsumekusaJsdoc.components.StaticPropertiesContainer} Static
+ * @return {tsumekusaJsdoc.dom.StaticPropertiesContainer} Static
  *     properties container.
  * @protected
  */

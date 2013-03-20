@@ -9,7 +9,7 @@ var LinkPublisher = require(tsumekusaPath + '/publishing/LinkPublisher');
 Link.publisher = new LinkPublisher();
 
 var basePath = '../../tsumekusaJsdoc';
-var ObjectDigest = require(basePath + '/components/ObjectDigest');
+var ObjectDigest = require(basePath + '/dom/ObjectDigest');
 
 
 exports.testPublish = function(test) {

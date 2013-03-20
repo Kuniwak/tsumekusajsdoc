@@ -7,15 +7,15 @@ var tsumekusa = require(tsumekusaPath);
 var Document = require(tsumekusaPath + '/dom/Document');
 
 var basePath = '../../tsumekusaJsdoc';
-var SymbolDocument = require(basePath + '/components/SymbolDocument');
+var SymbolDocument = require(basePath + '/dom/SymbolDocument');
 var StaticMethodsContainer = require(basePath +
-    '/components/StaticMethodsContainer');
+    '/dom/StaticMethodsContainer');
 var InstanceMethodsContainer = require(basePath +
-    '/components/InstanceMethodsContainer');
+    '/dom/InstanceMethodsContainer');
 var StaticPropertiesContainer = require(basePath +
-    '/components/StaticPropertiesContainer');
+    '/dom/StaticPropertiesContainer');
 var InstancePropertiesContainer = require(basePath +
-    '/components/InstancePropertiesContainer');
+    '/dom/InstancePropertiesContainer');
 
 
 
@@ -26,12 +26,12 @@ var InstancePropertiesContainer = require(basePath +
  *     contents.
  * @param {?string=} opt_version Optional version identifier.
  * @param {?Date=} opt_date Optional date object.
- * @param {?tsumekusaJsdoc.components.DocumentHelper=} opt_docHelper Optional
+ * @param {?tsumekusaJsdoc.dom.DocumentHelper=} opt_docHelper Optional
  *     document helper.
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
  *     reference helper.
  * @constructor
- * @extends {tsumekusaJsdoc.components.SymbolDocument}
+ * @extends {tsumekusaJsdoc.dom.SymbolDocument}
  */
 var ClassDocument = function(symbol, opt_topContents, opt_version, opt_date,
     opt_docHelper, opt_refHelper) {
@@ -173,7 +173,7 @@ ClassDocument.prototype.getInstanceProperties = function() {
 
 /**
  * Creates a container explains static methods of the class.
- * @return {tsumekusaJsdoc.components.StaticMethodsContainer} Static methods
+ * @return {tsumekusaJsdoc.dom.StaticMethodsContainer} Static methods
  *     container.
  * @protected
  */
@@ -185,7 +185,7 @@ ClassDocument.prototype.createStaticMethodsContainer = function() {
 
 /**
  * Creates a container explains instance methods of the class.
- * @return {tsumekusaJsdoc.components.InstanceMethodsContainer} Instance methods
+ * @return {tsumekusaJsdoc.dom.InstanceMethodsContainer} Instance methods
  *     container.
  * @protected
  */
@@ -198,7 +198,7 @@ ClassDocument.prototype.createInstanceMethodsContainer = function() {
 
 /**
  * Creates a container explains static properties of the class.
- * @return {tsumekusaJsdoc.components.StaticPropertiesContainer} Static
+ * @return {tsumekusaJsdoc.dom.StaticPropertiesContainer} Static
  *     properties container.
  * @protected
  */
@@ -211,7 +211,7 @@ ClassDocument.prototype.createStaticPropertiesContainer = function() {
 
 /**
  * Creates a container explains instance properties of the class.
- * @return {tsumekusaJsdoc.components.InstancePropertiesContainer} Instance
+ * @return {tsumekusaJsdoc.dom.InstancePropertiesContainer} Instance
        properties container.
  * @protected
  */

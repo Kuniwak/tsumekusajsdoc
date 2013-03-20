@@ -9,7 +9,7 @@ var LinkPublisher = require(tsumekusaPath + '/publishing/LinkPublisher');
 Link.publisher = new LinkPublisher();
 
 var basePath = '../../tsumekusaJsdoc';
-var FunctionDigest = require(basePath + '/components/FunctionDigest');
+var FunctionDigest = require(basePath + '/dom/FunctionDigest');
 
 
 exports.testPublishWithTwoParamsAndReturn = function(test) {

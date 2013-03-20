@@ -17,12 +17,12 @@ var PropertyContainer = require('./PropertyContainer');
  * @param {string} modifier Modifier of the reference ID.
  * @param {?Array.<tsumekusa.dom.Paragraph>=} opt_topContents Optional top
  *     contents.
- * @param {?tsumekusaJsdoc.components.DocumentHelper=} opt_docHelper Optional
+ * @param {?tsumekusaJsdoc.dom.DocumentHelper=} opt_docHelper Optional
  *     document helper.
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
  *     reference helper.
  * @constructor
- * @extends {tsumekusaJsdoc.components.MembersContainer}
+ * @extends {tsumekusaJsdoc.dom.MembersContainer}
  */
 var PropertiesContainer = function(parent, members, caption, modifier,
     opt_topContents, opt_docHelper, opt_refHelper) {

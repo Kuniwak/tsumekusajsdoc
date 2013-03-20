@@ -9,7 +9,7 @@ var LinkPublisher = require(tsumekusaPath + '/publishing/LinkPublisher');
 Link.publisher = new LinkPublisher();
 
 var basePath = '../../tsumekusaJsdoc';
-var Type = require(basePath + '/components/Type');
+var Type = require(basePath + '/dom/Type');
 
 exports.testPublishWithTwoTypes = function(test) {
   var dummyTag = {

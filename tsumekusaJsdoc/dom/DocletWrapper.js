@@ -26,7 +26,7 @@ var DocletWrapper = function(opt_doclet) {
 
 /**
  * Ancestors if any.
- * @type {?Array.<tsumekusaJsdoc.components.DocletWrapper>}
+ * @type {?Array.<tsumekusaJsdoc.dom.DocletWrapper>}
  */
 DocletWrapper.prototype.ancestors = null;
 
@@ -75,7 +75,7 @@ DocletWrapper.prototype.innerProperties = null;
 
 /**
  * Sets ancestors of the doclet.  This method is chainable.
- * @param {?Array.<tsumekusaJsdoc.components.DocletWrapper>}
+ * @param {?Array.<tsumekusaJsdoc.dom.DocletWrapper>}
  */
 DocletWrapper.prototype.setAncestors = function(ancestors) {
   this.ancestors = ancestors;

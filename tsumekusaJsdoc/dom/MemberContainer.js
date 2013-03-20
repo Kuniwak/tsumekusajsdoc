@@ -10,7 +10,7 @@ var Paragraph = require(tsumekusaPath + '/dom/Paragraph');
 var basePath = '../../tsumekusaJsdoc';
 var tsumekusaJsdoc = require(basePath);
 var DocumentationContent = require(basePath +
-    '/components/DocumentationContent');
+    '/dom/DocumentationContent');
 
 
 
@@ -19,12 +19,12 @@ var DocumentationContent = require(basePath +
  * @param {jsdoc.Doclet} symbol Symbol.
  * @param {?Array.<tsumekusa.dom.Paragraph>=} opt_topContents Optional top
  *     contents.
- * @param {?tsumekusaJsdoc.components.DocumentHelper=} opt_docHelper Optional
+ * @param {?tsumekusaJsdoc.dom.DocumentHelper=} opt_docHelper Optional
  *     document helper.
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
  *     reference helper.
  * @constructor
- * @extends {tsumekusaJsdoc.components.DocumentationContent}
+ * @extends {tsumekusaJsdoc.dom.DocumentationContent}
  */
 var MemberContainer = function(symbol, opt_topContents, opt_docHelper,
     opt_refHelper) {
@@ -64,7 +64,7 @@ MemberContainer.prototype.createSummaryBlocks = function(symbol) {
 /**
  * Creates a member digest such as {@code 'foo: string | null'}.
  * @param {jsdoc.Doclet} symbol Symbol.
- * @return {tsumekusaJsdoc.components.Digest} Member digest.
+ * @return {tsumekusaJsdoc.dom.Digest} Member digest.
  */
 MemberContainer.prototype.createDigest = tsumekusa.abstractMethod;
 

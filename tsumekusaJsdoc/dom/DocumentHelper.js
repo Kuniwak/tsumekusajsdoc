@@ -13,7 +13,7 @@ var Link = require(tsumekusaPath + '/dom/Link');
 
 var basePath = '../../tsumekusaJsdoc';
 var tsumekusaJsdoc = require(basePath);
-var UnknownInlineTag = require(basePath + '/components/UnknownInlineTag');
+var UnknownInlineTag = require(basePath + '/dom/UnknownInlineTag');
 
 var htmlparser = require('../../htmlparser2');
 
@@ -81,7 +81,7 @@ DocumentHelper.prototype.parseBlocks = function(str, opt_current) {
 
 /**
  * Creates block content by a node.
- * @param {tsumekusaJsdoc.components.DocumentHelper.TreeNode} node Node.
+ * @param {tsumekusaJsdoc.dom.DocumentHelper.TreeNode} node Node.
  * @param {?boolean=} opt_current Optional
  * @protected
  */
@@ -249,7 +249,7 @@ DocumentHelper.TreeNode = function() {
 
 /**
  * Tree node as a parent of the node.
- * @type {tsumekusaJsdoc.components.DocumentHelper.TreeNode}
+ * @type {tsumekusaJsdoc.dom.DocumentHelper.TreeNode}
  * @private
  */
 DocumentHelper.TreeNode.prototype.super_ = null;
@@ -257,7 +257,7 @@ DocumentHelper.TreeNode.prototype.super_ = null;
 
 /**
  * Tree nodes as children of the node.
- * @type {Array.<tsumekusaJsdoc.components.DocumentHelper.TreeNode>}
+ * @type {Array.<tsumekusaJsdoc.dom.DocumentHelper.TreeNode>}
  * @private
  */
 DocumentHelper.TreeNode.prototype.children_ = null;
@@ -283,7 +283,7 @@ DocumentHelper.TreeNode.prototype.getValue = function() {
 
 /**
  * Sets a parent node.
- * @param {tsumekusaJsdoc.components.DocumentHelper.TreeNode} tree Parent tree
+ * @param {tsumekusaJsdoc.dom.DocumentHelper.TreeNode} tree Parent tree
  *   node.
  */
 DocumentHelper.TreeNode.prototype.setParent = function(tree) {
@@ -293,7 +293,7 @@ DocumentHelper.TreeNode.prototype.setParent = function(tree) {
 
 /**
  * Returns a parent node.
- * @return {?tsumekusaJsdoc.components.DocumentHelper.TreeNode} Parent tree node
+ * @return {?tsumekusaJsdoc.dom.DocumentHelper.TreeNode} Parent tree node
  *     if any.
  */
 DocumentHelper.TreeNode.prototype.getParent = function() {
@@ -303,7 +303,7 @@ DocumentHelper.TreeNode.prototype.getParent = function() {
 
 /**
  * Returns children of the node.
- * @return {Array.<tsumekusaJsdoc.components.DocumentHelper.TreeNode>} Children.
+ * @return {Array.<tsumekusaJsdoc.dom.DocumentHelper.TreeNode>} Children.
  */
 DocumentHelper.TreeNode.prototype.getChildren = function() {
   return this.children_;
@@ -312,7 +312,7 @@ DocumentHelper.TreeNode.prototype.getChildren = function() {
 
 /**
  * Appends a tree node.
- * @param {tsumekusaJsdoc.components.DocumentHelper.TreeNode} tree Tree node to
+ * @param {tsumekusaJsdoc.dom.DocumentHelper.TreeNode} tree Tree node to
  *     append.
  */
 DocumentHelper.TreeNode.prototype.append = function(tree) {

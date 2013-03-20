@@ -11,21 +11,21 @@ var tsumekusaJsdoc = require(basePath);
 var DocumentationContent = require('./DocumentationContent');
 var MemberContainer = require('./MemberContainer');
 var Type = require('./Type');
-var ObjectDigest = require(basePath + '/components/ObjectDigest');
+var ObjectDigest = require(basePath + '/dom/ObjectDigest');
 
 
 
 /**
  * A class for a container explains a property.
- * @param {tsumekusaJsdoc.components.DocletWrapper} symbol Property symbol.
+ * @param {tsumekusaJsdoc.dom.DocletWrapper} symbol Property symbol.
  * @param {?Array.<tsumekusa.dom.Paragraph>=} opt_topContents Optional top
  *     contents.
- * @param {?tsumekusaJsdoc.components.DocumentHelper=} opt_docHelper Optional
+ * @param {?tsumekusaJsdoc.dom.DocumentHelper=} opt_docHelper Optional
  *     document helper.
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
  *     reference helper.
  * @constructor
- * @extends {tsumekusaJsdoc.components.MemberContainer}
+ * @extends {tsumekusaJsdoc.dom.MemberContainer}
  */
 var PropertyContainer = function(symbol, opt_topContents, opt_docHelper,
     opt_refHelper) {

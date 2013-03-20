@@ -15,7 +15,7 @@ Container.publisher = new ContainerPublisher();
 Paragraph.publisher = new ParagraphPublisher();
 
 var basePath = '../../tsumekusaJsdoc';
-var MethodContainer = require(basePath + '/components/MethodContainer');
+var MethodContainer = require(basePath + '/dom/MethodContainer');
 
 
 exports.testPublish = function(test) {

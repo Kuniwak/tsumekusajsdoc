@@ -8,7 +8,7 @@ var Document = require(tsumekusaPath + '/dom/Document');
 
 var basePath = '../../tsumekusaJsdoc';
 var DocumentationContent = require(basePath +
-    '/components/DocumentationContent');
+    '/dom/DocumentationContent');
 
 
 
@@ -20,12 +20,12 @@ var DocumentationContent = require(basePath +
  *     contents.
  * @param {?string=} opt_version Optional version identifier.
  * @param {?Date=} opt_date Optional date object.
- * @param {?tsumekusaJsdoc.components.DocumentHelper=} opt_docHelper Optional
+ * @param {?tsumekusaJsdoc.dom.DocumentHelper=} opt_docHelper Optional
  *     document helper.
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
  *     reference helper.
  * @constructor
- * @extends {tsumekusaJsdoc.components.DocumentationContent}
+ * @extends {tsumekusaJsdoc.dom.DocumentationContent}
  */
 var SymbolDocument = function(symbol, caption, opt_topContents, opt_version,
     opt_date, opt_docHelper, opt_refHelper) {
