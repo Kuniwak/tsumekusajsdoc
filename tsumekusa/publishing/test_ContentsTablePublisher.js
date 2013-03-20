@@ -3,10 +3,10 @@
 
 
 var basePath = '../../tsumekusa';
-var Container = require(basePath + '/contents/Container');
+var Container = require(basePath + '/dom/Container');
 var ContentsTablePublisher = require(basePath +
     '/publishing/ContentsTablePublisher');
-var Paragraph = require(basePath + '/contents/Paragraph');
+var Paragraph = require(basePath + '/dom/Paragraph');
 
 // Lorem Ipsum {{{
 var LOREM_IPSUM = [

@@ -3,9 +3,9 @@
 
 
 var basePath = '../../../tsumekusa';
-var List = require(basePath + '/contents/List');
-var Paragraph = require(basePath + '/contents/Paragraph');
-var ContentArray = require(basePath + '/contents/ContentArray');
+var List = require(basePath + '/dom/List');
+var Paragraph = require(basePath + '/dom/Paragraph');
+var ContentArray = require(basePath + '/dom/ContentArray');
 var VimHelpListPublisher = require(basePath +
     '/publishing/vimhelp/VimHelpListPublisher');
 var VimHelpListItemPublisher = require(basePath +

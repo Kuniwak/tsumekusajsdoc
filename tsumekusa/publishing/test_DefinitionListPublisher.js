@@ -2,10 +2,10 @@
 // http://orgachem.mit-license.org
 
 var basePath = '../../tsumekusa';
-var DefinitionList = require(basePath + '/contents/DefinitionList');
+var DefinitionList = require(basePath + '/dom/DefinitionList');
 var Definition = DefinitionList.Definition;
-var Paragraph = require(basePath + '/contents/Paragraph');
-var ContentArray = require(basePath + '/contents/ContentArray');
+var Paragraph = require(basePath + '/dom/Paragraph');
+var ContentArray = require(basePath + '/dom/ContentArray');
 var ParagraphPublisher = require(basePath + '/publishing/ParagraphPublisher');
 var DefinitionListPublisher = require(basePath +
     '/publishing/DefinitionListPublisher');

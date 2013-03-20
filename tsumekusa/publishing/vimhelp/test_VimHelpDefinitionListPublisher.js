@@ -2,9 +2,9 @@
 // http://orgachem.mit-license.org
 
 var basePath = '../../../tsumekusa';
-var DefinitionList = require(basePath + '/contents/DefinitionList');
-var Paragraph = require(basePath + '/contents/Paragraph');
-var ContentArray = require(basePath + '/contents/ContentArray');
+var DefinitionList = require(basePath + '/dom/DefinitionList');
+var Paragraph = require(basePath + '/dom/Paragraph');
+var ContentArray = require(basePath + '/dom/ContentArray');
 
 var VimHelpDefinitionListPublisher = require(basePath +
     '/publishing/vimhelp/VimHelpDefinitionListPublisher');

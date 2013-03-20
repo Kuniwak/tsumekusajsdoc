@@ -4,7 +4,7 @@
 
 var basePath = '../../tsumekusa';
 var PreformattedParagraph = require(basePath +
-    '/contents/PreformattedParagraph');
+    '/dom/PreformattedParagraph');
 var PreformattedParagraphPublisher = require(basePath +
     '/publishing/PreformattedParagraphPublisher');
 

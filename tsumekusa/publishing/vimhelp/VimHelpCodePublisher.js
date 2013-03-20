@@ -6,7 +6,7 @@ var basePath = '../../../tsumekusa';
 var tsumekusa = require(basePath);
 var string = require(basePath + '/string');
 var PreformattedParagraph = require(basePath +
-    '/contents/PreformattedParagraph');
+    '/dom/PreformattedParagraph');
 var vimhelp = require(basePath + '/publishing/vimhelp');
 var WordWrapper = require(basePath + '/publishing/WordWrapper');
 var BlockContentPublisher = require(basePath +

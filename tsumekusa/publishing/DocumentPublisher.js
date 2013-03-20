@@ -4,7 +4,7 @@
 
 var basePath = '../../tsumekusa/';
 var tsumekusa = require(basePath);
-var ContentsTable = require(basePath + '/contents/ContentsTable');
+var ContentsTable = require(basePath + '/dom/ContentsTable');
 var ContainerPublisher = require(basePath + '/publishing/ContainerPublisher');
 var WordWrapper = require(basePath + '/publishing/WordWrapper');
 

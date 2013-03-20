@@ -6,8 +6,8 @@ var basePath = '../../../tsumekusa';
 var tsumekusa = require(basePath);
 var string = require(basePath + '/string');
 var date = require(basePath + '/date');
-var TagFactory = require(basePath + '/contents/TagFactory');
-var Link = require(basePath + '/contents/Link');
+var TagFactory = require(basePath + '/dom/TagFactory');
+var Link = require(basePath + '/dom/Link');
 var vimhelp = require(basePath + '/publishing/vimhelp');
 var VimHelpContainerPublisher = require(basePath +
     '/publishing/vimhelp/VimHelpContainerPublisher');

@@ -2,8 +2,8 @@
 // http://orgachem.mit-license.org
 
 var basePath = '../../../tsumekusa';
-var Tag = require(basePath + '/contents/Tag');
-var TagFactory = require(basePath + '/contents/TagFactory');
+var Tag = require(basePath + '/dom/Tag');
+var TagFactory = require(basePath + '/dom/TagFactory');
 var VimHelpTagPublisher = require(basePath +
     '/publishing/vimhelp/VimHelpTagPublisher');
 

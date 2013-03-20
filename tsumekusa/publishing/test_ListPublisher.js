@@ -3,10 +3,10 @@
 
 
 var basePath = '../../tsumekusa';
-var List = require(basePath + '/contents/List');
+var List = require(basePath + '/dom/List');
 var ListItem = List.ListItem;
-var Paragraph = require(basePath + '/contents/Paragraph');
-var ContentArray = require(basePath + '/contents/ContentArray');
+var Paragraph = require(basePath + '/dom/Paragraph');
+var ContentArray = require(basePath + '/dom/ContentArray');
 var ParagraphPublisher = require(basePath + '/publishing/ParagraphPublisher');
 var ListPublisher = require(basePath + '/publishing/ListPublisher');
 var ListItemPublisher = require(basePath + '/publishing/ListItemPublisher');

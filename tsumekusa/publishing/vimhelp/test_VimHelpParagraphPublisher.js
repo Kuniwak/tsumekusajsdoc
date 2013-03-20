@@ -3,7 +3,7 @@
 
 
 var basePath = '../../../tsumekusa';
-var Paragraph = require(basePath + '/contents/Paragraph');
+var Paragraph = require(basePath + '/dom/Paragraph');
 var VimHelpParagraphPublisher = require(basePath +
     '/publishing/vimhelp/VimHelpParagraphPublisher');
 

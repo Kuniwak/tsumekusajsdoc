@@ -23,55 +23,55 @@ var registry = exports;
  */
 registry.registerContentPublishers = function(map) {
   registry.registerContentPublisher(
-      require(basePath + '/contents/Code'), map.CODE || defaults.CODE);
+      require(basePath + '/dom/Code'), map.CODE || defaults.CODE);
 
   registry.registerContentPublisher(
-      require(basePath + '/contents/Container'),
+      require(basePath + '/dom/Container'),
       map.CONTAINER || defaults.CONTAINER);
 
   registry.registerContentPublisher(
-      require(basePath + '/contents/ContentsTable'),
+      require(basePath + '/dom/ContentsTable'),
       map.CONTENTS_TABLE || defaults.CONTENTS_TABLE);
 
   registry.registerContentPublisher(
-      require(basePath + '/contents/DefinitionList').Definition,
+      require(basePath + '/dom/DefinitionList').Definition,
       map.DEFINITION_LIST || defaults.DEFINITION_LIST);
 
   registry.registerContentPublisher(
-      require(basePath + '/contents/DefinitionList'),
+      require(basePath + '/dom/DefinitionList'),
       map.DEFINITION || defaults.DEFINITION);
 
   registry.registerContentPublisher(
-      require(basePath + '/contents/Document'),
+      require(basePath + '/dom/Document'),
       map.DOCUMENT || defaults.DOCUMENT);
 
   registry.registerContentPublisher(
-      require(basePath + '/contents/InlineCode'),
+      require(basePath + '/dom/InlineCode'),
       map.INLINE_CODE || defaults.INLINE_CODE);
 
   registry.registerContentPublisher(
-      require(basePath + '/contents/Link'), map.LINK || defaults.LINK);
+      require(basePath + '/dom/Link'), map.LINK || defaults.LINK);
 
   registry.registerContentPublisher(
-      require(basePath + '/contents/List'), map.LIST || defaults.LIST);
+      require(basePath + '/dom/List'), map.LIST || defaults.LIST);
 
   registry.registerContentPublisher(
-      require(basePath + '/contents/List').ListItem,
+      require(basePath + '/dom/List').ListItem,
       map.LIST_ITEM || defaults.LIST_ITEM);
 
   registry.registerContentPublisher(
-      require(basePath + '/contents/Paragraph'),
+      require(basePath + '/dom/Paragraph'),
       map.PARAGRAPH || defaults.PARAGRAPH);
 
   registry.registerContentPublisher(
-      require(basePath + '/contents/PreformattedParagraph'),
+      require(basePath + '/dom/PreformattedParagraph'),
       map.PREFORMATTED_PARAGRAPH || defaults.PREFORMATTED_PARAGRAPH);
 
   registry.registerContentPublisher(
-      require(basePath + '/contents/Strong'), map.STRONG || defaults.STRONG);
+      require(basePath + '/dom/Strong'), map.STRONG || defaults.STRONG);
 
   registry.registerContentPublisher(
-      require(basePath + '/contents/Tag'), map.TAG || defaults.TAG);
+      require(basePath + '/dom/Tag'), map.TAG || defaults.TAG);
 };
 
 

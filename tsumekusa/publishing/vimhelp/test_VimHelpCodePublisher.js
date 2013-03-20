@@ -3,7 +3,7 @@
 
 
 var basePath = '../../../tsumekusa';
-var Code = require(basePath + '/contents/Code');
+var Code = require(basePath + '/dom/Code');
 var VimHelpCodePublisher = require(basePath +
     '/publishing/vimhelp/VimHelpCodePublisher');
 

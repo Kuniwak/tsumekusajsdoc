@@ -4,15 +4,15 @@
 
 
 var tsumekusa = require('../../tsumekusa');
-var Document = require('../contents/Document');
-var Container = require('../contents/Container');
-var Sentence = require('../contents/Sentence');
-var Paragraph = require('../contents/Paragraph');
-var Strong = require('../contents/Strong');
-var Code = require('../contents/Code');
-var Link = require('../contents/Link');
-var DefinitionList = require('../contents/DefinitionList');
-var PreformattedParagrapg = require('../contents/PreformattedParagraph');
+var Document = require('../dom/Document');
+var Container = require('../dom/Container');
+var Sentence = require('../dom/Sentence');
+var Paragraph = require('../dom/Paragraph');
+var Strong = require('../dom/Strong');
+var Code = require('../dom/Code');
+var Link = require('../dom/Link');
+var DefinitionList = require('../dom/DefinitionList');
+var PreformattedParagrapg = require('../dom/PreformattedParagraph');
 var VimHelpDocumentPublisher = require('./VimHelpDocumentPublisher');
 
 var aa = [

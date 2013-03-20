@@ -52,7 +52,7 @@ DefinitionPublisher.NO_MARKER_INDENT_WIDTH = 2;
  * @return {string} List marker.
  */
 DefinitionPublisher.prototype.createListMarker = function(index, listType) {
-  var DefinitionList = require(basePath + '/contents/DefinitionList');
+  var DefinitionList = require(basePath + '/dom/DefinitionList');
   switch (listType) {
     case DefinitionList.ListType.NO_MARKER:
       return null;

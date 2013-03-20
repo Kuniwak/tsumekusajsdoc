@@ -5,7 +5,7 @@
 var basePath = '../../tsumekusa';
 var tsumekusa = require(basePath);
 var array = require(basePath + '/array');
-var Paragraph = require(basePath + '/contents/Paragraph');
+var Paragraph = require(basePath + '/dom/Paragraph');
 var WordWrapper = require(basePath + '/publishing/WordWrapper');
 var BlockContentPublisher = require(basePath +
     '/publishing/BlockContentPublisher');
@@ -67,7 +67,7 @@ ListItemPublisher.prototype.getUnorderedSymbol = function() {
  * @return {string} List marker.
  */
 ListItemPublisher.prototype.createListMarker = function(index, listType) {
-  var List = require(basePath + '/contents/List');
+  var List = require(basePath + '/dom/List');
   switch (listType) {
     case List.ListType.UNORDERED:
       return this.getUnorderedSymbol();

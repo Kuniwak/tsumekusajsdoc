@@ -4,22 +4,22 @@
 
 var basePath = '../../../tsumekusa/';
 var tsumekusa = require(basePath);
-var Container = require(basePath + '/contents/Container');
+var Container = require(basePath + '/dom/Container');
 var VimHelpContainerPublisher = require(basePath +
     '/publishing/vimhelp/VimHelpContainerPublisher');
-var Paragraph = require(basePath + '/contents/Paragraph');
+var Paragraph = require(basePath + '/dom/Paragraph');
 var VimHelpParagraphPublisher = require(basePath +
     '/publishing/vimhelp/VimHelpParagraphPublisher');
-var Document = require(basePath + '/contents/Document');
+var Document = require(basePath + '/dom/Document');
 var VimHelpDocumentPublisher = require(basePath +
     '/publishing/vimhelp/VimHelpDocumentPublisher');
-var ContentsTable = require(basePath + '/contents/ContentsTable');
+var ContentsTable = require(basePath + '/dom/ContentsTable');
 var VimHelpContentsTablePublisher = require(basePath +
     '/publishing/vimhelp/VimHelpContentsTablePublisher');
-var Link = require(basePath + '/contents/Link');
+var Link = require(basePath + '/dom/Link');
 var VimHelpLinkPublisher = require(basePath +
     '/publishing/vimhelp/VimHelpLinkPublisher');
-var Tag = require(basePath + '/contents/Tag');
+var Tag = require(basePath + '/dom/Tag');
 var VimHelpTagPublisher = require(basePath +
     '/publishing/vimhelp/VimHelpTagPublisher');
 

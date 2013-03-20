@@ -3,9 +3,9 @@
 
 
 var basePath = '../../../tsumekusa';
-var Tag = require(basePath + '/contents/Tag');
-var Paragraph = require(basePath + '/contents/Paragraph');
-var Container = require(basePath + '/contents/Container');
+var Tag = require(basePath + '/dom/Tag');
+var Paragraph = require(basePath + '/dom/Paragraph');
+var Container = require(basePath + '/dom/Container');
 var VimHelpTagPublisher = require(basePath +
     '/publishing/vimhelp/VimHelpTagPublisher');
 var VimHelpParagraphPublisher = require(basePath +

@@ -3,8 +3,8 @@
 
 
 var basePath = '../../tsumekusa';
-var Paragraph = require(basePath + '/contents/Paragraph');
-var Container = require(basePath + '/contents/Container');
+var Paragraph = require(basePath + '/dom/Paragraph');
+var Container = require(basePath + '/dom/Container');
 var ContainerPublisher = require(basePath + '/publishing/ContainerPublisher');
 var ParagraphPublisher = require(basePath + '/publishing/ParagraphPublisher');
 

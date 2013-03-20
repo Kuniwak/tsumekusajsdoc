@@ -4,13 +4,13 @@
 
 var basePath = '../../tsumekusa/';
 var tsumekusa = require(basePath);
-var Container = require(basePath + '/contents/Container');
+var Container = require(basePath + '/dom/Container');
 var ContainerPublisher = require(basePath + '/publishing/ContainerPublisher');
-var Paragraph = require(basePath + '/contents/Paragraph');
+var Paragraph = require(basePath + '/dom/Paragraph');
 var ParagraphPublisher = require(basePath + '/publishing/ParagraphPublisher');
-var Document = require(basePath + '/contents/Document');
+var Document = require(basePath + '/dom/Document');
 var DocumentPublisher = require(basePath + '/publishing/DocumentPublisher');
-var ContentsTable = require(basePath + '/contents/ContentsTable');
+var ContentsTable = require(basePath + '/dom/ContentsTable');
 var ContentsTablePublisher = require(basePath + '/publishing/ContentsTablePublisher');
 
 // Lorem Ipsum {{{
