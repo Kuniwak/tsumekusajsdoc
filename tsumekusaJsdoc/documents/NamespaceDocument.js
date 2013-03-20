@@ -13,7 +13,7 @@ var StaticPropertiesContainer = require('./StaticPropertiesContainer');
 /**
  * A class for document explains a namespace.
  * @param {jsdoc.Doclet} symbol Namespace symbol.
- * @param {?Array.<tsumekusa.contents.Paragraph>=} opt_topContents Optional top
+ * @param {?Array.<tsumekusa.dom.Paragraph>=} opt_topContents Optional top
  *     contents.
  * @param {?string=} opt_version Optional version identifier.
  * @param {?Date=} opt_date Optional date object.

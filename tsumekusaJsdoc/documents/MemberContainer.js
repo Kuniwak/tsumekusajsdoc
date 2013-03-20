@@ -17,7 +17,7 @@ var DocumentationContent = require(basePath +
 /**
  * A class for a container explains any member.
  * @param {jsdoc.Doclet} symbol Symbol.
- * @param {?Array.<tsumekusa.contents.Paragraph>=} opt_topContents Optional top
+ * @param {?Array.<tsumekusa.dom.Paragraph>=} opt_topContents Optional top
  *     contents.
  * @param {?tsumekusaJsdoc.documents.DocumentHelper=} opt_docHelper Optional
  *     document helper.
@@ -48,7 +48,7 @@ tsumekusa.inherits(MemberContainer, DocumentationContent);
 /**
  * Creates a top content for a member summary.
  * @param {jsdoc.Doclet} symbol Symbol.
- * @return {Array.<tsumekusa.contents.BlockContent>} Top contents.
+ * @return {Array.<tsumekusa.dom.BlockContent>} Top contents.
  */
 MemberContainer.prototype.createSummaryBlocks = function(symbol) {
   var digest = new Paragraph();

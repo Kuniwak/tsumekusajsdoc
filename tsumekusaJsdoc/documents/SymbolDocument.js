@@ -16,7 +16,7 @@ var DocumentationContent = require(basePath +
  * A class for document explains a symbol such as class or namespace.
  * @param {jsdoc.Doclet} symbol Symbol.
  * @param {string} caption Caption of the document.
- * @param {?Array.<tsumekusa.contents.Paragraph>=} opt_topContents Optional top
+ * @param {?Array.<tsumekusa.dom.Paragraph>=} opt_topContents Optional top
  *     contents.
  * @param {?string=} opt_version Optional version identifier.
  * @param {?Date=} opt_date Optional date object.

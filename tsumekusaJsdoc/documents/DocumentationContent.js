@@ -16,7 +16,7 @@ var ReferenceHelper = require('../references/ReferenceHelper');
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
  *     reference helper.
  * @constructor
- * @implements {tsumekusa.contents.IContent}
+ * @implements {tsumekusa.dom.IContent}
  */
 var DocumentationContent = function(opt_docHelper, opt_refHelper) {
   this.docHelper_ = opt_docHelper || DocumentHelper.getInstance();
@@ -44,7 +44,7 @@ DocumentationContent.prototype.getReferenceHelper = function() {
 
 /**
  * Sets a content.  The method is chainable.
- * @param {tsumekusa.contents.IContent} content Content.
+ * @param {tsumekusa.dom.IContent} content Content.
  * @return {tsumekusaJsdoc.documents.DocumentationContent} This instance.
  * @protected
  */
@@ -56,7 +56,7 @@ DocumentationContent.prototype.setContent = function(content) {
 
 /**
  * Returns a content.
- * @return {tsumekusa.contents.IContent} Content.
+ * @return {tsumekusa.dom.IContent} Content.
  * @protected
  */
 DocumentationContent.prototype.getContent = function() {
@@ -66,7 +66,7 @@ DocumentationContent.prototype.getContent = function() {
 
 /**
  * Sets a parent content to a wrapped content.
- * @param {tsumekusaJsdoc.contents.IContent} parent Parent to set.
+ * @param {tsumekusaJsdoc.dom.IContent} parent Parent to set.
  */
 DocumentationContent.prototype.setParent = function(parent) {
   this.content_.setParent(parent);

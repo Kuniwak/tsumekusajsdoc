@@ -63,7 +63,7 @@ ListItemPublisher.prototype.getUnorderedSymbol = function() {
 /**
  * Creates a list marker.
  * @param {number} index Index of a content to create the marker.
- * @param {tsumekusa.contents.List.ListType} listType List type.
+ * @param {tsumekusa.dom.List.ListType} listType List type.
  * @return {string} List marker.
  */
 ListItemPublisher.prototype.createListMarker = function(index, listType) {
@@ -92,7 +92,7 @@ ListItemPublisher.prototype.createListMarker = function(index, listType) {
  *     Second par-
  *     agraph...
  * </pre>
- * @param {tsumekusa.contents.DefinitionList.Definition} item List item.
+ * @param {tsumekusa.dom.DefinitionList.Definition} item List item.
  * @param {string} marker Marker string.
  * @return {tsumekusa.publishing.WordWrapper.Indent} Created object for
  *     indentation.
@@ -108,7 +108,7 @@ ListItemPublisher.prototype.getHeadIndent = function(item, marker) {
 /**
  * Returns an object for list item on no head indentation.  Override the method
  * if you want to change a strategy to indent.  See {@link #getHeadIndent}.
- * @param {tsumekusa.contents.DefinitionList.Definition} item List item.
+ * @param {tsumekusa.dom.DefinitionList.Definition} item List item.
  * @param {string} marker Marker string.
  * @return {tsumekusa.publishing.WordWrapper.Indent} Created object for
  *     indentation.

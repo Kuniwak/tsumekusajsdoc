@@ -77,7 +77,7 @@ ContentsTablePublisher.prototype.publishSubContainersInternal = function(
 
 /**
  * Publish a table of contents.
- * @param {tsumekusa.contents.Container} container Container to create the
+ * @param {tsumekusa.dom.Container} container Container to create the
  *     contents table.
  * @return {string} Contents table string.
  */
@@ -104,7 +104,7 @@ ContentsTablePublisher.prototype.publishContentsTable = function(container) {
 
 /**
  * Creates an index of table of contents.
- * @param {tsumekusa.contents.Container} container Sub container.
+ * @param {tsumekusa.dom.Container} container Sub container.
  * @return {string} Index of table of contents.
  */
 ContentsTablePublisher.prototype.createContentsTableHead = function(

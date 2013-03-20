@@ -45,7 +45,7 @@ DocumentPublisher.prototype.publishHeader = function(container) {
  * Returns an array of block contents as sub containers and table of contents if
  * enabled.  You can override the method, if you want to add/remove any sub
  * containers.
- * @param {tsumekusa.contents.Container} container Container content.
+ * @param {tsumekusa.dom.Container} container Container content.
  * @return {?Array.<string>} Contents table and sub containers strings, if any.
  * @protected
  * @override
@@ -74,7 +74,7 @@ DocumentPublisher.prototype.getIndentWidth = function(content) {
 
 /**
  * Publishes table of contents.
- * @param {tsumekusa.contents.Container} container Container content.
+ * @param {tsumekusa.dom.Container} container Container content.
  * @return {string} Contents table string.
  */
 DocumentPublisher.prototype.publishContentsTable = function(container) {

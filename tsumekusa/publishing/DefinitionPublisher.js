@@ -48,7 +48,7 @@ DefinitionPublisher.NO_MARKER_INDENT_WIDTH = 2;
 /**
  * Creates a list marker.
  * @param {number} index Index of a content to create the marker.
- * @param {tsumekusa.contents.DefinitionList.ListType} listType List type.
+ * @param {tsumekusa.dom.DefinitionList.ListType} listType List type.
  * @return {string} List marker.
  */
 DefinitionPublisher.prototype.createListMarker = function(index, listType) {
@@ -88,7 +88,7 @@ DefinitionPublisher.prototype.getUnorderedSymbol = function() {
 /**
  * Returns an object for terms indentation.  Override the method if you want to
  * change a strategy to indent.
- * @param {tsumekusa.contents.DefinitionList.Definition} def Definition.
+ * @param {tsumekusa.dom.DefinitionList.Definition} def Definition.
  * @param {string} marker Marker string.
  * @return {tsumekusa.publishing.WordWrapper.Indent} Created object for
  *     indentation.
@@ -103,7 +103,7 @@ DefinitionPublisher.prototype.getIndentForTerms = function(def, marker) {
 /**
  * Returns an object for descriptions indentation.  Override the method if you
  * want to change a strategy to indent.
- * @param {tsumekusa.contents.DefinitionList.Definition} def Definition.
+ * @param {tsumekusa.dom.DefinitionList.Definition} def Definition.
  * @param {string} marker Marker string.
  * @return {tsumekusa.publishing.WordWrapper.Indent} Created object for
  *     indentation.

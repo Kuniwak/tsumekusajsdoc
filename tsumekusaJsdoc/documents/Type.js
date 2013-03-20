@@ -52,7 +52,7 @@ tsumekusa.inherits(Type, DocumentationContent);
 
 /**
  * Type contents.
- * @type {Array.<tsumekusa.contents.InlineContent|string>}
+ * @type {Array.<tsumekusa.dom.InlineContent|string>}
  * @private
  */
 Type.prototype.types_ = null;

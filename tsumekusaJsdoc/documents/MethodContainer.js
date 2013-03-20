@@ -23,7 +23,7 @@ var FunctionDigest = require(basePath + '/documents/FunctionDigest');
 /**
  * A class for a container explains a method.
  * @param {jsdoc.Doclet} symbol Method symbol.
- * @param {?Array.<tsumekusa.contents.Paragraph>=} opt_topContents Optional top
+ * @param {?Array.<tsumekusa.dom.Paragraph>=} opt_topContents Optional top
  *     contents.
  * @param {?tsumekusaJsdoc.documents.DocumentHelper=} opt_docHelper Optional
  *     document helper.

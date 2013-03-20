@@ -77,9 +77,9 @@ registry.registerContentPublishers = function(map) {
 
 /**
  * Registers a content-publisher pair.
- * @param {function(new:tsumekusa.contents.IContent)} content Content
+ * @param {function(new:tsumekusa.dom.IContent)} content Content
  *     constructor to register.
- * @param {function(new:tsumekusa.contents.IContentPublisher)} publisher Content
+ * @param {function(new:tsumekusa.dom.IContentPublisher)} publisher Content
  *     publisher constructor to register.
  */
 registry.registerContentPublisher = function(content, publisher) {

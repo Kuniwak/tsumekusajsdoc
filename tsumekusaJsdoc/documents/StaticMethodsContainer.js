@@ -11,7 +11,7 @@ var MethodsContainer = require('./MethodsContainer');
  * A class for static methods container.
  * @param {jsdoc.Doclet} parent Symbol contains {@code members}.
  * @param {Array.<jsdoc.Doclet>} members Static member symbols.
- * @param {?Array.<tsumekusa.contents.Paragraph>=} opt_topContents Optional top
+ * @param {?Array.<tsumekusa.dom.Paragraph>=} opt_topContents Optional top
  *     contents.
  * @param {?tsumekusaJsdoc.documents.DocumentHelper=} opt_docHelper Optional
  *     document helper.

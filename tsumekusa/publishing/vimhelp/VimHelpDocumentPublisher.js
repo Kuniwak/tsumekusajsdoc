@@ -108,7 +108,7 @@ VimHelpDocumentPublisher.prototype.publishSubContents = function(doc) {
 
 /**
  * Punlishes a contents table.
- * @param {tsumekusa.contents.Document} doc Document.
+ * @param {tsumekusa.dom.Document} doc Document.
  * @return {string} Table of contents.
  */
 VimHelpDocumentPublisher.prototype.publishContentsTable = function(doc) {
@@ -118,7 +118,7 @@ VimHelpDocumentPublisher.prototype.publishContentsTable = function(doc) {
 
 /**
  * Creates a version note.
- * @param {tsumekusa.contents.Document} doc Document.
+ * @param {tsumekusa.dom.Document} doc Document.
  * @return {string} Version note.
  */
 VimHelpDocumentPublisher.prototype.createVersion = function(doc) {
@@ -128,7 +128,7 @@ VimHelpDocumentPublisher.prototype.createVersion = function(doc) {
 
 /**
  * Creates a last change note.
- * @param {tsumekusa.contents.Document} doc Document.
+ * @param {tsumekusa.dom.Document} doc Document.
  * @return {string} LastChange note.
  */
 VimHelpDocumentPublisher.prototype.createLastChange = function(lastDate) {

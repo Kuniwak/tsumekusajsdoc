@@ -142,7 +142,7 @@ VimHelpContentsTablePublisher.prototype.publishSubContainersInternal = function(
 
 /**
  * Publish a table of contents.
- * @param {tsumekusa.contents.Document} doc Document to create the contents
+ * @param {tsumekusa.dom.Document} doc Document to create the contents
  *     table.
  * @return {string} Contents table string.
  */
@@ -191,7 +191,7 @@ VimHelpContentsTablePublisher.prototype.publishContentsTable = function(
  * FooBar ..... *foobar*
  *              ^ Alignment point
  * </pre>
- * @param {tsumekusa.contents.Container} container Container.
+ * @param {tsumekusa.dom.Container} container Container.
  * @param {number} maxLinkLen Length of the longest link.
  * @return {string} Line of a table of contents.
  * @private
@@ -231,7 +231,7 @@ VimHelpContentsTablePublisher.prototype.publishNoWordWrappedLine_ = function(
  *        *foobar*
  *               ^ Alignment point
  * </pre>
- * @param {tsumekusa.contents.Container} container Container.
+ * @param {tsumekusa.dom.Container} container Container.
  * @param {number} maxLinkLen Length of the longest link.
  * @return {string} Line of a table of contents.
  * @private
@@ -269,7 +269,7 @@ VimHelpContentsTablePublisher.prototype.publishWordWrappedLine_ = function(
 
 /**
  * Creates a line head of a table of contents.
- * @param {tsumekusa.contents.Container} container Container.
+ * @param {tsumekusa.dom.Container} container Container.
  * @return {string} Line head of a table of contents.
  * @private
  */

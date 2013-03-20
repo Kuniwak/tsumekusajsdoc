@@ -12,7 +12,7 @@ var WordWrapper = require(basePath + '/publishing/WordWrapper');
 /**
  * A singleton class for container publisher.
  * @constructor
- * @extends {tsumekusa.contents.BlockContentPublisher}
+ * @extends {tsumekusa.dom.BlockContentPublisher}
  */
 var ContainerPublisher = function() {
   BlockContentPublisher.call(this);
@@ -63,7 +63,7 @@ ContainerPublisher.HEADER_BOTTOM_MARGIN = 0;
 
 /**
  * Returns an indent width of the content caption.
- * @param {tsumekusa.contents.BlockContent} content Block content to get an
+ * @param {tsumekusa.dom.BlockContent} content Block content to get an
  *     indent width.
  * @return {number} Indent width.
  */
@@ -82,7 +82,7 @@ ContainerPublisher.prototype.getIndentWidth = function(content) {
 
 /**
  * Returns an indent width of the content caption.
- * @param {tsumekusa.contents.BlockContent} content Block content to get an
+ * @param {tsumekusa.dom.BlockContent} content Block content to get an
  *     indent width.
  * @return {number} Indent width.
  */
@@ -96,7 +96,7 @@ ContainerPublisher.prototype.getCaptionIndent = function(content, idxLen) {
 /**
  * Creates an index string on head of a header.  Index string foemat as: {@code
  * 1.1.2}.
- * @param {tsumekusa.contents.Container} container Contents container.
+ * @param {tsumekusa.dom.Container} container Contents container.
  * @return {string} Index string.
  */
 ContainerPublisher.prototype.createIndex = function(container) {
@@ -119,7 +119,7 @@ ContainerPublisher.prototype.createIndex = function(container) {
 
 /**
  * Publishes a header content string.
- * @param {tsumekusa.contents.Container} container Container content.
+ * @param {tsumekusa.dom.Container} container Container content.
  * @return {?string} Header content string, if any.
  */
 ContainerPublisher.prototype.publishHeader = function(container) {
@@ -137,7 +137,7 @@ ContainerPublisher.prototype.publishHeader = function(container) {
 /**
  * Returns an array of block contents as top contents.  You can override the
  * method, if you want to add/remove any top contents.
- * @param {tsumekusa.contents.Container} container Container content.
+ * @param {tsumekusa.dom.Container} container Container content.
  * @return {?Array.<string>} Top contents strings, if any.
  * @protected
  */
@@ -156,7 +156,7 @@ ContainerPublisher.prototype.publishTopContentsInternal = function(container) {
 
 /**
  * Publishes top contents string.
- * @param {tsumekusa.contents.Container} container Container content.
+ * @param {tsumekusa.dom.Container} container Container content.
  * @return {?string} Sub containers string, if any.
  */
 ContainerPublisher.prototype.publishTopContents = function(container) {
@@ -174,7 +174,7 @@ ContainerPublisher.prototype.publishTopContents = function(container) {
 /**
  * Returns an array of block contents as sub containers.  You can override the
  * method, if you want to add/remove any sub containers.
- * @param {tsumekusa.contents.Container} container Container content.
+ * @param {tsumekusa.dom.Container} container Container content.
  * @return {?Array.<string>} Sub containers strings, if any.
  * @protected
  */
@@ -194,7 +194,7 @@ ContainerPublisher.prototype.publishSubContainersInternal = function(
 
 /**
  * Publishes sub containers string.
- * @param {tsumekusa.contents.Container} container Container content.
+ * @param {tsumekusa.dom.Container} container Container content.
  * @return {?string} Sub containers string, if any.
  */
 ContainerPublisher.prototype.publishSubContainers = function(container) {
@@ -218,7 +218,7 @@ ContainerPublisher.prototype.publishSubContainers = function(container) {
 
 /**
  * Publishes a footer content string.
- * @param {tsumekusa.contents.Container} container Container content.
+ * @param {tsumekusa.dom.Container} container Container content.
  * @return {?string} Footer content string, if any.
  */
 ContainerPublisher.prototype.publishFooter = function(container) {
@@ -228,7 +228,7 @@ ContainerPublisher.prototype.publishFooter = function(container) {
 
 /**
  * Returns a saparator string that is insereted between sub containers.
- * @param {tsumekusa.contents.Container} container Container content.
+ * @param {tsumekusa.dom.Container} container Container content.
  * @return {?string} Separator string, if any.
  */
 ContainerPublisher.prototype.getSubContainerSeparator = function(container) {

@@ -149,7 +149,7 @@ DocumentHelper.prototype.createBlockContentByNode = function(node, opt_current) 
  * if {@link tsumekusa.INLINE_TAG_DISABLED} flag was set.
  * @param {string} string String to parse.
  * @param {?jsdoc.Doclet=} opt_current Optional current doclet.
- * @return {Array.<string|tsumekusa.contents.InlineContent>} Parsed contents.
+ * @return {Array.<string|tsumekusa.dom.InlineContent>} Parsed contents.
  */
 DocumentHelper.prototype.parseInlineTags = function(input, opt_current) {
   // Return an original input if no inline code.
@@ -200,7 +200,7 @@ DocumentHelper.prototype.parseInlineTags = function(input, opt_current) {
  * @param {string} tagName Tag name.
  * @param {string} tagContent Tag content.
  * @param {?jsdoc.Doclet=} opt_current Optional current doclet.
- * @return {tsumekusa.contents.InlineContent} Created inline content.  Returns
+ * @return {tsumekusa.dom.InlineContent} Created inline content.  Returns
  *     an {@code tsumekusa.publishing.UnknownInlineTag} for overriding if the
  *     tag type was unknown.  You can get an other content by overriding the
  *     method when you defined a new inline tag.

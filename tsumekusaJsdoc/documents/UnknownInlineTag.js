@@ -14,7 +14,7 @@ var InlineContent = require('../../tsumekusa/contents/InlineContent');
  * @param {string} content Unknown unline tag content.
  * @param {?jsdoc.Doclet=} opt_current Optional current doclet.
  * @constructor
- * @extends {tsumekusa.contents.InlineContent}
+ * @extends {tsumekusa.dom.InlineContent}
  */
 var UnknownInlineTag = function(type, content, opt_current) {
   InlineContent.call(this);

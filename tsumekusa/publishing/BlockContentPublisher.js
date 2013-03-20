@@ -43,7 +43,7 @@ BlockContentPublisher.prototype.getDisplayWidth = function() {
 
 /**
  * Returns an indent width of a content as a parent of the content.
- * @param {tsumekusa.contents.BlockContent} content Block content to get an
+ * @param {tsumekusa.dom.BlockContent} content Block content to get an
  *     indent width.
  * @return {number} Indent width.
  * @protected
@@ -73,7 +73,7 @@ BlockContentPublisher.prototype.getParentIndentWidth = function(content) {
 /**
  * Returns an indent width of the content.  Override the methods if you need to
  * change an indentation width.
- * @param {tsumekusa.contents.BlockContent} content Block content to get an
+ * @param {tsumekusa.dom.BlockContent} content Block content to get an
  *     indent width.
  * @return {number} Indent width.
  */
@@ -86,7 +86,7 @@ BlockContentPublisher.prototype.getIndentWidth = function(content) {
 /**
  * Returns an object for indentation.  Override the method if you need to change
  * an indentation.  In default, indent by a width from {@link #getIndentWidth}.
- * @param {tsumekusa.contents.BlockContent} content Block content to get an
+ * @param {tsumekusa.dom.BlockContent} content Block content to get an
  *     object for indentation.
  * @return {tsumekusa.publishing.WordWrapper.Indent} Created object for
  *     indentation.
@@ -100,7 +100,7 @@ BlockContentPublisher.prototype.getIndent = function(content) {
 /**
  * Returns a word wrapper.  Override the method if you want to change
  * a strategy to wrap words.
- * @param {tsumekusa.contents.BlockContent} content Block content to get a word
+ * @param {tsumekusa.dom.BlockContent} content Block content to get a word
  *     wrapper.
  * @return {tsumekusa.publishing.WordWrapper.Indent} Created object for
  *     indentation.

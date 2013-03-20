@@ -22,7 +22,7 @@ var InstancePropertiesContainer = require(basePath +
 /**
  * A class for document explains a class.
  * @param {jsdoc.Doclet} symbol Class symbol.
- * @param {?Array.<tsumekusa.contents.Paragraph>=} opt_topContents Optional top
+ * @param {?Array.<tsumekusa.dom.Paragraph>=} opt_topContents Optional top
  *     contents.
  * @param {?string=} opt_version Optional version identifier.
  * @param {?Date=} opt_date Optional date object.

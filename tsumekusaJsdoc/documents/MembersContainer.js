@@ -16,7 +16,7 @@ var DocumentationContent = require('./DocumentationContent');
  * @param {string} caption Caption of the container such as {@code
  *     'Static members'}.
  * @param {string} modifier Modifier of the reference ID.
- * @param {?Array.<tsumekusa.contents.Paragraph>=} opt_topContents Optional top
+ * @param {?Array.<tsumekusa.dom.Paragraph>=} opt_topContents Optional top
  *     contents.
  * @param {?tsumekusaJsdoc.documents.DocumentHelper=} opt_docHelper Optional
  *     document helper.

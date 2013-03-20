@@ -18,7 +18,7 @@ var ObjectDigest = require(basePath + '/documents/ObjectDigest');
 /**
  * A class for a container explains a property.
  * @param {tsumekusaJsdoc.documents.DocletWrapper} symbol Property symbol.
- * @param {?Array.<tsumekusa.contents.Paragraph>=} opt_topContents Optional top
+ * @param {?Array.<tsumekusa.dom.Paragraph>=} opt_topContents Optional top
  *     contents.
  * @param {?tsumekusaJsdoc.documents.DocumentHelper=} opt_docHelper Optional
  *     document helper.
