@@ -2,7 +2,7 @@
 // http://orgachem.mit-license.org
 
 
-var AnchorElement = require('../dom/AnchorElement');
+var AnchorElement = require('../html/AnchorElement');
 var files = require('../files');
 
 

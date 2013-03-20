@@ -10,7 +10,7 @@ var Element = require('./element');
 /**
  * A class for anchor elements.
  * @constructor
- * @extends {tsumekusa.dom.Element}
+ * @extends {tsumekusa.html.Element}
  */
 var AnchorElement = function(content, href) {
   Element.call(this, 'a', false, content);

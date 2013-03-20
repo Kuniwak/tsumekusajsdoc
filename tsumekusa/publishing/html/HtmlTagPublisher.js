@@ -2,7 +2,7 @@
 // http://orgachem.mit-license.org
 
 
-var Element = require('../dom/Element');
+var Element = require('../html/Element');
 var files = require('../files');
 
 
@@ -28,7 +28,7 @@ HtmlTagPublisher.prototype.publish = function(tag) {
 /**
  * Returns a HTML element for the tag.  If you do not want a DIVElement ,
  * override this.
- * @return {tsumekusa.dom.Element} Element for the tag.
+ * @return {tsumekusa.html.Element} Element for the tag.
  */
 HtmlTagPublisher.prototype.createDom = function() {
   return new Element('div');

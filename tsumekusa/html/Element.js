@@ -30,7 +30,7 @@ Element.prototype.getType = function() {
 /**
  * Sets a content.  This method is chainable.
  * @param {string} content Content to set.
- * @return {tsumekusa.dom.Element} This instance.
+ * @return {tsumekusa.html.Element} This instance.
  */
 Element.prototype.setContent = function(content) {
   this.content_ = content;
@@ -49,7 +49,7 @@ Element.prototype.getContent = function() {
 
 /**
  * Returns an attribute map.
- * @return {tsumekusa.dom.Element.AttributeMap} Attribute map.
+ * @return {tsumekusa.html.Element.AttributeMap} Attribute map.
  * @protected
  */
 Element.prototype.getAttributeMap = function() {
@@ -61,7 +61,7 @@ Element.prototype.getAttributeMap = function() {
  * Sets an attribute.  This method is chainable.
  * @param {string} key Attribute key.
  * @param {string} val Attribute value.
- * @return {tsumekusa.dom.Element} This instance.
+ * @return {tsumekusa.html.Element} This instance.
  */
 Element.prototype.setAttribute = function(key, val) {
   var attr = this.getAttributeMap().set(key, val);

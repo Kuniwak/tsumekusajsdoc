@@ -95,7 +95,7 @@ tsumekusa.getUid = function(obj) {
  * @type {string}
  * @private
  */
-tsumekusa.UID_PROPERTY_ = 'closure_uid_' + ((Math.random() * 1e9) >>> 0);
+tsumekusa.UID_PROPERTY_ = 'closure_uid_' + ((Math.ranhtml() * 1e9) >>> 0);
 
 
 /**
