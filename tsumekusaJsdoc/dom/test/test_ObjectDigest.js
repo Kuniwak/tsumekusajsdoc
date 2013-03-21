@@ -16,14 +16,17 @@ Type.publisher = new TypePublisher();
 
 
 exports.testPublish = function(test) {
+  var ref = 'boolean';
   var dummyDoclet = {
     longname: 'foo.bar',
     type: {
-      names: ['boolean']
+      names: [ref]
     }
   };
 
+  var lnk = new Link(ref);
+
   var digest = new ObjectDigest(dummyDoclet);
-  test.equal(digest.publish(), 'foo.bar: boolean');
+  test.equal(digest.publish(), 'foo.bar: ' + lnk.publish());
   test.done();
 };

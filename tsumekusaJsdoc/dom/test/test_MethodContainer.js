@@ -10,9 +10,14 @@ var Container = require(tsumekusaPath + '/dom/Container');
 var ContainerPublisher = require(tsumekusaPath + '/publishing/ContainerPublisher');
 var Paragraph = require(tsumekusaPath + '/dom/Paragraph');
 var ParagraphPublisher = require(tsumekusaPath + '/publishing/ParagraphPublisher');
+var DefinitionList = require(tsumekusaPath + '/dom/DefinitionList');
+var DefinitionListPublisher = require(tsumekusaPath + '/publishing/DefinitionListPublisher');
+var DefinitionPublisher = require(tsumekusaPath + '/publishing/DefinitionPublisher');
 Link.publisher = new LinkPublisher();
 Container.publisher = new ContainerPublisher();
 Paragraph.publisher = new ParagraphPublisher();
+DefinitionList.publisher = new DefinitionListPublisher();
+DefinitionList.Definition.publisher = new DefinitionPublisher();
 
 var basePath = '../../../tsumekusaJsdoc';
 var MethodContainer = require(basePath + '/dom/MethodContainer');

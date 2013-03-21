@@ -63,11 +63,6 @@ tsumekusaJsdoc.decorateParamName = function(tag) {
     name += '...';
   }
 
-  // display '[foo]' as the tag name if the parameter is optional.
-  if (tag.optional) {
-    name = '[' + name + ']';
-  }
-
   return name;
 };
 

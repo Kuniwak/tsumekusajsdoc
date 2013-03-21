@@ -19,8 +19,8 @@ tsumekusa.addSingletonGetter(LinkPublisher);
 /** @override */
 LinkPublisher.prototype.publish = function(link) {
   var refId = link.getTargetReferenceId();
-  console.warn('The output format do not support a link: ' + refId);
-  return refId;
+  //console.warn('The output format do not support a link: ' + refId);
+  return '[' + refId + ']';
 };
 
 

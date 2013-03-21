@@ -14,15 +14,21 @@ var TypePublisher = require(basePath + '/publishing/TypePublisher');
 Type.publisher = new TypePublisher();
 
 exports.testPublishWithTwoTypes = function(test) {
+  var ref1 = 'string';
+  var ref2 = 'number';
+
   var dummyTag = {
     type: {
-      names: ['string', 'number']
+      names: [ref1, ref2]
     }
   };
 
+  var lnk1 = new Link(ref1);
+  var lnk2 = new Link(ref2);
+
   var type = new Type(dummyTag);
 
-  test.equal(type.publish(), 'string|number');
+  test.equal(type.publish(), lnk1.publish() + '|' + lnk2.publish());
   test.done();
 };
 

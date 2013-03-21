@@ -53,6 +53,10 @@ Type.TypeImpl = function(tag) {
     if (tag.nullable) {
       types[typeIdx++] = 'null';
     }
+
+    if (tag.optional) {
+      types[typeIdx++] = 'undefined';
+    }
   }
   else {
     types = ['?'];

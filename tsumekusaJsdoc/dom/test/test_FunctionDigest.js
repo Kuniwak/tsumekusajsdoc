@@ -16,89 +16,106 @@ Type.publisher = new TypePublisher();
 
 
 exports.testPublishWithTwoParamsAndReturn = function(test) {
+  var ref1 = 'string';
+  var ref2 = 'goog.structs.Map';
+  var ref3 = 'boolean';
+  var lnk1 = new Link(ref1);
+  var lnk2 = new Link(ref2);
+  var lnk3 = new Link(ref3);
+
   var dummyDoclet = {
     longname: 'foo.bar',
     params: [
       {
         name: 'arg1',
         type: {
-          names: ['string']
+          names: [ref1]
         }
       }, {
         name: 'arg2',
         type: {
-          names: ['goog.structs.Map']
+          names: [ref2]
         }
       }
     ],
     returns: [
       {
         type: {
-          names: ['boolean']
+          names: [ref3]
         }
       }
     ]
   };
 
   var digest = new FunctionDigest(dummyDoclet);
-  test.equal(digest.publish(), 'foo.bar(arg1, arg2) -> boolean');
+  test.equal(digest.publish(), 'foo.bar(arg1, arg2) -> ' + lnk3.publish());
   test.done();
 };
 
 
 exports.testPublishWithParamAndReturn = function(test) {
+  var ref1 = 'string';
+  var ref2 = 'boolean';
+  var lnk1 = new Link(ref1);
+  var lnk2 = new Link(ref2);
+
   var dummyDoclet = {
     longname: 'foo.bar',
     params: [
       {
         name: 'arg1',
         type: {
-          names: ['string']
+          names: [ref1]
         }
       }
     ],
     returns: [
       {
         type: {
-          names: ['boolean']
+          names: [ref2]
         }
       }
     ]
   };
 
   var digest = new FunctionDigest(dummyDoclet);
-  test.equal(digest.publish(), 'foo.bar(arg1) -> boolean');
+  test.equal(digest.publish(), 'foo.bar(arg1) -> ' + lnk2.publish());
   test.done();
 };
 
 
 exports.testPublishWithReturn = function(test) {
+  var ref = 'number';
+  var lnk = new Link(ref);
+
   var dummyDoclet = {
     longname: 'foo.bar',
     params: [],
     returns: [
       {
         type: {
-          names: ['number']
+          names: [ref]
         }
       }
     ]
   };
 
   var digest = new FunctionDigest(dummyDoclet);
-  test.equal(digest.publish(), 'foo.bar() -> number');
+  test.equal(digest.publish(), 'foo.bar() -> ' + lnk.publish());
   test.done();
 };
 
 
 exports.testPublishWithParam = function(test) {
+  var ref = 'string';
+
   var dummyDoclet = {
     longname: 'foo.bar',
     params: [
       {
         name: 'arg1',
         type: {
-          names: ['string']
+          names: [ref]
         }
       }
     ],
