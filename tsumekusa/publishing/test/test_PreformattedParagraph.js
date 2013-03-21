@@ -14,7 +14,6 @@ var LOREM_IPSUM = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
 
 exports.testPublishWithDisplayWidth = function(test) {
   PreformattedParagraph.publisher = new PreformattedParagraphPublisher();
-  PreformattedParagraph.publisher.setDisplayWidth(80);
 
   var p = new PreformattedParagraph(LOREM_IPSUM);
 
@@ -38,6 +37,7 @@ exports.testPublishWithDisplayWidth = function(test) {
 exports.testPublish = function(test) {
   PreformattedParagraph.publisher = new PreformattedParagraphPublisher();
   var p = new PreformattedParagraph(LOREM_IPSUM);
+  PreformattedParagraph.publisher.setDisplayWidth(Number.MAX_VALUE);
 
   var CORRECT = [
     '',

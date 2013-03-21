@@ -29,11 +29,6 @@ exports.testPublishWithDisplayWidth = function(test) {
   Document.publisher = new DocumentPublisher();
   ContentsTable.publisher = new ContentsTablePublisher();
 
-  Container.publisher.setDisplayWidth(80);
-  Paragraph.publisher.setDisplayWidth(80);
-  Document.publisher.setDisplayWidth(80);
-  ContentsTable.publisher.setDisplayWidth(80);
-
   var document = new Document('Sample', 'doc.txt', 'ALPHA', new Date(0));
 
   var container1 = new Container('container1', null, true);
@@ -152,6 +147,11 @@ exports.testPublish = function(test) {
   Paragraph.publisher = new ParagraphPublisher();
   Document.publisher = new DocumentPublisher();
   ContentsTable.publisher = new ContentsTablePublisher();
+
+  Container.publisher.setDisplayWidth(Number.MAX_VALUE);
+  Paragraph.publisher.setDisplayWidth(Number.MAX_VALUE);
+  Document.publisher.setDisplayWidth(Number.MAX_VALUE);
+  ContentsTable.publisher.setDisplayWidth(Number.MAX_VALUE);
 
   var document = new Document('Sample', 'doc.txt', 'ALPHA', new Date(0));
 

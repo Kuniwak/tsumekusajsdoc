@@ -20,7 +20,7 @@ var BlockContentPublisher = function() {};
  * @type {number}
  * @private
  */
-BlockContentPublisher.prototype.dispWidth_ = Number.MAX_VALUE;
+BlockContentPublisher.prototype.dispWidth_ = 80;
 
 
 /**

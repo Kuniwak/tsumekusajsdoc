@@ -66,6 +66,9 @@ exports.testPublish = function(test) {
 
   var container = new MethodContainer(dummyDoclet);
 
+  var CORRECT = [
+  ];
+
   console.log(container.publish());
   test.done();
 };
