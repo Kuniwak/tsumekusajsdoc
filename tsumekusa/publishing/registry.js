@@ -5,7 +5,6 @@
 
 var basePath = '../../tsumekusa';
 var tsumekusa = require(basePath);
-var defaults = require(basePath + '/publishing/DefaultPublishers');
 
 
 /**
@@ -22,56 +21,81 @@ var registry = exports;
  *     Content publishers map.
  */
 registry.registerContentPublishers = function(map) {
-  registry.registerContentPublisher(
-      require(basePath + '/dom/Code'), map.CODE || defaults.CODE);
+  if (!map) {
+    throw Error('Illegal publishers map: ' + map);
+  }
 
-  registry.registerContentPublisher(
-      require(basePath + '/dom/Container'),
-      map.CONTAINER || defaults.CONTAINER);
+  if (map.CODE) {
+    registry.registerContentPublisher(
+        require(basePath + '/dom/Code'), map.CODE);
+  }
 
-  registry.registerContentPublisher(
-      require(basePath + '/dom/ContentsTable'),
-      map.CONTENTS_TABLE || defaults.CONTENTS_TABLE);
+  if (map.CONTAINER) {
+    registry.registerContentPublisher(
+        require(basePath + '/dom/Container'), map.CONTAINER);
+  }
 
-  registry.registerContentPublisher(
-      require(basePath + '/dom/DefinitionList').Definition,
-      map.DEFINITION_LIST || defaults.DEFINITION_LIST);
+  if (map.CONTENTS_TABLE) {
+    registry.registerContentPublisher(
+        require(basePath + '/dom/ContentsTable'), map.CONTENTS_TABLE);
+  }
 
-  registry.registerContentPublisher(
-      require(basePath + '/dom/DefinitionList'),
-      map.DEFINITION || defaults.DEFINITION);
+  if (map.DEFINITION_LIST) {
+    registry.registerContentPublisher(
+        require(basePath + '/dom/DefinitionList').Definition,
+        map.DEFINITION_LIST);
+  }
 
-  registry.registerContentPublisher(
-      require(basePath + '/dom/Document'),
-      map.DOCUMENT || defaults.DOCUMENT);
+  if (map.DEFINITION) {
+    registry.registerContentPublisher(
+        require(basePath + '/dom/DefinitionList'), map.DEFINITION);
+  }
 
-  registry.registerContentPublisher(
-      require(basePath + '/dom/InlineCode'),
-      map.INLINE_CODE || defaults.INLINE_CODE);
+  if (map.DOCUMENT) {
+    registry.registerContentPublisher(
+        require(basePath + '/dom/Document'), map.DOCUMENT);
+  }
 
-  registry.registerContentPublisher(
-      require(basePath + '/dom/Link'), map.LINK || defaults.LINK);
+  if (map.INLINE_CODE) {
+    registry.registerContentPublisher(
+        require(basePath + '/dom/InlineCode'), map.INLINE_CODE);
+  }
 
-  registry.registerContentPublisher(
-      require(basePath + '/dom/List'), map.LIST || defaults.LIST);
+  if (map.LINK) {
+    registry.registerContentPublisher(
+        require(basePath + '/dom/Link'), map.LINK);
+  }
 
-  registry.registerContentPublisher(
-      require(basePath + '/dom/List').ListItem,
-      map.LIST_ITEM || defaults.LIST_ITEM);
+  if (map.LIST) {
+    registry.registerContentPublisher(
+        require(basePath + '/dom/List'), map.LIST);
+  }
 
-  registry.registerContentPublisher(
-      require(basePath + '/dom/Paragraph'),
-      map.PARAGRAPH || defaults.PARAGRAPH);
+  if (map.LIST_ITEM) {
+    registry.registerContentPublisher(
+        require(basePath + '/dom/List').ListItem, map.LIST_ITEM);
+  }
 
-  registry.registerContentPublisher(
-      require(basePath + '/dom/PreformattedParagraph'),
-      map.PREFORMATTED_PARAGRAPH || defaults.PREFORMATTED_PARAGRAPH);
+  if (map.PARAGRAPH) {
+    registry.registerContentPublisher(
+        require(basePath + '/dom/Paragraph'), map.PARAGRAPH);
+  }
 
-  registry.registerContentPublisher(
-      require(basePath + '/dom/Strong'), map.STRONG || defaults.STRONG);
+  if (map.PREFORMATTED_PARAGRAPH) {
+    registry.registerContentPublisher(
+        require(basePath + '/dom/PreformattedParagraph'),
+        map.PREFORMATTED_PARAGRAPH);
+  }
 
-  registry.registerContentPublisher(
-      require(basePath + '/dom/Tag'), map.TAG || defaults.TAG);
+  if (map.STRONG) {
+    registry.registerContentPublisher(
+        require(basePath + '/dom/Strong'), map.STRONG);
+  }
+
+  if (map.TAG) {
+    registry.registerContentPublisher(
+        require(basePath + '/dom/Tag'), map.TAG);
+  }
 };
 
 
