@@ -41,10 +41,12 @@ var MethodContainer = function(symbol, opt_topContents, opt_docHelper,
   var subContainers = container.getSubContainers();
 
   if (tsumekusaJsdoc.hasParam(symbol)) {
-    subContainers.addChild(this.createParametersContainer(symbol));
+    var paramsContainer = this.createParametersContainer(symbol);
+    subContainers.addChild(paramsContainer.getContent());
   }
   if (tsumekusaJsdoc.hasReturn(symbol)) {
-    subContainers.addChild(this.createReturnsContainer(symbol));
+    var returnsContainer = this.createReturnsContainer(symbol);
+    subContainers.addChild(returnsContainer);
   }
 };
 tsumekusa.inherits(MethodContainer, MemberContainer);
@@ -154,7 +156,7 @@ MethodContainer.ParametersContainer = function(symbol, parent, opt_docHelper,
 
       var type = new Type(tag);
       var paramName = tsumekusaJsdoc.decorateParamName(tag);
-      var caption = new Paragraph(paramName + ':', type);
+      var caption = new Paragraph(paramName + ':', type.getContent());
 
       defs.addDefinition(caption, desc);
     }, this);
