@@ -76,7 +76,6 @@ DocumentationContent.prototype.setParent = function(parent) {
 /** @override */
 DocumentationContent.prototype.publish = function() {
   // Borrow tsumekusa publishing system.
-  console.log(this.getContent());
   return this.getContent().publish();
 };
 
