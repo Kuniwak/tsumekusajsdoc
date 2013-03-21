@@ -118,8 +118,19 @@ DefinitionPublisher.prototype.getIndentForDescriptions = function(def, marker) {
 
 /** @override */
 DefinitionPublisher.prototype.publish = function(content) {
-  var inlineContentsInTerm = content.getTerm().getInlineContents();
-  var blockContentsInDesc = content.getDescriptions().getChildren();
+  var termParagraph = content.getTerm();
+  var descsArray = content.getDescriptions();
+
+  if (!termParagraph) {
+    throw Error('Invalid definition term: ' + termParagraph);
+  }
+  if (!descsArray) {
+    throw Error('Invalid definition descriptions: ' + descsArray);
+  }
+
+  var inlineContentsInTerm = termParagraph.getInlineContents();
+  var blockContentsInDesc = descsArray.getChildren();
+
   var listType = content.getListType();
   var dispWidth = this.getDisplayWidth();
   var index = content.getIndex();

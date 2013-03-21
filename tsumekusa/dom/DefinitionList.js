@@ -207,18 +207,26 @@ DefinitionList.prototype.getDescriptionAt = function(index) {
 // Definition class {{{
 /**
  * A class for definition.
- * @param {tsumekusa.dom.Paragraph|string} term Definition term.
- * @param {tsumekusa.dom.ContentArray.<tsumekusa.dom.BlockContent>}
- *    descs Block contents as descriptions of the definition.
- * @param {tsumekusa.dom.DefinitionList.ListType} type List type.
+ * @param {tsumekusa.dom.Paragraph|string=} opt_term Definition term.
+ * @param {tsumekusa.dom.ContentArray.<tsumekusa.dom.BlockContent>=}
+ *    opt_descs Block contents as descriptions of the definition.
+ * @param {?tsumekusa.dom.DefinitionList.ListType=} opt_type List type.
  * @constructor
  */
-DefinitionList.Definition = function(term, descs, type) {
+DefinitionList.Definition = function(opt_term, opt_descs, opt_type) {
   BlockContent.call(this);
-  this.term_ = typeof term === 'string' ? new Paragraph(term) :
-      term;
-  this.descs_ = descs;
-  this.type_ = type;
+
+  if (opt_term) {
+    this.setTerm(opt_term);
+  }
+
+  if (opt_descs) {
+    this.setDescriptions(opt_descs);
+  }
+
+  if (opt_type) {
+    this.type_ = opt_type;
+  }
 };
 tsumekusa.inherits(DefinitionList.Definition, BlockContent);
 
@@ -235,7 +243,7 @@ DefinitionList.Definition.publisher = null;
  * @type {tsumekusa.dom.DefinitionList.ListType}
  * @private
  */
-DefinitionList.Definition.prototype.type_;
+DefinitionList.Definition.prototype.type_ = null;
 
 
 /**
@@ -243,7 +251,7 @@ DefinitionList.Definition.prototype.type_;
  * @type {tsumekusa.dom.Paragraph}
  * @private
  */
-DefinitionList.Definition.prototype.term_;
+DefinitionList.Definition.prototype.term_ = null;
 
 
 /**
@@ -251,7 +259,7 @@ DefinitionList.Definition.prototype.term_;
  * @type {tsumekusa.dom.ContentArray.<tsumekusa.dom.BlockContent>}
  * @private
  */
-DefinitionList.Definition.prototype.descs_;
+DefinitionList.Definition.prototype.descs_ = null;
 
 
 /**
@@ -261,6 +269,21 @@ DefinitionList.Definition.prototype.descs_;
  */
 DefinitionList.Definition.prototype.getTerm = function() {
   return this.term_;
+};
+
+
+/**
+ * Sets a paragraph as a term of the definition.  This method is chainable.
+ * @param {tsumekusa.dom.Paragraph|string} term Paragraph as a term of the
+ *     definition.
+ * @return {tsumekusa.dom.DefinitionList.Definition} This instance.
+ */
+DefinitionList.Definition.prototype.setTerm = function(term) {
+  var p = typeof term === 'string' ? new Paragraph(term) : term;
+  p.setParent(this);
+
+  this.term_ = p;
+  return this;
 };
 
 
@@ -275,11 +298,25 @@ DefinitionList.Definition.prototype.getDescriptions = function() {
 
 
 /**
- * Returns a list type.
+ * Sets block contents as descriptions of the definition.  This method is
+ * chainable.
+ * @param {tsumekusa.dom.ContentArray.<tsumekusa.dom.BlockContent>} descs
+ *     Definition content.
+ * @return {tsumekusa.dom.DefinitionList.Definition} This instance.
+ */
+DefinitionList.Definition.prototype.setDescriptions = function(descs) {
+  this.descs_ = descs;
+  descs.setParent(this);
+  return this;
+};
+
+
+/**
+ * Returns a list type.  Returns a list type of the parent list if it is null.
  * @return {tsumekusa.dom.DefinitionList.ListType} List type.
  */
 DefinitionList.Definition.prototype.getListType = function() {
-  return this.type_;
+  return this.type_ || this.getParent().getListType();
 };
 
 
