@@ -2,7 +2,7 @@
 // http://orgachem.mit-license.org
 
 
-var tsumekusaPath = '../../tsumekusa';
+var tsumekusaPath = '../../../tsumekusa';
 var tsumekusa = require(tsumekusaPath);
 var Link = require(tsumekusaPath + '/dom/Link');
 var LinkPublisher = require(tsumekusaPath + '/publishing/LinkPublisher');
@@ -14,8 +14,11 @@ Link.publisher = new LinkPublisher();
 Container.publisher = new ContainerPublisher();
 Paragraph.publisher = new ParagraphPublisher();
 
-var basePath = '../../tsumekusaJsdoc';
+var basePath = '../../../tsumekusaJsdoc';
 var MethodContainer = require(basePath + '/dom/MethodContainer');
+var Type = require(basePath + '/dom/Type');
+var TypePublisher = require(basePath + '/publishing/TypePublisher');
+Type.publisher = new TypePublisher();
 
 
 exports.testPublish = function(test) {

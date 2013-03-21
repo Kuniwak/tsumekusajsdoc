@@ -2,8 +2,8 @@
 // http://orgachem.mit-license.org
 
 
-var tsumekusaPath = '../../tsumekusa';
-var basePath = '../../tsumekusaJsdoc';
+var tsumekusaPath = '../../../tsumekusa';
+var basePath = '../../../tsumekusaJsdoc';
 
 var DocumentHelper = require(basePath + '/dom/DocumentHelper');
 

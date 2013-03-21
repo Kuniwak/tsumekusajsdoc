@@ -1,7 +1,7 @@
 // This script licensed under the MIT.
 // http://orgachem.mit-license.org
 
-var basePath = '../../../tsumekusa';
+var basePath = '../../../../tsumekusa';
 var Link = require(basePath + '/dom/Link');
 var VimHelpLinkPublisher = require(basePath +
     '/publishing/vimhelp/VimHelpLinkPublisher');

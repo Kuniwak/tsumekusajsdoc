@@ -2,7 +2,7 @@
 // http://orgachem.mit-license.org
 
 
-var basePath = '../../../tsumekusa';
+var basePath = '../../../../tsumekusa';
 var InlineCode = require(basePath + '/dom/InlineCode');
 var VimHelpInlineCodePublisher = require(basePath +
     '/publishing/vimhelp/VimHelpInlineCodePublisher');

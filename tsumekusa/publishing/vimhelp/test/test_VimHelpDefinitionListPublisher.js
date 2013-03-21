@@ -1,20 +1,18 @@
 // This script licensed under the MIT.
 // http://orgachem.mit-license.org
 
-var basePath = '../../tsumekusa';
+var basePath = '../../../../tsumekusa';
 var DefinitionList = require(basePath + '/dom/DefinitionList');
-var Definition = DefinitionList.Definition;
 var Paragraph = require(basePath + '/dom/Paragraph');
 var ContentArray = require(basePath + '/dom/ContentArray');
-var ParagraphPublisher = require(basePath + '/publishing/ParagraphPublisher');
-var DefinitionListPublisher = require(basePath +
-    '/publishing/DefinitionListPublisher');
-var DefinitionPublisher = require(basePath + '/publishing/DefinitionPublisher');
 
-Paragraph.publisher = new ParagraphPublisher();
-DefinitionList.publisher = new DefinitionListPublisher();
-Definition.publisher = new DefinitionPublisher();
+var VimHelpDefinitionListPublisher = require(basePath +
+    '/publishing/vimhelp/VimHelpDefinitionListPublisher');
+var VimHelpDefinitionPublisher = require(basePath +
+    '/publishing/vimhelp/VimHelpDefinitionPublisher');
 
+DefinitionList.publisher = new VimHelpDefinitionListPublisher();
+DefinitionList.Definition.publisher = new VimHelpDefinitionPublisher();
 
 exports.testPublish = function(test) {
   var defList = new DefinitionList();

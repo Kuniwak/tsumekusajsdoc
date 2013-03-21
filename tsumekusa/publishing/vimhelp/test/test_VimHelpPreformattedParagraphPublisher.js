@@ -2,7 +2,7 @@
 // http://orgachem.mit-license.org
 
 
-var basePath = '../../../tsumekusa';
+var basePath = '../../../../tsumekusa';
 var PreformattedParagraph = require(basePath +
     '/dom/PreformattedParagraph');
 var VimHelpPreformattedParagraphPublisher = require(basePath +

@@ -1,13 +1,16 @@
 // This script licensed under the MIT.
 // http://orgachem.mit-license.org
 
+var basePath = '../../../tsumekusa/';
+var WordWrapper = require(basePath + '/publishing/WordWrapper');
+
+
 var LOREM_IPSUM = [[
     'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
     'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
     'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
   ].join('\n')];
 
-var WordWrapper = require('./WordWrapper');
 
 exports.testWrapWithNoIndent = function(test) {
   // General condition

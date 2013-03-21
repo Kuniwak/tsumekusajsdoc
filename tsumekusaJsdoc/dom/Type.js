@@ -4,6 +4,7 @@
 
 var tsumekusaPath = '../../tsumekusa';
 var tsumekusa = require(tsumekusaPath);
+var InlineContent = require(tsumekusaPath + '/dom/InlineContent');
 var Link = require(tsumekusaPath + '/dom/Link');
 
 var basePath = '../../tsumekusaJsdoc';
@@ -14,7 +15,7 @@ var DocumentationContent = require(basePath +
 
 /**
  * A class for type notation.
- * @param {jsdoc.Tag} tag Tag.
+ * @param {jsdoc.Tag} tag Type tag.
  * @param {?tsumekusaJsdoc.dom.DocumentHelper=} opt_docHelper Optional
  *     document helper.
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
@@ -24,10 +25,22 @@ var DocumentationContent = require(basePath +
  */
 var Type = function(tag, opt_docHelper, opt_refHelper) {
   DocumentationContent.call(this, opt_docHelper, opt_refHelper);
-  this.setContent(null);
+  var typeImpl = new Type.TypeImpl(tag);
+  this.setContent(typeImpl);
+};
+tsumekusa.inherits(Type, DocumentationContent);
 
+
+
+/**
+ * A private class for type implementation.
+ * @param {jsdoc.Tag} tag Type tag.
+ * @constructor
+ * @extends {tsumekusa.dom.InlineContent}
+ */
+Type.TypeImpl = function(tag) {
+  InlineContent.call(this);
   var types, typeIdx = 0;
-  var refHelper = this.getReferenceHelper();
 
   // TODO: Generics support
   if (tag.type && tag.type.names && tag.type.names.length > 0) {
@@ -47,7 +60,7 @@ var Type = function(tag, opt_docHelper, opt_refHelper) {
 
   this.types_ = types;
 };
-tsumekusa.inherits(Type, DocumentationContent);
+tsumekusa.inherits(Type.TypeImpl, InlineContent);
 
 
 /**
@@ -55,30 +68,27 @@ tsumekusa.inherits(Type, DocumentationContent);
  * @type {Array.<tsumekusa.dom.InlineContent|string>}
  * @private
  */
-Type.prototype.types_ = null;
+Type.TypeImpl.prototype.types_ = null;
 
 
 /**
- * Returns a Type operator character for OR.
- * @return {string} Type operator character for OR.
- * @protected
+ * Returns elements explain types.
+ * @return {Array.<tsumekusa.dom.InlineContent|string>} Elements explain types.
  */
-Type.prototype.getOrOperatorChar = function() {
-  return '|';
+Type.TypeImpl.prototype.getTypeElements = function() {
+  return this.types_;
 };
 
 
 /** @override */
-Type.prototype.isBreakable = function() {
+Type.TypeImpl.prototype.getPublisher = function() {
+  return Type.publisher;
+};
+
+
+/** @override */
+Type.TypeImpl.prototype.isBreakable = function() {
   return false;
-};
-
-
-/** @override */
-Type.prototype.publish = function() {
-  return this.types_.map(function(type) {
-    return typeof type === 'string' ? type : type.publish();
-  }).join(this.getOrOperatorChar());
 };
 
 

@@ -2,7 +2,7 @@
 // http://orgachem.mit-license.org
 
 
-var basePath = '../../../tsumekusa';
+var basePath = '../../../../tsumekusa';
 var Container = require(basePath + '/dom/Container');
 var Tag = require(basePath + '/dom/Tag');
 var Link = require(basePath + '/dom/Link');

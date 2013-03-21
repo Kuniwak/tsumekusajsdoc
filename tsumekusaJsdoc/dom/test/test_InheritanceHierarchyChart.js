@@ -2,13 +2,13 @@
 // http://orgachem.mit-license.org
 
 
-var tsumekusaPath = '../../tsumekusa';
+var tsumekusaPath = '../../../tsumekusa';
 var tsumekusa = require(tsumekusaPath);
 var Link = require(tsumekusaPath + '/dom/Link');
 var LinkPublisher = require(tsumekusaPath + '/publishing/LinkPublisher');
 Link.publisher = new LinkPublisher();
 
-var basePath = '../../tsumekusaJsdoc';
+var basePath = '../../../tsumekusaJsdoc';
 var DocletWrapper = require(basePath + '/dom/DocletWrapper');
 var InheritanceHierarchyChart = require(basePath +
     '/dom/InheritanceHierarchyChart');
