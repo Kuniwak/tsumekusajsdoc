@@ -7,6 +7,7 @@ var tsumekusa = require(basePath);
 var BlockContentPublisher = require(basePath +
     '/publishing/BlockContentPublisher');
 var WordWrapper = require(basePath + '/publishing/WordWrapper');
+var Indent = require(basePath + '/publishing/Indent');
 
 
 
@@ -39,10 +40,10 @@ DefinitionPublisher.MarkSymbol = {
 
 
 /**
- * Default indent width of a no marker definition list.
+ * Default indent width of definition descriptions.
  * @type {number}
  */
-DefinitionPublisher.NO_MARKER_INDENT_WIDTH = 2;
+DefinitionPublisher.DESCRIPTIONS_INDENT_WIDTH = 2;
 
 
 /**
@@ -72,7 +73,7 @@ DefinitionPublisher.prototype.createListMarker = function(index, listType) {
  * @return {string} Ordered list symbol.
  */
 DefinitionPublisher.prototype.getOrderedSymbol = function(index) {
-  return index + ')';
+  return index + 1 + ')';
 };
 
 
@@ -90,13 +91,13 @@ DefinitionPublisher.prototype.getUnorderedSymbol = function() {
  * change a strategy to indent.
  * @param {tsumekusa.dom.DefinitionList.Definition} def Definition.
  * @param {string} marker Marker string.
- * @return {tsumekusa.publishing.WordWrapper.Indent} Created object for
+ * @return {tsumekusa.publishing.Indent} Created object for
  *     indentation.
  * @protected
  */
 DefinitionPublisher.prototype.getIndentForTerms = function(def, marker) {
   var indentWidth = marker ? marker.length + /* a white space width */ 1 : 0;
-  return new WordWrapper.Indent(this.getIndentWidth(def), indentWidth);
+  return new Indent(this.getIndentWidth(def), indentWidth);
 };
 
 
@@ -104,16 +105,15 @@ DefinitionPublisher.prototype.getIndentForTerms = function(def, marker) {
  * Returns an object for descriptions indentation.  Override the method if you
  * want to change a strategy to indent.
  * @param {tsumekusa.dom.DefinitionList.Definition} def Definition.
- * @param {string} marker Marker string.
- * @return {tsumekusa.publishing.WordWrapper.Indent} Created object for
+ * @return {tsumekusa.publishing.Indent} Created object for
  *     indentation.
  * @protected
  */
-DefinitionPublisher.prototype.getIndentForDescriptions = function(def, marker) {
-  var indentWidth = marker ? marker.length + /* a white space width */ 1 :
-      DefinitionPublisher.NO_MARKER_INDENT_WIDTH;
-  return new WordWrapper.Indent(this.getIndentWidth(def) + indentWidth);
+DefinitionPublisher.prototype.getIndentForDescriptions = function(def) {
+  var indentWidth = DefinitionPublisher.DESCRIPTIONS_INDENT_WIDTH;
+  return new Indent(this.getIndentWidth(def) + indentWidth);
 };
+
 
 
 /** @override */

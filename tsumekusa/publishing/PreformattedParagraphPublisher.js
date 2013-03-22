@@ -6,6 +6,7 @@ var basePath = '../../tsumekusa';
 var tsumekusa = require(basePath);
 var string = require(basePath + '/string');
 var WordWrapper = require(basePath + '/publishing/WordWrapper');
+var Indent = require(basePath + '/publishing/Indent');
 var BlockContentPublisher = require(basePath +
     '/publishing/BlockContentPublisher');
 
@@ -25,7 +26,7 @@ tsumekusa.addSingletonGetter(PreformattedParagraphPublisher);
 
 /** @override */
 PreformattedParagraphPublisher.prototype.publish = function(pre) {
-  var indent = new WordWrapper.Indent(this.getIndentWidth(pre));
+  var indent = new Indent(this.getIndentWidth(pre));
   var wrapper = new WordWrapper(this.getDisplayWidth(), indent);
 
   return '\n' + wrapper.wrap([pre.getContent()], true) + '\n';

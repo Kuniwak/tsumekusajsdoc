@@ -4,6 +4,7 @@
 
 var basePath = '../../tsumekusa';
 var WordWrapper = require(basePath + '/publishing/WordWrapper');
+var Indent = require(basePath + '/publishing/Indent');
 
 
 
@@ -88,12 +89,12 @@ BlockContentPublisher.prototype.getIndentWidth = function(content) {
  * an indentation.  In default, indent by a width from {@link #getIndentWidth}.
  * @param {tsumekusa.dom.BlockContent} content Block content to get an
  *     object for indentation.
- * @return {tsumekusa.publishing.WordWrapper.Indent} Created object for
+ * @return {tsumekusa.publishing.Indent} Created object for
  *     indentation.
  * @protected
  */
 BlockContentPublisher.prototype.getIndent = function(content) {
-  return new WordWrapper.Indent(this.getIndentWidth(content));
+  return new Indent(this.getIndentWidth(content));
 };
 
 
@@ -102,7 +103,7 @@ BlockContentPublisher.prototype.getIndent = function(content) {
  * a strategy to wrap words.
  * @param {tsumekusa.dom.BlockContent} content Block content to get a word
  *     wrapper.
- * @return {tsumekusa.publishing.WordWrapper.Indent} Created object for
+ * @return {tsumekusa.publishing.Indent} Created object for
  *     indentation.
  * @protected
  */

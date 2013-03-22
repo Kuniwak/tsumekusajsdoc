@@ -7,6 +7,7 @@ var tsumekusa = require(basePath);
 var array = require(basePath + '/array');
 var Paragraph = require(basePath + '/dom/Paragraph');
 var WordWrapper = require(basePath + '/publishing/WordWrapper');
+var Indent = require(basePath + '/publishing/Indent');
 var BlockContentPublisher = require(basePath +
     '/publishing/BlockContentPublisher');
 
@@ -94,14 +95,14 @@ ListItemPublisher.prototype.createListMarker = function(index, listType) {
  * </pre>
  * @param {tsumekusa.dom.DefinitionList.Definition} item List item.
  * @param {string} marker Marker string.
- * @return {tsumekusa.publishing.WordWrapper.Indent} Created object for
+ * @return {tsumekusa.publishing.Indent} Created object for
  *     indentation.
  * @protected
  */
 ListItemPublisher.prototype.getHeadIndent = function(item, marker) {
   var indentWidth = marker.length +
       /* a white space is between marker and a sentence*/ 1;
-  return new WordWrapper.Indent(this.getIndentWidth(item), indentWidth);
+  return new Indent(this.getIndentWidth(item), indentWidth);
 };
 
 
@@ -110,14 +111,14 @@ ListItemPublisher.prototype.getHeadIndent = function(item, marker) {
  * if you want to change a strategy to indent.  See {@link #getHeadIndent}.
  * @param {tsumekusa.dom.DefinitionList.Definition} item List item.
  * @param {string} marker Marker string.
- * @return {tsumekusa.publishing.WordWrapper.Indent} Created object for
+ * @return {tsumekusa.publishing.Indent} Created object for
  *     indentation.
  * @protected
  */
 ListItemPublisher.prototype.getNonHeadIndent = function(item, marker) {
   var indentWidth = marker.length +
       /* a white space is between marker and a sentence*/ 1;
-  return new WordWrapper.Indent(this.getIndentWidth(item) + indentWidth);
+  return new Indent(this.getIndentWidth(item) + indentWidth);
 };
 
 

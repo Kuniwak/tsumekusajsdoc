@@ -6,12 +6,13 @@ var basePath = '../../tsumekusa';
 var string = require(basePath + '/string');
 var WordWrapper = require(basePath + '/publishing/WordWrapper');
 var WordWrapper2 = require(basePath + '/publishing/WordWrapper2');
+var Indent = require(basePath + '/publishing/Indent');
 
 var BASE_LINE_WIDTH = 80;
 var HYPHENATION_LINE_WIDTH = 5;
 
-var INDENT_CONST = new WordWrapper.Indent(10);
-var INDENT_LINEAR = new WordWrapper.Indent(0);
+var INDENT_CONST = new Indent(10);
+var INDENT_LINEAR = new Indent(0);
 INDENT_LINEAR.getIndentWidth = function(lineIdx) {
   return Math.floor(lineIdx / 8);
 };

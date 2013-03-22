@@ -2,8 +2,10 @@
 // http://orgachem.mit-license.org
 
 
-var tsumekusa = require('../../tsumekusa');
-var string = require('../string');
+var basePath = '../../tsumekusa'
+var tsumekusa = require(basePath);
+var string = require(basePath + '/string');
+var Indent = require(basePath + '/publishing/Indent');
 
 
 
@@ -19,7 +21,7 @@ var string = require('../string');
  * </pre>
  *
  * @param {number} baseLineWidth A base line width.
- * @param {number|tsumekusa.publishing.WordWrapper.Indent=} opt_indent Optional
+ * @param {number|tsumekusa.publishing.Indent=} opt_indent Optional
  *     strategy to indent or an indent width.  No indentation if falsey.
  * @param {?tsumekusa.publishing.WordWrapper.WordSplitter=} opt_splitter
  *     Optional strategy to detect word boundaries.  In default, detect a word
@@ -36,10 +38,10 @@ var WordWrapper = function(baseLineWidth, opt_indent, opt_splitter) {
 
   if (opt_indent) {
     this.indent_ = typeof opt_indent === 'number' ?
-        new WordWrapper.Indent(opt_indent) : opt_indent;
+        new Indent(opt_indent) : opt_indent;
   }
   else {
-    this.indent_ = new WordWrapper.Indent();
+    this.indent_ = new Indent();
   }
 
   this.init();
@@ -48,7 +50,7 @@ var WordWrapper = function(baseLineWidth, opt_indent, opt_splitter) {
 
 /**
  * Indent strategy.
- * @type {tsumekusa.publishing.WordWrapper.Indent}
+ * @type {tsumekusa.publishing.Indent}
  * @private
  */
 WordWrapper.prototype.indent_ = null;
@@ -234,39 +236,6 @@ WordWrapper.prototype.refreshCurrentLineWidth_ = function() {
   }
 
   this.currentLineWidth_ = currentLineWidth;
-};
-
-
-
-/**
- * A class for indent for {@link tsumekusa.publishing.WordWrapper#wrap}.  This
- * class support two-step indent. For example, {@code new Indent(3, 5)} as
- * bellow:
- * <pre>
- *    First indent (as opt_first)
- *      Second indent (as opt_after)
- *      Third indent (as opt_after)
- *      ...
- * </pre>
- * @param {?number=} opt_first Indent width to insert before first line. Default
- *     width is 0 (no indent).
- * @param {?number=} opt_after Indent width to insert before lines without first
- *     line.  Default width is same as {@code opt_first}.
- * @constructor
- */
-WordWrapper.Indent = function(opt_first, opt_after) {
-  this.first_ = opt_first || 0;
-  this.after_ = opt_after || this.first_;
-};
-
-
-/**
- * Returns indent width by line number.
- * @param {number} lineNo 0-based line number that is indent insert before.
- * @return {number} Indent width.
- */
-WordWrapper.Indent.prototype.getIndentWidth = function(lineNo) {
-  return lineNo > 0 ? this.after_ : this.first_;
 };
 
 

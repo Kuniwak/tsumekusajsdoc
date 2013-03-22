@@ -6,6 +6,7 @@ var tsumekusa = require(basePath);
 var BlockContentPublisher = require(basePath +
     '/publishing/BlockContentPublisher');
 var WordWrapper = require(basePath + '/publishing/WordWrapper');
+var Indent = require(basePath + '/publishing/Indent');
 
 
 
@@ -89,7 +90,7 @@ ContainerPublisher.prototype.getIndentWidth = function(content) {
 ContainerPublisher.prototype.getCaptionIndent = function(content, idxLen) {
   var capIndentWidth = this.getCaptionIndentWidth(content);
   var indentWidth = this.getIndentWidth(content);
-  return new WordWrapper.Indent(capIndentWidth, indentWidth);
+  return new Indent(capIndentWidth, indentWidth);
 };
 
 

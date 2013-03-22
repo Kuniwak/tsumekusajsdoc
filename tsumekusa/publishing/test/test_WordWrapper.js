@@ -3,6 +3,7 @@
 
 var basePath = '../../../tsumekusa/';
 var WordWrapper = require(basePath + '/publishing/WordWrapper');
+var Indent = require(basePath + '/publishing/Indent');
 
 
 var LOREM_IPSUM = [[
@@ -64,7 +65,7 @@ exports.testWrapWithHypenation = function(test) {
 };
 
 exports.testWrapWithIndent = function(test) {
-  var indent = new WordWrapper.Indent();
+  var indent = new Indent();
   indent.getIndentWidth = function(lineIdx) {
     return lineIdx;
   };
