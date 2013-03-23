@@ -55,7 +55,7 @@ DefinitionPublisher.prototype.getIndentWidthForChild = function(elem) {
 
 /**
  * Creates a list marker.
- * @param {number} index Index of a content to create the marker.
+ * @param {number} index Index of a element to create the marker.
  * @param {tsumekusa.dom.DefinitionList.ListType} listType List type.
  * @return {string} List marker.
  */
@@ -109,9 +109,9 @@ DefinitionPublisher.prototype.getIndentForDescriptions = function(def) {
 
 
 /** @override */
-DefinitionPublisher.prototype.publish = function(content) {
-  var termParagraph = content.getTerm();
-  var descsArray = content.getDescriptions();
+DefinitionPublisher.prototype.publish = function(element) {
+  var termParagraph = element.getTerm();
+  var descsArray = element.getDescriptions();
 
   if (!termParagraph) {
     throw Error('Invalid definition term: ' + termParagraph);
@@ -122,9 +122,9 @@ DefinitionPublisher.prototype.publish = function(content) {
 
   var inlineElementsInTerm = termParagraph.getInlineElements();
 
-  var listType = content.getListType();
+  var listType = element.getListType();
   var dispWidth = this.getDisplayWidth();
-  var index = content.getIndex();
+  var index = element.getIndex();
   var marker = this.createListMarker(index, listType);
 
   if (marker) {
@@ -132,7 +132,7 @@ DefinitionPublisher.prototype.publish = function(content) {
     inlineElementsInTerm = [marker].concat(inlineElementsInTerm);
   }
 
-  var termWrapper = new WordWrapper(dispWidth, this.getIndent(content,
+  var termWrapper = new WordWrapper(dispWidth, this.getIndent(element,
       marker));
 
   var term = termWrapper.wrap(inlineElementsInTerm);
