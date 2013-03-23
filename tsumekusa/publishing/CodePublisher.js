@@ -16,8 +16,12 @@ tsumekusa.addSingletonGetter(CodePublisher);
 
 /** @override */
 CodePublisher.prototype.publish = function(code) {
-  console.warn('The output mode do not support a code: ' + code.getCode());
-  return code.getCode();
+  var indentWidth = this.getIndentWidth(code);
+  var whites = string.repeat(' ', indentWidth);
+
+  return code.getCode().split('\n').map(function(line) {
+    return whites + line;
+  }).join('\n');
 };
 
 

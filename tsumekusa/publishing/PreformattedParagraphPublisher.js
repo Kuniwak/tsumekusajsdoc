@@ -26,10 +26,12 @@ tsumekusa.addSingletonGetter(PreformattedParagraphPublisher);
 
 /** @override */
 PreformattedParagraphPublisher.prototype.publish = function(pre) {
-  var indent = new Indent(this.getIndentWidth(pre));
-  var wrapper = new WordWrapper(this.getDisplayWidth(), indent);
+  var indentWidth = this.getIndentWidth(pre);
+  var whites = string.repeat(' ', indentWidth);
 
-  return '\n' + wrapper.wrap([pre.getElement()], true) + '\n';
+  return pre.getElement().split('\n').map(function(line) {
+    return whites + line;
+  }).join('\n');
 };
 
 
