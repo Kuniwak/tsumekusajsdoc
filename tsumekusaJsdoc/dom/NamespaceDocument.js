@@ -114,7 +114,7 @@ NamespaceDocument.prototype.getStaticProperties = function() {
  */
 NamespaceDocument.prototype.createStaticMethodsContainer = function() {
   return new StaticMethodsContainer(this.getSymbol(), this.getStaticMethods(),
-      null, this.getDocHelper(), this.getReferenceHelper());
+      this.getDocHelper(), this.getReferenceHelper());
 };
 
 
@@ -126,7 +126,7 @@ NamespaceDocument.prototype.createStaticMethodsContainer = function() {
  */
 NamespaceDocument.prototype.createStaticPropertiesContainer = function() {
   return new StaticPropertiesContainer(this.getSymbol(),
-      this.getStaticProperties(), null, this.getDocHelper(),
+      this.getStaticProperties(), this.getDocHelper(),
       this.getReferenceHelper());
 };
 

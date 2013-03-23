@@ -15,8 +15,6 @@ var PropertyContainer = require('./PropertyContainer');
  * @param {string} caption Caption of the container such as {@code
  *     'Static members'}.
  * @param {string} modifier Modifier of the reference ID.
- * @param {?Array.<tsumekusa.dom.Paragraph>=} opt_topElements Optional top
- *     contents.
  * @param {?tsumekusaJsdoc.dom.DocHelper=} opt_docHelper Optional
  *     document helper.
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
@@ -25,16 +23,16 @@ var PropertyContainer = require('./PropertyContainer');
  * @extends {tsumekusaJsdoc.dom.MembersContainer}
  */
 var PropertiesContainer = function(parent, members, caption, modifier,
-    opt_topElements, opt_docHelper, opt_refHelper) {
-  MembersContainer.call(this, parent, members, caption, modifier,
-      opt_topElements, opt_docHelper, opt_refHelper);
+    opt_docHelper, opt_refHelper) {
+  MembersContainer.call(this, parent, members, caption, modifier, opt_docHelper,
+      opt_refHelper);
 };
 tsumekusa.inherits(PropertiesContainer, MembersContainer);
 
 
 /** @override */
 PropertiesContainer.prototype.createMemberContainer = function(symbol) {
-  return new PropertyContainer(symbol, null, this.getDocHelper(),
+  return new PropertyContainer(symbol, this.getDocHelper(),
       this.getReferenceHelper());
 };
 

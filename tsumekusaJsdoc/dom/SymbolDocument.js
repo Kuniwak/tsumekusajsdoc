@@ -32,12 +32,13 @@ var SymbolDocument = function(symbol, caption, opt_topElements, opt_version,
   DocElement.call(this, opt_docHelper, opt_refHelper);
 
   this.symbol_ = symbol;
-
   this.fileName_ = this.generateFileName(symbol);
+
   var document = new Document(caption, this.fileName_, opt_version, opt_date);
+  var tops = document.getTopElements();
 
   if (opt_topElements) {
-    document.setTopElements(opt_topElements);
+    tops.addChild(opt_topElements);
   }
 
   this.setElement(document);
