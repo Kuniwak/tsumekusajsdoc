@@ -4,28 +4,28 @@
 
 var basePath = '../../tsumekusa';
 var tsumekusa = require(basePath);
-var ContentArray = require(basePath + '/dom/ContentArray');
-var BlockContent = require(basePath + '/dom/BlockContent');
+var ElementArray = require(basePath + '/dom/ElementArray');
+var BlockElement = require(basePath + '/dom/BlockElement');
 
 
 
 /**
  * A class for sentence.
- * @param {tsumekusa.dom.InlineContent|string} var_args Inline contents to
+ * @param {tsumekusa.dom.InlineElement|string} var_args Inline contents to
  *     append.
  * @constructor
- * @extends {tsumekusa.dom.BlockContent}
+ * @extends {tsumekusa.dom.BlockElement}
  */
 var Paragraph = function(var_args) {
-  BlockContent.call(this);
+  BlockElement.call(this);
 
-  this.inlineContents_ = new ContentArray();
+  this.inlineElements_ = new ElementArray();
 
   if (var_args) {
-    this.addInlineContents(Array.prototype.slice.call(arguments, 0));
+    this.addInlineElements(Array.prototype.slice.call(arguments, 0));
   }
 };
-tsumekusa.inherits(Paragraph, BlockContent);
+tsumekusa.inherits(Paragraph, BlockElement);
 
 
 /**
@@ -37,31 +37,31 @@ Paragraph.publisher = null;
 
 /**
  * Inline contents in the paragraph.
- * @type {tsumekusa.dom.ContentArray.<tsumekusa.dom.InlineContent|
+ * @type {tsumekusa.dom.ElementArray.<tsumekusa.dom.InlineElement|
  * string>}
  * @private
  */
-Paragraph.prototype.inlineContents_;
+Paragraph.prototype.inlineElements_;
 
 
 /**
  * Returns inline contents are in the paragraph.
- * @return {Array.<tsumekusa.dom.InlineContent|string>} Inline contents.
+ * @return {Array.<tsumekusa.dom.InlineElement|string>} Inline contents.
  */
-Paragraph.prototype.getInlineContents = function() {
-  return this.inlineContents_.getChildren();
+Paragraph.prototype.getInlineElements = function() {
+  return this.inlineElements_.getChildren();
 };
 
 
 /**
  * Adds inline contents at the last.
- * @param {Array.<tsumekusa.dom.InlineContent|string>} contents Inline
+ * @param {Array.<tsumekusa.dom.InlineElement|string>} contents Inline
  *     contents or strings to add.
  * @return {tsumekusa.dom.Paragraph} This instance.
  */
-Paragraph.prototype.addInlineContents = function(contents) {
+Paragraph.prototype.addInlineElements = function(contents) {
   contents.forEach(function(content) {
-    this.addInlineContent(content);
+    this.addInlineElement(content);
   }, this);
   return this;
 };
@@ -69,38 +69,38 @@ Paragraph.prototype.addInlineContents = function(contents) {
 
 /**
  * Adds an inline content at the last.
- * @param {tsumekusa.dom.InlineContent|string} content Inline content or
+ * @param {tsumekusa.dom.InlineElement|string} content Inline content or
  *     string to add.
  * @return {tsumekusa.dom.Paragraph} This instance.
  */
-Paragraph.prototype.addInlineContent = function(content) {
-  this.inlineContents_.addChild(content);
+Paragraph.prototype.addInlineElement = function(content) {
+  this.inlineElements_.addChild(content);
   return this;
 };
 
 
 /**
  * Adds an inline content at the given 0-based index.
- * @param {tsumekusa.dom.InlineContent|string} content Inline content or
+ * @param {tsumekusa.dom.InlineElement|string} content Inline content or
  *     string to add.
  * @param {number} index 0-based index.
  * @return {tsumekusa.dom.Paragraph} This instance.
  */
-Paragraph.prototype.addInlineContentAt = function(content, index) {
-  this.inlineContents_.addChildAt(content, index);
+Paragraph.prototype.addInlineElementAt = function(content, index) {
+  this.inlineElements_.addChildAt(content, index);
   return this;
 };
 
 
 /**
  * Removes the specified inline content from the paragraph.
- * @param {tsumekusa.dom.InlineContent|string} content Inline content or
+ * @param {tsumekusa.dom.InlineElement|string} content Inline content or
  *     string to remove.
- * @return {tsumekusa.dom.InlineContent|string} Removed inline content, if
+ * @return {tsumekusa.dom.InlineElement|string} Removed inline content, if
  *     any.
  */
-Paragraph.prototype.removeInlineContent = function(content) {
-  return this.inlineContents_.removeChild(content);
+Paragraph.prototype.removeInlineElement = function(content) {
+  return this.inlineElements_.removeChild(content);
 };
 
 
@@ -108,11 +108,11 @@ Paragraph.prototype.removeInlineContent = function(content) {
  * Removes the specified inline content at the given 0-based index from the
  * paragraph.
  * @param {number} index 0-based index.
- * @return {tsumekusa.dom.InlineContent|string} Removed inline content, if
+ * @return {tsumekusa.dom.InlineElement|string} Removed inline content, if
  *     any.
  */
-Paragraph.prototype.removeInlineContentAt = function(index) {
-  return this.inlineContents_.removeChildAt(index);
+Paragraph.prototype.removeInlineElementAt = function(index) {
+  return this.inlineElements_.removeChildAt(index);
 };
 
 

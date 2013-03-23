@@ -5,23 +5,24 @@
 var basePath = '../../tsumekusa';
 var tsumekusa = require(basePath);
 var array = require(basePath + '/array');
+var string = require(basePath + '/string');
 var Paragraph = require(basePath + '/dom/Paragraph');
 var WordWrapper = require(basePath + '/publishing/WordWrapper');
 var Indent = require(basePath + '/publishing/Indent');
-var BlockContentPublisher = require(basePath +
-    '/publishing/BlockContentPublisher');
+var BlockElementPublisher = require(basePath +
+    '/publishing/BlockElementPublisher');
 
 
 
 /**
  * A class for list publisher for vim help.
  * @constructor
- * @implements {tsumekusa.publishing.IContentPublisher}
+ * @implements {tsumekusa.publishing.IElementPublisher}
  */
 var ListItemPublisher = function() {
-  BlockContentPublisher.call(this);
+  BlockElementPublisher.call(this);
 };
-tsumekusa.inherits(ListItemPublisher, BlockContentPublisher);
+tsumekusa.inherits(ListItemPublisher, BlockElementPublisher);
 tsumekusa.addSingletonGetter(ListItemPublisher);
 
 
@@ -40,6 +41,27 @@ ListItemPublisher.MarkSymbol = {
   STAR: '*'
 };
 
+
+/**
+ * Indent width for children.
+ * @const
+ * @type {number}
+ */
+ListItemPublisher.INDENT_WIDTH_FOR_CHILD = 2;
+
+
+/** @override */
+ListItemPublisher.prototype.getIndentWidth = function(elem) {
+  // Ignore an indent width by parent#getIndentWidthForChild
+  var parentList = elem.getParentList();
+  return parentList.getPublisher().getIndentWidth(parentList);
+};
+
+
+/** @override */
+ListItemPublisher.prototype.getIndentWidthForChild = function(elem) {
+  return this.getIndentWidth(elem) + ListItemPublisher.INDENT_WIDTH_FOR_CHILD;
+};
 
 
 /**
@@ -80,70 +102,23 @@ ListItemPublisher.prototype.createListMarker = function(index, listType) {
 };
 
 
-/**
- * Returns an object for a list item indentation.  Override the method if you
- * want to change a strategy to indent.
- * <pre>
- * --| 1st line indent
- * ----| 2nd line indent
- *
- *   o First para-
- *     graph...
- *
- *     Second par-
- *     agraph...
- * </pre>
- * @param {tsumekusa.dom.DefinitionList.Definition} item List item.
- * @param {string} marker Marker string.
- * @return {tsumekusa.publishing.Indent} Created object for
- *     indentation.
- * @protected
- */
-ListItemPublisher.prototype.getHeadIndent = function(item, marker) {
-  var indentWidth = marker.length +
-      /* a white space is between marker and a sentence*/ 1;
-  return new Indent(this.getIndentWidth(item), indentWidth);
-};
-
-
-/**
- * Returns an object for list item on no head indentation.  Override the method
- * if you want to change a strategy to indent.  See {@link #getHeadIndent}.
- * @param {tsumekusa.dom.DefinitionList.Definition} item List item.
- * @param {string} marker Marker string.
- * @return {tsumekusa.publishing.Indent} Created object for
- *     indentation.
- * @protected
- */
-ListItemPublisher.prototype.getNonHeadIndent = function(item, marker) {
-  var indentWidth = marker.length +
-      /* a white space is between marker and a sentence*/ 1;
-  return new Indent(this.getIndentWidth(item) + indentWidth);
-};
-
-
 /** @override */
 ListItemPublisher.prototype.publish = function(item) {
   var index = item.getIndex();
   var marker = this.createListMarker(index, item.getListType());
-  var dispWidth = this.getDisplayWidth();
 
-  var headIndent = this.getHeadIndent(item, marker);
-  var nonHeadIndent = this.getNonHeadIndent(item, marker);
-  var headWrapper = new WordWrapper(dispWidth, headIndent);
-  var nonHeadWrapper = new WordWrapper(dispWidth, nonHeadIndent);
+  var output = item.getBlockElements().publish();
 
-  var blocks = item.getBlockContents().getChildren();
-  var headBlock = blocks.shift();
-  var headInlineContents = [marker].concat(headBlock.getInlineContents());
+  if (output) {
+    var indentWidthForChild = this.getIndentWidthForChild(item);
+    var whites = string.repeat(' ', this.getIndentWidth(item));
 
-  var output = [headWrapper.wrap(headInlineContents)];
+    // Add a marker and a white space and a head block that was removed a first
+    // indent.
+    output = whites.concat(marker, ' ', output.slice(indentWidthForChild));
+  }
 
-  output.push.apply(output, blocks.map(function(block) {
-    return nonHeadWrapper.wrap(block.getInlineContents());
-  }));
-
-  return output.join('\n');
+  return output;
 };
 
 

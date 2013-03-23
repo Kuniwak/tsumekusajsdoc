@@ -3,34 +3,34 @@
 
 
 var tsumekusa = require('../../tsumekusa');
-var Content = require('./Content');
+var Element = require('./Element');
 
 
 
 /**
  * An abstract class for inline contents.
  * @constructor
- * @extends {tsumekusa.dom.Content}
+ * @extends {tsumekusa.dom.Element}
  */
-var InlineContent = function() {
-  Content.call(this);
+var InlineElement = function() {
+  Element.call(this);
 };
-tsumekusa.inherits(InlineContent, Content);
+tsumekusa.inherits(InlineElement, Element);
 
 
 /**
  * Whether the inline tag is unknown.
  * @type {boolean}
  */
-InlineContent.prototype.unknown = false;
+InlineElement.prototype.unknown = false;
 
 
 /**
  * Whether a content allows a line break is included in.
  * @return {boolean} Whether a content allows a line break is included in.
  */
-InlineContent.prototype.isBreakable = tsumekusa.abstractMethod;
+InlineElement.prototype.isBreakable = tsumekusa.abstractMethod;
 
 
 // Exports the constructor.
-module.exports = InlineContent;
+module.exports = InlineElement;

@@ -54,23 +54,23 @@ ContentsTablePublisher.prototype.publishHeader = function(container) {
 
 /** @override */
 ContentsTablePublisher.prototype.publishFooter = function(container) {
-  // Contents table is not able to have footer.
+  // Elements table is not able to have footer.
   return null;
 };
 
 
 /** @override */
-ContentsTablePublisher.prototype.publishTopContentsInternal = function(
+ContentsTablePublisher.prototype.publishTopElements = function(
     container) {
   // Publishes only a table of contents.
-  return [this.publishContentsTable(container)];
+  return this.publishContentsTable(container);
 };
 
 
 /** @override */
 ContentsTablePublisher.prototype.publishSubContainersInternal = function(
     container) {
-  // Contents table is not able to have children.
+  // Elements table is not able to have children.
   return null;
 };
 
@@ -79,13 +79,13 @@ ContentsTablePublisher.prototype.publishSubContainersInternal = function(
  * Publish a table of contents.
  * @param {tsumekusa.dom.Container} container Container to create the
  *     contents table.
- * @return {string} Contents table string.
+ * @return {string} Elements table string.
  */
 ContentsTablePublisher.prototype.publishContentsTable = function(container) {
   var willBeLiteds = [], willBeLitedsIdx = 0;
 
   // Remove invisible containers.
-  container.getDescendants().forEach(function(sub) {
+  container.getDescendantContainers().forEach(function(sub) {
     if (sub.isVisibleOnContentsTable()) {
       willBeLiteds[willBeLitedsIdx++] = sub;
     }
@@ -112,9 +112,7 @@ ContentsTablePublisher.prototype.createContentsTableHead = function(
   var current = container;
   var ancestor = null;
 
-  debugger;
-
-  while (current = current.getParent()) {
+  while (current = current.getParentContainer()) {
     if (current.isVisibleOnContentsTable()) {
       ancestor = current;
       break;
@@ -122,7 +120,7 @@ ContentsTablePublisher.prototype.createContentsTableHead = function(
   }
 
   var indentWidth;
-  if (ancestor && ancestor.getParent()) {
+  if (ancestor && ancestor.getParentContainer()) {
     var ancestorIdx = this.createContentsTableHead(ancestor);
     indentWidth = ancestorIdx.length + /* white space width */ 1;
   }

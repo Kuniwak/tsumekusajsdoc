@@ -4,8 +4,8 @@
 
 var basePath = '../../tsumekusa';
 var tsumekusa = require(basePath);
-var BlockContentPublisher = require(basePath +
-    '/publishing/BlockContentPublisher');
+var BlockElementPublisher = require(basePath +
+    '/publishing/BlockElementPublisher');
 var WordWrapper = require(basePath + '/publishing/WordWrapper');
 var Indent = require(basePath + '/publishing/Indent');
 
@@ -14,12 +14,12 @@ var Indent = require(basePath + '/publishing/Indent');
 /**
  * A singleton class for definition item publishers.
  * @constructor
- * @extends {tsumekusa.publishing.BlockContentPublisher}
+ * @extends {tsumekusa.publishing.BlockElementPublisher}
  */
 var DefinitionPublisher = function() {
-  BlockContentPublisher.call(this);
+  BlockElementPublisher.call(this);
 };
-tsumekusa.inherits(DefinitionPublisher, BlockContentPublisher);
+tsumekusa.inherits(DefinitionPublisher, BlockElementPublisher);
 tsumekusa.addSingletonGetter(DefinitionPublisher);
 
 
@@ -44,6 +44,13 @@ DefinitionPublisher.MarkSymbol = {
  * @type {number}
  */
 DefinitionPublisher.DESCRIPTIONS_INDENT_WIDTH = 2;
+
+
+/** @override */
+DefinitionPublisher.prototype.getIndentWidthForChild = function(elem) {
+  return this.getIndentWidth(elem) + DefinitionPublisher.
+      DESCRIPTIONS_INDENT_WIDTH;
+};
 
 
 /**
@@ -87,21 +94,6 @@ DefinitionPublisher.prototype.getUnorderedSymbol = function() {
 
 
 /**
- * Returns an object for terms indentation.  Override the method if you want to
- * change a strategy to indent.
- * @param {tsumekusa.dom.DefinitionList.Definition} def Definition.
- * @param {string} marker Marker string.
- * @return {tsumekusa.publishing.Indent} Created object for
- *     indentation.
- * @protected
- */
-DefinitionPublisher.prototype.getIndentForTerms = function(def, marker) {
-  var indentWidth = marker ? marker.length + /* a white space width */ 1 : 0;
-  return new Indent(this.getIndentWidth(def), indentWidth);
-};
-
-
-/**
  * Returns an object for descriptions indentation.  Override the method if you
  * want to change a strategy to indent.
  * @param {tsumekusa.dom.DefinitionList.Definition} def Definition.
@@ -128,8 +120,7 @@ DefinitionPublisher.prototype.publish = function(content) {
     throw Error('Invalid definition descriptions: ' + descsArray);
   }
 
-  var inlineContentsInTerm = termParagraph.getInlineContents();
-  var blockContentsInDesc = descsArray.getChildren();
+  var inlineElementsInTerm = termParagraph.getInlineElements();
 
   var listType = content.getListType();
   var dispWidth = this.getDisplayWidth();
@@ -138,18 +129,14 @@ DefinitionPublisher.prototype.publish = function(content) {
 
   if (marker) {
     // Set a marker to the head if the list type is not NO_MARKER
-    inlineContentsInTerm = [marker].concat(inlineContentsInTerm);
+    inlineElementsInTerm = [marker].concat(inlineElementsInTerm);
   }
 
-  var termWrapper = new WordWrapper(dispWidth, this.getIndentForTerms(content,
+  var termWrapper = new WordWrapper(dispWidth, this.getIndent(content,
       marker));
-  var descWrapper = new WordWrapper(dispWidth, this.getIndentForDescriptions(
-      content, marker));
 
-  var term = termWrapper.wrap(inlineContentsInTerm);
-  var desc = blockContentsInDesc.map(function(desc) {
-    return descWrapper.wrap(desc.getInlineContents());
-  }).join('\n');
+  var term = termWrapper.wrap(inlineElementsInTerm);
+  var desc = descsArray.publish();
 
   return [term, desc].join('\n');
 };

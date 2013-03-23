@@ -4,7 +4,7 @@
 
 var basePath = '../../tsumekusa';
 var tsumekusa = require(basePath);
-var InlineContent = require(basePath + '/dom/InlineContent');
+var InlineElement = require(basePath + '/dom/InlineElement');
 
 
 
@@ -12,13 +12,13 @@ var InlineContent = require(basePath + '/dom/InlineContent');
  * A class for strong (highlight) word.
  * @param {string} word Word to highlight.
  * @constructor
- * @extends {tsumekusa.dom.InlineContent}
+ * @extends {tsumekusa.dom.InlineElement}
  */
 var Strong = function(word) {
-  InlineContent.call(this);
+  InlineElement.call(this);
   this.content_ = word;
 };
-tsumekusa.inherits(Strong, InlineContent);
+tsumekusa.inherits(Strong, InlineElement);
 
 
 /**
@@ -44,9 +44,9 @@ Strong.prototype.isBreakable = function() {
 
 /**
  * Returns a strong content.
- * @return {string} Content string.
+ * @return {string} Element string.
  */
-Strong.prototype.getContent = function() {
+Strong.prototype.getElement = function() {
   return this.content_;
 };
 

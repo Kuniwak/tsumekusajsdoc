@@ -31,7 +31,7 @@ DocumentPublisher.ENABLED_CONTENTS_TABLE = true;
 
 /** @override */
 DocumentPublisher.prototype.publishHeader = function(container) {
-  var indent = this.getCaptionIndent(container);
+  var indent = this.getIndent(container);
   var width = this.getDisplayWidth();
   var wrapper = new WordWrapper(width, indent);
   var caption = container.getCaption();
@@ -46,7 +46,7 @@ DocumentPublisher.prototype.publishHeader = function(container) {
  * enabled.  You can override the method, if you want to add/remove any sub
  * containers.
  * @param {tsumekusa.dom.Container} container Container content.
- * @return {?Array.<string>} Contents table and sub containers strings, if any.
+ * @return {?Array.<string>} Elements table and sub containers strings, if any.
  * @protected
  * @override
  */
@@ -66,16 +66,10 @@ DocumentPublisher.prototype.publishSubContainersInternal = function(container) {
 };
 
 
-/** @override */
-DocumentPublisher.prototype.getIndentWidth = function(content) {
-  return this.getParentIndentWidth(content);
-};
-
-
 /**
  * Publishes table of contents.
  * @param {tsumekusa.dom.Container} container Container content.
- * @return {string} Contents table string.
+ * @return {string} Elements table string.
  */
 DocumentPublisher.prototype.publishContentsTable = function(container) {
   return ContentsTable.publisher.publish(container);

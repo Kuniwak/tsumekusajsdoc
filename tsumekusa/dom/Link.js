@@ -4,7 +4,7 @@
 
 var basePath = '../../tsumekusa';
 var tsumekusa = require(basePath);
-var InlineContent = require(basePath + '/dom/InlineContent');
+var InlineElement = require(basePath + '/dom/InlineElement');
 var LinkPublisher = require(basePath + '/publishing/LinkPublisher');
 
 
@@ -13,13 +13,13 @@ var LinkPublisher = require(basePath + '/publishing/LinkPublisher');
  * A class for link contents.
  * @param {string} tgtId Target reference ID.
  * @constructor
- * @extends {tsumekusa.dom.InlineContent}
+ * @extends {tsumekusa.dom.InlineElement}
  */
 var Link = function(tgtId) {
-  InlineContent.call(this);
+  InlineElement.call(this);
   this.setTargetReferenceId(tgtId);
 };
-tsumekusa.inherits(Link, InlineContent);
+tsumekusa.inherits(Link, InlineElement);
 
 
 /**

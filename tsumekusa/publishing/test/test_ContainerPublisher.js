@@ -5,14 +5,16 @@
 var basePath = '../../../tsumekusa';
 var Paragraph = require(basePath + '/dom/Paragraph');
 var Container = require(basePath + '/dom/Container');
-var ContainerPublisher = require(basePath + '/publishing/ContainerPublisher');
+var ElementArray = require(basePath + '/dom/ElementArray');
 var ParagraphPublisher = require(basePath + '/publishing/ParagraphPublisher');
+var ContainerPublisher = require(basePath + '/publishing/ContainerPublisher');
+var ElementArrayPublisher = require(basePath +
+    '/publishing/ElementArrayPublisher');
 
 // Prepare publishers
-Container.publisher = new ContainerPublisher();
-Container.publisher.setDisplayWidth(80);
 Paragraph.publisher = new ParagraphPublisher();
-Paragraph.publisher.setDisplayWidth(80);
+Container.publisher = new ContainerPublisher();
+ElementArray.publisher = new ElementArrayPublisher();
 
 // Lorem Ipsum {{{
 var LOREM_IPSUM = [
@@ -35,10 +37,10 @@ exports.testPublish = function(test) {
   var subContainers3 = container3.getSubContainers();
   var subContainers4 = container4.getSubContainers();
 
-  var topContents1 = container1.getTopContents();
-  var topContents2 = container2.getTopContents();
-  var topContents3 = container3.getTopContents();
-  var topContents4 = container4.getTopContents();
+  var topElements1 = container1.getTopElements();
+  var topElements2 = container2.getTopElements();
+  var topElements3 = container3.getTopElements();
+  var topElements4 = container4.getTopElements();
 
   subContainers1.addChild(container2);
   subContainers2.addChild(container3);
@@ -50,11 +52,11 @@ exports.testPublish = function(test) {
   var p4 = new Paragraph(LOREM_IPSUM[3]);
   var p5 = new Paragraph(LOREM_IPSUM[0]);
 
-  topContents1.addChild(p1);
-  topContents1.addChild(p2);
-  topContents2.addChild(p3);
-  topContents3.addChild(p4);
-  topContents4.addChild(p5);
+  topElements1.addChild(p1);
+  topElements1.addChild(p2);
+  topElements2.addChild(p3);
+  topElements3.addChild(p4);
+  topElements4.addChild(p5);
 
   var CORRECT = [
     '0. container1',
@@ -74,41 +76,40 @@ exports.testPublish = function(test) {
     '  Integer bibendum facilisis consequat. Curabitur interdum turpis et nibh',
     '  iaculis vel dictum quam pretium. Pellentesque ac fringilla orci.',
     '',
-    '  1. container2',
-    '    In ut erat eu lorem dignissim dapibus. In pellentesque nulla vel mi',
-    '    tincidunt molestie sed nec tortor. Vivamus adipiscing magna ut urna tempus',
-    '    eget luctus dolor ullamcorper. Etiam cursus felis ut diam luctus eu',
-    '    tristique risus adipiscing. Phasellus purus urna, varius nec imperdiet eu,',
-    '    blandit at quam. Donec libero nulla, lobortis at dictum eget, porta et',
-    '    felis. Vestibulum a lectus diam. Sed ut mauris orci, in pulvinar velit.',
-    '    Nullam metus nulla, placerat id porta eget, sollicitudin sit amet tellus.',
+    '1. container2',
+    '  In ut erat eu lorem dignissim dapibus. In pellentesque nulla vel mi tincidunt',
+    '  molestie sed nec tortor. Vivamus adipiscing magna ut urna tempus eget luctus',
+    '  dolor ullamcorper. Etiam cursus felis ut diam luctus eu tristique risus',
+    '  adipiscing. Phasellus purus urna, varius nec imperdiet eu, blandit at quam.',
+    '  Donec libero nulla, lobortis at dictum eget, porta et felis. Vestibulum a',
+    '  lectus diam. Sed ut mauris orci, in pulvinar velit. Nullam metus nulla,',
+    '  placerat id porta eget, sollicitudin sit amet tellus.',
     '',
-    '    1.1 container3',
-    '      Nullam tristique, mi non laoreet interdum, tellus felis accumsan metus, et',
-    '      pulvinar eros purus ut quam. Vestibulum convallis metus et metus',
-    '      pellentesque vulputate. Nam lacinia, nulla vel imperdiet pellentesque,',
-    '      felis magna ullamcorper leo, et imperdiet orci augue at sapien. Integer',
-    '      erat nisi, aliquet quis cursus at, varius quis metus. Aenean turpis lorem,',
-    '      pretium eu pellentesque sed, accumsan dictum dolor. Proin iaculis iaculis',
-    '      nisi porttitor sollicitudin. Phasellus sollicitudin vestibulum nulla, ac',
-    '      semper nisl mattis eget. Mauris eget augue sodales nulla semper',
-    '      pellentesque. Sed in turpis sit amet elit eleifend viverra. Aliquam cursus',
-    '      mauris libero, et sollicitudin ante. Cras cursus tincidunt lacus, a',
-    '      pellentesque leo pretium nec. Mauris eu tortor eu tortor lacinia laoreet',
-    '      quis ut lacus. Maecenas quis erat nec mi pharetra posuere et ac erat.',
-    '      Aliquam interdum lectus ut dolor volutpat tempor. Etiam vestibulum, dolor',
-    '      rhoncus tristique congue, neque mi ullamcorper dolor, posuere consequat',
-    '      metus ligula sit amet ante. Quisque non commodo dolor.',
+    '1.1 container3',
+    '  Nullam tristique, mi non laoreet interdum, tellus felis accumsan metus, et',
+    '  pulvinar eros purus ut quam. Vestibulum convallis metus et metus pellentesque',
+    '  vulputate. Nam lacinia, nulla vel imperdiet pellentesque, felis magna',
+    '  ullamcorper leo, et imperdiet orci augue at sapien. Integer erat nisi, aliquet',
+    '  quis cursus at, varius quis metus. Aenean turpis lorem, pretium eu',
+    '  pellentesque sed, accumsan dictum dolor. Proin iaculis iaculis nisi porttitor',
+    '  sollicitudin. Phasellus sollicitudin vestibulum nulla, ac semper nisl mattis',
+    '  eget. Mauris eget augue sodales nulla semper pellentesque. Sed in turpis sit',
+    '  amet elit eleifend viverra. Aliquam cursus mauris libero, et sollicitudin',
+    '  ante. Cras cursus tincidunt lacus, a pellentesque leo pretium nec. Mauris eu',
+    '  tortor eu tortor lacinia laoreet quis ut lacus. Maecenas quis erat nec mi',
+    '  pharetra posuere et ac erat. Aliquam interdum lectus ut dolor volutpat tempor.',
+    '  Etiam vestibulum, dolor rhoncus tristique congue, neque mi ullamcorper dolor,',
+    '  posuere consequat metus ligula sit amet ante. Quisque non commodo dolor.',
     '',
-    '  2. container4',
-    '    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vel dolor',
-    '    nunc. Nam neque erat, dignissim eu ullamcorper id, pellentesque ut ante.',
-    '    Pellentesque sit amet viverra neque. Cum sociis natoque penatibus et magnis',
-    '    dis parturient montes, nascetur ridiculus mus. Curabitur quam nisl, feugiat',
-    '    non vehicula ornare, porta id enim. Cras laoreet metus a massa varius porta.',
-    '    Donec metus justo, iaculis eget elementum at, gravida vitae ligula.',
-    '    Curabitur ac pellentesque lectus. Praesent vitae augue at nulla pulvinar',
-    '    varius a mattis tortor. Sed non orci at leo auctor cursus.',
+    '2. container4',
+    '  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vel dolor',
+    '  nunc. Nam neque erat, dignissim eu ullamcorper id, pellentesque ut ante.',
+    '  Pellentesque sit amet viverra neque. Cum sociis natoque penatibus et magnis',
+    '  dis parturient montes, nascetur ridiculus mus. Curabitur quam nisl, feugiat',
+    '  non vehicula ornare, porta id enim. Cras laoreet metus a massa varius porta.',
+    '  Donec metus justo, iaculis eget elementum at, gravida vitae ligula. Curabitur',
+    '  ac pellentesque lectus. Praesent vitae augue at nulla pulvinar varius a mattis',
+    '  tortor. Sed non orci at leo auctor cursus.'
   ].join('\n');
 
   test.equal(container1.publish(), CORRECT);

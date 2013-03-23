@@ -104,7 +104,7 @@ WordWrapper.prototype.init = function() {
  *
  * NOTE: The method may hyphenate in a content that do not allow word wrap in
  * when the content is longer than the given text width.
- * @param {Array.<tsumekusa.dom.InlineContent>} contents Contents to wrap.
+ * @param {Array.<tsumekusa.dom.InlineElement>} contents Elements to wrap.
  * @param {?boolean=} opt_keepBreak Whether keep original line breaks.  In
  *     default, line breaks are not kept.
  * @return {string} Wrapped string.
@@ -168,7 +168,7 @@ WordWrapper.prototype.wrap = function(contents, opt_keepBreak) {
 
 /**
  * Word wraps keeping line breaks.
- * @param {Array.<tsumekusa.dom.InlineContent>} contents Contents to wrap.
+ * @param {Array.<tsumekusa.dom.InlineElement>} contents Elements to wrap.
  * @return {string} Wrapped string.
  * @protected
  */
@@ -251,9 +251,9 @@ WordWrapper.WordSplitter = function() {};
 
 /**
  * Splits on interword and returns an array of words.  Default strategy is:
- * Use {@link tsumekusa.dom.InlineContent#isBreakable} when inline content
+ * Use {@link tsumekusa.dom.InlineElement#isBreakable} when inline content
  * was arrived.  Wraps in the content if the {@code isBreakable} returns a true.
- * @param {Array.<tsumekusa.dom.InlineContent>|string} contents Contents
+ * @param {Array.<tsumekusa.dom.InlineElement>|string} contents Elements
  *     to split.
  * @return {Array.<string>} Splited content string.
  * @protected

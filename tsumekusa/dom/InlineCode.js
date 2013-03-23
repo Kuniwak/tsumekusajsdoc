@@ -5,7 +5,7 @@
 var basePath = '../../tsumekusa';
 var tsumekusa = require(basePath);
 var InlineCode = require(basePath + '/dom/InlineCode');
-var InlineContent = require(basePath + '/dom/InlineContent');
+var InlineElement = require(basePath + '/dom/InlineElement');
 
 
 
@@ -13,13 +13,13 @@ var InlineContent = require(basePath + '/dom/InlineContent');
  * A class for inline code.
  * @param {string} code inline code.
  * @constructor
- * @extends {tsumekusa.dom.InlineContent}
+ * @extends {tsumekusa.dom.InlineElement}
  */
 var InlineCode = function(code) {
-  InlineContent.call(this);
+  InlineElement.call(this);
   this.setCode(code);
 };
-tsumekusa.inherits(InlineCode, InlineContent);
+tsumekusa.inherits(InlineCode, InlineElement);
 
 
 /**

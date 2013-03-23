@@ -4,7 +4,7 @@
 
 var basePath = '../../tsumekusa';
 var tsumekusa = require(basePath);
-var BlockContent = require(basePath + '/dom/BlockContent');
+var BlockElement = require(basePath + '/dom/BlockElement');
 
 
 
@@ -12,13 +12,13 @@ var BlockContent = require(basePath + '/dom/BlockContent');
  * A class for code block.
  * @param {string} code Code.
  * @constructor
- * @extends {tsumekusa.dom.BlockContent}
+ * @extends {tsumekusa.dom.BlockElement}
  */
 var Code = function(code) {
-  BlockContent.call(this);
+  BlockElement.call(this);
   this.setCode(code);
 };
-tsumekusa.inherits(Code, BlockContent);
+tsumekusa.inherits(Code, BlockElement);
 
 
 /**

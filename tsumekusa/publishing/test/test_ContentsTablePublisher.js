@@ -31,10 +31,10 @@ exports.testPublish = function(test) {
   var subContainers3 = container3.getSubContainers();
   var subContainers4 = container4.getSubContainers();
 
-  var topContents1 = container1.getTopContents();
-  var topContents2 = container2.getTopContents();
-  var topContents3 = container3.getTopContents();
-  var topContents4 = container4.getTopContents();
+  var topElements1 = container1.getTopElements();
+  var topElements2 = container2.getTopElements();
+  var topElements3 = container3.getTopElements();
+  var topElements4 = container4.getTopElements();
 
   subContainers1.addChild(container2);
   subContainers2.addChild(container3);
@@ -46,11 +46,11 @@ exports.testPublish = function(test) {
   var p4 = new Paragraph(LOREM_IPSUM[3]);
   var p5 = new Paragraph(LOREM_IPSUM[0]);
 
-  topContents1.addChild(p1);
-  topContents1.addChild(p2);
-  topContents2.addChild(p3);
-  topContents3.addChild(p4);
-  topContents4.addChild(p5);
+  topElements1.addChild(p1);
+  topElements1.addChild(p2);
+  topElements2.addChild(p3);
+  topElements3.addChild(p4);
+  topElements4.addChild(p5);
 
   var CORRECT = [
     'CONTENTS',

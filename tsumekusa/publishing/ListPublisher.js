@@ -4,45 +4,40 @@
 
 var basePath = '../../tsumekusa';
 var tsumekusa = require(basePath);
-var BlockContentPublisher = require(basePath +
-    '/publishing/BlockContentPublisher');
+var BlockElementPublisher = require(basePath +
+    '/publishing/BlockElementPublisher');
 
 
 
 /**
  * A class for list publisher for vim help.
  * @constructor
- * @implements {tsumekusa.publishing.IContentPublisher}
+ * @implements {tsumekusa.publishing.IElementPublisher}
  */
 var ListPublisher = function() {
-  BlockContentPublisher.call(this);
+  BlockElementPublisher.call(this);
 };
-tsumekusa.inherits(ListPublisher, BlockContentPublisher);
+tsumekusa.inherits(ListPublisher, BlockElementPublisher);
 tsumekusa.addSingletonGetter(ListPublisher);
 
 
 /**
- * Default indent width.
+ * Indent width for children.
  * @const
  * @type {number}
  */
-ListPublisher.INDENT_WIDTH = 2;
+ListPublisher.INDENT_WIDTH_FOR_CHILD = 2;
 
 
 /** @override */
-ListPublisher.prototype.getIndentWidth = function(content) {
-  var indentWidth = this.getParentIndentWidth(content);
-  return indentWidth + ListPublisher.INDENT_WIDTH;
+ListPublisher.prototype.getIndentWidthForChild = function(elem) {
+  return this.getIndentWidth(elem) + ListPublisher.INDENT_WIDTH_FOR_CHILD;
 };
 
 
 /** @override */
 ListPublisher.prototype.publish = function(list) {
-  var items = list.getListItems().getChildren();
-
-  return items.map(function(item, index) {
-    return item.publish();
-  }).join('\n\n');
+  return list.getListItems().publish();
 };
 
 

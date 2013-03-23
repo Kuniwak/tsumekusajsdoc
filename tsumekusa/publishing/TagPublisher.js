@@ -9,7 +9,7 @@ var tsumekusa = require(basePath);
 /**
  * A class for tag content publisher.
  * @constructor
- * @implements {tsumekusa.publishing.IContentPublisher}
+ * @implements {tsumekusa.publishing.IElementPublisher}
  */
 var TagPublisher = function() {};
 tsumekusa.addSingletonGetter(TagPublisher);

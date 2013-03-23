@@ -6,9 +6,9 @@ var basePath = '../../tsumekusa';
 
 
 /**
- * Content publisher map.
+ * Element publisher map.
  * @name tsumekusa.publishing.DefaultsMap
- * @enum {function(new:tsumekusa.publishing.IContentPublisher)}
+ * @enum {function(new:tsumekusa.publishing.IElementPublisher)}
  */
 module.exports = {
   /** Publisher for codes. */
@@ -26,6 +26,9 @@ module.exports = {
       '/publishing/DefinitionListPublisher').getInstance(),
   /** Publisher for documents. */
   DOCUMENT: require(basePath + '/publishing/DocumentPublisher').getInstance(),
+  /** Publisher for element arrays. */
+  ELEMENT_ARRAY: require(basePath +
+      '/publishing/ElementArrayPublisher').getInstance(),
   /** Publisher for inline codes. */
   INLINE_CODE: require(basePath +
       '/publishing/InlineCodePublisher').getInstance(),

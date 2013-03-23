@@ -3,7 +3,7 @@
 
 
 var tsumekusa = require('../../tsumekusa');
-var BlockContent = require('./BlockContent');
+var BlockElement = require('./BlockElement');
 
 
 
@@ -11,13 +11,13 @@ var BlockContent = require('./BlockContent');
  * A class for preformatted paragraph.
  * @constructor
  * @param {string} content Preformatted content.
- * @extends {tsumekusa.dom.BlockContent}
+ * @extends {tsumekusa.dom.BlockElement}
  */
 var PreformattedParagraph = function(content) {
-  BlockContent.call(this);
+  BlockElement.call(this);
   this.content_ = content;
 };
-tsumekusa.inherits(PreformattedParagraph, BlockContent);
+tsumekusa.inherits(PreformattedParagraph, BlockElement);
 
 
 /**
@@ -31,7 +31,7 @@ PreformattedParagraph.publisher = null;
  * Returns a preformatted content.
  * @return {string} Preformatted content.
  */
-PreformattedParagraph.prototype.getContent = function() {
+PreformattedParagraph.prototype.getElement = function() {
   return this.content_;
 };
 

@@ -7,20 +7,20 @@ var tsumekusa = require(basePath);
 var string = require(basePath + '/string');
 var WordWrapper = require(basePath + '/publishing/WordWrapper');
 var Indent = require(basePath + '/publishing/Indent');
-var BlockContentPublisher = require(basePath +
-    '/publishing/BlockContentPublisher');
+var BlockElementPublisher = require(basePath +
+    '/publishing/BlockElementPublisher');
 
 
 
 /**
  * A class for preformatted paragrapg publisher.
  * @constructor
- * @extends {tsumekusa.publishing.BlockContentPublisher}
+ * @extends {tsumekusa.publishing.BlockElementPublisher}
  */
 var PreformattedParagraphPublisher = function(width) {
-  BlockContentPublisher.call(this);
+  BlockElementPublisher.call(this);
 };
-tsumekusa.inherits(PreformattedParagraphPublisher, BlockContentPublisher);
+tsumekusa.inherits(PreformattedParagraphPublisher, BlockElementPublisher);
 tsumekusa.addSingletonGetter(PreformattedParagraphPublisher);
 
 
@@ -29,7 +29,7 @@ PreformattedParagraphPublisher.prototype.publish = function(pre) {
   var indent = new Indent(this.getIndentWidth(pre));
   var wrapper = new WordWrapper(this.getDisplayWidth(), indent);
 
-  return '\n' + wrapper.wrap([pre.getContent()], true) + '\n';
+  return '\n' + wrapper.wrap([pre.getElement()], true) + '\n';
 };
 
 

@@ -10,7 +10,7 @@ var files = require('../files');
 /**
  * A class for link publisher for Vim help.
  * @constructor
- * @implements {tsumekusa.publishing.IContentPublisher}
+ * @implements {tsumekusa.publishing.IElementPublisher}
  */
 var HtmlLinkPublisher = function() {
 };

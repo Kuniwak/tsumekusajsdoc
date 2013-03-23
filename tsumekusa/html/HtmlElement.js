@@ -13,7 +13,7 @@
 var Element = function(type, opt_unuseEndTag, opt_content) {
   this.type_ = type;
   this.endTag_ = !opt_unuseEndTag;
-  this.setContent(opt_content || '');
+  this.setElement(opt_content || '');
   this.attrMap_ = new Element.AttributeMap();
 };
 
@@ -29,10 +29,10 @@ Element.prototype.getType = function() {
 
 /**
  * Sets a content.  This method is chainable.
- * @param {string} content Content to set.
+ * @param {string} content Element to set.
  * @return {tsumekusa.html.Element} This instance.
  */
-Element.prototype.setContent = function(content) {
+Element.prototype.setElement = function(content) {
   this.content_ = content;
   return this;
 };
@@ -40,9 +40,9 @@ Element.prototype.setContent = function(content) {
 
 /**
  * Returns a content
- * @return {string} Content.
+ * @return {string} Element.
  */
-Element.prototype.getContent = function() {
+Element.prototype.getElement = function() {
   return this.content_;
 };
 
@@ -94,7 +94,7 @@ Element.prototype.toString = function() {
   res += '>';
 
   if (this.endTag_) {
-    res += this.getContent() + '</' + type + '>';
+    res += this.getElement() + '</' + type + '>';
   }
 
   return res;

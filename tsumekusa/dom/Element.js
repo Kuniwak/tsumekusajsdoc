@@ -6,20 +6,20 @@
 /**
  * An abstract class for contents.  This class provide a publishing system.
  * @constructor
- * @implements {tsumekusa.dom.IContent}
+ * @implements {tsumekusa.dom.IElement}
  */
-var Content = function() {};
+var Element = function() {};
 
 
 /**
  * Default content publisher.
- * @type {tsumekusa.publishing.ContentIPublisher}
+ * @type {tsumekusa.publishing.ElementIPublisher}
  */
-Content.publisher = null;
+Element.publisher = null;
 
 
 /** @override */
-Content.prototype.publish = function() {
+Element.prototype.publish = function() {
   var publisher = this.getPublisher();
   return publisher.publish(this);
 };
@@ -28,9 +28,9 @@ Content.prototype.publish = function() {
 /**
  * Returns a publisher for the content.  Default is {@code publisher} as the
  * class property if exists.
- * @return {tsumekusa.publishing.ContentPublisher} Publisher.
+ * @return {tsumekusa.publishing.ElementPublisher} Publisher.
  */
-Content.prototype.getPublisher = function() {
+Element.prototype.getPublisher = function() {
   var publisher = this.constructor.publisher;
   if (!publisher) {
     throw Error('Publisher was not found.');
@@ -41,4 +41,4 @@ Content.prototype.getPublisher = function() {
 
 
 // Exports the constructor.
-module.exports = Content;
+module.exports = Element;

@@ -4,25 +4,25 @@
 
 var basePath = '../../tsumekusa';
 var tsumekusa = require(basePath);
-var ContentArray = require(basePath + '/dom/ContentArray');
-var BlockContent = require(basePath + '/dom/BlockContent');
+var ElementArray = require(basePath + '/dom/ElementArray');
+var BlockElement = require(basePath + '/dom/BlockElement');
 
 
 
 /**
- * A class for ordered/unordered list contents.
+ * A class for ordered/unordered list elements.
  * Use {@link tsumekusa.dom.DefinitionList} if you need.
  * @param {?tsumekusa.dom.List.ListType=} opt_type List type.  Default
  *     type is unordered list.
  * @constructor
- * @extends {tsumekusa.dom.BlockContent}
+ * @extends {tsumekusa.dom.BlockElement}
  */
 var List = function(opt_type) {
-  BlockContent.call(this);
-  this.listeds_ = new ContentArray(this);
+  BlockElement.call(this);
+  this.listeds_ = new ElementArray(this);
   this.type_ = opt_type || List.ListType.UNORDERED;
 };
-tsumekusa.inherits(List, BlockContent);
+tsumekusa.inherits(List, BlockElement);
 
 
 /**
@@ -38,15 +38,15 @@ List.ListType = {
 
 
 /**
- * Default content publisher.
+ * Default element publisher.
  * @type {tsumekusa.publishing.ListPublisher}
  */
 List.publisher = null;
 
 
 /**
- * Listed contents.
- * @type {tsumekusa.dom.ContentArray.<tsumekusa.dom.BlockContent>}
+ * Listed elements.
+ * @type {tsumekusa.dom.ElementArray.<tsumekusa.dom.BlockElement>}
  * @private
  */
 List.prototype.listeds_ = null;
@@ -70,43 +70,84 @@ List.prototype.getListType = function() {
 
 
 /**
- * Adds the specified list content to the last.  The method is chainable.
- * @param {tsumekusa.dom.BlockContent} content Content to add.
+ * Creates a list item.
+ * @param {tsumekusa.dom.ElementArray.<tsumekusa.dom.BlockElement>}
+ *     blocks Block elements in the item.
+ * @param {?tsumekusa.dom.List.ListType=} opt_type List type of the item.  Use
+ *     a list type of the parent list, if falsey.
+ * @return {tsumekusa.dom.List.ListItem} Created list item.
+ * @protected
+ */
+List.prototype.createListItem = function(elemArr, opt_type) {
+  return new List.ListItem(elemArr, opt_type);
+};
+
+
+/**
+ * Creates a list item if the given element is not a list.
+ * @param {tsumekusa.dom.ElementArray.<tsumekusa.dom.BlockElement>|
+ * tsumekusa.dom.List} arg Block elements or list.
+ * @param {?tsumekusa.dom.List.ListType=} opt_type List type of the item.  Use
+ *     a list type of the parent list, if falsey.
+ * @return {tsumekusa.dom.List.ListItem|tsumekusa.dom.List} Created list item.
+ * @protected
+ */
+List.prototype.createListItemIfNecessary = function(arg, opt_type) {
+  if (arg instanceof List) {
+    return arg;
+  }
+  else {
+    return this.createListItem(arg, opt_type);
+  }
+};
+
+
+/**
+ * Adds the specified list item to the last.  The method is chainable.
+ * @param {tsumekusa.dom.ElementArray.<tsumekusa.dom.BlockElement>|
+ * tsumekusa.dom.List} arg Block elements or list.
+ * @param {?tsumekusa.dom.List.ListType=} opt_type List type of the item.  Use
+ *     a list type of the parent list, if falsey.
  * @return {tsumekusa.dom.List} This instance.
  */
-List.prototype.addListItem = function(content) {
-  this.listeds_.addChild(content);
+List.prototype.addListItem = function(arg, opt_type) {
+  var li = this.createListItemIfNecessary(arg, opt_type);
+  this.listeds_.addChild(li);
   return this;
 };
 
 
 /**
- * Adds the specified list content to the given 0-based index.  The method is
+ * Adds the specified list item to the given 0-based index.  The method is
  * chainable.
- * @param {tsumekusa.dom.BlockContent} content Content to add.
+ * @param {tsumekusa.dom.ElementArray.<tsumekusa.dom.BlockElement>|
+ * tsumekusa.dom.List} arg Block elements or list.
+ * @param {?tsumekusa.dom.List.ListType=} opt_type List type of the item.  Use
+ *     a list type of the parent list, if falsey.
  * @param {number} index 0-based index.
  * @return {tsumekusa.dom.List} This instance.
  */
-List.prototype.addListItemAt = function(content, index) {
-  this.listeds_.addChildAt(content, index);
+List.prototype.addListItemAt = function(element, index) {
+  var li = this.createListItemIfNecessary(arg, opt_type);
+  this.listeds_.addChildAt(li, index);
   return this;
 };
 
 
 /**
- * Removes the specified list content.
- * @param {tsumekusa.dom.BlockContent} content Content to remove.
- * @return {tsumekusa.dom.BlockContent} Removed content, if any.
+ * Removes the specified list element.
+ * @param {tsumekusa.dom.BlockElement} element Element to remove.
+ * @return {tsumekusa.dom.BlockElement} Removed element, if any.
  */
-List.prototype.removeListItem = function(content) {
-  return this.listeds_.removeChild(content);
+List.prototype.removeListItem = function(element) {
+  return this.listeds_.removeChild(element);
 };
 
 
 /**
- * Removes the specified list content at the given 0-based index.
+ * Removes the specified list element at the given 0-based index.
  * @param {number} index 0-based index.
- * @return {tsumekusa.dom.BlockContent} Removed content, if any.
+ * @return {tsumekusa.dom.BlockElement} Removed element, if any.
  */
 List.prototype.removeListItemAt = function(index) {
   return this.listeds_.removeChildAt(index);
@@ -114,43 +155,35 @@ List.prototype.removeListItemAt = function(index) {
 
 
 /**
- * Returns listed contents.
- * @return {tsumekusa.dom.ContentArray.<tsumekusa.dom.BlockContent>}
- *     Listed contents.
+ * Returns listed elements.
+ * @return {tsumekusa.dom.ElementArray.<tsumekusa.dom.BlockElement>}
+ *     Listed elements.
  */
 List.prototype.getListItems = function() {
   return this.listeds_;
 };
 
 
-/**
- * Returns a 0-based index of the specified list item.
- * @param {tsumekusa.dom.List.ListItem} item List item.
- * @return {number} Index of the specified definition.
- */
-List.prototype.indexOfList = function(item) {
-  return this.listeds_.getChildren().indexOf(item);
-};
 
-
-
+// List.ListItem {{{
 /**
  * A class for list items.
- * @param {tsumekusa.dom.ContentArray.<tsumekusa.dom.BlockContent>}
- *     blocks Block contents in the item.
- * @param {?tsumekusa.dom.List.ListType=} type List type of the item.
+ * @param {tsumekusa.dom.ElementArray.<tsumekusa.dom.BlockElement>}
+ *     blocks Block elements in the item.
+ * @param {?tsumekusa.dom.List.ListType=} opt_type List type of the item.  Use
+ *     a list type of the parent list, if falsey.
  * @constructor
  */
 List.ListItem = function(blocks, opt_type) {
-  BlockContent.call(this);
+  BlockElement.call(this);
   this.type_ = opt_type;
-  this.blocks_ = blocks;
+  this.setBlockElements(blocks);
 };
-tsumekusa.inherits(List.ListItem, BlockContent);
+tsumekusa.inherits(List.ListItem, BlockElement);
 
 
 /**
- * Default content publisher.
+ * Default element publisher.
  * @type {tsumekusa.publishing.ListItemPublisher}
  */
 List.ListItem.publisher = null;
@@ -166,10 +199,38 @@ List.ListItem.prototype.type_;
 
 /**
  * Paragraphs of the item..
- * @type {tsumekusa.dom.ContentArray.<tsumekusa.dom.BlockContent>}
+ * @type {tsumekusa.dom.ElementArray.<tsumekusa.dom.BlockElement>}
  * @private
  */
 List.ListItem.prototype.blocks_;
+
+
+/** @override */
+List.ListItem.prototype.getParent = function() {
+  var parent;
+  if (parent = BlockElement.prototype.getParent.call(this)) {
+    return parent;
+  }
+  else {
+    throw Error('List item have to be in an element array, but come: ' +
+        parent);
+  }
+};
+
+
+/**
+ * Returns a list as the parent of the list item.
+ * @return {tsumekusa.dom.List} Parent list.
+ */
+List.ListItem.prototype.getParentList = function() {
+  var elemArr;
+  if (elemArr = this.getParent()) {
+    return elemArr.getParent();
+  }
+  else {
+    throw Error('List item have to be in a list, but come: ' + parent);
+  }
+};
 
 
 /**
@@ -177,16 +238,31 @@ List.ListItem.prototype.blocks_;
  * @return {tsumekusa.dom.List.ListType} List type.
  */
 List.ListItem.prototype.getListType = function() {
-  return this.type_ || (this.type_ = this.getParent().getListType());
+  var parentList = this.getParentList();
+  return this.type_ || (this.type_ = parentList.getListType());
 };
 
 
 /**
- * Returns block contents as descriptions of the definition.
- * @return {tsumekusa.dom.ContentArray.<tsumekusa.dom.BlockContent>}
+ * Sets block elements.  The method is chainable.
+ * @param {tsumekusa.dom.ElementArray.<tsumekusa.dom.BlockElement>} blocks
+ *   Block elements to set.
+ * @return {tsumekusa.dom.List.ListItem} This instance.
+ * @protected
+ */
+List.ListItem.prototype.setBlockElements = function(blocks) {
+  this.blocks_ = blocks;
+  blocks.setParent(this);
+  return this;
+};
+
+
+/**
+ * Returns block elements as descriptions of the definition.
+ * @return {tsumekusa.dom.ElementArray.<tsumekusa.dom.BlockElement>}
  *     List item.
  */
-List.ListItem.prototype.getBlockContents = function() {
+List.ListItem.prototype.getBlockElements = function() {
   return this.blocks_;
 };
 
@@ -197,9 +273,29 @@ List.ListItem.prototype.getBlockContents = function() {
  */
 List.ListItem.prototype.getIndex = function() {
   // TODO: Caching index.
-  var parent = this.getParent();
-  return parent.indexOfList(this);
+  var parentElemArr = this.getParent();
+  var index = 0;
+  var err = Error();
+
+  try {
+    parentElemArr.getChildren().forEach(function(li) {
+      if (li === this) {
+        throw err;
+      }
+      else if (li instanceof List.ListItem) {
+        ++index;
+      }
+    }, this);
+  }
+  catch (e) {
+    if (e !== err) {
+      throw e;
+    }
+  }
+
+  return index;
 };
+//}}}
 
 
 // Export the constructor

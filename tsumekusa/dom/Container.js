@@ -4,8 +4,8 @@
 
 var tsumekusa = require('../../tsumekusa');
 var array = require('../array');
-var BlockContent = require('./BlockContent');
-var ContentArray = require('./ContentArray');
+var BlockElement = require('./BlockElement');
+var ElementArray = require('./ElementArray');
 var Paragraph = require('./Paragraph');
 var Tag = require('./Tag');
 var Link = require('./Link');
@@ -41,20 +41,20 @@ var VimHelpContainerPublisher = require(
  * @param {?boolean=} opt_visible Optional flag that controls a visibility on a
  *     table of contents.
  * @constructor
- * @extends {tsumekusa.dom.BlockContent}
+ * @extends {tsumekusa.dom.BlockElement}
  */
 var Container = function(caption, opt_refId, opt_visible) {
-  // TODO: Do not inherit BlockContent. Because the container do not allow to
+  // TODO: Do not inherit BlockElement. Because the container do not allow to
   // add a Container as a top contents of a container, or it makes to be able to
   // support markdown.
-  BlockContent.call(this);
+  BlockElement.call(this);
   this.setCaption(caption);
   this.tag_ = new Tag(opt_refId || this.getReferenceId());
-  this.topBlocks_ = new ContentArray(this);
-  this.subContainers_ = new ContentArray(this);
+  this.topBlocks_ = new ElementArray(this);
+  this.subContainers_ = new ElementArray(this);
   this.visibility_ = opt_visible || false;
 };
-tsumekusa.inherits(Container, BlockContent);
+tsumekusa.inherits(Container, BlockElement);
 
 
 /**
@@ -90,7 +90,7 @@ Container.prototype.tag_;
 
 /**
  * Top contents of the container.
- * @type {tsumekusa.dom.ContentArray.<tsumekusa.dom.BlockContent>}
+ * @type {tsumekusa.dom.ElementArray.<tsumekusa.dom.BlockElement>}
  * @private
  */
 Container.prototype.topBlocks_ = null;
@@ -98,10 +98,25 @@ Container.prototype.topBlocks_ = null;
 
 /**
  * Sub contents of the container.
- * @type {tsumekusa.dom.ContentArray.<tsumekusa.dom.BlockContent>}
+ * @type {tsumekusa.dom.ElementArray.<tsumekusa.dom.BlockElement>}
  * @private
  */
 Container.prototype.subContainers_ = null;
+
+
+/**
+ * Returns a parent container if exists.
+ * @return {?tsumekusa.dom.Container} Parent container.
+ */
+Container.prototype.getParentContainer = function() {
+  var parentElemArr;
+  if (parentElemArr = this.getParent()) {
+    return parentElemArr.getParent();
+  }
+  else {
+    return null;
+  }
+};
 
 
 /**
@@ -184,17 +199,33 @@ Container.prototype.getReferenceIdInternal = function(caption) {
 
 
 /**
- * Returns descendant contents.
+ * Returns containers as descendants of the container.
  * @return {Array.<tsumekusa.dom.Container>} Descendant contents.
  */
-Container.prototype.getDescendants = function() {
+Container.prototype.getDescendantContainers = function() {
   var descendants = [];
   this.getSubContainers().getChildren().forEach(function(sub) {
     descendants.push(sub);
-    descendants = descendants.concat(sub.getDescendants());
+    descendants = descendants.concat(sub.getDescendantContainers());
   });
 
   return descendants;
+};
+
+
+/**
+ * Returns containers as ascendors of the container.
+ * @return {Array.<tsumekusa.dom.Container>} Ancestor contents.
+ */
+Container.prototype.getAncestorContainers = function() {
+  var ancestors = [];
+  var container = this;
+
+  while (container = container.getParentContainer()) {
+    ancestors.unshift(container);
+  }
+
+  return ancestors;
 };
 
 
@@ -204,7 +235,7 @@ Container.prototype.getDescendants = function() {
  */
 Container.prototype.getIndex = function() {
   var parent;
-  if (parent = this.getParent()) {
+  if (parent = this.getParentContainer()) {
     return parent.getSubContainers().getChildren().indexOf(this);
   }
 
@@ -217,7 +248,14 @@ Container.prototype.getIndex = function() {
  * @return {number} Depth of the container.
  */
 Container.prototype.getDepth = function() {
-  return this.getAncestors().length;
+  var container = this;
+  var depth = 0;
+
+  while (container = container.getParentContainer()) {
+    ++depth;
+  }
+
+  return depth;
 };
 //}}}
 
@@ -225,10 +263,10 @@ Container.prototype.getDepth = function() {
 // Methods for top contents manipulation {{{
 /**
  * Returns top block contents.
- * @return {tsumekusa.dom.ContentArray.<tsumekusa.dom.BlockContent>}
+ * @return {tsumekusa.dom.ElementArray.<tsumekusa.dom.BlockElement>}
  *     Block contents on the top.
  */
-Container.prototype.getTopContents = function() {
+Container.prototype.getTopElements = function() {
   return this.topBlocks_;
 };
 //}}}
@@ -236,7 +274,7 @@ Container.prototype.getTopContents = function() {
 
 /**
  * Returns sub contents.
- * @return {tsumekusa.dom.ContentArray.<tsumekusa.dom.BlockContent>}
+ * @return {tsumekusa.dom.ElementArray.<tsumekusa.dom.BlockElement>}
  *     Containers as children of the container.
  */
 Container.prototype.getSubContainers = function() {

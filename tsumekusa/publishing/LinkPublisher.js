@@ -10,7 +10,7 @@ var tsumekusa = require(basePath);
 /**
  * A class for link content publisher.
  * @constructor
- * @implements {tsumekusa.publishing.IContentPublisher}
+ * @implements {tsumekusa.publishing.IElementPublisher}
  */
 var LinkPublisher = function() {};
 tsumekusa.addSingletonGetter(LinkPublisher);

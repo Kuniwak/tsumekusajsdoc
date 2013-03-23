@@ -4,7 +4,7 @@
 
 var basePath = '../../tsumekusa';
 var tsumekusa = require(basePath);
-var InlineContent = require(basePath + '/dom/InlineContent');
+var InlineElement = require(basePath + '/dom/InlineElement');
 
 
 
@@ -13,13 +13,13 @@ var InlineContent = require(basePath + '/dom/InlineContent');
  * {@link tsumekusa.dom.TagFactory.createTag} to construct.
  * @param {string} id Reference ID string.
  * @constructor
- * @extends {tsumekusa.dom.InlineContent}
+ * @extends {tsumekusa.dom.InlineElement}
  */
 var Tag = function(id) {
-  InlineContent.call(this);
+  InlineElement.call(this);
   this.setReferenceId(id);
 };
-tsumekusa.inherits(Tag, InlineContent);
+tsumekusa.inherits(Tag, InlineElement);
 
 
 /**

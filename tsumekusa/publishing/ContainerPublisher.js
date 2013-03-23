@@ -3,8 +3,8 @@
 
 var basePath = '../../tsumekusa';
 var tsumekusa = require(basePath);
-var BlockContentPublisher = require(basePath +
-    '/publishing/BlockContentPublisher');
+var BlockElementPublisher = require(basePath +
+    '/publishing/BlockElementPublisher');
 var WordWrapper = require(basePath + '/publishing/WordWrapper');
 var Indent = require(basePath + '/publishing/Indent');
 
@@ -13,12 +13,12 @@ var Indent = require(basePath + '/publishing/Indent');
 /**
  * A singleton class for container publisher.
  * @constructor
- * @extends {tsumekusa.dom.BlockContentPublisher}
+ * @extends {tsumekusa.dom.BlockElementPublisher}
  */
 var ContainerPublisher = function() {
-  BlockContentPublisher.call(this);
+  BlockElementPublisher.call(this);
 };
-tsumekusa.inherits(ContainerPublisher, BlockContentPublisher);
+tsumekusa.inherits(ContainerPublisher, BlockElementPublisher);
 tsumekusa.addSingletonGetter(ContainerPublisher);
 
 
@@ -39,14 +39,6 @@ ContainerPublisher.CAPTION_INDENT_WIDTH = 0;
 
 
 /**
- * Paragraph space height.
- * @const
- * @type {number}
- */
-ContainerPublisher.PARAGRAPH_SPACE = 1;
-
-
-/**
  * Height of paragraph bottom margin.
  * @const
  * @type {number}
@@ -63,51 +55,45 @@ ContainerPublisher.HEADER_BOTTOM_MARGIN = 0;
 
 
 /**
- * Returns an indent width of the content caption.
- * @param {tsumekusa.dom.BlockContent} content Block content to get an
- *     indent width.
- * @return {number} Indent width.
+ * Indent width for children.
+ * @const
+ * @type {number}
  */
-ContainerPublisher.prototype.getCaptionIndentWidth = function(content) {
-  var indentWidth = this.getParentIndentWidth(content);
-  return indentWidth + ContainerPublisher.CAPTION_INDENT_WIDTH;
+ContainerPublisher.INDENT_WIDTH_FOR_CHILD = 2;
+
+
+/** @override */
+ContainerPublisher.prototype.getIndentWidth = function(elem) {
+  var parentContainer;
+  if (parentContainer = elem.getParentContainer()) {
+    // Ignore an indent width from parent#getIndentWidthForChild
+    var publisher = parentContainer.getPublisher();
+    return publisher.getIndentWidth(parentContainer);
+  }
+  return this.getIndentWidthFromParent(elem);
 };
 
 
 /** @override */
-ContainerPublisher.prototype.getIndentWidth = function(content) {
-  var indentWidth = this.getCaptionIndentWidth(content);
-  return indentWidth + ContainerPublisher.INDENT_WIDTH;
-};
-
-
-/**
- * Returns an indent width of the content caption.
- * @param {tsumekusa.dom.BlockContent} content Block content to get an
- *     indent width.
- * @return {number} Indent width.
- */
-ContainerPublisher.prototype.getCaptionIndent = function(content, idxLen) {
-  var capIndentWidth = this.getCaptionIndentWidth(content);
-  var indentWidth = this.getIndentWidth(content);
-  return new Indent(capIndentWidth, indentWidth);
+ContainerPublisher.prototype.getIndentWidthForChild = function(elem) {
+  return this.getIndentWidth(elem) + ContainerPublisher.INDENT_WIDTH_FOR_CHILD;
 };
 
 
 /**
  * Creates an index string on head of a header.  Index string foemat as: {@code
  * 1.1.2}.
- * @param {tsumekusa.dom.Container} container Contents container.
+ * @param {tsumekusa.dom.Container} container Elements container.
  * @return {string} Index string.
  */
 ContainerPublisher.prototype.createIndex = function(container) {
-  var ancestors = container.getAncestors();
+  var ancestors = container.getAncestorContainers();
   var depth, idxs;
 
   if ((depth = container.getDepth()) > 1) {
     ancestors = ancestors.concat(container);
-    idxs = ancestors.map(function(content) {
-      return content.getIndex() + 1;
+    idxs = ancestors.map(function(elem) {
+      return elem.getIndex() + 1;
     });
     idxs.shift();
     return idxs.join('.');
@@ -119,12 +105,12 @@ ContainerPublisher.prototype.createIndex = function(container) {
 
 
 /**
- * Publishes a header content string.
- * @param {tsumekusa.dom.Container} container Container content.
- * @return {?string} Header content string, if any.
+ * Publishes a header string.
+ * @param {tsumekusa.dom.Container} container Container element.
+ * @return {?string} Header string, if any.
  */
 ContainerPublisher.prototype.publishHeader = function(container) {
-  var indent = this.getCaptionIndent(container);
+  var indent = this.getIndent(container);
   var width = this.getDisplayWidth();
   var wrapper = new WordWrapper(width, indent);
   var index = this.createIndex(container);
@@ -136,18 +122,14 @@ ContainerPublisher.prototype.publishHeader = function(container) {
 
 
 /**
- * Returns an array of block contents as top contents.  You can override the
- * method, if you want to add/remove any top contents.
- * @param {tsumekusa.dom.Container} container Container content.
- * @return {?Array.<string>} Top contents strings, if any.
- * @protected
+ * Publishes top elements string.
+ * @param {tsumekusa.dom.Container} container Container element.
+ * @return {?string} Sub containers string, if any.
  */
-ContainerPublisher.prototype.publishTopContentsInternal = function(container) {
-  var topContents = container.getTopContents().getChildren();
-  if (topContents.length > 0) {
-    return topContents.map(function(topContent) {
-      return topContent.publish();
-    });
+ContainerPublisher.prototype.publishTopElements = function(container) {
+  var topElements;
+  if (topElements = container.getTopElements()) {
+    return topElements.publish();
   }
   else {
     return null;
@@ -195,7 +177,7 @@ ContainerPublisher.prototype.publishSubContainersInternal = function(
 
 /**
  * Publishes sub containers string.
- * @param {tsumekusa.dom.Container} container Container content.
+ * @param {tsumekusa.dom.Container} container Container element.
  * @return {?string} Sub containers string, if any.
  */
 ContainerPublisher.prototype.publishSubContainers = function(container) {
@@ -218,9 +200,9 @@ ContainerPublisher.prototype.publishSubContainers = function(container) {
 
 
 /**
- * Publishes a footer content string.
- * @param {tsumekusa.dom.Container} container Container content.
- * @return {?string} Footer content string, if any.
+ * Publishes a footer string.
+ * @param {tsumekusa.dom.Container} container Container element.
+ * @return {?string} Footer string, if any.
  */
 ContainerPublisher.prototype.publishFooter = function(container) {
   return null;
@@ -229,7 +211,7 @@ ContainerPublisher.prototype.publishFooter = function(container) {
 
 /**
  * Returns a saparator string that is insereted between sub containers.
- * @param {tsumekusa.dom.Container} container Container content.
+ * @param {tsumekusa.dom.Container} container Container element.
  * @return {?string} Separator string, if any.
  */
 ContainerPublisher.prototype.getSubContainerSeparator = function(container) {
@@ -238,28 +220,28 @@ ContainerPublisher.prototype.getSubContainerSeparator = function(container) {
 
 
 /** @override */
-ContainerPublisher.prototype.publish = function(content) {
+ContainerPublisher.prototype.publish = function(elem) {
   var output = [], outputIdx = 0;
-  var wrapper = this.getWordWrapper(content);
+  var wrapper = this.getWordWrapper(elem);
 
   var header;
-  if (header = this.publishHeader(content)) {
+  if (header = this.publishHeader(elem)) {
     output[outputIdx++] = header;
   }
 
-  var topContents;
-  if (topContents = this.publishTopContents(content)) {
-    output[outputIdx++] = topContents;
+  var topElements;
+  if (topElements = this.publishTopElements(elem)) {
+    output[outputIdx++] = topElements;
   }
 
   var subContainers;
-  if (subContainers = this.publishSubContainers(content)) {
+  if (subContainers = this.publishSubContainers(elem)) {
     output[outputIdx++] = subContainers;
   }
 
   var footer;
-  if (footer = this.publishFooter(content)) {
-    var subContainerSeparator = this.getSubContainerSeparator(content) ||
+  if (footer = this.publishFooter(elem)) {
+    var subContainerSeparator = this.getSubContainerSeparator(elem) ||
         string.repeat('\n', ContainerPublisher.PARAGRAPH_BOTTOM_MARGIN + 1);
 
     output[outputIdx++] = [

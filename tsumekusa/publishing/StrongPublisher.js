@@ -9,7 +9,7 @@ var tsumekusa = require(basePath);
 /**
  * A singleton class for strong publisher.
  * @constructor
- * @implements {tsumekusa.publishing.IContentPublisher}
+ * @implements {tsumekusa.publishing.IElementPublisher}
  */
 var StrongPublisher = function() {};
 tsumekusa.addSingletonGetter(StrongPublisher);
@@ -18,5 +18,5 @@ tsumekusa.addSingletonGetter(StrongPublisher);
 /** @override */
 StrongPublisher.prototype.publish = function(strong) {
   console.warn('The output mode do not support a strong: ' + strong.getCode());
-  return strong.getContent();
+  return strong.getElement();
 };

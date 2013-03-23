@@ -7,14 +7,14 @@
  * An interface for tsumekusa contents.
  * @interface
  */
-var IContent = function() {};
+var IElement = function() {};
 
 
 /**
  * Publishes a content.
  * @return {string} Published content.
  */
-IContent.prototype.publish;
+IElement.prototype.publish;
 
 
 // No exports.

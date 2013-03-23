@@ -12,6 +12,6 @@ var ContentsTable = exports;
 
 /**
  * Default content publisher.
- * @type {tsumekusa.publishing.IContentPublisher}
+ * @type {tsumekusa.publishing.IElementPublisher}
  */
 ContentsTable.publisher = null;

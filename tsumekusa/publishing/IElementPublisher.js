@@ -7,15 +7,15 @@
  * An interface for content publishers.
  * @interface
  */
-var IContentPublisher = function() {};
+var IElementPublisher = function() {};
 
 
 /**
  * Publishes a content.
- * @param {Content} content Content to publish.
+ * @param {Element} content Element to publish.
  */
-IContentPublisher.prototype.publish;
+IElementPublisher.prototype.publish;
 
 
 // Exports the constructor.
-module.exports = ContentPublisher;
+module.exports = ElementPublisher;
