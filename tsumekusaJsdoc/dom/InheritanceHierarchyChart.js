@@ -7,8 +7,8 @@ var tsumekusa = require(tsumekusaPath);
 var string = require(tsumekusaPath + '/string');
 
 var basePath = '../../tsumekusaJsdoc';
-var DocumentationContent = require(basePath +
-    '/dom/DocumentationContent');
+var DocElement = require(basePath +
+    '/dom/DocElement');
 
 
 
@@ -16,18 +16,18 @@ var DocumentationContent = require(basePath +
  * A class for an inheritance hierarchy chart.
  *
  * @param {tsumekusaJsdoc.dom.DocletWrapper} symbol Symbol.
- * @param {?tsumekusaJsdoc.dom.DocumentHelper=} opt_docHelper Optional
+ * @param {?tsumekusaJsdoc.dom.DocHelper=} opt_docHelper Optional
  *     document helper.
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
  *     reference helper.
  * @constructor
- * @extends {tsumekusaJsdoc.dom.DocumentationContent}
+ * @extends {tsumekusaJsdoc.dom.DocElement}
  */
 var InheritanceHierarchyChart = function(symbol, opt_docHelper, opt_refHelper) {
-  DocumentationContent.call(this, opt_docHelper, opt_refHelper);
+  DocElement.call(this, opt_docHelper, opt_refHelper);
   this.symbol_ = symbol;
 };
-tsumekusa.inherits(InheritanceHierarchyChart, DocumentationContent);
+tsumekusa.inherits(InheritanceHierarchyChart, DocElement);
 
 
 /**

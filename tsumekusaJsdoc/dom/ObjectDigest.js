@@ -16,7 +16,7 @@ var Type = require(basePath + '/dom/Type');
  * {@code foo.bar: Foo|Bar}
  *
  * @param {jsdoc.Doclet} symbol Object symbol.
- * @param {?tsumekusaJsdoc.dom.DocumentHelper=} opt_docHelper Optional
+ * @param {?tsumekusaJsdoc.dom.DocHelper=} opt_docHelper Optional
  *     document helper.
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
  *     reference helper.

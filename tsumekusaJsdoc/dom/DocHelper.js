@@ -5,7 +5,7 @@ var tsumekusaPath = '../../tsumekusa';
 var tsumekusa = require(tsumekusaPath);
 var string = require(tsumekusaPath + '/string');
 
-var ContentArray = require(tsumekusaPath + '/dom/ContentArray');
+var ElementArray = require(tsumekusaPath + '/dom/ElementArray');
 var Paragraph = require(tsumekusaPath + '/dom/Paragraph');
 var List = require(tsumekusaPath + '/dom/List');
 var InlineCode = require(tsumekusaPath + '/dom/InlineCode');
@@ -25,8 +25,8 @@ var htmlparser = require('../../htmlparser2');
  * it helps to prevent different helper used.
  * @constructor
  */
-var DocumentHelper = function() {};
-tsumekusa.addSingletonGetter(DocumentHelper);
+var DocHelper = function() {};
+tsumekusa.addSingletonGetter(DocHelper);
 
 
 /**
@@ -35,22 +35,22 @@ tsumekusa.addSingletonGetter(DocumentHelper);
  * @param {string} str String to parse.
  * @param {?jsdoc.Doclet=} opt_current Optional doclet that has {@code str}.
  */
-DocumentHelper.prototype.parseBlocks = function(str, opt_current) {
+DocHelper.prototype.parseBlocks = function(str, opt_current) {
   var blocks = [], blockIdx = 0;
 
   if (!tsumekusaJsdoc.HTML_DISABLED) {
-    var root = new DocumentHelper.TreeNode();
+    var root = new DocHelper.TreeNode();
     var currentNode = root, tmp;
 
     var parser = new htmlparser.Parser({
       onopentag: function(name) {
-        tmp = new DocumentHelper.TreeNode();
+        tmp = new DocHelper.TreeNode();
         tmp.setValue({ name: name, text: null });
         currentNode.append(tmp);
         currentNode = tmp;
       },
       ontext: function(text) {
-        tmp = new DocumentHelper.TreeNode();
+        tmp = new DocHelper.TreeNode();
         tmp.setValue({ name: 'text', text: text });
         currentNode.append(tmp);
       },
@@ -63,7 +63,7 @@ DocumentHelper.prototype.parseBlocks = function(str, opt_current) {
     parser.done();
 
     root.getChildren().forEach(function(node) {
-      var block = this.createBlockContentByNode(node);
+      var block = this.createBlockElementByNode(node);
       if (block) {
         blocks[blockIdx++] = block;
       }
@@ -71,7 +71,7 @@ DocumentHelper.prototype.parseBlocks = function(str, opt_current) {
   }
   else {
     var p = new Paragraph();
-    p.addInlineContents(this.parseInlineTags(str, opt_current));
+    p.addInlineElements(this.parseInlineTags(str, opt_current));
     blocks[0] = p;
   }
 
@@ -81,11 +81,11 @@ DocumentHelper.prototype.parseBlocks = function(str, opt_current) {
 
 /**
  * Creates block content by a node.
- * @param {tsumekusaJsdoc.dom.DocumentHelper.TreeNode} node Node.
+ * @param {tsumekusaJsdoc.dom.DocHelper.TreeNode} node Node.
  * @param {?boolean=} opt_current Optional
  * @protected
  */
-DocumentHelper.prototype.createBlockContentByNode = function(node, opt_current) {
+DocHelper.prototype.createBlockElementByNode = function(node, opt_current) {
   var obj = node.getValue();
   var tagName = obj.name;
   var text = obj.text;
@@ -97,7 +97,7 @@ DocumentHelper.prototype.createBlockContentByNode = function(node, opt_current) 
       var list = new List(List.ListType.UNORDERED);
 
       childNodes.forEach(function(childNode) {
-        var child = this.createBlockContentByNode(childNode, opt_current);
+        var child = this.createBlockElementByNode(childNode, opt_current);
         if (child) {
           list.addListItem(child);
         }
@@ -109,7 +109,7 @@ DocumentHelper.prototype.createBlockContentByNode = function(node, opt_current) 
       var list = new List(List.ListType.ORDERED);
 
       childNodes.forEach(function(childNode) {
-        var child = this.createBlockContentByNode(childNode, opt_current);
+        var child = this.createBlockElementByNode(childNode, opt_current);
         if (child) {
           list.addListItem(child);
         }
@@ -118,10 +118,10 @@ DocumentHelper.prototype.createBlockContentByNode = function(node, opt_current) 
       return list;
     case 'li':
     case 'LI':
-      var blocks = new ContentArray();
+      var blocks = new ElementArray();
 
       childNodes.forEach(function(childNode) {
-        var child = this.createBlockContentByNode(childNode, opt_current);
+        var child = this.createBlockElementByNode(childNode, opt_current);
         if (child) {
           blocks.addChild(child);
         }
@@ -135,7 +135,7 @@ DocumentHelper.prototype.createBlockContentByNode = function(node, opt_current) 
       return new Code(string.trim(text));
     case 'text':
       var p = new Paragraph();
-      p.addInlineContents(this.parseInlineTags(text, opt_current));
+      p.addInlineElements(this.parseInlineTags(text, opt_current));
       return p;
     default:
       console.warn('Unpublishable HTMl tag found: <' + tagName + '>');
@@ -149,22 +149,22 @@ DocumentHelper.prototype.createBlockContentByNode = function(node, opt_current) 
  * if {@link tsumekusa.INLINE_TAG_DISABLED} flag was set.
  * @param {string} string String to parse.
  * @param {?jsdoc.Doclet=} opt_current Optional current doclet.
- * @return {Array.<string|tsumekusa.dom.InlineContent>} Parsed contents.
+ * @return {Array.<string|tsumekusa.dom.InlineElement>} Parsed contents.
  */
-DocumentHelper.prototype.parseInlineTags = function(input, opt_current) {
+DocHelper.prototype.parseInlineTags = function(input, opt_current) {
   // Return an original input if no inline code.
   var contents = [input], contentsIdx = 0;
   var that = this;
 
   if (!tsumekusaJsdoc.INLINE_TAG_DISABLED) {
     input.replace(/([^\{]+)?(\{@([\S]+)\s+([^\}]+)\})?/g, function(matched, pre,
-        tag, tagName, tagContent) {
+        tag, tagName, tagElement) {
           if (pre) {
             contents[contentsIdx++] = string.trim(pre);
           }
           if (tag) {
-            contents[contentsIdx++] = that.createInlineContent(tagName,
-                tagContent, opt_current);
+            contents[contentsIdx++] = that.createInlineElement(tagName,
+                tagElement, opt_current);
           }
         });
   }
@@ -179,16 +179,16 @@ DocumentHelper.prototype.parseInlineTags = function(input, opt_current) {
  *
  * See the sample overriding:
  * <pre>
- * function(tagName, tagContent) {
- *   var tag = DocumentHelper.prototype.createInlineContent(tagName,
- *       tagContent);
+ * function(tagName, tagElement) {
+ *   var tag = DocHelper.prototype.createInlineElement(tagName,
+ *       tagElement);
  *
  *   // Check whether the tag is unknown
  *   if (tag.unknown) {
  *     // You can switch to construct your inline contents
  *     switch (tag.type) {
  *       case 'foo':
- *         return new YourInlineContent(tag.content);
+ *         return new YourInlineElement(tag.content);
  *       default:
  *         // Make chainable
  *         return tag;
@@ -198,23 +198,23 @@ DocumentHelper.prototype.parseInlineTags = function(input, opt_current) {
  * };
  * </pre>
  * @param {string} tagName Tag name.
- * @param {string} tagContent Tag content.
+ * @param {string} tagElement Tag content.
  * @param {?jsdoc.Doclet=} opt_current Optional current doclet.
- * @return {tsumekusa.dom.InlineContent} Created inline content.  Returns
+ * @return {tsumekusa.dom.InlineElement} Created inline content.  Returns
  *     an {@code tsumekusa.publishing.UnknownInlineTag} for overriding if the
  *     tag type was unknown.  You can get an other content by overriding the
  *     method when you defined a new inline tag.
  */
-DocumentHelper.prototype.createInlineContent = function(tagName, tagContent,
+DocHelper.prototype.createInlineElement = function(tagName, tagElement,
     opt_current) {
   switch (tagName) {
     case 'link':
-      return new Link(this.resolveInlineLink(tagContent, opt_current));
+      return new Link(this.resolveInlineLink(tagElement, opt_current));
     case 'plain':
     case 'code':
-      return new InlineCode(tagContent);
+      return new InlineCode(tagElement);
     default:
-      return new UnknownInlineTag(tagName, tagContent, opt_current);
+      return new UnknownInlineTag(tagName, tagElement, opt_current);
   }
 };
 
@@ -225,7 +225,7 @@ DocumentHelper.prototype.createInlineContent = function(tagName, tagContent,
  * @param {?jsdoc.Doclet=} opt_current Optional current doclet.
  * @return {string} Absolute link string.
  */
-DocumentHelper.prototype.resolveInlineLink = function(link, opt_current) {
+DocHelper.prototype.resolveInlineLink = function(link, opt_current) {
   // The method can not resolve a link, if current doclet is not defined. then
   // the method should pass through.  And link head is not '#', it seems
   // an absolute link.
@@ -242,32 +242,32 @@ DocumentHelper.prototype.resolveInlineLink = function(link, opt_current) {
  * A class for tree nodes.
  * @constructor
  */
-DocumentHelper.TreeNode = function() {
+DocHelper.TreeNode = function() {
   this.children_ = [];
 };
 
 
 /**
  * Tree node as a parent of the node.
- * @type {tsumekusaJsdoc.dom.DocumentHelper.TreeNode}
+ * @type {tsumekusaJsdoc.dom.DocHelper.TreeNode}
  * @private
  */
-DocumentHelper.TreeNode.prototype.super_ = null;
+DocHelper.TreeNode.prototype.super_ = null;
 
 
 /**
  * Tree nodes as children of the node.
- * @type {Array.<tsumekusaJsdoc.dom.DocumentHelper.TreeNode>}
+ * @type {Array.<tsumekusaJsdoc.dom.DocHelper.TreeNode>}
  * @private
  */
-DocumentHelper.TreeNode.prototype.children_ = null;
+DocHelper.TreeNode.prototype.children_ = null;
 
 
 /**
  * Sets a value to the node.
  * @param {*} val Value to set.
  */
-DocumentHelper.TreeNode.prototype.setValue = function(val) {
+DocHelper.TreeNode.prototype.setValue = function(val) {
   this.val_ = val;
 };
 
@@ -276,46 +276,46 @@ DocumentHelper.TreeNode.prototype.setValue = function(val) {
  * Returns a value of the node.
  * @return {*} Value of the node.
  */
-DocumentHelper.TreeNode.prototype.getValue = function() {
+DocHelper.TreeNode.prototype.getValue = function() {
   return this.val_;
 };
 
 
 /**
  * Sets a parent node.
- * @param {tsumekusaJsdoc.dom.DocumentHelper.TreeNode} tree Parent tree
+ * @param {tsumekusaJsdoc.dom.DocHelper.TreeNode} tree Parent tree
  *   node.
  */
-DocumentHelper.TreeNode.prototype.setParent = function(tree) {
+DocHelper.TreeNode.prototype.setParent = function(tree) {
   this.super_ = tree;
 };
 
 
 /**
  * Returns a parent node.
- * @return {?tsumekusaJsdoc.dom.DocumentHelper.TreeNode} Parent tree node
+ * @return {?tsumekusaJsdoc.dom.DocHelper.TreeNode} Parent tree node
  *     if any.
  */
-DocumentHelper.TreeNode.prototype.getParent = function() {
+DocHelper.TreeNode.prototype.getParent = function() {
   return this.super_;
 };
 
 
 /**
  * Returns children of the node.
- * @return {Array.<tsumekusaJsdoc.dom.DocumentHelper.TreeNode>} Children.
+ * @return {Array.<tsumekusaJsdoc.dom.DocHelper.TreeNode>} Children.
  */
-DocumentHelper.TreeNode.prototype.getChildren = function() {
+DocHelper.TreeNode.prototype.getChildren = function() {
   return this.children_;
 };
 
 
 /**
  * Appends a tree node.
- * @param {tsumekusaJsdoc.dom.DocumentHelper.TreeNode} tree Tree node to
+ * @param {tsumekusaJsdoc.dom.DocHelper.TreeNode} tree Tree node to
  *     append.
  */
-DocumentHelper.TreeNode.prototype.append = function(tree) {
+DocHelper.TreeNode.prototype.append = function(tree) {
   this.children_.push(tree);
   tree.setParent(this);
 };
@@ -328,7 +328,7 @@ DocumentHelper.TreeNode.prototype.append = function(tree) {
  * @param {?Object=} opt_obj The object to be used as the value of this within
  *     {@code func}.
  */
-DocumentHelper.TreeNode.prototype.forEachDecendant = function(func, opt_obj) {
+DocHelper.TreeNode.prototype.forEachDecendant = function(func, opt_obj) {
   this.getChildren().forEach(function(child) {
     func.call(opt_obj, child);
     child.forEachDecendant(func, opt_obj);
@@ -337,4 +337,4 @@ DocumentHelper.TreeNode.prototype.forEachDecendant = function(func, opt_obj) {
 
 
 // Exports the constructor.
-module.exports = DocumentHelper;
+module.exports = DocHelper;

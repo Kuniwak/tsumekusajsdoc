@@ -22,20 +22,20 @@ var InstancePropertiesContainer = require(basePath +
 /**
  * A class for document explains a class.
  * @param {jsdoc.Doclet} symbol Class symbol.
- * @param {?Array.<tsumekusa.dom.Paragraph>=} opt_topContents Optional top
+ * @param {?Array.<tsumekusa.dom.Paragraph>=} opt_topElements Optional top
  *     contents.
  * @param {?string=} opt_version Optional version identifier.
  * @param {?Date=} opt_date Optional date object.
- * @param {?tsumekusaJsdoc.dom.DocumentHelper=} opt_docHelper Optional
+ * @param {?tsumekusaJsdoc.dom.DocHelper=} opt_docHelper Optional
  *     document helper.
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
  *     reference helper.
  * @constructor
  * @extends {tsumekusaJsdoc.dom.SymbolDocument}
  */
-var ClassDocument = function(symbol, opt_topContents, opt_version, opt_date,
+var ClassDocument = function(symbol, opt_topElements, opt_version, opt_date,
     opt_docHelper, opt_refHelper) {
-  SymbolDocument.call(this, symbol, ClassDocument.CAPTION, opt_topContents,
+  SymbolDocument.call(this, symbol, ClassDocument.CAPTION, opt_topElements,
       opt_version, opt_date, opt_docHelper, opt_refHelper);
 };
 tsumekusa.inherits(ClassDocument, SymbolDocument);
@@ -54,7 +54,7 @@ ClassDocument.CAPTION = 'Class';
 /** @override */
 ClassDocument.prototype.publish = function() {
   // TODO: Aboid lazy members setting. Or apply builder pattern.
-  var document = this.getContent();
+  var document = this.getElement();
   var symbol = this.getSymbol();
 
   var staticMethods = this.getStaticMethods();
@@ -64,19 +64,19 @@ ClassDocument.prototype.publish = function() {
 
   if (staticMethods && staticMethods.length > 0) {
     var staticMethodsContainer = this.createStaticMethodsContainer();
-    document.appendSubContainer(staticMethodsContainer.getContent());
+    document.appendSubContainer(staticMethodsContainer.getElement());
   }
   if (staticProperties && staticProperties.length > 0) {
     var staticPropertiesContainer = this.createStaticPropertiesContainer();
-    document.appendSubContainer(staticPropertiesContainer.getContent());
+    document.appendSubContainer(staticPropertiesContainer.getElement());
   }
   if (instanceMethods && instanceMethods.length > 0) {
     var instanceMethodsContainer = this.createInstanceMethodsContainer();
-    document.appendSubContainer(instanceMethodsContainer.getContent());
+    document.appendSubContainer(instanceMethodsContainer.getElement());
   }
   if (instanceProperties && instanceProperties.length > 0) {
     var instancePropertiesContainer = this.createInstancePropertiesContainer();
-    document.appendSubContainer(instancePropertiesContainer.getContent());
+    document.appendSubContainer(instancePropertiesContainer.getElement());
   }
 
   return SymbolDocument.prototype.publish.call(this);
@@ -179,7 +179,7 @@ ClassDocument.prototype.getInstanceProperties = function() {
  */
 ClassDocument.prototype.createStaticMethodsContainer = function() {
   return new StaticMethodsContainer(this.getSymbol(), this.getStaticMethods(),
-      this.getDocumentHelper(), null, this.getReferenceHelper());
+      this.getDocHelper(), null, this.getReferenceHelper());
 };
 
 
@@ -191,7 +191,7 @@ ClassDocument.prototype.createStaticMethodsContainer = function() {
  */
 ClassDocument.prototype.createInstanceMethodsContainer = function() {
   return new InstanceMethodsContainer(this.getSymbol(),
-      this.getInstanceMethods(), null, this.getDocumentHelper(),
+      this.getInstanceMethods(), null, this.getDocHelper(),
       this.getReferenceHelper());
 };
 
@@ -204,7 +204,7 @@ ClassDocument.prototype.createInstanceMethodsContainer = function() {
  */
 ClassDocument.prototype.createStaticPropertiesContainer = function() {
   return new StaticPropertiesContainer(this.getSymbol(),
-      this.getStaticProperties(), null, this.getDocumentHelper(),
+      this.getStaticProperties(), null, this.getDocHelper(),
       this.getReferenceHelper());
 };
 
@@ -217,7 +217,7 @@ ClassDocument.prototype.createStaticPropertiesContainer = function() {
  */
 ClassDocument.prototype.createInstancePropertiesContainer = function() {
   return new InstancePropertiesContainer(this.getSymbol(),
-      this.getInstanceProperties(), null, this.getDocumentHelper(),
+      this.getInstanceProperties(), null, this.getDocHelper(),
       this.getReferenceHelper());
 };
 

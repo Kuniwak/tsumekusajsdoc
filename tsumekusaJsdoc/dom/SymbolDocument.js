@@ -7,8 +7,8 @@ var tsumekusa = require(tsumekusaPath);
 var Document = require(tsumekusaPath + '/dom/Document');
 
 var basePath = '../../tsumekusaJsdoc';
-var DocumentationContent = require(basePath +
-    '/dom/DocumentationContent');
+var DocElement = require(basePath +
+    '/dom/DocElement');
 
 
 
@@ -16,33 +16,33 @@ var DocumentationContent = require(basePath +
  * A class for document explains a symbol such as class or namespace.
  * @param {jsdoc.Doclet} symbol Symbol.
  * @param {string} caption Caption of the document.
- * @param {?Array.<tsumekusa.dom.Paragraph>=} opt_topContents Optional top
+ * @param {?Array.<tsumekusa.dom.Paragraph>=} opt_topElements Optional top
  *     contents.
  * @param {?string=} opt_version Optional version identifier.
  * @param {?Date=} opt_date Optional date object.
- * @param {?tsumekusaJsdoc.dom.DocumentHelper=} opt_docHelper Optional
+ * @param {?tsumekusaJsdoc.dom.DocHelper=} opt_docHelper Optional
  *     document helper.
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
  *     reference helper.
  * @constructor
- * @extends {tsumekusaJsdoc.dom.DocumentationContent}
+ * @extends {tsumekusaJsdoc.dom.DocElement}
  */
-var SymbolDocument = function(symbol, caption, opt_topContents, opt_version,
+var SymbolDocument = function(symbol, caption, opt_topElements, opt_version,
     opt_date, opt_docHelper, opt_refHelper) {
-  DocumentationContent.call(this, opt_docHelper, opt_refHelper);
+  DocElement.call(this, opt_docHelper, opt_refHelper);
 
   this.symbol_ = symbol;
 
   this.fileName_ = this.generateFileName(symbol);
   var document = new Document(caption, this.fileName_, opt_version, opt_date);
 
-  if (opt_topContents) {
-    document.setTopContents(opt_topContents);
+  if (opt_topElements) {
+    document.setTopElements(opt_topElements);
   }
 
-  this.setContent(document);
+  this.setElement(document);
 };
-tsumekusa.inherits(SymbolDocument, DocumentationContent);
+tsumekusa.inherits(SymbolDocument, DocElement);
 
 
 /**

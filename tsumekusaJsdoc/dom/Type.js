@@ -4,31 +4,31 @@
 
 var tsumekusaPath = '../../tsumekusa';
 var tsumekusa = require(tsumekusaPath);
-var InlineContent = require(tsumekusaPath + '/dom/InlineContent');
+var InlineElement = require(tsumekusaPath + '/dom/InlineElement');
 var Link = require(tsumekusaPath + '/dom/Link');
 
 var basePath = '../../tsumekusaJsdoc';
-var DocumentationContent = require(basePath +
-    '/dom/DocumentationContent');
+var DocElement = require(basePath +
+    '/dom/DocElement');
 
 
 
 /**
  * A class for type notation.
  * @param {jsdoc.Tag} tag Type tag.
- * @param {?tsumekusaJsdoc.dom.DocumentHelper=} opt_docHelper Optional
+ * @param {?tsumekusaJsdoc.dom.DocHelper=} opt_docHelper Optional
  *     document helper.
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
  *     reference helper.
  * @constructor
- * @extends {tsumekusaJsdoc.dom.DocumentationContent}
+ * @extends {tsumekusaJsdoc.dom.DocElement}
  */
 var Type = function(tag, opt_docHelper, opt_refHelper) {
-  DocumentationContent.call(this, opt_docHelper, opt_refHelper);
+  DocElement.call(this, opt_docHelper, opt_refHelper);
   var typeImpl = new Type.TypeImpl(tag);
-  this.setContent(typeImpl);
+  this.setElement(typeImpl);
 };
-tsumekusa.inherits(Type, DocumentationContent);
+tsumekusa.inherits(Type, DocElement);
 
 
 
@@ -36,10 +36,10 @@ tsumekusa.inherits(Type, DocumentationContent);
  * A private class for type implementation.
  * @param {jsdoc.Tag} tag Type tag.
  * @constructor
- * @extends {tsumekusa.dom.InlineContent}
+ * @extends {tsumekusa.dom.InlineElement}
  */
 Type.TypeImpl = function(tag) {
-  InlineContent.call(this);
+  InlineElement.call(this);
   var types, typeIdx = 0;
 
   // TODO: Generics support
@@ -64,12 +64,12 @@ Type.TypeImpl = function(tag) {
 
   this.types_ = types;
 };
-tsumekusa.inherits(Type.TypeImpl, InlineContent);
+tsumekusa.inherits(Type.TypeImpl, InlineElement);
 
 
 /**
  * Type contents.
- * @type {Array.<tsumekusa.dom.InlineContent|string>}
+ * @type {Array.<tsumekusa.dom.InlineElement|string>}
  * @private
  */
 Type.TypeImpl.prototype.types_ = null;
@@ -77,7 +77,7 @@ Type.TypeImpl.prototype.types_ = null;
 
 /**
  * Returns elements explain types.
- * @return {Array.<tsumekusa.dom.InlineContent|string>} Elements explain types.
+ * @return {Array.<tsumekusa.dom.InlineElement|string>} Elements explain types.
  */
 Type.TypeImpl.prototype.getTypeElements = function() {
   return this.types_;

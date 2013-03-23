@@ -2,27 +2,27 @@
 // http://orgachem.mit-license.org
 
 var tsumekusa = require('../../tsumekusa');
-var InlineContent = require('../../tsumekusa/dom/InlineContent');
+var InlineElement = require('../../tsumekusa/dom/InlineElement');
 
 
 
 /**
  * A class for unknown tags.  The tag will be created when an unknown inline tag
  * was found.  You can construct any tag by property of the unknown tag.
- * See {@link tsumekusaJsdoc.dom.DocumentHelper#parseInlineTags}.
+ * See {@link tsumekusaJsdoc.dom.DocHelper#parseInlineTags}.
  * @param {string} type Unknown inline tag name.  An at mark was excluded.
  * @param {string} content Unknown unline tag content.
  * @param {?jsdoc.Doclet=} opt_current Optional current doclet.
  * @constructor
- * @extends {tsumekusa.dom.InlineContent}
+ * @extends {tsumekusa.dom.InlineElement}
  */
 var UnknownInlineTag = function(type, content, opt_current) {
-  InlineContent.call(this);
+  InlineElement.call(this);
   this.type = type;
   this.content = content;
   this.current = opt_current || null;
 };
-tsumekusa.inherits(UnknownInlineTag, InlineContent);
+tsumekusa.inherits(UnknownInlineTag, InlineElement);
 
 
 /**

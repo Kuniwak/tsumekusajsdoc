@@ -9,52 +9,47 @@ var Paragraph = require(tsumekusaPath + '/dom/Paragraph');
 
 var basePath = '../../tsumekusaJsdoc';
 var tsumekusaJsdoc = require(basePath);
-var DocumentationContent = require(basePath +
-    '/dom/DocumentationContent');
+var DocElement = require(basePath +
+    '/dom/DocElement');
 
 
 
 /**
  * A class for a container explains any member.
  * @param {jsdoc.Doclet} symbol Symbol.
- * @param {?Array.<tsumekusa.dom.Paragraph>=} opt_topContents Optional top
+ * @param {?Array.<tsumekusa.dom.Paragraph>=} opt_topElements Optional top
  *     contents.
- * @param {?tsumekusaJsdoc.dom.DocumentHelper=} opt_docHelper Optional
+ * @param {?tsumekusaJsdoc.dom.DocHelper=} opt_docHelper Optional
  *     document helper.
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
  *     reference helper.
  * @constructor
- * @extends {tsumekusaJsdoc.dom.DocumentationContent}
+ * @extends {tsumekusaJsdoc.dom.DocElement}
  */
-var MemberContainer = function(symbol, opt_topContents, opt_docHelper,
-    opt_refHelper) {
-  DocumentationContent.call(this, opt_docHelper, opt_refHelper);
+var MemberContainer = function(symbol, opt_docHelper, opt_refHelper) {
+  DocElement.call(this, opt_docHelper, opt_refHelper);
   var refId = this.getReferenceHelper().getReferenceId(symbol);
   var container = new Container(symbol.longname, refId, true);
-  this.setContent(container);
+  this.setElement(container);
 
-  var topBlocks = container.getTopContents();
+  var topBlocks = container.getTopElements();
 
   var blocks = this.createSummaryBlocks(symbol);
   topBlocks.addChildren(blocks);
-
-  if (opt_topContents) {
-    topBlocks.addChildren(opt_topContents);
-  }
 };
-tsumekusa.inherits(MemberContainer, DocumentationContent);
+tsumekusa.inherits(MemberContainer, DocElement);
 
 
 /**
  * Creates a top content for a member summary.
  * @param {jsdoc.Doclet} symbol Symbol.
- * @return {Array.<tsumekusa.dom.BlockContent>} Top contents.
+ * @return {Array.<tsumekusa.dom.BlockElement>} Top contents.
  */
 MemberContainer.prototype.createSummaryBlocks = function(symbol) {
   var digest = new Paragraph();
-  digest.addInlineContent(this.createDigest(symbol));
+  digest.addInlineElement(this.createDigest(symbol));
 
-  var blocks = this.getDocumentHelper().parseBlocks(
+  var blocks = this.getDocHelper().parseBlocks(
       symbol.description || tsumekusaJsdoc.NO_DESCRIPTION, symbol);
   
   return [digest].concat(blocks);

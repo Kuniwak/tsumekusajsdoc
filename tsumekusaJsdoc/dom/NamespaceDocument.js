@@ -13,20 +13,20 @@ var StaticPropertiesContainer = require('./StaticPropertiesContainer');
 /**
  * A class for document explains a namespace.
  * @param {jsdoc.Doclet} symbol Namespace symbol.
- * @param {?Array.<tsumekusa.dom.Paragraph>=} opt_topContents Optional top
+ * @param {?Array.<tsumekusa.dom.Paragraph>=} opt_topElements Optional top
  *     contents.
  * @param {?string=} opt_version Optional version identifier.
  * @param {?Date=} opt_date Optional date object.
- * @param {?tsumekusaJsdoc.dom.DocumentHelper=} opt_docHelper Optional
+ * @param {?tsumekusaJsdoc.dom.DocHelper=} opt_docHelper Optional
  *     document helper.
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
  *     reference helper.
  * @constructor
  * @extends {tsumekusaJsdoc.dom.SymbolDocument}
  */
-var NamespaceDocument = function(symbol, opt_topContents, opt_version, opt_date,
+var NamespaceDocument = function(symbol, opt_topElements, opt_version, opt_date,
     opt_docHelper, opt_refHelper) {
-  SymbolDocument.call(this, symbol, NamespaceDocument.CAPTION, opt_topContents,
+  SymbolDocument.call(this, symbol, NamespaceDocument.CAPTION, opt_topElements,
       opt_version, opt_date, opt_docHelper, opt_refHelper);
 };
 tsumekusa.inherits(NamespaceDocument, SymbolDocument);
@@ -44,18 +44,18 @@ NamespaceDocument.CAPTION = 'Namespace';
 /** @override */
 NamespaceDocument.prototype.publish = function() {
   // TODO: Aboid lazy members setting. Or apply builder pattern.
-  var document = this.getContent();
+  var document = this.getElement();
 
   var staticMethods = this.getStaticMethods();
   var staticProperties = this.getStaticProperties();
 
   if (staticMethods && staticMethods.length > 0) {
     var staticMethodsContainer = this.createStaticMethodsContainer();
-    document.appendSubContainer(staticMethodsContainer.getContent());
+    document.appendSubContainer(staticMethodsContainer.getElement());
   }
   if (staticProperties && staticProperties.length > 0) {
     var staticPropertiesContainer = this.createStaticPropertiesContainer();
-    document.appendSubContainer(staticPropertiesContainer.getContent());
+    document.appendSubContainer(staticPropertiesContainer.getElement());
   }
 
   return SymbolDocument.prototype.publish.call(this);
@@ -114,7 +114,7 @@ NamespaceDocument.prototype.getStaticProperties = function() {
  */
 NamespaceDocument.prototype.createStaticMethodsContainer = function() {
   return new StaticMethodsContainer(this.getSymbol(), this.getStaticMethods(),
-      null, this.getDocumentHelper(), this.getReferenceHelper());
+      null, this.getDocHelper(), this.getReferenceHelper());
 };
 
 
@@ -126,7 +126,7 @@ NamespaceDocument.prototype.createStaticMethodsContainer = function() {
  */
 NamespaceDocument.prototype.createStaticPropertiesContainer = function() {
   return new StaticPropertiesContainer(this.getSymbol(),
-      this.getStaticProperties(), null, this.getDocumentHelper(),
+      this.getStaticProperties(), null, this.getDocHelper(),
       this.getReferenceHelper());
 };
 

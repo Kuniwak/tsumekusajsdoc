@@ -5,7 +5,7 @@
 var tsumekusaPath = '../../../tsumekusa';
 var basePath = '../../../tsumekusaJsdoc';
 
-var DocumentHelper = require(basePath + '/dom/DocumentHelper');
+var DocHelper = require(basePath + '/dom/DocHelper');
 
 
 var testParagraph = function(p, text, test) {
@@ -27,7 +27,7 @@ exports.testParseInlineTags = function(test) {
   var VALIED_STRING_2 = 'abcdefghi {@some\nhoghogehoge} hogehoge.';
   var VALIED_STRING_3 = 'abcd\neha. oergojser. og\nehoge.';
 
-  var docHelper = new DocumentHelper();
+  var docHelper = new DocHelper();
   var arr1 = docHelper.parseInlineTags(VALIED_STRING_1);
   test.equal(arr1.length, 3);
   test.equal(arr1[0], 'abcdefghi');
@@ -53,7 +53,7 @@ exports.testParseInlineTags = function(test) {
 
 
 exports.testResolveInlineLink = function(test) {
-  var docHelper = new DocumentHelper();
+  var docHelper = new DocHelper();
   test.equal(docHelper.resolveInlineLink('#foo', { memberof: 'abc' }),
       'abc#foo');
   test.equal(docHelper.resolveInlineLink('foo', { memberof: 'abc' }), 'foo');
@@ -66,7 +66,7 @@ exports.testResolveInlineLink = function(test) {
 
 
 exports.testCreateBlocks = function(test) {
-  var docHelper = new DocumentHelper();
+  var docHelper = new DocHelper();
   var VALIED_STRING_1 = 'pretext\n<ul><li>line1<li>line2<li>{@code line3}</ul>\nposttext';
 
   var blocks = docHelper.parseBlocks(VALIED_STRING_1);

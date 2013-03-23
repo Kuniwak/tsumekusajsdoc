@@ -6,26 +6,26 @@ var tsumekusaPath = '../../tsumekusa';
 var tsumekusa = require(tsumekusaPath);
 
 var basePath = '../../tsumekusaJsdoc';
-var DocumentationContent = require('./DocumentationContent');
+var DocElement = require('./DocElement');
 
 
 
 /**
  * A class for a symbol digest.
  * @param {jsdoc.Doclet} symbol Method symbol.
- * @param {?tsumekusaJsdoc.dom.DocumentHelper=} opt_docHelper Optional
+ * @param {?tsumekusaJsdoc.dom.DocHelper=} opt_docHelper Optional
  *     document helper.
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
  *     reference helper.
  * @constructor
- * @extends {tsumekusaJsdoc.dom.DocumentationContent}
+ * @extends {tsumekusaJsdoc.dom.DocElement}
  */
 var Digest = function(symbol, opt_docHelper, opt_refHelper) {
-  DocumentationContent.call(this, opt_docHelper, opt_refHelper);
-  this.setContent(null);
+  DocElement.call(this, opt_docHelper, opt_refHelper);
+  this.setElement(null);
   this.symbol_ = symbol;
 };
-tsumekusa.inherits(Digest, DocumentationContent);
+tsumekusa.inherits(Digest, DocElement);
 
 
 /**

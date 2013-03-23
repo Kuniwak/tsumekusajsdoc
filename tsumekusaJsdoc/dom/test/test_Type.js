@@ -4,9 +4,11 @@
 
 var tsumekusaPath = '../../../tsumekusa';
 var tsumekusa = require(tsumekusaPath);
+var registry = require(tsumekusaPath + '/publishing/registry');
+var publishers = require(tsumekusaPath + '/publishing/DefaultPublishers');
+registry.registerElementPublishers(publishers);
+
 var Link = require(tsumekusaPath + '/dom/Link');
-var LinkPublisher = require(tsumekusaPath + '/publishing/LinkPublisher');
-Link.publisher = new LinkPublisher();
 
 var basePath = '../../../tsumekusaJsdoc';
 var Type = require(basePath + '/dom/Type');

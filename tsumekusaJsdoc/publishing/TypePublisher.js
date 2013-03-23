@@ -12,7 +12,7 @@ var basePath = '../../tsumekusaJsdoc';
 /**
  * A class for Type publisher.
  * @constructor
- * @implements {tsumekusa.publishing.IContentPublisher}
+ * @implements {tsumekusa.publishing.IElementPublisher}
  */
 var TypePublisher = function() {};
 tsumekusa.addSingletonGetter(TypePublisher);
