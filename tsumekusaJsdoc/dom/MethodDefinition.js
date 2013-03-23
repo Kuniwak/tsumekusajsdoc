@@ -15,7 +15,7 @@ var ReturnsDefinition = require(basePath + '/dom/ReturnsDefinition');
 
 
 /**
- * A class for a definition of a member.
+ * A class for a definition of a method.
  * @param {jsdoc.Doclet} symbol Symbol.
  * @param {?tsumekusaJsdoc.dom.DocHelper=} opt_docHelper Optional
  *     document helper.
