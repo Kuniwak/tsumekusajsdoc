@@ -4,7 +4,7 @@
 
 var tsumekusa = require('../../tsumekusa');
 var MembersContainer = require('./MembersContainer');
-var MethodContainer = require('./MethodContainer');
+var MethodDefinition = require('./MethodDefinition');
 
 
 
@@ -31,8 +31,8 @@ tsumekusa.inherits(MethodsContainer, MembersContainer);
 
 
 /** @override */
-MethodsContainer.prototype.createMemberContainer = function(symbol) {
-  return new MethodContainer(symbol, this.getDocHelper(),
+MethodsContainer.prototype.createMemberDefinition = function(symbol) {
+  return new MethodDefinition(symbol, this.getDocHelper(),
       this.getReferenceHelper());
 };
 

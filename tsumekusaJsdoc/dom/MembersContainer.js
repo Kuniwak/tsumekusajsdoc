@@ -2,9 +2,13 @@
 // http://orgachem.mit-license.org
 
 
-var tsumekusa = require('../../tsumekusa');
-var Container = require('../../tsumekusa/dom/Container');
-var DocElement = require('./DocElement');
+var tsumekusaPath = '../../tsumekusa';
+var tsumekusa = require(tsumekusaPath);
+var Container = require(tsumekusaPath + '/dom/Container');
+var DefinitionList = require(tsumekusaPath + '/dom/DefinitionList');
+
+var basePath = '../../tsumekusaJsdoc';
+var DocElement = require(basePath + '/dom/DocElement');
 
 
 
@@ -30,11 +34,13 @@ var MembersContainer = function(parent, members, caption, modifier,
   var refId = this.getReferenceHelper().getReferenceId(parent, modifier);
 
   var container = new Container(caption, refId, true);
-  var subContainers = container.getSubContainers();
+  var dl = new DefinitionList(DefinitionList.ListType.NO_MARKER);
+  container.getTopElements().addChild(dl);
+  var defs = dl.getDefinitions();
 
   members.forEach(function(member) {
-    var memberContainer = this.createMemberContainer(member);
-    subContainers.addChild(memberContainer.getElement());
+    var def = this.createMemberDefinition(member);
+    defs.addChild(def.getElement());
   }, this);
 
   this.setElement(container);
@@ -43,13 +49,13 @@ tsumekusa.inherits(MembersContainer, DocElement);
 
 
 /**
- * Creates a member container.
+ * Creates a member definition.
  * @param {jsdoc.Doclet} symbol Member symbol.
- * @return {tsumekusaJsdoc.dom.DocElement} Created method
+ * @return {tsumekusaJsdoc.dom.MemberDefinition} Created method
  *     container.
  * @protected
  */
-MembersContainer.prototype.createMemberContainer = tsumekusa.abstractMethod; 
+MembersContainer.prototype.createMemberDefinition = tsumekusa.abstractMethod; 
 
 
 // Exports the constructor.

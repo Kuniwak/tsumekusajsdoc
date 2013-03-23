@@ -82,7 +82,7 @@ DocHelper.prototype.parseBlocks = function(str, opt_current) {
 /**
  * Creates block content by a node.
  * @param {tsumekusaJsdoc.dom.DocHelper.TreeNode} node Node.
- * @param {?boolean=} opt_current Optional
+ * @param {?jsdoc.Doclet=} opt_current Optional doclet that has {@code node}.
  * @protected
  */
 DocHelper.prototype.createBlockElementByNode = function(node, opt_current) {
@@ -95,11 +95,12 @@ DocHelper.prototype.createBlockElementByNode = function(node, opt_current) {
     case 'ul':
     case 'UL':
       var list = new List(List.ListType.UNORDERED);
+      var elemArr = list.getListItems();
 
       childNodes.forEach(function(childNode) {
         var child = this.createBlockElementByNode(childNode, opt_current);
         if (child) {
-          list.addListItem(child);
+          elemArr.addChild(child);
         }
       }, this);
 
@@ -107,11 +108,12 @@ DocHelper.prototype.createBlockElementByNode = function(node, opt_current) {
     case 'ol':
     case 'OL':
       var list = new List(List.ListType.ORDERED);
+      var elemArr = list.getListItems();
 
       childNodes.forEach(function(childNode) {
         var child = this.createBlockElementByNode(childNode, opt_current);
         if (child) {
-          list.addListItem(child);
+          elemArr.addChild(child);
         }
       }, this);
 
@@ -134,9 +136,12 @@ DocHelper.prototype.createBlockElementByNode = function(node, opt_current) {
     case 'CODE':
       return new Code(string.trim(text));
     case 'text':
-      var p = new Paragraph();
-      p.addInlineElements(this.parseInlineTags(text, opt_current));
-      return p;
+      if (text && !text.match(/^\s*$/)) {
+        var p = new Paragraph();
+        p.addInlineElements(this.parseInlineTags(text, opt_current));
+        return p;
+      }
+      return null;
     default:
       console.warn('Unpublishable HTMl tag found: <' + tagName + '>');
       return null;

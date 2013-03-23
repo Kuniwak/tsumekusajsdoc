@@ -4,7 +4,7 @@
 
 var tsumekusa = require('../../tsumekusa');
 var MembersContainer = require('./MembersContainer');
-var PropertyContainer = require('./PropertyContainer');
+var PropertyDefinition = require('./PropertyDefinition');
 
 
 
@@ -31,8 +31,8 @@ tsumekusa.inherits(PropertiesContainer, MembersContainer);
 
 
 /** @override */
-PropertiesContainer.prototype.createMemberContainer = function(symbol) {
-  return new PropertyContainer(symbol, this.getDocHelper(),
+PropertiesContainer.prototype.createMemberDefinition = function(symbol) {
+  return new PropertyDefinition(symbol, this.getDocHelper(),
       this.getReferenceHelper());
 };
 
