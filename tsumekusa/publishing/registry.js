@@ -42,13 +42,12 @@ registry.registerElementPublishers = function(map) {
 
   if (map.DEFINITION_LIST) {
     registry.registerElementPublisher(
-        require(basePath + '/dom/DefinitionList').Definition,
-        map.DEFINITION_LIST);
+        require(basePath + '/dom/DefinitionList'), map.DEFINITION_LIST);
   }
 
   if (map.DEFINITION) {
     registry.registerElementPublisher(
-        require(basePath + '/dom/DefinitionList'), map.DEFINITION);
+        require(basePath + '/dom/DefinitionList').Definition, map.DEFINITION);
   }
 
   if (map.DOCUMENT) {
