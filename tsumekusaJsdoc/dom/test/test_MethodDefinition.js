@@ -61,7 +61,7 @@ exports.testPublishWithParams = function(test) {
   var methodDef = new MethodDefinition(dummyDoclet);
   dl.getDefinitions().addChild(methodDef.getElement());
 
-  var CORREECT = [
+  var CORRECT = [
     'goog.ui.Component#addChild(child, opt_render)',
     '  Adds the specified component as the last child of this component. See',
     '  [goog.ui.Component#addChildAt] for detailed semantics.',
@@ -74,7 +74,7 @@ exports.testPublishWithParams = function(test) {
     '      No description.'
   ].join('\n');
 
-  test.equal(methodDef.publish(), CORREECT);
+  test.equal(methodDef.publish(), CORRECT);
   test.done();
 };
 
@@ -146,7 +146,7 @@ exports.testPublishWithParamAndReturn = function(test) {
   var methodDef = new MethodDefinition(dummyDoclet);
   dl.getDefinitions().addChild(methodDef.getElement());
 
-  var CORREECT = [
+  var CORRECT = [
     'goog.ui.Component#getElementByFragment(idFragment) -> [Element]',
     '  Helper function for returning an element in the document with a unique id',
     '  generated using makeId().',
@@ -160,7 +160,7 @@ exports.testPublishWithParamAndReturn = function(test) {
     '      No description.'
   ].join('\n');
 
-  test.equal(methodDef.publish(), CORREECT);
+  test.equal(methodDef.publish(), CORRECT);
   test.done();
 };
 
@@ -202,13 +202,13 @@ exports.testPublishWithNoParamsAndNoReturns = function(test) {
   var methodDef = new MethodDefinition(dummyDoclet);
   dl.getDefinitions().addChild(methodDef.getElement());
 
-  var CORREECT = [
+  var CORRECT = [
     'goog.ui.Component#createDom()',
     '  Creates the initial DOM representation for the component. The default',
     '  implementation is to set this.element_ = div.'
   ].join('\n');
 
-  test.equal(methodDef.publish(), CORREECT);
+  test.equal(methodDef.publish(), CORRECT);
   test.done();
 };
 
