@@ -8,6 +8,11 @@ var ContentsTablePublisher = require(basePath +
     '/publishing/ContentsTablePublisher');
 var Paragraph = require(basePath + '/dom/Paragraph');
 
+var registry = require(basePath + '/publishing/registry');
+var publishers = require(basePath + '/publishing/DefaultPublishers');
+
+registry.registerElementPublishers(publishers);
+
 // Lorem Ipsum {{{
 var LOREM_IPSUM = [
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vel dolor nunc. Nam neque erat, dignissim eu ullamcorper id, pellentesque ut ante. Pellentesque sit amet viverra neque. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Curabitur quam nisl, feugiat non vehicula ornare, porta id enim. Cras laoreet metus a massa varius porta. Donec metus justo, iaculis eget elementum at, gravida vitae ligula. Curabitur ac pellentesque lectus. Praesent vitae augue at nulla pulvinar varius a mattis tortor. Sed non orci at leo auctor cursus.',

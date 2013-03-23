@@ -5,16 +5,15 @@
 var basePath = '../../../tsumekusa/';
 var tsumekusa = require(basePath);
 var Container = require(basePath + '/dom/Container');
-var ContainerPublisher = require(basePath + '/publishing/ContainerPublisher');
 var Paragraph = require(basePath + '/dom/Paragraph');
-var ParagraphPublisher = require(basePath + '/publishing/ParagraphPublisher');
 var Document = require(basePath + '/dom/Document');
-var DocumentPublisher = require(basePath + '/publishing/DocumentPublisher');
 var ContentsTable = require(basePath + '/dom/ContentsTable');
-var ContentsTablePublisher = require(basePath + '/publishing/ContentsTablePublisher');
 var ElementArray = require(basePath + '/dom/ElementArray');
-var ElementArrayPublisher = require(basePath +
-    '/publishing/ElementArrayPublisher');
+
+var registry = require(basePath + '/publishing/registry');
+var publishers = require(basePath + '/publishing/DefaultPublishers');
+
+registry.registerElementPublishers(publishers);
 
 // Lorem Ipsum {{{
 var LOREM_IPSUM = [
@@ -27,12 +26,6 @@ var LOREM_IPSUM = [
 //}}}
 
 exports.testPublish = function(test) {
-  Container.publisher = new ContainerPublisher();
-  Paragraph.publisher = new ParagraphPublisher();
-  Document.publisher = new DocumentPublisher();
-  ContentsTable.publisher = new ContentsTablePublisher();
-  ElementArray.publisher = new ElementArrayPublisher();
-
   var document = new Document('Sample', 'doc.txt', 'ALPHA', new Date(0));
 
   var container1 = new Container('container1', null, true);

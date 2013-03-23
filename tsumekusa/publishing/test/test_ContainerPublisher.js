@@ -6,15 +6,11 @@ var basePath = '../../../tsumekusa';
 var Paragraph = require(basePath + '/dom/Paragraph');
 var Container = require(basePath + '/dom/Container');
 var ElementArray = require(basePath + '/dom/ElementArray');
-var ParagraphPublisher = require(basePath + '/publishing/ParagraphPublisher');
-var ContainerPublisher = require(basePath + '/publishing/ContainerPublisher');
-var ElementArrayPublisher = require(basePath +
-    '/publishing/ElementArrayPublisher');
 
-// Prepare publishers
-Paragraph.publisher = new ParagraphPublisher();
-Container.publisher = new ContainerPublisher();
-ElementArray.publisher = new ElementArrayPublisher();
+var registry = require(basePath + '/publishing/registry');
+var publishers = require(basePath + '/publishing/DefaultPublishers');
+
+registry.registerElementPublishers(publishers);
 
 // Lorem Ipsum {{{
 var LOREM_IPSUM = [

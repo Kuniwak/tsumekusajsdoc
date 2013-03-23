@@ -7,17 +7,11 @@ var List = require(basePath + '/dom/List');
 var ListItem = List.ListItem;
 var Paragraph = require(basePath + '/dom/Paragraph');
 var ElementArray = require(basePath + '/dom/ElementArray');
-var ParagraphPublisher = require(basePath + '/publishing/ParagraphPublisher');
-var ListPublisher = require(basePath + '/publishing/ListPublisher');
-var ListItemPublisher = require(basePath + '/publishing/ListItemPublisher');
-var ElementArrayPublisher = require(basePath +
-    '/publishing/ElementArrayPublisher');
 
-Paragraph.publisher = new ParagraphPublisher();
-List.publisher = new ListPublisher();
-ListItem.publisher = new ListItemPublisher();
-ElementArray.publisher = new ElementArrayPublisher();
+var registry = require(basePath + '/publishing/registry');
+var publishers = require(basePath + '/publishing/DefaultPublishers');
 
+registry.registerElementPublishers(publishers);
 
 exports.testPublishWithVariableMarkers = function(test) {
   var list = new List();

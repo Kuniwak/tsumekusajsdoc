@@ -18,6 +18,7 @@ var ElementArrayPublisher = function() {
   BlockElementPublisher.call(this);
 };
 tsumekusa.inherits(ElementArrayPublisher, BlockElementPublisher);
+tsumekusa.addSingletonGetter(ElementArrayPublisher);
 
 
 /**

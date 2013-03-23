@@ -5,19 +5,12 @@ var basePath = '../../../tsumekusa';
 var DefinitionList = require(basePath + '/dom/DefinitionList');
 var Definition = DefinitionList.Definition;
 var Paragraph = require(basePath + '/dom/Paragraph');
-var ParagraphPublisher = require(basePath + '/publishing/ParagraphPublisher');
-var DefinitionListPublisher = require(basePath +
-    '/publishing/DefinitionListPublisher');
-var DefinitionPublisher = require(basePath + '/publishing/DefinitionPublisher');
 var ElementArray = require(basePath + '/dom/ElementArray');
-var ElementArrayPublisher = require(basePath +
-    '/publishing/ElementArrayPublisher');
 
-Paragraph.publisher = new ParagraphPublisher();
-DefinitionList.publisher = new DefinitionListPublisher();
-Definition.publisher = new DefinitionPublisher();
-ElementArray.publisher = new ElementArrayPublisher();
+var registry = require(basePath + '/publishing/registry');
+var publishers = require(basePath + '/publishing/DefaultPublishers');
 
+registry.registerElementPublishers(publishers);
 
 exports.testPublishWithVariableMarkers = function(test) {
   var defList = new DefinitionList();

@@ -86,7 +86,7 @@ List.prototype.createListItem = function(elemArr, opt_type) {
 /**
  * Creates a list item if the given element is not a list.
  * @param {tsumekusa.dom.ElementArray.<tsumekusa.dom.BlockElement>|
- * tsumekusa.dom.List} arg Block elements or list.
+ * tsumekusa.dom.List|tsumekusa.dom.List.ListItem} arg Element to list.
  * @param {?tsumekusa.dom.List.ListType=} opt_type List type of the item.  Use
  *     a list type of the parent list, if falsey.
  * @return {tsumekusa.dom.List.ListItem|tsumekusa.dom.List} Created list item.
@@ -94,6 +94,9 @@ List.prototype.createListItem = function(elemArr, opt_type) {
  */
 List.prototype.createListItemIfNecessary = function(arg, opt_type) {
   if (arg instanceof List) {
+    return arg;
+  }
+  if (arg instanceof List.ListItem) {
     return arg;
   }
   else {
@@ -105,7 +108,7 @@ List.prototype.createListItemIfNecessary = function(arg, opt_type) {
 /**
  * Adds the specified list item to the last.  The method is chainable.
  * @param {tsumekusa.dom.ElementArray.<tsumekusa.dom.BlockElement>|
- * tsumekusa.dom.List} arg Block elements or list.
+ * tsumekusa.dom.List|tsumekusa.dom.List.ListItem} arg Element to list.
  * @param {?tsumekusa.dom.List.ListType=} opt_type List type of the item.  Use
  *     a list type of the parent list, if falsey.
  * @return {tsumekusa.dom.List} This instance.
@@ -121,7 +124,7 @@ List.prototype.addListItem = function(arg, opt_type) {
  * Adds the specified list item to the given 0-based index.  The method is
  * chainable.
  * @param {tsumekusa.dom.ElementArray.<tsumekusa.dom.BlockElement>|
- * tsumekusa.dom.List} arg Block elements or list.
+ * tsumekusa.dom.List|tsumekusa.dom.List.ListItem} arg Element to list.
  * @param {?tsumekusa.dom.List.ListType=} opt_type List type of the item.  Use
  *     a list type of the parent list, if falsey.
  * @param {number} index 0-based index.
