@@ -119,13 +119,13 @@ VimHelpContentsTablePublisher.prototype.publishHeader = function(doc) {
 
 /** @override */
 VimHelpContentsTablePublisher.prototype.publishFooter = function(doc) {
-  // Contents table is not able to have footer.
+  // Elements table is not able to have footer.
   return null;
 };
 
 
 /** @override */
-VimHelpContentsTablePublisher.prototype.publishTopContentsInternal = function(
+VimHelpContentsTablePublisher.prototype.publishTopElements = function(
     doc) {
   // Publishes only a table of contents.
   return [this.publishContentsTable(doc)];
@@ -133,9 +133,9 @@ VimHelpContentsTablePublisher.prototype.publishTopContentsInternal = function(
 
 
 /** @override */
-VimHelpContentsTablePublisher.prototype.publishSubContainersInternal = function(
+VimHelpContentsTablePublisher.prototype.publishSubContainers = function(
     doc) {
-  // Contents table is not able to have children.
+  // Elements table is not able to have children.
   return null;
 };
 
@@ -144,7 +144,7 @@ VimHelpContentsTablePublisher.prototype.publishSubContainersInternal = function(
  * Publish a table of contents.
  * @param {tsumekusa.dom.Document} doc Document to create the contents
  *     table.
- * @return {string} Contents table string.
+ * @return {string} Elements table string.
  */
 VimHelpContentsTablePublisher.prototype.publishContentsTable = function(
     doc) {
@@ -152,7 +152,7 @@ VimHelpContentsTablePublisher.prototype.publishContentsTable = function(
   var maxLinkLen = 0, linkLen;
 
   // Remove invisible docs.
-  doc.getDescendants().forEach(function(sub) {
+  doc.getDescendantContainers().forEach(function(sub) {
     if (sub.isVisibleOnContentsTable()) {
       willBeLiteds[willBeLitedsIdx++] = sub;
 
@@ -279,7 +279,7 @@ VimHelpContentsTablePublisher.prototype.createContentsTableLineHead_ = function(
   var ancestor = null;
 
   // Gets a top-level container that will be listed.
-  while (current = current.getParent()) {
+  while (current = current.getParentContainer()) {
     if (current.isVisibleOnContentsTable()) {
       ancestor = current;
       break;
@@ -287,7 +287,7 @@ VimHelpContentsTablePublisher.prototype.createContentsTableLineHead_ = function(
   }
 
   var indentWidth;
-  if (ancestor && ancestor.getParent()) {
+  if (ancestor && ancestor.getParentContainer()) {
     var ancestorIdx = this.createIndex(ancestor);
     indentWidth = ancestorIdx.length + /* white space width */ 1;
   }

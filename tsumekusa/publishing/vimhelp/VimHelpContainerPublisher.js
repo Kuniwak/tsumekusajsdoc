@@ -70,11 +70,11 @@ VimHelpContainerPublisher.prototype.getIndentWidth = function(content) {
 /**
  * Creates an index string on head of a header.  Index string foemat as: {@code
  * 1.1.2}.
- * @param {tsumekusa.dom.Container} container Contents container.
+ * @param {tsumekusa.dom.Container} container Elements container.
  * @return {string} Index string.
  */
 VimHelpContainerPublisher.prototype.createIndex = function(container) {
-  var ancestors = container.getAncestors();
+  var ancestors = container.getAncestorContainers();
   var depth, idxs;
 
   if ((depth = container.getDepth()) > 1) {

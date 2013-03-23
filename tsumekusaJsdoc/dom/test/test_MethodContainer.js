@@ -27,6 +27,7 @@ Type.publisher = new TypePublisher();
 
 
 exports.testPublish = function(test) {
+// Dummy doclet {{{
   var dummyDoclet = {
     "description": "Adds the specified component as the last child of this component.  See\n{@link goog.ui.Component#addChildAt} for detailed semantics.",
     "params": [
@@ -63,12 +64,25 @@ exports.testPublish = function(test) {
     "longname": "goog.ui.Component#addChild",
     "scope": "instance",
   };
+//}}}
 
   var container = new MethodContainer(dummyDoclet);
 
   var CORRECT = [
+    '0. goog.ui.Component#addChild',
+    '  goog.ui.Component#addChild(child, opt_render)',
+    '',
+    '  Adds the specified component as the last child of this component. See',
+    '  [goog.ui.Component#addChildAt] for detailed semantics.',
+    '',
+    '  1. Parameters',
+    '      - child: [goog.ui.Component]',
+    '        No description.',
+    '',
+    '      - opt_render: [boolean]|undefined',
+    '        No description.'
   ];
 
-  console.log(container.publish());
+  test.equal(container.publish(), CORRECT.join('\n'));
   test.done();
 };

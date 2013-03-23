@@ -10,16 +10,16 @@ var DocumentHelper = require(basePath + '/dom/DocumentHelper');
 
 var testParagraph = function(p, text, test) {
   test.ok(p !== undefined && p !== null);
-  test.equal(typeof p.getInlineContents, 'function');
-  test.equal(p.getInlineContents().length, 1);
-  test.equal(p.getInlineContents()[0], text);
+  test.equal(typeof p.getInlineElements, 'function');
+  test.equal(p.getInlineElements().length, 1);
+  test.equal(p.getInlineElements()[0], text);
 };
 
 var testListItem = function(li, text, test) {
   test.ok(li !== undefined && li !== null);
-  test.equal(typeof li.getBlockContents, 'function');
-  test.equal(li.getBlockContents().getCount(), 1);
-  testParagraph(li.getBlockContents().getChildAt(0), text, test);
+  test.equal(typeof li.getBlockElements, 'function');
+  test.equal(li.getBlockElements().getCount(), 1);
+  testParagraph(li.getBlockElements().getChildAt(0), text, test);
 };
 
 exports.testParseInlineTags = function(test) {
@@ -89,15 +89,15 @@ exports.testCreateBlocks = function(test) {
 
   var li3 = ul.getListItems().getChildAt(2);
   test.ok(li3 !== undefined && li3 !== null);
-  test.equal(typeof li3.getBlockContents, 'function');
-  test.equal(li3.getBlockContents().getCount(), 1);
+  test.equal(typeof li3.getBlockElements, 'function');
+  test.equal(li3.getBlockElements().getCount(), 1);
 
-  var p2 = li3.getBlockContents().getChildAt(0);
+  var p2 = li3.getBlockElements().getChildAt(0);
   test.ok(p2 !== undefined && p2 !== null);
-  test.equal(typeof p2.getInlineContents, 'function');
-  test.equal(p2.getInlineContents().length, 1);
+  test.equal(typeof p2.getInlineElements, 'function');
+  test.equal(p2.getInlineElements().length, 1);
 
-  var code = p2.getInlineContents()[0];
+  var code = p2.getInlineElements()[0];
   test.ok(code !== undefined && code !== null);
   test.equal(typeof code.getCode, 'function');
   test.equal(code.getCode(), 'line3');

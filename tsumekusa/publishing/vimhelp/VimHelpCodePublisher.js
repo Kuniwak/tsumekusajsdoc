@@ -9,21 +9,21 @@ var PreformattedParagraph = require(basePath +
     '/dom/PreformattedParagraph');
 var vimhelp = require(basePath + '/publishing/vimhelp');
 var WordWrapper = require(basePath + '/publishing/WordWrapper');
-var BlockContentPublisher = require(basePath +
-    '/publishing/BlockContentPublisher');
+var BlockElementPublisher = require(basePath +
+    '/publishing/BlockElementPublisher');
 
 
 
 /**
  * A class for code publisher for vim help.
  * @constructor
- * @extends {tsumekusa.publishing.BlockContentPublisher}
+ * @extends {tsumekusa.publishing.BlockElementPublisher}
  */
 var VimHelpCodePublisher = function() {
-  BlockContentPublisher.call(this);
+  BlockElementPublisher.call(this);
   this.setDisplayWidth(vimhelp.TEXT_WIDTH);
 };
-tsumekusa.inherits(VimHelpCodePublisher, BlockContentPublisher);
+tsumekusa.inherits(VimHelpCodePublisher, BlockElementPublisher);
 tsumekusa.addSingletonGetter(VimHelpCodePublisher);
 
 
@@ -37,7 +37,7 @@ VimHelpCodePublisher.INDENT_WIDTH = 6;
 
 /** @override */
 VimHelpCodePublisher.prototype.getIndentWidth = function(content) {
-  var indentWidth = this.getParentIndentWidth(content);
+  var indentWidth = this.getIndentWidthFromParent(content);
   return indentWidth + VimHelpCodePublisher.INDENT_WIDTH;
 };
 

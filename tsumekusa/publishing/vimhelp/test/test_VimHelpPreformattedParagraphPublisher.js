@@ -5,10 +5,12 @@
 var basePath = '../../../../tsumekusa';
 var PreformattedParagraph = require(basePath +
     '/dom/PreformattedParagraph');
-var VimHelpPreformattedParagraphPublisher = require(basePath +
-    '/publishing/vimhelp/VimHelpPreformattedParagraphPublisher');
 
-PreformattedParagraph.publisher = new VimHelpPreformattedParagraphPublisher();
+var registry = require(basePath + '/publishing/registry');
+var vimhelpPublishers = require(basePath +
+    '/publishing/vimhelp/VimHelpPublishers');
+
+registry.registerElementPublishers(vimhelpPublishers);
 
 var LOREM_IPSUM = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\nUt enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\nDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.\nExcepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
 

@@ -94,15 +94,15 @@ VimHelpDocumentPublisher.prototype.publishFooter = function(doc) {
 
 
 /** @override */
-VimHelpDocumentPublisher.prototype.publishSubContents = function(doc) {
-  var subContents = VimHelpContainerPublisher.prototype.publishSubContents.
+VimHelpDocumentPublisher.prototype.publishSubElements = function(doc) {
+  var subElements = VimHelpContainerPublisher.prototype.publishSubElements.
       call(this, doc);
 
   if (VimHelpDocumentPublisher.PUBLISH_CONTENTS_TABLE) {
-    subContents.unshift(this.publishContentsTable(doc));
+    subElements.unshift(this.publishContentsTable(doc));
   }
 
-  return subContents;
+  return subElements;
 };
 
 

@@ -4,16 +4,14 @@
 
 var basePath = '../../../../tsumekusa';
 var Container = require(basePath + '/dom/Container');
-var Tag = require(basePath + '/dom/Tag');
-var Link = require(basePath + '/dom/Link');
 var VimHelpContentsTablePublisher = require(basePath +
     '/publishing/vimhelp/VimHelpContentsTablePublisher');
-var VimHelpTagPublisher = require(basePath +
-    '/publishing/vimhelp/VimHelpTagPublisher');
-var VimHelpLinkPublisher = require(basePath +
-    '/publishing/vimhelp/VimHelpLinkPublisher');
-Tag.publisher = new VimHelpTagPublisher();
-Link.publisher = new VimHelpLinkPublisher();
+
+var registry = require(basePath + '/publishing/registry');
+var vimhelpPublishers = require(basePath +
+    '/publishing/vimhelp/VimHelpPublishers');
+
+registry.registerElementPublishers(vimhelpPublishers);
 
 exports.testPublish = function(test) {
   var publisher = new VimHelpContentsTablePublisher();

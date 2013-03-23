@@ -13,7 +13,7 @@ var vimhelp = require(basePath + '/publishing/vimhelp');
 /**
  * A class for list publisher for vim help.
  * @constructor
- * @implements {tsumekusa.publishing.IContentPublisher}
+ * @implements {tsumekusa.publishing.IElementPublisher}
  */
 var VimHelpListPublisher = function() {
   ListPublisher.call(this);

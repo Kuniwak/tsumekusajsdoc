@@ -4,10 +4,12 @@
 
 var basePath = '../../../../tsumekusa';
 var Code = require(basePath + '/dom/Code');
-var VimHelpCodePublisher = require(basePath +
-    '/publishing/vimhelp/VimHelpCodePublisher');
 
-Code.publisher = new VimHelpCodePublisher();
+var registry = require(basePath + '/publishing/registry');
+var vimhelpPublishers = require(basePath +
+    '/publishing/vimhelp/VimHelpPublishers');
+
+registry.registerElementPublishers(vimhelpPublishers);
 
 exports.testPublish = function(test) {
   var code = new Code([

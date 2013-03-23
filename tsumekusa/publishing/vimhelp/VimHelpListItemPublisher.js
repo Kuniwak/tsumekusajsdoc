@@ -12,7 +12,7 @@ var ListItemPublisher = require(basePath +
 /**
  * A class for list item publisher for vim help.
  * @constructor
- * @extends {tsumekusa.publishing.IContentPublisher}
+ * @extends {tsumekusa.publishing.IElementPublisher}
  */
 var VimHelpListItemPublisher = function() {
   ListItemPublisher.call(this);

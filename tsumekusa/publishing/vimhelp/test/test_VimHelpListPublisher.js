@@ -5,37 +5,143 @@
 var basePath = '../../../../tsumekusa';
 var List = require(basePath + '/dom/List');
 var Paragraph = require(basePath + '/dom/Paragraph');
-var ContentArray = require(basePath + '/dom/ContentArray');
-var VimHelpListPublisher = require(basePath +
-    '/publishing/vimhelp/VimHelpListPublisher');
-var VimHelpListItemPublisher = require(basePath +
-    '/publishing/vimhelp/VimHelpListItemPublisher');
+var ElementArray = require(basePath + '/dom/ElementArray');
 
-List.publisher = new VimHelpListPublisher();
-List.ListItem.publisher = new VimHelpListItemPublisher();
+var registry = require(basePath + '/publishing/registry');
+var vimhelpPublishers = require(basePath +
+    '/publishing/vimhelp/VimHelpPublishers');
+
+registry.registerElementPublishers(vimhelpPublishers);
+
+exports.testPublishWithVariableMarkers = function(test) {
+  var list = new List();
+
+  var arr1 = new ElementArray();
+  var arr2 = new ElementArray();
+  var arr3 = new ElementArray();
+
+  var p1 = new Paragraph('Item1');
+  var p2 = new Paragraph('Item2');
+  var p3 = new Paragraph('Item3');
+
+  arr1.addChild(p1);
+  arr2.addChild(p2);
+  arr3.addChild(p3);
+
+  list.addListItem(arr1);
+  list.addListItem(arr2, List.ListType.ORDERED);
+  list.addListItem(arr3, List.ListType.UNORDERED);
+
+  var CORRECT = [
+    '- Item1',
+    '',
+    '2) Item2',
+    '',
+    '- Item3'
+  ].join('\n');
+
+  test.equal(list.publish(), CORRECT);
+  test.done();
+};
 
 
-exports.testPublish = function(test) {
-  var list1 = new List();
-  var list2 = new List();
-  var list3 = new List();
+exports.testPublishOrderedList = function(test) {
+  var list = new List(List.ListType.ORDERED);
 
-  var arr1 = new ContentArray();
-  var arr2 = new ContentArray();
-  var arr3 = new ContentArray();
-  var arr4 = new ContentArray();
+  var arr1 = new ElementArray();
+  var arr2 = new ElementArray();
+  var arr3 = new ElementArray();
 
-  var item1 = new List.ListItem(arr1);
-  var item2 = new List.ListItem(arr2, List.ListType.ORDERED);
-  var item3 = new List.ListItem(arr3, List.ListType.UNORDERED);
-  var item4 = new List.ListItem(arr4, List.ListType.ORDERED);
+  var p1 = new Paragraph('Item1');
+  var p2 = new Paragraph('Item2');
+  var p3 = new Paragraph('Item3');
+  var p4 = new Paragraph('Item4');
+  var p5 = new Paragraph('Item5');
 
-  list1.addListItem(item1);
+  arr1.addChild(p1);
+  arr2.addChild(p2);
+  arr2.addChild(p3);
+  arr3.addChild(p4);
+  arr3.addChild(p5);
+
+  list.addListItem(arr1);
+  list.addListItem(arr2);
+  list.addListItem(arr3);
+
+  var CORRECT = [
+    '1) Item1',
+    '',
+    '2) Item2',
+    '',
+    '  Item3',
+    '',
+    '3) Item4',
+    '',
+    '  Item5'
+  ].join('\n');
+
+  test.equal(list.publish(), CORRECT);
+  test.done();
+};
+
+
+exports.testPublishUnorderedList = function(test) {
+  var list = new List(List.ListType.UNORDERED);
+
+  var arr1 = new ElementArray();
+  var arr2 = new ElementArray();
+  var arr3 = new ElementArray();
+
+  var p1 = new Paragraph('Item1');
+  var p2 = new Paragraph('Item2');
+  var p3 = new Paragraph('Item3');
+  var p4 = new Paragraph('Item4');
+  var p5 = new Paragraph('Item5');
+
+  arr1.addChild(p1);
+  arr2.addChild(p2);
+  arr2.addChild(p3);
+  arr3.addChild(p4);
+  arr3.addChild(p5);
+
+  list.addListItem(arr1);
+  list.addListItem(arr2);
+  list.addListItem(arr3);
+
+  var CORRECT = [
+    '- Item1',
+    '',
+    '- Item2',
+    '',
+    '  Item3',
+    '',
+    '- Item4',
+    '',
+    '  Item5'
+  ].join('\n');
+
+  test.equal(list.publish(), CORRECT);
+  test.done();
+};
+
+exports.testPublishNestedList = function(test) {
+  var list1 = new List(List.ListType.ORDERED);
+  var list2 = new List(List.ListType.ORDERED);
+  var list3 = new List(List.ListType.ORDERED);
+
+  var arr1 = new ElementArray();
+  var arr2 = new ElementArray();
+  var arr3 = new ElementArray();
+  var arr4 = new ElementArray();
+
+  list1.addListItem(arr1);
   list1.addListItem(list2);
-  list2.addListItem(item2);
+
+  list2.addListItem(arr2);
   list2.addListItem(list3);
-  list3.addListItem(item3);
-  list2.addListItem(item4);
+  list2.addListItem(arr4);
+
+  list3.addListItem(arr3);
 
   var p1 = new Paragraph('Item1');
   var p2 = new Paragraph('Item2');
@@ -56,20 +162,23 @@ exports.testPublish = function(test) {
   arr4.addChild(p8);
 
   var CORRECT = [
-    '  - Item1',
-    '    Item2',
+    '1) Item1',
     '',
-    '    1) Item3',
-    '       Item4',
+    '  Item2',
     '',
-    '      - Item5',
-    '        Item6',
+    '  1) Item3',
     '',
-    '    3) Item7',
-    '       Item8'
+    '    Item4',
+    '',
+    '    1) Item5',
+    '',
+    '      Item6',
+    '',
+    '  2) Item7',
+    '',
+    '    Item8',
   ].join('\n');
 
   test.equal(list1.publish(), CORRECT);
-
   test.done();
 };

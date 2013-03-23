@@ -4,10 +4,12 @@
 
 var basePath = '../../../../tsumekusa';
 var InlineCode = require(basePath + '/dom/InlineCode');
-var VimHelpInlineCodePublisher = require(basePath +
-    '/publishing/vimhelp/VimHelpInlineCodePublisher');
 
-InlineCode.publisher = new VimHelpInlineCodePublisher();
+var registry = require(basePath + '/publishing/registry');
+var vimhelpPublishers = require(basePath +
+    '/publishing/vimhelp/VimHelpPublishers');
+
+registry.registerElementPublishers(vimhelpPublishers);
 
 exports.testPublish = function(test) {
   var code = new InlineCode('foo.bar()');

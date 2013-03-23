@@ -1,7 +1,6 @@
 // This script licensed under the MIT.
 // http://orgachem.mit-license.org
 
-
 var basePath = '../../../tsumekusa';
 var tsumekusa = require(basePath);
 var vimhelp = require(basePath + '/publishing/vimhelp');
@@ -13,7 +12,7 @@ var DefinitionListPublisher = require(basePath +
 /**
  * A class for list publisher for vim help.
  * @constructor
- * @extends {tsumekusa.publishing.IContentPublisher}
+ * @extends {tsumekusa.publishing.IElementPublisher}
  */
 var VimHelpDefinitionListPublisher = function() {
   DefinitionListPublisher.call(this);

@@ -3,10 +3,12 @@
 
 var basePath = '../../../../tsumekusa';
 var Link = require(basePath + '/dom/Link');
-var VimHelpLinkPublisher = require(basePath +
-    '/publishing/vimhelp/VimHelpLinkPublisher');
 
-Link.publisher = new VimHelpLinkPublisher();
+var registry = require(basePath + '/publishing/registry');
+var vimhelpPublishers = require(basePath +
+    '/publishing/vimhelp/VimHelpPublishers');
+
+registry.registerElementPublishers(vimhelpPublishers);
 
 exports.testPublish = function(test) {
   var link = new Link('foobar');

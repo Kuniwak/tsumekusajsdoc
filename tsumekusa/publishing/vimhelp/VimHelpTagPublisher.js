@@ -9,7 +9,7 @@ var tsumekusa = require('../../../tsumekusa');
 /**
  * A class for tag publishers for vim help.
  * @constructor
- * @extends {tsumekusa.publishing.IContentPublisher}
+ * @extends {tsumekusa.publishing.IElementPublisher}
  */
 var VimHelpTagPublisher = function() {};
 tsumekusa.addSingletonGetter(VimHelpTagPublisher);
