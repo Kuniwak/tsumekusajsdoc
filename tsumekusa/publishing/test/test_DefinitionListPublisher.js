@@ -19,7 +19,7 @@ Definition.publisher = new DefinitionPublisher();
 ElementArray.publisher = new ElementArrayPublisher();
 
 
-exports.testPublishVariableMarkers = function(test) {
+exports.testPublishWithVariableMarkers = function(test) {
   var defList = new DefinitionList();
 
   var term1 = new Paragraph('Term1');
