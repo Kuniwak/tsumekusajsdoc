@@ -16,8 +16,7 @@ tsumekusa.addSingletonGetter(InlineCodePublisher);
 
 /** @override */
 InlineCodePublisher.prototype.publish = function(code) {
-  console.warn('The output mode do not support an inline code: ' + code.getCode());
-  return code.getCode();
+  return '`' + code.getCode() + '`';
 };
 
 
