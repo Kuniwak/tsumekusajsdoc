@@ -4,6 +4,7 @@
 
 var tsumekusaPath = '../../tsumekusa';
 var tsumekusa = require(tsumekusaPath);
+var InlineCode = require(tsumekusaPath + '/dom/InlineCode');
 
 var basePath = '../../tsumekusaJsdoc';
 var tsumekusaJsdoc = require(basePath);

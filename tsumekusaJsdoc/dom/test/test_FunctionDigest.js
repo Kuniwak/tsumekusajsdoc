@@ -19,6 +19,7 @@ Type.publisher = new TypePublisher();
 
 
 exports.testPublishWithTwoParamsAndReturn = function(test) {
+  var name = new InlineCode('foo.bar');
   var ref1 = 'string';
   var ref2 = 'goog.structs.Map';
   var ref3 = 'boolean';

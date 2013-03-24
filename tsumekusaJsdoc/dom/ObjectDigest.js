@@ -4,6 +4,7 @@
 
 var tsumekusaPath = '../../tsumekusa';
 var tsumekusa = require(tsumekusaPath);
+var InlineCode = require(tsumekusaPath + '/dom/InlineCode');
 
 var basePath = '../../tsumekusaJsdoc';
 var Digest = require(basePath + '/dom/Digest');
@@ -33,9 +34,10 @@ tsumekusa.inherits(ObjectDigest, Digest);
 ObjectDigest.prototype.publish = function() {
   var symbol = this.getSymbol();
   var type = new Type(symbol);
+  var symbolName = new InlineCode(symbol.longname);
 
-  // current digest string as: foobar(
-  return symbol.longname + ': ' + type.publish();
+  // current digest string as: foobar: type
+  return symbolName.publish() + ': ' + type.publish();
 };
 
 
