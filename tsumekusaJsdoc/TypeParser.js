@@ -6,63 +6,114 @@ var tsumekusaPath = '../tsumekusa';
 var tsumekusa = require(tsumekusaPath);
 var string = require(tsumekusaPath + '/string');
 
+
+
+/**
+ * A class for jsdoc type parser.
+ * @constructor
+ */
 var TypeParser = function() {
   this.listenerMap_ = {};
 };
 
 
 /**
+ * Listner map.
+ * @type {Object}
+ * @private
+ */
+TypeParser.prototype.listenerMap_ = null;
+
+
+/**
+ * Event types for a jsdoc type parser.
  * @enum {number}
  */
 TypeParser.EventType = {
+  /** Dispatch when an opening type union was found. */
   OPEN_UNION: 'open-union',
+  /** Dispatch when a closing type union was found. */
   CLOSE_UNION: 'close-union',
 
+  /** Dispatch when an opening bracket as a generics parameters was found. */
   OPEN_GENERIC_PARAMS: 'open-generic-params',
+  /** Dispatch when a closing bracket as a generics parameters was found. */
   CLOSE_GENERIC_PARAMS: 'close-generic-params',
 
+  /** Dispatch when an opening parenthesis was found. */
   OPEN_PARENS: 'open-parens',
+  /** Dispatch when a closing parenthesis was found. */
   CLOSE_PARENS: 'close-parens',
 
+  /** Dispatch when an opening curly brace as a record was found. */
   OPEN_RECORD: 'open-record',
+  /** Dispatch when a closing curly brace as a record was found. */
   CLOSE_RECORD: 'close-record',
 
+  /** Dispatch when a record key was found. */
   RECORD_KEY: 'record-key',
+  /** Dispatch when a record type was found. */
   RECORD_TYPE: 'record-type',
 
+  /** Dispatch when a type name was found. */
   TYPE_NAME: 'type-name',
+  /** Dispatch when an all-type operator was found. */
   ALL_TYPE: 'all-type',
+  /** Dispatch when an unknown-type operator was found. */
   UNKNOWN_TYPE: 'unknown-type',
+  /** Dispatch when a variable-type operator was found. */
   VARIABLE_TYPE: 'variable-type',
+  /** Dispatch when an optional-type operator was found. */
   OPTIONAL_TYPE: 'optional-type',
+  /** Dispatch when a nullable-type operator was found. */
   NULLABLE_TYPE: 'nullable-type',
+  /** Dispatch when a non nullable-type operator was found. */
   NON_NULLABLE_TYPE: 'non-nullable-type',
 
+  /** Dispatch when an opening function type was found. */
   OPEN_FUNCTION: 'open-function',
+  /** Dispatch when a closing function type was found. */
   CLOSE_FUNCTION: 'close-function',
 
+  /** Dispatch when an opening parenthesis as function params was found. */
   OPEN_FUNCTION_PARAMS: 'open-function-params',
+  /** Dispatch when a closing parenthesis as function params was found. */
   CLOSE_FUNCTION_PARAMS: 'close-function-params',
 
+  /** Dispatch when a 'this' operator in a function was found. */
   FUNCTION_THIS: 'function-this',
+  /** Dispatch when a 'new' operator in a function was found. */
   FUNCTION_NEW: 'function-new',
+  /** Dispatch when a return type was found. */
   FUNCTION_RETURN: 'function-return'
 };
 
 
-TypeParser.prototype.dispatchEvent = function(type, str) {
+/**
+ * Dispatches the specified event.
+ * @param {tsumekusaJsdoc.TypeParser.EventType} type Event type to dispatch.
+ * @param {?string=} opt_str Optional string that is given to listeners.
+ */
+TypeParser.prototype.dispatchEvent = function(type, opt_str) {
   var listeners;
-  
+
   if (listeners = this.listenerMap_[type]) {
     listeners.forEach(function(listener) {
       var func = listener[0];
       var opt_this = listener[1];
-      func.call(opt_this, type, str);
+      func.call(opt_this, type, opt_str);
     });
   }
 };
 
 
+/**
+ * Adds an event listener of the specified event type.
+ * @param {tsumekusaJsdoc.TypeParser.EventType} type Event type to dispatch.
+ * @param {function(this:*, tsumekusaJsdoc.TypeParser.EventType, ?string=)}
+ *     func Listner function.
+ * @param {*=} opt_this Optional function scope for the listener.
+ */
 TypeParser.prototype.addEventListener = function(type, func, opt_this) {
   var listener = [func, opt_this];
   var listeners;
@@ -75,6 +126,10 @@ TypeParser.prototype.addEventListener = function(type, func, opt_this) {
 };
 
 
+/**
+ * Parses a type string.
+ * @param {string} arg Type string.
+ */
 TypeParser.prototype.parse = function(arg) {
   var str = this.parseTypeUnion(arg);
   if (str) {
@@ -84,8 +139,10 @@ TypeParser.prototype.parse = function(arg) {
 
 
 /**
+ * Parses a type union expression.
  * @param {string} arg Type string.
  * @return {string} Remained string.
+ * @protected
  */
 TypeParser.prototype.parseTypeUnion = function(arg) {
   var EventType = TypeParser.EventType;
@@ -178,8 +235,10 @@ TypeParser.prototype.parseTypeUnion = function(arg) {
 
 
 /**
+ * Parses a single type expression such as: type name, generics, function.
  * @param {string} arg Type string.
  * @return {string} Remained string.
+ * @protected
  */
 TypeParser.prototype.parseType = function(arg) {
   var str = arg;
@@ -199,11 +258,11 @@ TypeParser.prototype.parseType = function(arg) {
   }
   else if (str.match(/^null\b/i)) {
     this.dispatchEvent(EventType.NULLABLE_TYPE, 'null');
-    str = str.replace(/^null\s*/i, '')
+    str = str.replace(/^null\s*/i, '');
   }
   else if (str.match(/^unknown\b/i)) {
     this.dispatchEvent(EventType.UNKNOWN_TYPE, 'unknown');
-    str = str.replace(/^unknown\s*/i, '')
+    str = str.replace(/^unknown\s*/i, '');
   }
   else if (str.match(/^function\b/i)) {
     str = this.parseFunctionType(str);
@@ -251,10 +310,12 @@ TypeParser.prototype.parseType = function(arg) {
 
 
 /**
+ * Parsing a function type expression.
  * @param {string} arg Function type string.
  * @return {string} Remained string.
+ * @protected
  */
-TypeParser.prototype.parseFunctionType = function(arg, types) {
+TypeParser.prototype.parseFunctionType = function(arg) {
   var str = arg.replace(/^function\s*/i, '');
   var EventType = TypeParser.EventType;
 
@@ -304,8 +365,10 @@ TypeParser.prototype.parseFunctionType = function(arg, types) {
 
 
 /**
+ * Parses a generic type expression.
  * @param {string} arg Type string.
  * @return {string} Remained string.
+ * @protected
  */
 TypeParser.prototype.parseGenericParams = function(arg) {
   var str = arg.replace(/^<\s*/, '');
@@ -329,8 +392,10 @@ TypeParser.prototype.parseGenericParams = function(arg) {
 
 
 /**
+ * Parses a record type expression.
  * @param {string} arg Type string.
  * @return {string} Remained string.
+ * @protected
  */
 TypeParser.prototype.parseRecordType = function(arg) {
   var str = arg.replace(/^\{\s*/, '');
