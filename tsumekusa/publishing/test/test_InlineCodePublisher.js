@@ -10,6 +10,7 @@ var publishers = require(basePath + '/publishing/DefaultPublishers');
 
 registry.registerElementPublishers(publishers);
 
+
 exports.testPublish = function(test) {
   var code = new InlineCode('foo.bar()');
 

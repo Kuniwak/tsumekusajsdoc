@@ -5,11 +5,13 @@
 var tsumekusaPath = '../../tsumekusa';
 var tsumekusa = require(tsumekusaPath);
 var InlineElement = require(tsumekusaPath + '/dom/InlineElement');
+var InlineCode = require(tsumekusaPath + '/dom/InlineCode');
 var Link = require(tsumekusaPath + '/dom/Link');
 
 var basePath = '../../tsumekusaJsdoc';
-var DocElement = require(basePath +
-    '/dom/DocElement');
+var DocElement = require(basePath + '/dom/DocElement');
+var TypeDictionary = require(basePath + '/TypeDictionary');
+var dict = TypeDictionary.getInstance();
 
 
 
@@ -47,19 +49,19 @@ Type.TypeImpl = function(tag) {
     types = [];
 
     tag.type.names.forEach(function(type) {
-      types[typeIdx++] = new Link(type);
+      types[typeIdx++] = this.createInlineElement(type);
     }, this);
 
     if (tag.nullable) {
-      types[typeIdx++] = 'null';
+      types[typeIdx++] = this.createInlineElement('null');
     }
 
     if (tag.optional) {
-      types[typeIdx++] = 'undefined';
+      types[typeIdx++] = this.createInlineElement('undefined');
     }
   }
   else {
-    types = ['?'];
+    types = [this.createInlineElement('?')];
   }
 
   this.types_ = types;
@@ -93,6 +95,17 @@ Type.TypeImpl.prototype.getPublisher = function() {
 /** @override */
 Type.TypeImpl.prototype.isBreakable = function() {
   return false;
+};
+
+
+/**
+ * Creates an inline element by type string.
+ * @param {string} type Type to be an inline element.
+ * @return {tsumekusa.dom.InlineElement} Created element.
+ * @protected
+ */
+Type.TypeImpl.prototype.createInlineElement = function(type) {
+  return dict.has(type) ? new InlineCode(type) : new Link(type);
 };
 
 
