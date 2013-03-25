@@ -184,14 +184,13 @@ TypeParser.prototype.parseTypeUnion = function(arg) {
   }
 
   while (str[0]) {
-    if (wasOpenParens && (str[0] === ')' || str[0] === ']')) {
-      // Identify a square bracket with a parenthesis.1
-      str = str.replace(/^[\)\]]\s*/, '');
-      this.dispatchEvent(EventType.CLOSE_PARENS, null);
-      break;
-    }
-    else if (str[0].match(/^[\)\}>,]/)) {
+    if (str.match(/^[\)\]\}>,]/)) {
       // This is an end of union.  The close parens used as function params
+      if (wasOpenParens && (str[0] === ')' || str[0] === ']')) {
+        // Identify a square bracket with a parenthesis.1
+        str = str.replace(/^[\)\]]\s*/, '');
+        this.dispatchEvent(EventType.CLOSE_PARENS, null);
+      }
       break;
     }
     else {
