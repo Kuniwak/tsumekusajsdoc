@@ -58,16 +58,16 @@ exports.testPublishWithParams = function(test) {
 
   var CORRECT = [
     '0. goog.ui.Component#addChild',
-    '  goog.ui.Component#addChild(child, opt_render)',
+    '  `goog.ui.Component#addChild`(`child`, `opt_render`)',
     '',
     '  Adds the specified component as the last child of this component. See',
     '  [goog.ui.Component#addChildAt] for detailed semantics.',
     '',
     '  Parameters',
-    '    child: [goog.ui.Component]',
+    '    `child` : [goog.ui.Component]',
     '      No description.',
     '',
-    '    opt_render: `boolean`|`undefined`',
+    '    `opt_render` : `boolean`|`undefined`',
     '      No description.'
   ].join('\n');
 
@@ -143,13 +143,13 @@ exports.testPublishWithParamAndReturn = function(test) {
 
   var CORRECT = [
     '0. goog.ui.Component#getElementByFragment',
-    '  goog.ui.Component#getElementByFragment(idFragment) -> `Element`',
+    '  `goog.ui.Component#getElementByFragment`(`idFragment`) -> `Element`',
     '',
     '  Helper function for returning an element in the document with a unique id',
     '  generated using makeId().',
     '',
     '  Parameters',
-    '    idFragment: `string`',
+    '    `idFragment` : `string`',
     '      No description.',
     '',
     '  Returns',
@@ -199,7 +199,7 @@ exports.testPublishWithNoParamsAndNoReturns = function(test) {
 
   var CORRECT = [
     '0. goog.ui.Component#createDom',
-    '  goog.ui.Component#createDom()',
+    '  `goog.ui.Component#createDom`()',
     '',
     '  Creates the initial DOM representation for the component. The default',
     '  implementation is to set this.element_ = div.'

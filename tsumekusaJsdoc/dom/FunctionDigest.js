@@ -38,18 +38,18 @@ FunctionDigest.prototype.publish = function() {
   var paramsMax, returnsMax;
 
   // current digest string as: foobar(
-  digest[digestIdx++] = symbol.longname + '(';
+  digest[digestIdx++] = new InlineCode(symbol.longname).publish() + '(';
 
   if (tsumekusaJsdoc.hasParam(symbol)) {
     // current digest string as: foobar( arg1, arg2, arg3
     digest[digestIdx++] = symbol.params.map(function(tag, index) {
-      var paramName = tsumekusaJsdoc.decorateParamName(tag);
+      var paramName = new InlineCode(tsumekusaJsdoc.decorateParamName(tag));
       if (FunctionDigest.VERBOSE_PARAM) {
         var type = new Type(tag);
-        return paramName + ' ' + type.publish();
+        return paramName.publish() + ' ' + type.publish();
       }
       else {
-        return paramName;
+        return paramName.publish();
       }
     }, this).join(', ');
   }

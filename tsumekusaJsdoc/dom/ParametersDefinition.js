@@ -5,6 +5,7 @@
 var tsumekusaPath = '../../tsumekusa';
 var tsumekusa = require(tsumekusaPath);
 var ElementArray = require(tsumekusaPath + '/dom/ElementArray');
+var InlineCode = require(tsumekusaPath + '/dom/InlineCode');
 var Paragraph = require(tsumekusaPath + '/dom/Paragraph');
 var DefinitionList = require(tsumekusaPath + '/dom/DefinitionList');
 
@@ -25,8 +26,7 @@ var Type = require(basePath + '/dom/Type');
  * @constructor
  * @extends {tsumekusaJsdoc.dom.DocElement}
  */
-ParametersDefinition = function(symbol, opt_docHelper,
-    opt_refHelper) {
+ParametersDefinition = function(symbol, opt_docHelper, opt_refHelper) {
   DocElement.call(this, opt_docHelper, opt_refHelper);
   var docHelper = this.getDocHelper();
   var def = new DefinitionList.Definition();
@@ -47,8 +47,8 @@ ParametersDefinition = function(symbol, opt_docHelper,
           NO_DESCRIPTION));
 
       var type = new Type(tag);
-      var paramName = tsumekusaJsdoc.decorateParamName(tag);
-      var caption = new Paragraph(paramName + ':', type.getElement());
+      var paramName = new InlineCode(tsumekusaJsdoc.decorateParamName(tag));
+      var caption = new Paragraph(paramName, ':', type.getElement());
 
       innerDl.addDefinition(caption, desc);
     }, this);
