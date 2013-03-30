@@ -65,10 +65,10 @@ exports.testPublishWithParams = function(test) {
     '  [goog.ui.Component#addChildAt] for detailed semantics.',
     '',
     '  Parameters',
-    '    `child` : [goog.ui.Component]',
+    '    `child`: [goog.ui.Component]',
     '      No description.',
     '',
-    '    `opt_render` : `boolean`|`undefined`',
+    '    `opt_render`: `boolean`|`undefined`',
     '      No description.'
   ].join('\n');
 
@@ -150,7 +150,7 @@ exports.testPublishWithParamAndReturn = function(test) {
     '  generated using makeId().',
     '',
     '  Parameters',
-    '    `idFragment` : `string`',
+    '    `idFragment`: `string`',
     '      No description.',
     '',
     '  Returns',

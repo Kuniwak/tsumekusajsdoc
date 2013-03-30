@@ -4,6 +4,7 @@
 
 var tsumekusaPath = '../../tsumekusa';
 var tsumekusa = require(tsumekusaPath);
+var InlineElement = require(tsumekusaPath + '/dom/InlineElement');
 var ElementArray = require(tsumekusaPath + '/dom/ElementArray');
 var InlineCode = require(tsumekusaPath + '/dom/InlineCode');
 var Paragraph = require(tsumekusaPath + '/dom/Paragraph');
@@ -46,11 +47,11 @@ ParametersDefinition = function(symbol, opt_docHelper, opt_refHelper) {
       desc.addChildren(docHelper.parseBlocks(tag.text || tsumekusaJsdoc.
           NO_DESCRIPTION));
 
-      var type = new Type(tag);
-      var paramName = new InlineCode(tsumekusaJsdoc.decorateParamName(tag));
-      var caption = new Paragraph(paramName, ':', type.getElement());
+      var term = new ParametersDefinition.ParameterDefinitionTerm(tag,
+          opt_docHelper, opt_refHelper);
+      var p = new Paragraph(term.getElement());
 
-      innerDl.addDefinition(caption, desc);
+      innerDl.addDefinition(p, desc);
     }, this);
   }
 
@@ -65,6 +66,64 @@ tsumekusa.inherits(ParametersDefinition, DocElement);
  * @type {string}
  */
 ParametersDefinition.CAPTION = 'Parameters';
+
+
+
+/**
+ * A class for parameter definition terms.
+ * @param {jsdoc.Tag} tag Parameter tag.
+ * @constructor
+ * @extends {tsumekusaJsdoc.dom.DocElement}
+ */
+ParametersDefinition.ParameterDefinitionTerm = function(tag, opt_docHelper,
+    opt_refHelper) {
+  DocElement.call(this, opt_docHelper, opt_refHelper);
+
+  var name = new InlineCode(tsumekusaJsdoc.decorateParamName(tag));
+  var type = new Type(tag, opt_docHelper, opt_refHelper);
+
+  var impl = new ParametersDefinition.ParameterDefinitionTermImpl(name, type);
+  this.setElement(impl);
+};
+tsumekusa.inherits(ParametersDefinition.ParameterDefinitionTerm, DocElement);
+
+
+
+/**
+ * A class for parameter definition term implementors.
+ * @param {tsumekusa.dom.InlineElement} name Parameter name.
+ * @param {tsumekusaJsdoc.dom.Type} type Parameter type.
+ * @constructor
+ * @extends {tsumekusa.dom.InlineElement}
+ */
+ParametersDefinition.ParameterDefinitionTermImpl = function(name, type) {
+  InlineElement.call(this);
+  this.name_ = name;
+  this.type_ = type;
+};
+tsumekusa.inherits(ParametersDefinition.ParameterDefinitionTermImpl,
+    InlineElement);
+
+
+/** @override */
+ParametersDefinition.ParameterDefinitionTermImpl.prototype.isBreakable =
+    function() {
+  return false;
+};
+
+
+/** @override */
+ParametersDefinition.ParameterDefinitionTermImpl.prototype.getPublisher =
+    function() {
+  return null;
+};
+
+
+/** @override */
+ParametersDefinition.ParameterDefinitionTermImpl.prototype.publish =
+    function() {
+  return this.name_.publish() + ': ' + this.type_.publish();
+};
 
 
 /**

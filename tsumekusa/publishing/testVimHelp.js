@@ -24,11 +24,11 @@ var aa = [
   '                                                                  /____/'
 ].join('\n');
 
-var topContent = new PreformattedParagrapg(aa);
+var topElement = new PreformattedParagrapg(aa);
 
 var symbolName = 'goog.array';
 var document = new Document(symbolName, 'array.js', '20130212', new Date());
-document.appendTopContent(topContent);
+document.appendTopElement(topElement);
 
 
 // Constructor {{{
@@ -38,7 +38,7 @@ var ctorCode = new Code('goog.array');
 var ctorSentence = new Sentence(ctorDesc, ctorCode);
 var ctorParagraph = new Paragraph(ctorSentence);
 var ctorContainer = new Container('Summary', 'goog.array-summary', true);
-ctorContainer.appendTopContent(ctorParagraph);
+ctorContainer.appendTopElement(ctorParagraph);
 
 document.appendSubContainer(ctorContainer);
 //}}}
@@ -51,7 +51,7 @@ var staticMethodsContainer = new Container('Static methods', 'goog.array-static-
 var arrayIndexOfDesc = new Sentence('Returns the index of the first element of an array with a specified value, or -1 if the element is not present in the array. See', new Link('http://tinyurl.com/developer-mozilla-org-array-indexof'));
 var arrayIndexOfParagraph = new Paragraph(arrayIndexOfDesc);
 var arrayIndexOfContainer = new Container('goog.array.indexOf', 'goog.array.indexOf', true);
-arrayIndexOfContainer.appendTopContent(arrayIndexOfParagraph);
+arrayIndexOfContainer.appendTopElement(arrayIndexOfParagraph);
 
 // Params {{{
 var arrayIndexOfParamsContainer = new Container('Parameters', 'goog.array.indexOf-params');
@@ -62,7 +62,7 @@ var arrayIndexOfParamCaption2 = new Sentence('obj' + ':', '*');
 arrayIndexOfParamsDefinitionList.appendDefinition(arrayIndexOfParamCaption2, 'The object for which we are searching.');
 var arrayIndexOfParamCaption3 = new Sentence('opt_fromIndex' + ':', 'number' + ',', 'undefined');
 arrayIndexOfParamsDefinitionList.appendDefinition(arrayIndexOfParamCaption3, 'The index at which to start the search. If omitted the search starts at index 0.');
-arrayIndexOfParamsContainer.appendTopContent(arrayIndexOfParamsDefinitionList);
+arrayIndexOfParamsContainer.appendTopElement(arrayIndexOfParamsDefinitionList);
 
 arrayIndexOfContainer.appendSubContainer(arrayIndexOfParamsContainer);
 //}}}
@@ -72,7 +72,7 @@ var arrayIndexOfReturnContainer = new Container('Returns', 'goog.array.indexOf-r
 var arrayIndexOfReturnDefinitionList = new DefinitionList(DefinitionList.ListType.UNORDERED);
 var arrayIndexOfReturnCaption = new Sentence('number');
 arrayIndexOfReturnDefinitionList.appendDefinition(arrayIndexOfReturnCaption, 'The index of the first matching array element.');
-arrayIndexOfReturnContainer.appendTopContent(arrayIndexOfReturnDefinitionList);
+arrayIndexOfReturnContainer.appendTopElement(arrayIndexOfReturnDefinitionList);
 
 arrayIndexOfContainer.appendSubContainer(arrayIndexOfReturnContainer);
 //}}}
