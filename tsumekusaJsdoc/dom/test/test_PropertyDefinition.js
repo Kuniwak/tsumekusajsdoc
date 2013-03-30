@@ -58,7 +58,10 @@ exports.testPublish = function(test) {
 
   var CORRECT = [
     '`goog.ui.Component#element_`: `Element`',
-    '  The DOM element for the component.'
+    '  The DOM element for the component.',
+    '',
+    '  #Visibility#',
+    '    private'
   ].join('\n');
 
   test.equal(propDef.publish(), CORRECT);

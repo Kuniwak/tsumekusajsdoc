@@ -48,10 +48,10 @@ MethodDefinition.prototype.createDigest = function(symbol) {
 
 
 /**
- * Creates a parameters container.
+ * Creates a parameters definition.
  * @param {jsdoc.Doclet} symbol Method symbol.
- * @return {tsumekusaJsdoc.dom.ParametersDefinition}
- *     Created parameters container.
+ * @return {tsumekusaJsdoc.dom.ParametersDefinition} Created parameters
+ *     definition.
  */
 MethodDefinition.prototype.createParametersDefinition = function(symbol) {
   return new ParametersDefinition(symbol, this.getDocHelper(),
@@ -60,10 +60,9 @@ MethodDefinition.prototype.createParametersDefinition = function(symbol) {
 
 
 /**
- * Creates a parameters container.
+ * Creates a returns definition.
  * @param {jsdoc.Doclet} symbol Method symbol.
- * @return {tsumekusaJsdoc.dom.ReturnsDefinition}
- *     Created returns container.
+ * @return {tsumekusaJsdoc.dom.ReturnsDefinition} Created returns definition.
  */
 MethodDefinition.prototype.createReturnsDefinition = function(symbol) {
   return new ReturnsDefinition(symbol, this.getDocHelper(),
