@@ -8,10 +8,10 @@ var tsumekusa = require(tsumekusaPath);
 
 
 /**
- * Type dictionary.
+ * A class for type dictionary.
  * @constructor
  */
-TypeDictionary = function() {
+var TypeDictionary = function() {
   var dict = [].concat(TypeDictionary.GENERALS);
 
   if (TypeDictionary.ERROR_TYPES_ENABLED) {
@@ -51,19 +51,19 @@ TypeDictionary.ERROR_TYPES_ENABLED = true;
 
 
 /**
- * Whether HTML interface types are enabled.
- * @const
- * @type {boolean}
- */
-TypeDictionary.HTML_TYPES_ENABLED = true;
-
-
-/**
  * Whether DOM interface types are enabled.
  * @const
  * @type {boolean}
  */
 TypeDictionary.DOM_TYPES_ENABLED = true;
+
+
+/**
+ * Whether HTML interface types are enabled.
+ * @const
+ * @type {boolean}
+ */
+TypeDictionary.HTML_TYPES_ENABLED = true;
 
 
 /**
@@ -142,8 +142,8 @@ TypeDictionary.GENERALS = [
   'String',
   'Undefined',
   'Window',
-  '*', // All types
-  '?' // Unkown types
+  '*', // All type
+  '?' // Unkown type
 ];
 
 

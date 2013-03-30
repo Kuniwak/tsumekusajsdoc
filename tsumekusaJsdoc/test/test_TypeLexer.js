@@ -10,81 +10,31 @@ var lexer;
 
 exports.setUp = function(callback) {
   var cbs = {
-    handleTypeNameToken: function(arg) {
-      console.log('	handleTypeNameToken', arg);
-    },
-    handleOpenTypeUnionToken: function() {
-      console.log('	handleOpenTypeUnionToken');
-    },
-    handleCloseTypeUnionToken: function() {
-      console.log('	handleCloseTypeUnionToken');
-    },
-    handleOpenFunctionTypeToken: function() {
-      console.log('	handleOpenFunctionTypeToken');
-    },
-    handleCloseFunctionTypeToken: function() {
-      console.log('	handleCloseFunctionTypeToken');
-    },
-    handleOpenFunctionParametersToken: function() {
-      console.log('	handleOpenFunctionParametersToken');
-    },
-    handleCloseFunctionParametersToken: function() {
-      console.log('	handleCloseFunctionParametersToken');
-    },
-    handleFunctionReturnTypeUnionToken: function() {
-      console.log('	handleFunctionReturnTypeUnionToken');
-    },
-    handleFunctionContextTypeUnionToken: function() {
-      console.log('	handleFunctionContextTypeUnionToken');
-    },
-    handleConstructorTypeUnionToken: function() {
-      console.log('	handleConstructorTypeUnionToken');
-    },
-    handleOpenGenericTypeToken: function() {
-      console.log('	handleOpenGenericTypeToken');
-    },
-    handleCloseGenericTypeToken: function() {
-      console.log('	handleCloseGenericTypeToken');
-    },
-    handleGenericTypeNameToken: function(arg) {
-      console.log('	handleGenericTypeNameToken', arg);
-    },
-    handleOpenGenericTypeParametersToken: function() {
-      console.log('	handleOpenGenericTypeParametersToken');
-    },
-    handleCloseGenericTypeParametersToken: function() {
-      console.log('	handleCloseGenericTypeParametersToken');
-    },
-    handleOpenRecordTypeToken: function() {
-      console.log('	handleOpenRecordTypeToken');
-    },
-    handleCloseRecordTypeToken: function() {
-      console.log('	handleCloseRecordTypeToken');
-    },
-    handleRecordKeyNameToken: function(arg) {
-      console.log('	handleRecordKeyNameToken', arg);
-    },
-    handleRecordValueTypeToken: function() {
-      console.log('	handleRecordValueTypeToken');
-    },
-    handleNullableTypeOperatorToken: function() {
-      console.log('	handleNullableTypeOperatorToken');
-    },
-    handleNonNullableTypeOperatorToken: function() {
-      console.log('	handleNonNullableTypeOperatorToken');
-    },
-    handleOptionalTypeOperatorToken: function() {
-      console.log('	handleOptionalTypeOperatorToken');
-    },
-    handleVariableTypeOperatorToken: function() {
-      console.log('	handleVariableTypeOperatorToken');
-    },
-    handleAllTypeOperatorToken: function() {
-      console.log('	handleAllTypeOperatorToken');
-    },
-    handleUnknownTypeOperatorToken: function() {
-      console.log('	handleUnknownTypeOperatorToken');
-    }
+    handleTypeNameToken: function(arg) {},
+    handleOpenTypeUnionToken: function() {},
+    handleCloseTypeUnionToken: function() {},
+    handleOpenFunctionTypeToken: function() {},
+    handleCloseFunctionTypeToken: function() {},
+    handleOpenFunctionParametersToken: function() {},
+    handleCloseFunctionParametersToken: function() {},
+    handleFunctionReturnTypeUnionToken: function() {},
+    handleFunctionContextTypeUnionToken: function() {},
+    handleConstructorTypeUnionToken: function() {},
+    handleOpenGenericTypeToken: function() {},
+    handleCloseGenericTypeToken: function() {},
+    handleGenericTypeNameToken: function(arg) {},
+    handleOpenGenericTypeParametersToken: function() {},
+    handleCloseGenericTypeParametersToken: function() {},
+    handleOpenRecordTypeToken: function() {},
+    handleCloseRecordTypeToken: function() {},
+    handleRecordKeyNameToken: function(arg) {},
+    handleRecordValueTypeToken: function() {},
+    handleNullableTypeOperatorToken: function() {},
+    handleNonNullableTypeOperatorToken: function() {},
+    handleOptionalTypeOperatorToken: function() {},
+    handleVariableTypeOperatorToken: function() {},
+    handleAllTypeOperatorToken: function() {},
+    handleUnknownTypeOperatorToken: function() {}
   };
 
   lexer = new TypeLexer(cbs);
