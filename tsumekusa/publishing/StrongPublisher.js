@@ -17,8 +17,7 @@ tsumekusa.addSingletonGetter(StrongPublisher);
 
 /** @override */
 StrongPublisher.prototype.publish = function(strong) {
-  console.warn('The output mode do not support a strong: ' + strong.getCode());
-  return strong.getElement();
+  return '#' + strong.getElement() + '#';
 };
 
 
