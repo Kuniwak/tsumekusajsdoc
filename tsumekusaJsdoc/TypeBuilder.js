@@ -61,6 +61,7 @@ TypeBuilder.prototype.setMode = function(mode) {
 
 
 
+// Mode definitions {{{
 /**
  * A base class for modes of type builder.
  * @constructor
@@ -328,7 +329,9 @@ TypeBuilder.TypeUnionMode.prototype.handleNonNullableTypeOperatorToken =
  * @param {string} typeName Type name.
  */
 TypeBuilder.TypeUnionMode.prototype.handleTypeNameToken = function(typeName) {
-  this.union_.addTypeName(typeName);
+  var obj = new TypeBuilder.TypeName();
+  obj.setTypeName(typeName);
+  this.union_.addTypeName(obj);
 };
 
 
@@ -389,7 +392,9 @@ TypeBuilder.GenericTypeMode.prototype.generic_ = null;
  */
 TypeBuilder.GenericTypeMode.prototype.handleGenericTypeNameToken = function(
     typeName) {
-  this.generic_.setGenericTypeName(typeName);
+  var obj = new TypeBuilder.TypeName();
+  obj.setTypeName(typeName);
+  this.generic_.setGenericTypeName(obj);
 };
 
 
@@ -606,6 +611,56 @@ TypeBuilder.RecordTypeMode.prototype.next = function() {
   }
   TypeBuilder.Mode.prototype.next.call(this);
 };
+//}}}
+
+
+
+/**
+ * A class for type names.
+ * @constructor
+ */
+TypeBuilder.TypeName = function() {};
+
+
+/**
+ * Type name publisher.  Set a publisher object if you want to get a link from
+ * a type name when {@code #toString} is called.
+ * @type {?{publish: function(tsumekusaJsdoc.TypeBuilder.TypeName): string}}
+ */
+TypeBuilder.TypeName.publisher = null;
+
+
+/**
+ * Type name string.
+ * @type {?string}
+ */
+TypeBuilder.TypeName.prototype.name = null;
+
+
+/**
+ * Sets a type name string.
+ * @param {string} name Type name string.
+ */
+TypeBuilder.TypeName.prototype.setTypeName = function(name) {
+  this.name = name;
+};
+
+
+/**
+ * Returns a type name string.  Set {@code tsumekusaJsdoc.TypeBuilder.TypeName.
+ * publisher} if you want to convert to a link from the type name.  In default,
+ * returns a raw type name.
+ * @override
+ * @see tsumekusaJsdoc.TypeBuilder.TypeName.publisher
+ */
+TypeBuilder.TypeName.prototype.toString = function() {
+  if (TypeBuilder.TypeName.publisher) {
+    return TypeBuilder.TypeName.publisher.publish(this);
+  }
+  else {
+    return this.name;
+  }
+};
 
 
 
@@ -621,8 +676,9 @@ TypeBuilder.TypeUnion = function() {
 
 /**
  * Type objects.
- * @type {Array.<string|tsumekusaJsdoc.TypeBuilder.GenericType|tsumekusaJsdoc.
- *     TypeBuilder.RecordType|tsumekusaJsdoc.TypeBuilder.FunctionType>}
+ * @type {Array.<tsumekusaJsdoc.TypeBuilder.TypeName|tsumekusaJsdoc.TypeBuilder.
+ *      GenericType|tsumekusaJsdoc.TypeBuilder.RecordType|tsumekusaJsdoc.
+ *      TypeBuilder.FunctionType>}
  */
 TypeBuilder.TypeUnion.prototype.types = null;
 
@@ -679,7 +735,7 @@ TypeBuilder.TypeUnion.prototype.unknown = false;
 
 /**
  * Adds a type name string to the union.
- * @param {string} type Type name string to add.
+ * @param {tsumekusaJsdoc.TypeBuilder.TypeName} type Type name to add.
  */
 TypeBuilder.TypeUnion.prototype.addTypeName = function(type) {
   this.types[this.count_++] = type;
@@ -688,7 +744,7 @@ TypeBuilder.TypeUnion.prototype.addTypeName = function(type) {
 
 /**
  * Adds a generic type to the union.
- * @param {string} generic Generic type to add.
+ * @param {tsumekusaJsdoc.TypeBuilder.GenericType} generic Generic type to add.
  */
 TypeBuilder.TypeUnion.prototype.addGenericType = function(generic) {
   this.types[this.count_++] = generic;
@@ -697,7 +753,7 @@ TypeBuilder.TypeUnion.prototype.addGenericType = function(generic) {
 
 /**
  * Adds a record type to the union.
- * @param {string} record Record type to add.
+ * @param {tsumekusaJsdoc.TypeBuilder.RecordType} record Record type to add.
  */
 TypeBuilder.TypeUnion.prototype.addRecordType = function(record) {
   this.types[this.count_++] = record;
@@ -706,7 +762,7 @@ TypeBuilder.TypeUnion.prototype.addRecordType = function(record) {
 
 /**
  * Adds a function type to the union.
- * @param {string} func Function type to add.
+ * @param {tsumekusaJsdoc.TypeBuilder.FunctionType} func Function type to add.
  */
 TypeBuilder.TypeUnion.prototype.addFunctionType = function(func) {
   this.types[this.count_++] = func;
@@ -773,6 +829,47 @@ TypeBuilder.TypeUnion.prototype.setUnknownType = function(enable) {
 };
 
 
+/** @override */
+TypeBuilder.TypeUnion.prototype.toString = function() {
+  if (this.all) {
+    return '*';
+  }
+  else if (this.unknown) {
+    return '?';
+  }
+  else {
+    var str;
+    var types = [].concat(this.types);
+
+    if (this.variable) {
+      str = '...';
+    }
+    else {
+      str = '';
+    }
+
+    var typeName;
+    if (this.optional) {
+      typeName = new TypeBuilder.TypeName();
+      typeName.setTypeName('undefined');
+      types.push(typeName);
+    }
+
+    if (this.nullable) {
+      typeName = new TypeBuilder.TypeName();
+      typeName.setTypeName('null');
+      types.push(typeName);
+    }
+
+    if (this.nonNullable) {
+      str += '!';
+    }
+
+    return str + types.join('|');
+  }
+};
+
+
 
 /**
  * A class for generic types.
@@ -808,7 +905,7 @@ TypeBuilder.GenericType.prototype.paramCount_;
 
 /**
  * Sets a generic type name.
- * @param {string} name Generic type name string.
+ * @param {tsumekusaJsdoc.TypeBuilder.TypeName} name Generic type name.
  */
 TypeBuilder.GenericType.prototype.setGenericTypeName = function(name) {
   this.genericTypeName = name;
@@ -822,6 +919,13 @@ TypeBuilder.GenericType.prototype.setGenericTypeName = function(name) {
  */
 TypeBuilder.GenericType.prototype.addParameterTypeUnion = function(type) {
   this.parameterTypeUnions[this.paramCount_++] = type;
+};
+
+
+/** @override */
+TypeBuilder.GenericType.prototype.toString = function() {
+  return this.genericTypeName + '.<' + this.parameterTypeUnions.join(', ') +
+      '>';
 };
 
 
@@ -903,6 +1007,30 @@ TypeBuilder.FunctionType.prototype.setReturnTypeUnion = function(ret) {
 };
 
 
+/** @override */
+TypeBuilder.FunctionType.prototype.toString = function() {
+  var str = 'function(';
+  var arr = [].concat(this.parameterTypeUnions);
+
+  if (this.contextTypeUnion) {
+    if (this.isConstructor) {
+      arr.unshift('new: ' + this.contextTypeUnion);
+    }
+    else {
+      arr.unshift('this: ' + this.contextTypeUnion);
+    }
+  }
+
+  str += arr.join(', ') + ')';
+
+  if (this.returnTypeUnion) {
+    str += ': ' + this.returnTypeUnion;
+  }
+
+  return str;
+};
+
+
 
 /**
  * A class for record types.
@@ -935,6 +1063,12 @@ TypeBuilder.RecordType.prototype.entryCount_ = null;
  */
 TypeBuilder.RecordType.prototype.addEntry = function(entry) {
   this.entries[this.entryCount_++] = entry;
+};
+
+
+/** @override */
+TypeBuilder.RecordType.prototype.toString = function() {
+  return '{ ' + this.entries.join(', ') + ' }';
 };
 
 
@@ -975,6 +1109,12 @@ TypeBuilder.RecordType.Entry.prototype.setKeyName = function(keyName) {
  */
 TypeBuilder.RecordType.Entry.prototype.setValueTypeUnion = function(type) {
   this.typeUnion = type;
+};
+
+
+/** @override */
+TypeBuilder.RecordType.Entry.prototype.toString = function() {
+  return this.name + ': ' + this.typeUnion;
 };
 
 

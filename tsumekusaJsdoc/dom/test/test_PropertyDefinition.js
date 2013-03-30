@@ -13,8 +13,6 @@ var DefinitionList = require(tsumekusaPath + '/dom/DefinitionList');
 var basePath = '../../../tsumekusaJsdoc';
 var PropertyDefinition = require(basePath + '/dom/PropertyDefinition');
 var Type = require(basePath + '/dom/Type');
-var TypePublisher = require(basePath + '/publishing/TypePublisher');
-Type.publisher = new TypePublisher();
 
 
 exports.testPublish = function(test) {
@@ -59,7 +57,7 @@ exports.testPublish = function(test) {
   dl.getDefinitions().addChild(propDef.getElement());
 
   var CORRECT = [
-    'goog.ui.Component#element_: [Element]',
+    '`goog.ui.Component#element_`: `Element`',
     '  The DOM element for the component.'
   ].join('\n');
 

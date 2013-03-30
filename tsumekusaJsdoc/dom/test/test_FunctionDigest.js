@@ -5,6 +5,7 @@
 var tsumekusaPath = '../../../tsumekusa';
 var tsumekusa = require(tsumekusaPath);
 var Link = require(tsumekusaPath + '/dom/Link');
+var InlineCode = require(tsumekusaPath + '/dom/InlineCode');
 
 var registry = require(tsumekusaPath + '/publishing/registry');
 var publishers = require(tsumekusaPath + '/publishing/DefaultPublishers');
@@ -14,8 +15,6 @@ registry.registerElementPublishers(publishers);
 var basePath = '../../../tsumekusaJsdoc';
 var FunctionDigest = require(basePath + '/dom/FunctionDigest');
 var Type = require(basePath + '/dom/Type');
-var TypePublisher = require(basePath + '/publishing/TypePublisher');
-Type.publisher = new TypePublisher();
 
 
 exports.testPublishWithTwoParamsAndReturn = function(test) {
@@ -23,9 +22,9 @@ exports.testPublishWithTwoParamsAndReturn = function(test) {
   var ref1 = 'string';
   var ref2 = 'goog.structs.Map';
   var ref3 = 'boolean';
-  var lnk1 = new Link(ref1);
+  var lnk1 = new InlineCode(ref1);
   var lnk2 = new Link(ref2);
-  var lnk3 = new Link(ref3);
+  var lnk3 = new InlineCode(ref3);
 
   var dummyDoclet = {
     longname: 'foo.bar',
@@ -60,8 +59,8 @@ exports.testPublishWithTwoParamsAndReturn = function(test) {
 exports.testPublishWithParamAndReturn = function(test) {
   var ref1 = 'string';
   var ref2 = 'boolean';
-  var lnk1 = new Link(ref1);
-  var lnk2 = new Link(ref2);
+  var lnk1 = new InlineCode(ref1);
+  var lnk2 = new InlineCode(ref2);
 
   var dummyDoclet = {
     longname: 'foo.bar',
@@ -90,7 +89,7 @@ exports.testPublishWithParamAndReturn = function(test) {
 
 exports.testPublishWithReturn = function(test) {
   var ref = 'number';
-  var lnk = new Link(ref);
+  var lnk = new InlineCode(ref);
 
   var dummyDoclet = {
     longname: 'foo.bar',

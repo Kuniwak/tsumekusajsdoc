@@ -21,12 +21,27 @@ var TypeParser = function() {
 
 /**
  * Parses a type string.
- * @param {string} str Type string to parse.
+ * @param {jsdoc.Tag} tag Tag has a type.
  * @return {tsumekusaJsdoc.TypeBuilder.TypeUnion} Type union object.
  */
-TypeParser.prototype.parse = function(str) {
-  this.builder_.setTypeString(str);
-  return this.builder_.build();
+TypeParser.prototype.parse = function(tag) {
+  if (!tag.type || !tag.type.names) {
+    throw Error('Type was not found.');
+  }
+
+  // Rollback to a raw type string, because type parsing is loose in default.
+  var str = tag.type.names.join('|');
+
+  var builder = this.builder_;
+  builder.setTypeString(str);
+
+  var union = builder.build();
+  union.setOptionalType(!!tag.optional);
+  union.setNullableType(!!tag.nullable);
+  union.setVariableType(!!tag.variable);
+  union.setUnknownType(tag.type.names <= 0);
+
+  return union;
 };
 
 

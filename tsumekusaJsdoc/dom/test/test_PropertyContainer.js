@@ -12,8 +12,6 @@ registry.registerElementPublishers(publishers);
 var basePath = '../../../tsumekusaJsdoc';
 var PropertyContainer = require(basePath + '/dom/PropertyContainer');
 var Type = require(basePath + '/dom/Type');
-var TypePublisher = require(basePath + '/publishing/TypePublisher');
-Type.publisher = new TypePublisher();
 
 
 exports.testPublish = function(test) {
@@ -57,7 +55,7 @@ exports.testPublish = function(test) {
 
   var CORRECT = [
     '0. goog.ui.Component#element_',
-    '  goog.ui.Component#element_: [Element]',
+    '  `goog.ui.Component#element_`: `Element`',
     '',
     '  The DOM element for the component.'
   ].join('\n');

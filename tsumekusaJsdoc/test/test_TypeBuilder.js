@@ -24,6 +24,8 @@ exports.testBuildWithPrimitiveTypeName = function(test) {
   test.equal(union.variable, false);
   test.equal(union.all, false);
   test.equal(union.unknown, false);
+
+  test.equal(union.toString(), 'boolean');
   test.done();
 };
 
@@ -39,6 +41,8 @@ exports.testBuildWithGlobalTypeName = function(test) {
   test.equal(union.variable, false);
   test.equal(union.all, false);
   test.equal(union.unknown, false);
+
+  test.equal(union.toString(), 'Window');
   test.done();
 }
 
@@ -54,6 +58,8 @@ exports.testBuildWithUserTypeName = function(test) {
   test.equal(union.variable, false);
   test.equal(union.all, false);
   test.equal(union.unknown, false);
+
+  test.equal(union.toString(), 'goog.ui.Menu');
   test.done();
 }
 
@@ -82,6 +88,8 @@ exports.testBuildWithGenericParam = function(test) {
   test.equal(paramUnion.variable, false);
   test.equal(paramUnion.all, false);
   test.equal(paramUnion.unknown, false);
+
+  test.equal(union.toString(), 'Array.<string>');
   test.done();
 };
 
@@ -120,6 +128,8 @@ exports.testBuildWithGenericParams = function(test) {
   test.equal(paramUnion2.variable, false);
   test.equal(paramUnion2.all, false);
   test.equal(paramUnion2.unknown, false);
+
+  test.equal(union.toString(), 'Object.<string, number>');
   test.done();
 };
 
@@ -148,6 +158,8 @@ exports.testBuildWithJsdocGeneric = function(test) {
   test.equal(paramUnion.variable, false);
   test.equal(paramUnion.all, false);
   test.equal(paramUnion.unknown, false);
+
+  test.equal(union.toString(), 'Array.<String>');
   test.done();
 };
 
@@ -178,6 +190,8 @@ exports.testBuildWithFormalUnion = function(test) {
   test.equal(union.variable, false);
   test.equal(union.all, false);
   test.equal(union.unknown, false);
+
+  test.equal(union.toString(), 'number|boolean');
   test.done();
 };
 
@@ -208,6 +222,8 @@ exports.testBuildWithInformalUnion = function(test) {
   test.equal(union.variable, false);
   test.equal(union.all, false);
   test.equal(union.unknown, false);
+
+  test.equal(union.toString(), 'number|boolean');
   test.done();
 };
 
@@ -237,6 +253,8 @@ exports.testBuildWithRecordWithEntry = function(test) {
   test.equal(valUnion.variable, false);
   test.equal(valUnion.all, true);
   test.equal(valUnion.unknown, false);
+
+  test.equal(union.toString(), '{ myNum: * }');
   test.done();
 };
 
@@ -279,6 +297,8 @@ exports.testBuildWithRecordWithEntries = function(test) {
   test.equal(valUnion2.variable, false);
   test.equal(valUnion2.all, true);
   test.equal(valUnion2.unknown, false);
+
+  test.equal(union.toString(), '{ myNum: number, myObject: * }');
   test.done();
 };
 
@@ -322,6 +342,8 @@ exports.testBuildWithGenericsRecord = function(test) {
   test.equal(valUnion.variable, false);
   test.equal(valUnion.all, true);
   test.equal(valUnion.unknown, false);
+
+  test.equal(union.toString(), 'Array.<{ length: * }>');
   test.done();
 };
 
@@ -337,6 +359,8 @@ exports.testBuildWithNullableOnHead = function(test) {
   test.equal(union.variable, false);
   test.equal(union.all, false);
   test.equal(union.unknown, false);
+
+  test.equal(union.toString(), 'number|null');
   test.done();
 };
 
@@ -352,6 +376,8 @@ exports.testBuildWithNullableOnTail = function(test) {
   test.equal(union.variable, false);
   test.equal(union.all, false);
   test.equal(union.unknown, false);
+
+  test.equal(union.toString(), 'goog.ui.Component|null');
   test.done();
 };
 
@@ -367,6 +393,8 @@ exports.testBuildWithNonNullableOnHead = function(test) {
   test.equal(union.variable, false);
   test.equal(union.all, false);
   test.equal(union.unknown, false);
+
+  test.equal(union.toString(), '!Object');
   test.done();
 };
 
@@ -382,6 +410,8 @@ exports.testBuildWithNonNullableOnTail = function(test) {
   test.equal(union.variable, false);
   test.equal(union.all, false);
   test.equal(union.unknown, false);
+
+  test.equal(union.toString(), '!Object');
   test.done();
 };
 
@@ -397,6 +427,8 @@ exports.testBuildWithFunctionType = function(test) {
   test.equal(union.variable, false);
   test.equal(union.all, false);
   test.equal(union.unknown, false);
+
+  test.equal(union.toString(), 'Function');
   test.done();
 };
 
@@ -417,6 +449,8 @@ exports.testBuildWithFunctionTypeWithNoParam = function(test) {
   test.equal(func.returnTypeUnion, null);
   test.equal(func.contextTypeUnion, null);
   test.equal(func.isConstructor, false);
+
+  test.equal(union.toString(), 'function()');
   test.done();
 };
 
@@ -447,6 +481,8 @@ exports.testBuildWithFunctionTypeWithParam = function(test) {
   test.equal(paramUnion.variable, false);
   test.equal(paramUnion.all, false);
   test.equal(paramUnion.unknown, false);
+
+  test.equal(union.toString(), 'function(string)');
   test.done();
 };
 
@@ -487,6 +523,8 @@ exports.testBuildWithFunctionTypeWithParams = function(test) {
   test.equal(paramUnion2.variable, false);
   test.equal(paramUnion2.all, false);
   test.equal(paramUnion2.unknown, false);
+
+  test.equal(union.toString(), 'function(string, boolean)');
   test.done();
 };
 
@@ -516,6 +554,8 @@ exports.testBuildWithFunctionTypeWithReturn = function(test) {
   test.equal(returnUnion.variable, false);
   test.equal(returnUnion.all, false);
   test.equal(returnUnion.unknown, false);
+
+  test.equal(union.toString(), 'function(): number');
   test.done();
 };
 
@@ -555,6 +595,8 @@ exports.testBuildWithFunctionTypeWithThis = function(test) {
   test.equal(paramUnion.variable, false);
   test.equal(paramUnion.all, false);
   test.equal(paramUnion.unknown, false);
+
+  test.equal(union.toString(), 'function(this: goog.ui.Menu, string)');
   test.done();
 };
 
@@ -594,6 +636,8 @@ exports.testBuildWithFunctionTypeWithNew = function(test) {
   test.equal(paramUnion.variable, false);
   test.equal(paramUnion.all, false);
   test.equal(paramUnion.unknown, false);
+
+  test.equal(union.toString(), 'function(new: goog.ui.Menu, string)');
   test.done();
 };
 
@@ -643,6 +687,8 @@ exports.testBuildWithFunctionTypeWithVariableParams = function(test) {
   test.equal(returnUnion.variable, false);
   test.equal(returnUnion.all, false);
   test.equal(returnUnion.unknown, false);
+
+  test.equal(union.toString(), 'function(string, ...number): number');
   test.done();
 };
 
@@ -683,6 +729,8 @@ exports.testBuildWithFunctionTypeWithNullableAndOptional = function(test) {
   test.equal(paramUnion2.variable, false);
   test.equal(paramUnion2.all, false);
   test.equal(paramUnion2.unknown, false);
+
+  test.equal(union.toString(), 'function(string|undefined|null, number|undefined)');
   test.done();
 };
 
@@ -738,6 +786,8 @@ exports.testBuildWithFunctionTypeWithGoogUiComponentForEachChild = function(test
   test.equal(returnUnion.variable, false);
   test.equal(returnUnion.all, false);
   test.equal(returnUnion.unknown, true);
+
+  test.equal(union.toString(), 'function(this: T, ?, number): ?');
   test.done();
 };
 
@@ -753,6 +803,8 @@ exports.testBuildVariable = function(test) {
   test.equal(union.variable, true);
   test.equal(union.all, false);
   test.equal(union.unknown, false);
+
+  test.equal(union.toString(), '...number');
   test.done();
 };
 
@@ -768,6 +820,8 @@ exports.testBuildOptional = function(test) {
   test.equal(union.variable, false);
   test.equal(union.all, false);
   test.equal(union.unknown, false);
+
+  test.equal(union.toString(), 'number|undefined');
   test.done();
 };
 
@@ -782,6 +836,8 @@ exports.testBuildAllType = function(test) {
   test.equal(union.variable, false);
   test.equal(union.all, true);
   test.equal(union.unknown, false);
+
+  test.equal(union.toString(), '*');
   test.done();
 };
 
@@ -796,6 +852,8 @@ exports.testBuildUnknown = function(test) {
   test.equal(union.variable, false);
   test.equal(union.all, false);
   test.equal(union.unknown, true);
+
+  test.equal(union.toString(), '?');
   test.done();
 };
 
@@ -810,6 +868,8 @@ exports.testBuildUnknownByKeyword = function(test) {
   test.equal(union.variable, false);
   test.equal(union.all, false);
   test.equal(union.unknown, true);
+
+  test.equal(union.toString(), '?');
   test.done();
 };
 
@@ -825,6 +885,8 @@ exports.testBuildOptionalByPrimitiveUndefined = function(test) {
   test.equal(union.variable, false);
   test.equal(union.all, false);
   test.equal(union.unknown, false);
+
+  test.equal(union.toString(), 'Object|undefined');
   test.done();
 };
 
@@ -840,5 +902,7 @@ exports.testBuildOptionalByVoid = function(test) {
   test.equal(union.variable, false);
   test.equal(union.all, false);
   test.equal(union.unknown, false);
+
+  test.equal(union.toString(), 'Object|undefined');
   test.done();
 };

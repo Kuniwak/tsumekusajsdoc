@@ -13,8 +13,6 @@ var DefinitionList = require(tsumekusaPath + '/dom/DefinitionList');
 var basePath = '../../../tsumekusaJsdoc';
 var MethodDefinition = require(basePath + '/dom/MethodDefinition');
 var Type = require(basePath + '/dom/Type');
-var TypePublisher = require(basePath + '/publishing/TypePublisher');
-Type.publisher = new TypePublisher();
 
 
 exports.testPublishWithParams = function(test) {
@@ -70,7 +68,7 @@ exports.testPublishWithParams = function(test) {
     '    child: [goog.ui.Component]',
     '      No description.',
     '',
-    '    opt_render: [boolean]|undefined',
+    '    opt_render: `boolean`|`undefined`',
     '      No description.'
   ].join('\n');
 
@@ -147,16 +145,16 @@ exports.testPublishWithParamAndReturn = function(test) {
   dl.getDefinitions().addChild(methodDef.getElement());
 
   var CORRECT = [
-    'goog.ui.Component#getElementByFragment(idFragment) -> [Element]',
+    'goog.ui.Component#getElementByFragment(idFragment) -> `Element`',
     '  Helper function for returning an element in the document with a unique id',
     '  generated using makeId().',
     '',
     '  Parameters',
-    '    idFragment: [string]',
+    '    idFragment: `string`',
     '      No description.',
     '',
     '  Returns',
-    '    [Element]',
+    '    `Element`',
     '      No description.'
   ].join('\n');
 

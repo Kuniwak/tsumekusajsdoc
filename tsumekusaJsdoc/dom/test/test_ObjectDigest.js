@@ -8,27 +8,28 @@ var registry = require(tsumekusaPath + '/publishing/registry');
 var publishers = require(tsumekusaPath + '/publishing/DefaultPublishers');
 registry.registerElementPublishers(publishers);
 
-var Link = require(tsumekusaPath + '/dom/Link');
+var InlineCode = require(tsumekusaPath + '/dom/InlineCode');
 
 var basePath = '../../../tsumekusaJsdoc';
 var ObjectDigest = require(basePath + '/dom/ObjectDigest');
 var Type = require(basePath + '/dom/Type');
-var TypePublisher = require(basePath + '/publishing/TypePublisher');
-Type.publisher = new TypePublisher();
 
 
 exports.testPublish = function(test) {
-  var ref = 'boolean';
+  var typeName = 'boolean';
+  var symbolName = 'foo.bar';
+
   var dummyDoclet = {
-    longname: 'foo.bar',
+    longname: symbolName,
     type: {
-      names: [ref]
+      names: [typeName]
     }
   };
 
-  var lnk = new Link(ref);
+  var code1 = new InlineCode(symbolName);
+  var code2 = new InlineCode(typeName);
 
   var digest = new ObjectDigest(dummyDoclet);
-  test.equal(digest.publish(), 'foo.bar: ' + lnk.publish());
+  test.equal(digest.publish(), code1.publish() + ': ' + code2.publish());
   test.done();
 };
