@@ -43,6 +43,8 @@ TypeBuilder.prototype.build = function() {
       // Should return an unknown type if a syntax error was found.
       var unknown = new TypeBuilder.TypeUnion();
       unknown.setUnknownType(true);
+
+      tsumekusa.warn(e.message);
       return unknown;
     }
     else {
@@ -212,15 +214,6 @@ TypeBuilder.Mode.prototype.handleOpenRecordTypeToken = function() {
  */
 TypeBuilder.Mode.prototype.handleCloseRecordTypeToken = function() {
   this.next();
-};
-
-
-/**
- * Handles a lexical analizing failure.
- * @param {string} msg Error message.
- */
-TypeBuilder.Mode.prototype.handleFailure = function(msg) {
-  this.builder_.fail_(msg);
 };
 
 

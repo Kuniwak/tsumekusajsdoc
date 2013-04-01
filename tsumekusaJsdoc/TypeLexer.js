@@ -65,32 +65,45 @@ var TypeLexer = function(opt_map) {
 };
 
 
+
 /**
  * Type expression syntax error object.
- * @constructor
  * @param {string} msg Error message.
+ * @param {string} org Original type expression string was analized.
  * @param {number} index Error location.
+ * @constructor
+ * @extends {Error}
  */
-TypeLexer.SyntaxError = function(msg, index) {
+TypeLexer.SyntaxError = function(msg, org, index) {
+  Error.call(this);
+
   this.name = 'TypeLexerSyntaxError';
 
-  var errMsg = [
+  this.message = [
     msg + ':',
-    this.org_,
+    org,
     string.repeat(' ', index - 1) + '^'
   ].join('\n');
-
-  this.message = errMsg;
 };
+tsumekusa.inherits(TypeLexer.SyntaxError, Error);
+
+
+/**
+ * Original type expression to analize.
+ * @type {?string}
+ * @private
+ */
+TypeLexer.prototype.org_ = null;
 
 
 /**
  * Fail the analizing.
  * @param {string} msg Error message.
+ * @param {number} index Error location.
  * @private
  */
 TypeLexer.prototype.fail_ = function(msg, index) {
-  throw new TypeLexer.SyntaxError(msg, index);
+  throw new TypeLexer.SyntaxError(msg, this.org_, index);
 };
 
 
@@ -120,7 +133,7 @@ TypeLexer.prototype.analize = function(arg) {
 
   var str = this.analizeTypeUnion(arg);
   if (str) {
-    this.fail_('Type union string was remained.',
+    this.fail_('Type union string was remained',
         this.org_.length - str.length);
   }
 };
@@ -253,7 +266,7 @@ TypeLexer.prototype.analizeType = function(arg) {
 
   var str, tmp, matched;
   if (!str) {
-    this.fail_('Empty type as a null string was found.',
+    this.fail_('Empty type as a null string was found',
         this.org_.length);
   }
   else if (str.match(/^\*/)) {
@@ -291,7 +304,7 @@ TypeLexer.prototype.analizeType = function(arg) {
 
     if (!tmp) {
       // This is an empty type such as ',foobar' or '|foobar'.
-      this.fail_('Empty type was found before a type operator.',
+      this.fail_('Unexpected token',
           this.org_.length - str.length);
     }
 
@@ -317,7 +330,7 @@ TypeLexer.prototype.analizeType = function(arg) {
     }
     else {
       // This is an empty type that has only white spaces.
-      this.fail_('Empty type was found.', this.org_.length - str.length);
+      this.fail_('Empty type was found', this.org_.length - str.length);
     }
   }
 
@@ -365,8 +378,8 @@ TypeLexer.prototype.analizeFunctionType = function(arg) {
         str = this.analizeTypeUnion(str).replace(/^,?\s*/, '');
       }
       else {
-        this.fail_('Parameter parenthesis was not closed.',
-           this.org_.length - str.length);
+        this.fail_('Parameter parenthesis was not closed',
+            this.org_.length - str.length);
       }
     }
 
@@ -423,7 +436,7 @@ TypeLexer.prototype.analizeGenericType = function(arg) {
       str = this.analizeTypeUnion(str).replace(/^,?\s*/, '');
     }
     else {
-      this.fail_('Square bracket as generic params was not closed.',
+      this.fail_('Square bracket as generic params was not closed',
           this.org_.length - str.length);
     }
   }
