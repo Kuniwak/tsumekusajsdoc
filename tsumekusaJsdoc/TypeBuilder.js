@@ -6,6 +6,7 @@ var tsumekusaPath = '../tsumekusa';
 var tsumekusa = require(tsumekusaPath);
 
 var basePath = '../tsumekusaJsdoc';
+var TypeLexer = require(basePath + '/TypeLexer');
 
 
 
@@ -15,7 +16,8 @@ var basePath = '../tsumekusaJsdoc';
  */
 var TypeBuilder = function() {
   this.lexer_ = this.getTypeLexer();
-  this.setMode(new TypeBuilder.BaseMode());
+  this.base_ = new TypeBuilder.BaseMode();
+  this.setMode(this.base_);
 };
 
 
@@ -33,8 +35,21 @@ TypeBuilder.prototype.setTypeString = function(type) {
  * @return {tsumekusaJsdoc.TypeBuilder.TypeUnion} Builded objects.
  */
 TypeBuilder.prototype.build = function() {
-  this.lexer_.analize(this.type_);
-  return this.mode_.getTypeUnionToken();
+  try {
+    this.lexer_.analize(this.type_);
+  }
+  catch (e) {
+    if (e instanceof TypeLexer.SyntaxError) {
+      // Should return an unknown type if a syntax error was found.
+      var unknown = new TypeBuilder.TypeUnion();
+      unknown.setUnknownType(true);
+      return unknown;
+    }
+    else {
+      throw e;
+    }
+  }
+  return this.base_.getTypeUnionToken();
 };
 
 
@@ -44,7 +59,6 @@ TypeBuilder.prototype.build = function() {
  * @protected
  */
 TypeBuilder.prototype.getTypeLexer = function() {
-  var TypeLexer = require(basePath + '/TypeLexer');
   return new TypeLexer();
 };
 
@@ -198,6 +212,15 @@ TypeBuilder.Mode.prototype.handleOpenRecordTypeToken = function() {
  */
 TypeBuilder.Mode.prototype.handleCloseRecordTypeToken = function() {
   this.next();
+};
+
+
+/**
+ * Handles a lexical analizing failure.
+ * @param {string} msg Error message.
+ */
+TypeBuilder.Mode.prototype.handleFailure = function(msg) {
+  this.builder_.fail_(msg);
 };
 
 
