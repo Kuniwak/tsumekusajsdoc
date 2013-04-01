@@ -62,6 +62,9 @@ tsumekusaJsdoc.decorateParamName = function(tag) {
   if (tag.variable) {
     name += '...';
   }
+  else if (tag.optional) {
+    name = '[' + name + ']';
+  }
 
   return name;
 };
