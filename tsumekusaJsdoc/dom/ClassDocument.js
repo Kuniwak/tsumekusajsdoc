@@ -22,10 +22,6 @@ var InstancePropertiesContainer = require(basePath +
 /**
  * A class for document explains a class.
  * @param {jsdoc.Doclet} symbol Class symbol.
- * @param {?Array.<tsumekusa.dom.Paragraph>=} opt_topElements Optional top
- *     contents.
- * @param {?string=} opt_version Optional version identifier.
- * @param {?Date=} opt_date Optional date object.
  * @param {?tsumekusaJsdoc.dom.DocHelper=} opt_docHelper Optional
  *     document helper.
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
@@ -34,8 +30,8 @@ var InstancePropertiesContainer = require(basePath +
  * @extends {tsumekusaJsdoc.dom.SymbolDocument}
  */
 var ClassDocument = function(symbol, opt_docHelper, opt_refHelper) {
-  SymbolDocument.call(this, symbol, ClassDocument.CAPTION, opt_topElements,
-      opt_version, opt_date, opt_docHelper, opt_refHelper);
+  SymbolDocument.call(this, symbol, ClassDocument.CAPTION + ' ' +
+      symbol.longname, opt_docHelper, opt_refHelper);
 };
 tsumekusa.inherits(ClassDocument, SymbolDocument);
 

@@ -2,10 +2,13 @@
 // http://orgachem.mit-license.org
 
 
+var startTime = new Date().getTime();
 var fs = require('fs');
 
 var tsumekusaPath = './tsumekusa';
 var tsumekusa = require(tsumekusaPath);
+var PreformattedParagraph = require(tsumekusaPath +
+    '/dom/PreformattedParagraph');
 var registry = require(tsumekusaPath + '/publishing/registry');
 var publishers = require(tsumekusaPath + '/publishing/DefaultPublishers');
 registry.registerElementPublishers(publishers);
@@ -16,36 +19,15 @@ var ClassDocument = require(tsumekusaJsdocPath + '/dom/ClassDocument');
 var NamespaceDocument = require(tsumekusaJsdocPath + '/dom/NamespaceDocument');
 var DocletWrapper = require(tsumekusaJsdocPath + '/dom/DocletWrapper');
 
-var PreformattedParagraph = require(
-    './tsumekusa/dom/PreformattedParagraph');
-
-var topContents = function() {
-  var aa = [
-    '',
-    '   ________                           __    _ __',
-    '  / ____/ /___  _______  __________  / /   (_) /_  _________ ________  __',
-    ' / /   / / __ \\/ ___/ / / / ___/ _ \\/ /   / / __ \\/ ___/ __ \'/ ___/ / / /',
-    '/ /___/ / /_/ (__  ) /_/ / /  /  __/ /___/ / /_/ / /  / /_/ / /  / /_/ /',
-    '\\____/_/\\____/____/\\__,_/_/   \\___/_____/_/_.___/_/   \\__,_/_/   \\__, /',
-    '                                                                /____/',
-    ''
-  ].join('\n');
-
-  return new PreformattedParagraph(aa);
-}();
-
-var ReferenceHelper = require('./tsumekusaJsdoc/references/ReferenceHelper');
 
 
 /**
+ * Publishes documents by the template.
  *  @param {TAFFY} taffyData See <http://taffydb.com/>.
  *  @param {object} opts Options.
  *  @param {Tutorial} tutorials Tutorials.
  */
 exports.publish = function(taffyData, opts, tutorials) {
-  var version = opts.version || 'n/a';
-  var date = new Date();
-
   /**
    * Map has pairs that longnames and each members.
    * @type {Object.<string, Array.<jsdoc.Doclet>>}
@@ -87,7 +69,7 @@ exports.publish = function(taffyData, opts, tutorials) {
               docletWrapper.appendInnerMethod(symbol);
               break;
             default:
-              console.warn('Unknown scope found: "' + symbol.scope + '"');
+              tsumekusa.warn('Unknown scope found: "' + symbol.scope + '"');
               break;
           }
           break;
@@ -103,7 +85,7 @@ exports.publish = function(taffyData, opts, tutorials) {
               docletWrapper.appendInnerProperty(symbol);
               break;
             default:
-              console.warn('Unknown scope found: "' + symbol.scope + '"');
+              tsumekusa.warn('Unknown scope found: "' + symbol.scope + '"');
               break;
           }
           break;
@@ -114,7 +96,7 @@ exports.publish = function(taffyData, opts, tutorials) {
           classes[classesIdx++] = symbol;
           break;
         default:
-          console.warn('Unknown kind found: "' + symbol.kind + '"');
+          tsumekusa.warn('Unknown kind found: "' + symbol.kind + '"');
           break;
       }
     }
@@ -122,7 +104,17 @@ exports.publish = function(taffyData, opts, tutorials) {
 
   // TODO: Implement module, externs, global object processing.
   classes.forEach(function(classSymbol) {
-    var classDoc = new ClassDocument(classSymbol, topContents, version, date);
+    var classDoc = new ClassDocument(classSymbol);
+
+    if (opts.logo) {
+      var pre = new PreformattedParagraph(opts.logo);
+      var tops = classDoc.getElement().getTopElements();
+      tops.addChild(pre);
+    }
+
+    if (opts.version) {
+      classDoc.getElement().setVersion(opts.version);
+    }
 
     var docletWrapper;
     if (docletWrapper = memberMap[classSymbol.longname]) {
@@ -136,8 +128,17 @@ exports.publish = function(taffyData, opts, tutorials) {
   });
 
   namespaces.forEach(function(namespaceSymbol) {
-    var namespaceDoc = new NamespaceDocument(namespaceSymbol, topContents,
-        version, date);
+    var namespaceDoc = new NamespaceDocument(namespaceSymbol);
+
+    if (opts.logo) {
+      var pre = new PreformattedParagraph(opts.logo);
+      var tops = namespaceDoc.getElement().getTopElements();
+      tops.addChild(pre);
+    }
+
+    if (opts.version) {
+      namespaceDoc.getElement().setVersion(opts.version);
+    }
 
     var docletWrapper;
     if (docletWrapper = memberMap[namespaceSymbol.longname]) {
@@ -147,4 +148,7 @@ exports.publish = function(taffyData, opts, tutorials) {
 
     namespaceDoc.publishToFile();
   });
+
+  var elapse = parseInt((new Date().getTime() - startTime) / 1000);
+  console.log('TsumekusaJsDoc complete the publishing (' + elapse + ' sec).');
 };

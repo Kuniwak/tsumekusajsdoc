@@ -17,10 +17,6 @@ var DocElement = require(basePath +
  * A class for document explains a symbol such as class or namespace.
  * @param {jsdoc.Doclet} symbol Symbol.
  * @param {string} caption Caption of the document.
- * @param {?Array.<tsumekusa.dom.Paragraph>=} opt_topElements Optional top
- *     contents.
- * @param {?string=} opt_version Optional version identifier.
- * @param {?Date=} opt_date Optional date object.
  * @param {?tsumekusaJsdoc.dom.DocHelper=} opt_docHelper Optional
  *     document helper.
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
@@ -28,21 +24,14 @@ var DocElement = require(basePath +
  * @constructor
  * @extends {tsumekusaJsdoc.dom.DocElement}
  */
-var SymbolDocument = function(symbol, caption, opt_topElements, opt_version,
-    opt_date, opt_docHelper, opt_refHelper) {
+var SymbolDocument = function(symbol, caption, opt_docHelper, opt_refHelper) {
   DocElement.call(this, opt_docHelper, opt_refHelper);
 
   this.symbol_ = symbol;
   this.dirPath_ = this.generateDirectoryPath(symbol);
   this.fileName_ = this.generateFileName(symbol);
 
-  var document = new Document(caption, this.fileName_, opt_version, opt_date);
-  var tops = document.getTopElements();
-
-  if (opt_topElements) {
-    tops.addChild(opt_topElements);
-  }
-
+  var document = new Document(caption, this.fileName_);
   this.setElement(document);
 };
 tsumekusa.inherits(SymbolDocument, DocElement);

@@ -13,10 +13,6 @@ var StaticPropertiesContainer = require('./StaticPropertiesContainer');
 /**
  * A class for document explains a namespace.
  * @param {jsdoc.Doclet} symbol Namespace symbol.
- * @param {?Array.<tsumekusa.dom.Paragraph>=} opt_topElements Optional top
- *     contents.
- * @param {?string=} opt_version Optional version identifier.
- * @param {?Date=} opt_date Optional date object.
  * @param {?tsumekusaJsdoc.dom.DocHelper=} opt_docHelper Optional
  *     document helper.
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
@@ -24,10 +20,9 @@ var StaticPropertiesContainer = require('./StaticPropertiesContainer');
  * @constructor
  * @extends {tsumekusaJsdoc.dom.SymbolDocument}
  */
-var NamespaceDocument = function(symbol, opt_topElements, opt_version, opt_date,
-    opt_docHelper, opt_refHelper) {
-  SymbolDocument.call(this, symbol, NamespaceDocument.CAPTION, opt_topElements,
-      opt_version, opt_date, opt_docHelper, opt_refHelper);
+var NamespaceDocument = function(symbol, opt_docHelper, opt_refHelper) {
+  SymbolDocument.call(this, symbol, NamespaceDocument.CAPTION + ' ' +
+      symbol.longname, opt_docHelper, opt_refHelper);
 };
 tsumekusa.inherits(NamespaceDocument, SymbolDocument);
 
