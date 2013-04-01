@@ -848,10 +848,14 @@ TypeBuilder.TypeUnion.prototype.setUnknownType = function(enable) {
 /** @override */
 TypeBuilder.TypeUnion.prototype.toString = function() {
   if (this.all) {
-    return '*';
+    var typeName = new TypeBuilder.TypeName();
+    typeName.setTypeName('*');
+    return typeName.toString();
   }
   else if (this.unknown) {
-    return '?';
+    var typeName = new TypeBuilder.TypeName();
+    typeName.setTypeName('?');
+    return typeName.toString();
   }
   else {
     var str;
@@ -864,15 +868,14 @@ TypeBuilder.TypeUnion.prototype.toString = function() {
       str = '';
     }
 
-    var typeName;
     if (this.optional) {
-      typeName = new TypeBuilder.TypeName();
+      var typeName = new TypeBuilder.TypeName();
       typeName.setTypeName('undefined');
       types.push(typeName);
     }
 
     if (this.nullable) {
-      typeName = new TypeBuilder.TypeName();
+      var typeName = new TypeBuilder.TypeName();
       typeName.setTypeName('null');
       types.push(typeName);
     }

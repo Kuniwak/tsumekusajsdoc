@@ -58,16 +58,16 @@ exports.testPublishWithParams = function(test) {
 
   var CORRECT = [
     '0. goog.ui.Component#addChild',
-    '  `goog.ui.Component#addChild`(`child`, `opt_render`)',
+    '  `goog.ui.Component#addChild`(`child`, `[opt_render]`)',
     '',
     '  Adds the specified component as the last child of this component. See',
-    '  [goog.ui.Component#addChildAt] for detailed semantics.',
+    '  |goog.ui.Component#addChildAt| for detailed semantics.',
     '',
     '  Parameters',
-    '    `child`: [goog.ui.Component]',
+    '    `child`: |goog.ui.Component|',
     '      No description.',
     '',
-    '    `opt_render`: `boolean`|`undefined`',
+    '    `[opt_render]`: `boolean`|`undefined`',
     '      No description.'
   ].join('\n');
 

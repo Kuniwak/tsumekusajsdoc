@@ -36,6 +36,6 @@ exports.testPublishWithNoType = function(test) {
 
   var type = new Type(dummyTag);
 
-  test.equal(type.publish(), '?');
+  test.equal(type.publish(), '`?`');
   test.done();
 };

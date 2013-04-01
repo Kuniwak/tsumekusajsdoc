@@ -30,6 +30,6 @@ exports.testPublish = function(test) {
   var code2 = new InlineCode(typeName);
 
   var digest = new ObjectDigest(dummyDoclet);
-  test.equal(digest.publish(), code1.publish() + ': ' + code2.publish());
+  test.equal(digest.publish(), '`foo.bar`: `boolean`');
   test.done();
 };
