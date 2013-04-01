@@ -47,7 +47,7 @@ VimHelpDocumentPublisher.prototype.publishHeader = function(doc) {
   var tag = doc.getTag();
   var tagString = tag.publish();
   var version = this.createVersion(doc);
-  var lastChange = this.createLastChange(doc.getDate());
+  var lastChange = this.createLastChange(doc.getDate() || this.getNow_());
 
   return tagString + '\t' + version + '  ' + lastChange +
       string.repeat('\n', VimHelpContainerPublisher.HEADER_BOTTOM_MARGIN + 1);
@@ -70,7 +70,7 @@ VimHelpDocumentPublisher.prototype.publishFooter = function(doc) {
 
   if (VimHelpDocumentPublisher.PUBLISH_GENERATOR_INFORMATION) {
     var width = this.getDisplayWidth();
-    var now = this.getNow_();
+    var now = doc.getDate() || this.getNow_();
     var year = now.getFullYear();
     var month = date.getShortMonth(now);
     var day = now.getDate();

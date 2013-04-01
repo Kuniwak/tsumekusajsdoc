@@ -31,7 +31,7 @@ exports.testPublish = function(test) {
     return new Date(0);
   };
 
-  var document = new Document('Sample', 'doc.txt', 'ALPHA', new Date(0));
+  var document = new Document('Sample', 'doc.txt');
 
   var container1 = new Container('container1', null, true);
   var container2 = new Container('container2', null, true);
@@ -71,7 +71,7 @@ exports.testPublish = function(test) {
 
   // Correct string{{{
   var CORRECT = [
-    '*doc.txt*	Version ALPHA.  Last change: 1970 Jan 1',
+    '*doc.txt*	Version n/a.  Last change: 1970 Jan 1',
     '',
     '  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vel dolor',
     '  nunc. Nam neque erat, dignissim eu ullamcorper id, pellentesque ut ante.',
