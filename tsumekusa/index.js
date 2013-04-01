@@ -153,3 +153,34 @@ tsumekusa.addSingletonGetter = function(ctor) {
 tsumekusa.abstractMethod = function() {
   throw Error('unimplemented abstract method');
 };
+
+
+/**
+ * Whether warning messages are allowed.
+ * @const
+ * @type {boolean}
+ */
+tsumekusa.WARNING = true;
+
+
+/**
+ * Warning counter.
+ * @type {number}
+ * @private
+ */
+tsumekusa.warnCounter_ = 0;
+
+
+/**
+ * Raise a warning.
+ * @param {string} msg Warning message.
+ */
+tsumekusa.warn = function(msg) {
+  if (console.warn) {
+    console.warn(msg);
+  }
+  else {
+    console.log('Warning: ' + msg);
+  }
+  tsumekusa.warnCounter_++;
+};
