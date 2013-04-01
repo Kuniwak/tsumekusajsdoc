@@ -19,6 +19,13 @@ tsumekusa.addSingletonGetter(ReferenceHelper);
 
 
 /**
+ * Base directory path.
+ * @type {?string}
+ */
+ReferenceHelper.baseDirectoryPath = null;
+
+
+/**
  * Returns a reference ID of the symbol.  The method allows to add a modifier
  * that is set by {@code opt_modifier}.
  * @param {jsdoc.Doclet} symbol Symbol to make a reference ID.
@@ -36,7 +43,17 @@ ReferenceHelper.prototype.getReferenceId = function(symbol, opt_modifier) {
  * @return {string} File name of the symbol.
  */
 ReferenceHelper.prototype.getFileName = function(symbol) {
-  return symbol.longname.replace(/\./g, '/') + '.tsumekusa';
+  var fileName = symbol.longname.replace(/\./g, '_') + '.tsumekusa';
+
+  var filePath;
+  if (ReferenceHelper.baseDirectoryPath) {
+    filePath = path.join(ReferenceHelper.baseDirectoryPath, fileName);
+  }
+  else {
+    filePath = fileName;
+  }
+
+  return  filePath;
 };
 
 

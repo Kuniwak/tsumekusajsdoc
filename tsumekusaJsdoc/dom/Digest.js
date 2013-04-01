@@ -44,8 +44,9 @@ Digest.prototype.getSymbol = function() {
 };
 
 
+/** @override */
 Digest.prototype.isBreakable = function() {
-  return false;
+  return true;
 };
 
 

@@ -19,7 +19,7 @@ tsumekusa.addSingletonGetter(LinkPublisher);
 /** @override */
 LinkPublisher.prototype.publish = function(link) {
   var refId = link.getTargetReferenceId();
-  return '|' + refId + '|';
+  return '\\' + refId + '\\';
 };
 
 

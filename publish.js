@@ -15,6 +15,8 @@ registry.registerElementPublishers(publishers);
 
 var tsumekusaJsdocPath = './tsumekusaJsdoc';
 var tsumekusaJsdoc = require(tsumekusaJsdocPath);
+var ReferenceHelper = require(tsumekusaJsdocPath +
+    '/references/ReferenceHelper');
 var ClassDocument = require(tsumekusaJsdocPath + '/dom/ClassDocument');
 var NamespaceDocument = require(tsumekusaJsdocPath + '/dom/NamespaceDocument');
 var DocletWrapper = require(tsumekusaJsdocPath + '/dom/DocletWrapper');
@@ -28,6 +30,8 @@ var DocletWrapper = require(tsumekusaJsdocPath + '/dom/DocletWrapper');
  *  @param {Tutorial} tutorials Tutorials.
  */
 exports.publish = function(taffyData, opts, tutorials) {
+  ReferenceHelper.baseDirectoryPath = opts.destination;
+
   /**
    * Map has pairs that longnames and each members.
    * @type {Object.<string, Array.<jsdoc.Doclet>>}
@@ -102,18 +106,21 @@ exports.publish = function(taffyData, opts, tutorials) {
     }
   });
 
+  var logo = opts.query.logo ? decodeURIComponent(opts.query.logo) : null;
+  var version = opts.query.version;
+
   // TODO: Implement module, externs, global object processing.
   classes.forEach(function(classSymbol) {
     var classDoc = new ClassDocument(classSymbol);
 
-    if (opts.logo) {
-      var pre = new PreformattedParagraph(opts.logo);
+    if (logo) {
+      var pre = new PreformattedParagraph(logo);
       var tops = classDoc.getElement().getTopElements();
       tops.addChild(pre);
     }
 
-    if (opts.version) {
-      classDoc.getElement().setVersion(opts.version);
+    if (version) {
+      classDoc.getElement().setVersion(version);
     }
 
     var docletWrapper;
@@ -130,14 +137,14 @@ exports.publish = function(taffyData, opts, tutorials) {
   namespaces.forEach(function(namespaceSymbol) {
     var namespaceDoc = new NamespaceDocument(namespaceSymbol);
 
-    if (opts.logo) {
-      var pre = new PreformattedParagraph(opts.logo);
+    if (logo) {
+      var pre = new PreformattedParagraph(logo);
       var tops = namespaceDoc.getElement().getTopElements();
       tops.addChild(pre);
     }
 
-    if (opts.version) {
-      namespaceDoc.getElement().setVersion(opts.version);
+    if (version) {
+      namespaceDoc.getElement().setVersion(version);
     }
 
     var docletWrapper;
@@ -151,4 +158,16 @@ exports.publish = function(taffyData, opts, tutorials) {
 
   var elapse = parseInt((new Date().getTime() - startTime) / 1000);
   console.log('TsumekusaJsDoc complete the publishing (' + elapse + ' sec).');
+};
+
+
+var publishToFile = function() {
+  var current = '';
+  var dirs = this.dirPath_.split(/\//).forEach(function(dir) {
+    current += dir + '/'
+    if (!fs.existsSync(current)) {
+      fs.mkdirSync(current);
+    }
+  });
+  fs.writeFileSync(this.fileName_, this.publishToFileInternal(), 'utf8');
 };

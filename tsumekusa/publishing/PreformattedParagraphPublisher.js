@@ -29,9 +29,9 @@ PreformattedParagraphPublisher.prototype.publish = function(pre) {
   var indentWidth = this.getIndentWidth(pre);
   var whites = string.repeat(' ', indentWidth);
 
-  return pre.getElement().split('\n').map(function(line) {
+  return '>>>\n' + pre.getElement().split('\n').map(function(line) {
     return whites + line;
-  }).join('\n');
+  }).join('\n') + '\n>>>';
 };
 
 

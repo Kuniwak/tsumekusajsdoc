@@ -2,6 +2,7 @@
 // http://orgachem.mit-license.org
 
 var fs = require('fs');
+var path = require('path');
 
 var tsumekusaPath = '../../tsumekusa';
 var tsumekusa = require(tsumekusaPath);
@@ -74,15 +75,8 @@ SymbolDocument.prototype.getSymbol = function() {
  * Publishes a document to file.
  */
 SymbolDocument.prototype.publishToFile = function() {
-  // var current = '';
-  // var dirs = this.dirPath_.split(/\//).forEach(function(dir) {
-  //   current += dir + '/'
-  //   if (!fs.existsSync(current)) {
-  //     fs.mkdirSync(current);
-  //   }
-  // });
-  // fs.writeFileSync(this.fileName_, this.publishToFileInternal(), 'utf8');
-  console.log(this.publishToFileInternal());
+  fs.mkPath(this.dirPath_);
+  fs.writeFileSync(this.fileName_, this.publishToFileInternal(), 'utf8');
 };
 
 
