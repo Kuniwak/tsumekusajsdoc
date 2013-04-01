@@ -11,15 +11,11 @@ var Container = require('./Container');
  * A class for document.
  * @param {string} caption Caption.
  * @param {string} filename File name.
- * @param {?string=} opt_version Optional version identifier.
- * @param {?Date=} opt_date Optional date object.
  * @constructor
  * @extends {tsumekusa.dom.Container}
  */
-var Document = function(caption, filename, opt_version, opt_date) {
+var Document = function(caption, filename) {
   Container.call(this, caption, filename, true);
-  this.version_ = opt_version;
-  this.date_ = opt_date || new Date();
 };
 tsumekusa.inherits(Document, Container);
 
@@ -32,11 +28,36 @@ Document.publisher = null;
 
 
 /**
+ * Version identifier.
+ * @type {?string}
+ * @private
+ */
+Document.prototype.version_ = null;
+
+
+/**
+ * Date object.
+ * @type {?Date}
+ * @private
+ */
+Document.prototype.date_ = null;
+
+
+/**
  * Returns a date object.
- * @return {Date} Date object.
+ * @return {?Date} Date object.
  */
 Document.prototype.getDate = function() {
   return this.date_;
+};
+
+
+/**
+ * Sets a date object.
+ * @param {Date} date Date object to set.
+ */
+Document.prototype.setDate = function(date) {
+  this.date_ = date;
 };
 
 
@@ -46,6 +67,15 @@ Document.prototype.getDate = function() {
  */
 Document.prototype.getVersion = function() {
   return this.version_ || 'n/a';
+};
+
+
+/**
+ * Sets a version identifier.
+ * @param {string} ver Version identifier to set.
+ */
+Document.prototype.setVersion = function(ver) {
+  this.version_ = ver;
 };
 
 
