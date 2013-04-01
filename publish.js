@@ -2,27 +2,36 @@
 // http://orgachem.mit-license.org
 
 
-//var fs = require('jsdoc/fs');
-//var templateHelper = require('jsdoc/util/templateHelper');
+var fs = require('fs');
 
-var ClassDocument = require('./tsumekusaJsdoc/documents/ClassDocument');
-var NamespaceDocument = require('./tsumekusaJsdoc/documents/NamespaceDocument');
-var DocletWrapper = require('./tsumekusaJsdoc/documents/DocletWrapper');
+var tsumekusaPath = './tsumekusa';
+var tsumekusa = require(tsumekusaPath);
+var registry = require(tsumekusaPath + '/publishing/registry');
+var publishers = require(tsumekusaPath + '/publishing/DefaultPublishers');
+registry.registerElementPublishers(publishers);
+
+var tsumekusaJsdocPath = './tsumekusaJsdoc';
+var tsumekusaJsdoc = require(tsumekusaJsdocPath);
+var ClassDocument = require(tsumekusaJsdocPath + '/dom/ClassDocument');
+var NamespaceDocument = require(tsumekusaJsdocPath + '/dom/NamespaceDocument');
+var DocletWrapper = require(tsumekusaJsdocPath + '/dom/DocletWrapper');
 
 var PreformattedParagraph = require(
-    './tsumekusa/contents/PreformattedParagraph');
+    './tsumekusa/dom/PreformattedParagraph');
 
 var topContents = function() {
   var aa = [
-    '     ________                           __    _ __',
-    '    / ____/ /___  _______  __________  / /   (_) /_  _________ ________  __',
-    '   / /   / / __ \\/ ___/ / / / ___/ _ \\/ /   / / __ \\/ ___/ __ `/ ___/ / / /',
-    '  / /___/ / /_/ (__  ) /_/ / /  /  __/ /___/ / /_/ / /  / /_/ / /  / /_/ /',
-    '  \\____/_/\\____/____/\\__,_/_/   \\___/_____/_/_.___/_/   \\__,_/_/   \\__, /',
-    '                                                                  /____/'
+    '',
+    '   ________                           __    _ __',
+    '  / ____/ /___  _______  __________  / /   (_) /_  _________ ________  __',
+    ' / /   / / __ \\/ ___/ / / / ___/ _ \\/ /   / / __ \\/ ___/ __ \'/ ___/ / / /',
+    '/ /___/ / /_/ (__  ) /_/ / /  /  __/ /___/ / /_/ / /  / /_/ / /  / /_/ /',
+    '\\____/_/\\____/____/\\__,_/_/   \\___/_____/_/_.___/_/   \\__,_/_/   \\__, /',
+    '                                                                /____/',
+    ''
   ].join('\n');
 
-  return [new PreformattedParagraph(aa)];
+  return new PreformattedParagraph(aa);
 }();
 
 var ReferenceHelper = require('./tsumekusaJsdoc/references/ReferenceHelper');
@@ -34,9 +43,8 @@ var ReferenceHelper = require('./tsumekusaJsdoc/references/ReferenceHelper');
  *  @param {Tutorial} tutorials Tutorials.
  */
 exports.publish = function(taffyData, opts, tutorials) {
-  // TODO: Remove a test code.
-  var version = 'alphalpha';
-  var date = new Date(0);
+  var version = opts.version || 'n/a';
+  var date = new Date();
 
   /**
    * Map has pairs that longnames and each members.
@@ -44,7 +52,6 @@ exports.publish = function(taffyData, opts, tutorials) {
    */
   var memberMap = {};
 
-  //var symbols = templateHelper.prune(taffy).get();
   var symbols = taffyData().get();
   var classes = [], classesIdx = 0;
   var namespaces = [], namespacesIdx = 0;
@@ -59,7 +66,7 @@ exports.publish = function(taffyData, opts, tutorials) {
     }
 
     // TODO: Use DocletWrapper
-    var parentLongName, members;
+    var parentLongName, members, docletWrapper;
     if (parentLongName = symbol.memberof) {
       // Create a doclet wrapper for the parent, if the wrapper is not defined.
       if (!(docletWrapper = memberMap[parentLongName])) {
@@ -111,7 +118,6 @@ exports.publish = function(taffyData, opts, tutorials) {
           break;
       }
     }
-
   });
 
   // TODO: Implement module, externs, global object processing.
