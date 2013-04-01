@@ -17,11 +17,12 @@ tsumekusa.addSingletonGetter(TagPublisher);
 
 /** @override */
 TagPublisher.prototype.publish = function(tag) {
+  tsumekusa.warn('The output format do not support a tag element: ' + refId);
+
   var refId = tag.getReferenceId();
-  console.warn('The output format do not support a tag: ' + refId);
   return refId;
 };
 
 
-// Exports the constructor
+// Exports the constructor.
 module.exports = TagPublisher;

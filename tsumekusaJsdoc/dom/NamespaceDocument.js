@@ -45,17 +45,18 @@ NamespaceDocument.CAPTION = 'Namespace';
 NamespaceDocument.prototype.publish = function() {
   // TODO: Aboid lazy members setting. Or apply builder pattern.
   var document = this.getElement();
+  var subContainers = document.getSubContainers();
 
   var staticMethods = this.getStaticMethods();
   var staticProperties = this.getStaticProperties();
 
   if (staticMethods && staticMethods.length > 0) {
     var staticMethodsContainer = this.createStaticMethodsContainer();
-    document.appendSubContainer(staticMethodsContainer.getElement());
+    subContainers.addChild(staticMethodsContainer.getElement());
   }
   if (staticProperties && staticProperties.length > 0) {
     var staticPropertiesContainer = this.createStaticPropertiesContainer();
-    document.appendSubContainer(staticPropertiesContainer.getElement());
+    subContainers.addChild(staticPropertiesContainer.getElement());
   }
 
   return SymbolDocument.prototype.publish.call(this);

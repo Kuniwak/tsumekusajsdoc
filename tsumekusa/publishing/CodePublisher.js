@@ -3,14 +3,20 @@
 
 var basePath = '../../tsumekusa';
 var tsumekusa = require(basePath);
+var string = require(basePath + '/string');
+var BlockElementPublisher = require(basePath +
+    '/publishing/BlockElementPublisher');
 
 
 /**
  * A singleton class for inline code publisher for vim help.
  * @constructor
- * @implements {tsumekusa.publishing.IElementPublisher}
+ * @extends {tsumekusa.publishing.BlockElementPublisher}
  */
-var CodePublisher = function() {};
+var CodePublisher = function() {
+  BlockElementPublisher.call(this);
+};
+tsumekusa.inherits(CodePublisher, BlockElementPublisher);
 tsumekusa.addSingletonGetter(CodePublisher);
 
 

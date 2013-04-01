@@ -34,7 +34,7 @@ var DeprecationDefinition = function(str, opt_docHelper, opt_refHelper) {
   def.setDescriptions(dd);
 
   dt.addInlineElement(new Strong(DeprecationDefinition.CAPTION));
-  dd.addChildren(new Paragraph(str));
+  dd.addChild(new Paragraph(str));
 
   this.setElement(def);
 };

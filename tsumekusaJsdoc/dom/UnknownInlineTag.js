@@ -63,7 +63,7 @@ tsumekusa.addSingletonGetter(UnknownInlineTagPublisher);
  * @return {string} Unknown tag content.
  */
 UnknownInlineTagPublisher.prototype.publish = function(tag) {
-  console.warn('Unknown tag is found. The type is: "' + tag.type + '", and ' +
+  tsumekusa.warn('Unknown tag is found. The type is: "' + tag.type + '", and ' +
       'the content is: "' + tag.content +'"');
   return tag.content;
 };

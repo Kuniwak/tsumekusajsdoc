@@ -14,6 +14,6 @@ registry.registerElementPublishers(publishers);
 exports.testPublish = function(test) {
   var link = new Link('foo.bar');
 
-  test.equal(link.publish(), '[foo.bar]');
+  test.equal(link.publish(), '|foo.bar|');
   test.done();
 };

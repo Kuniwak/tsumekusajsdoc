@@ -126,6 +126,7 @@ DocletWrapper.prototype.appendStaticMethod = function(doclet) {
  */
 DocletWrapper.prototype.appendStaticProperty = function(doclet) {
   this.staticProperties.push(doclet);
+  return this;
 };
 
 
@@ -136,6 +137,7 @@ DocletWrapper.prototype.appendStaticProperty = function(doclet) {
  */
 DocletWrapper.prototype.appendInstanceMethod = function(doclet) {
   this.instanceMethods.push(doclet);
+  return this;
 };
 
 
@@ -146,6 +148,7 @@ DocletWrapper.prototype.appendInstanceMethod = function(doclet) {
  */
 DocletWrapper.prototype.appendInstanceProperty = function(doclet) {
   this.instanceProperties.push(doclet);
+  return this;
 };
 
 
@@ -168,6 +171,7 @@ DocletWrapper.prototype.appendInnerMethod = function(doclet) {
  */
 DocletWrapper.prototype.appendInnerProperty = function(doclet) {
   this.innerProperties.push(doclet);
+  return this;
 };
 
 // Exports the constructor.

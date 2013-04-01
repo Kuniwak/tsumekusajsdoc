@@ -14,7 +14,7 @@ var BlockElementPublisher = require(basePath +
 /**
  * A class for paragraph publisher for vim help.
  * @constructor
- * @implements {tsumekusa.publishing.IElementPublisher}
+ * @extends {tsumekusa.publishing.BlockElementPublisher}
  */
 var ParagraphPublisher = function() {
   BlockElementPublisher.call(this);

@@ -3,6 +3,7 @@
 
 var basePath = '../../tsumekusa';
 var tsumekusa = require(basePath);
+var string = require(basePath + '/string');
 var BlockElementPublisher = require(basePath +
     '/publishing/BlockElementPublisher');
 var WordWrapper = require(basePath + '/publishing/WordWrapper');

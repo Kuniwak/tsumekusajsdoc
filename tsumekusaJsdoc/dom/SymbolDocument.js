@@ -1,6 +1,7 @@
 // This script licensed under the MIT.
 // http://orgachem.mit-license.org
 
+var fs = require('fs');
 
 var tsumekusaPath = '../../tsumekusa';
 var tsumekusa = require(tsumekusaPath);
@@ -32,6 +33,7 @@ var SymbolDocument = function(symbol, caption, opt_topElements, opt_version,
   DocElement.call(this, opt_docHelper, opt_refHelper);
 
   this.symbol_ = symbol;
+  this.dirPath_ = this.generateDirectoryPath(symbol);
   this.fileName_ = this.generateFileName(symbol);
 
   var document = new Document(caption, this.fileName_, opt_version, opt_date);
@@ -56,10 +58,18 @@ SymbolDocument.prototype.symbol_ = null;
 
 /**
  * File name of the document.
- * @type {string}
+ * @type {?string}
  * @private
  */
 SymbolDocument.prototype.fileName_ = null;
+
+
+/**
+ * Directory path of the document.
+ * @type {?string}
+ * @private
+ */
+SymbolDocument.prototype.dirPath_ = null;
 
 
 /**
@@ -75,10 +85,15 @@ SymbolDocument.prototype.getSymbol = function() {
  * Publishes a document to file.
  */
 SymbolDocument.prototype.publishToFile = function() {
-  // TODO: ansynchronize
-  //fs.writeFileSync(this.fileName_, this.publishToFileInternal(), 'utf8');
+  // var current = '';
+  // var dirs = this.dirPath_.split(/\//).forEach(function(dir) {
+  //   current += dir + '/'
+  //   if (!fs.existsSync(current)) {
+  //     fs.mkdirSync(current);
+  //   }
+  // });
+  // fs.writeFileSync(this.fileName_, this.publishToFileInternal(), 'utf8');
   console.log(this.publishToFileInternal());
-  //this.publishToFileInternal();
 };
 
 
@@ -94,13 +109,24 @@ SymbolDocument.prototype.publishToFileInternal = function() {
 
 // TODO: Move this method into DocumentPublisher.
 /**
- * Generates a file name of the document to publish.
+ * Generates a file name.
  * @return {string} File name.
  * @protected
  */
 SymbolDocument.prototype.generateFileName = function(symbol) {
   var refHelper = this.getReferenceHelper();
-  return fileName = refHelper.getFileName(symbol) + '.txt';
+  return refHelper.getFileName(symbol);
+};
+
+
+/**
+ * Generates a directory path.
+ * @return {string} File name.
+ * @protected
+ */
+SymbolDocument.prototype.generateDirectoryPath = function(symbol) {
+  var refHelper = this.getReferenceHelper();
+  return refHelper.getDirectoryPath(symbol);
 };
 
 

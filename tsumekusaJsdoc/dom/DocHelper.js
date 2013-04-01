@@ -7,6 +7,8 @@ var string = require(tsumekusaPath + '/string');
 
 var ElementArray = require(tsumekusaPath + '/dom/ElementArray');
 var Paragraph = require(tsumekusaPath + '/dom/Paragraph');
+var Code = require(tsumekusaPath + '/dom/Code');
+var Strong = require(tsumekusaPath + '/dom/Strong');
 var List = require(tsumekusaPath + '/dom/List');
 var InlineCode = require(tsumekusaPath + '/dom/InlineCode');
 var Link = require(tsumekusaPath + '/dom/Link');
@@ -30,6 +32,14 @@ tsumekusa.addSingletonGetter(DocHelper);
 
 
 /**
+ * Enabled tag name regexp on {@link #parseBlocks}.
+ * @const
+ * @type {RegExp}
+ */
+DocHelper.ENABLED_TAG_NAME_REGEXP = /^(ul|ol|li|pre|code|b)/i;
+
+
+/**
  * Parses a string includes block-like contents.  The method parse HTML if
  * {@link tsumekusaJsdoc.HTML_DISABLED} is true.
  * @param {string} str String to parse.
@@ -44,18 +54,32 @@ DocHelper.prototype.parseBlocks = function(str, opt_current) {
 
     var parser = new htmlparser.Parser({
       onopentag: function(name) {
-        tmp = new DocHelper.TreeNode();
-        tmp.setValue({ name: name, text: null });
-        currentNode.append(tmp);
-        currentNode = tmp;
+        if (name.match(DocHelper.ENABLED_TAG_NAME_REGEXP)) {
+          tmp = new DocHelper.TreeNode();
+          tmp.setValue({ name: name, text: null });
+          currentNode.append(tmp);
+          currentNode = tmp;
+        }
+        else {
+          tmp = new DocHelper.TreeNode();
+          tmp.setValue({ name: 'text', text: '<' + name + '>' });
+          currentNode.append(tmp);
+        }
       },
       ontext: function(text) {
         tmp = new DocHelper.TreeNode();
         tmp.setValue({ name: 'text', text: text });
         currentNode.append(tmp);
       },
-      onclosetag: function() {
-        currentNode = currentNode.getParent();
+      onclosetag: function(name) {
+        if (name.match(DocHelper.ENABLED_TAG_NAME_REGEXP)) {
+          currentNode = currentNode.getParent();
+        }
+        else {
+          tmp = new DocHelper.TreeNode();
+          tmp.setValue({ name: 'text', text: '</' + name + '>' });
+          currentNode.append(tmp);
+        }
       }
     });
 
@@ -93,7 +117,6 @@ DocHelper.prototype.createBlockElementByNode = function(node, opt_current) {
 
   switch (tagName) {
     case 'ul':
-    case 'UL':
       var list = new List(List.ListType.UNORDERED);
       var elemArr = list.getListItems();
 
@@ -106,7 +129,6 @@ DocHelper.prototype.createBlockElementByNode = function(node, opt_current) {
 
       return list;
     case 'ol':
-    case 'OL':
       var list = new List(List.ListType.ORDERED);
       var elemArr = list.getListItems();
 
@@ -119,7 +141,6 @@ DocHelper.prototype.createBlockElementByNode = function(node, opt_current) {
 
       return list;
     case 'li':
-    case 'LI':
       var blocks = new ElementArray();
 
       childNodes.forEach(function(childNode) {
@@ -131,10 +152,14 @@ DocHelper.prototype.createBlockElementByNode = function(node, opt_current) {
 
       return new List.ListItem(blocks);
     case 'pre':
-    case 'PRE':
+      var pre = childNodes[0].getValue().text;
+      return new Code(pre);
+    case 'b':
+      var strong = childNodes[0].getValue().text;
+      return new Strong(strong);
     case 'code':
-    case 'CODE':
-      return new Code(string.trim(text));
+      var code = childNodes[0].getValue().text;
+      return new InlineCode(code);
     case 'text':
       if (text && !text.match(/^\s*$/)) {
         var p = new Paragraph();
@@ -143,7 +168,7 @@ DocHelper.prototype.createBlockElementByNode = function(node, opt_current) {
       }
       return null;
     default:
-      console.warn('Unpublishable HTMl tag found: <' + tagName + '>');
+      tsumekusa.warn('Unpublishable HTML tag found: <' + tagName + '>');
       return null;
   }
 };
@@ -185,8 +210,7 @@ DocHelper.prototype.parseInlineTags = function(input, opt_current) {
  * See the sample overriding:
  * <pre>
  * function(tagName, tagElement) {
- *   var tag = DocHelper.prototype.createInlineElement(tagName,
- *       tagElement);
+ *   var tag = DocHelper.prototype.createInlineElement(tagName, tagElement);
  *
  *   // Check whether the tag is unknown
  *   if (tag.unknown) {

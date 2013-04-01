@@ -33,8 +33,7 @@ var InstancePropertiesContainer = require(basePath +
  * @constructor
  * @extends {tsumekusaJsdoc.dom.SymbolDocument}
  */
-var ClassDocument = function(symbol, opt_topElements, opt_version, opt_date,
-    opt_docHelper, opt_refHelper) {
+var ClassDocument = function(symbol, opt_docHelper, opt_refHelper) {
   SymbolDocument.call(this, symbol, ClassDocument.CAPTION, opt_topElements,
       opt_version, opt_date, opt_docHelper, opt_refHelper);
 };
@@ -56,7 +55,6 @@ ClassDocument.prototype.publish = function() {
   // TODO: Aboid lazy members setting. Or apply builder pattern.
   var document = this.getElement();
   var subContainers = document.getSubContainers();
-  var symbol = this.getSymbol();
 
   var staticMethods = this.getStaticMethods();
   var staticProperties = this.getStaticProperties();
