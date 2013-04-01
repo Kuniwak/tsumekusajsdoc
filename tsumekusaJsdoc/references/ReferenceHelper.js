@@ -2,6 +2,7 @@
 // http://orgachem.mit-license.org
 
 
+var path = require('path');
 var tsumekusa = require('../../tsumekusa');
 
 
@@ -35,7 +36,17 @@ ReferenceHelper.prototype.getReferenceId = function(symbol, opt_modifier) {
  * @return {string} File name of the symbol.
  */
 ReferenceHelper.prototype.getFileName = function(symbol) {
-  return symbol.longname;
+  return symbol.longname.replace(/\./g, '/') + '.tsumekusa';
+};
+
+
+/**
+ * Returns a file name of the symbol without an extension.
+ * @param {jsdoc.Doclet} symbol Symbol to generate the file name.
+ * @return {string} File name of the symbol.
+ */
+ReferenceHelper.prototype.getDirectoryPath = function(symbol) {
+  return path.dirname(this.getFileName(symbol));
 };
 
 
