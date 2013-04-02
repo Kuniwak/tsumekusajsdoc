@@ -24,17 +24,24 @@ var DocletWrapper = require(tsumekusaJsdocPath + '/dom/DocletWrapper');
 
 
 /**
+ * JsDoc template publisher.
+ * @namespace
+ */
+var publisher = {};
+
+
+/**
  * Publishes documents by the template.
  *  @param {TAFFY} taffyData See <http://taffydb.com/>.
  *  @param {object} opts Options.
  *  @param {Tutorial} tutorials Tutorials.
  */
-exports.publish = function(taffyData, opts, tutorials) {
+publisher.publish = function(taffyData, opts, tutorials) {
   ReferenceHelper.baseDirectoryPath = opts.destination;
 
   /**
    * Map has pairs that longnames and each members.
-   * @type {Object.<string, Array.<jsdoc.Doclet>>}
+   * @type {Object.<Array.<tsumekusaJsdoc.dom.DocletWrapper>>}
    */
   var memberMap = {};
 
@@ -45,18 +52,22 @@ exports.publish = function(taffyData, opts, tutorials) {
   symbols.forEach(function(symbol) {
     // Create a map of a longname to the symbol.
     var longname = symbol.longname;
+    var currentDocletWrapper;
 
     // Create a doclet wrapper for the doclet, if the wrapper is not defined.
-    if (!memberMap[longname]) {
-      memberMap[longname] = new DocletWrapper();
+    if (currentDocletWrapper = memberMap[longname]) {
+      currentDocletWrapper.setOriginalDoclet(symbol);
+    }
+    else {
+      currentDocletWrapper = memberMap[longname] = new DocletWrapper(symbol);
     }
 
     // TODO: Use DocletWrapper
-    var parentLongName, members, docletWrapper;
+    var parentLongName, members, parentDocletWrapper;
     if (parentLongName = symbol.memberof) {
       // Create a doclet wrapper for the parent, if the wrapper is not defined.
-      if (!(docletWrapper = memberMap[parentLongName])) {
-        docletWrapper = memberMap[parentLongName] = new DocletWrapper();
+      if (!(parentDocletWrapper = memberMap[parentLongName])) {
+        parentDocletWrapper = memberMap[parentLongName] = new DocletWrapper();
       }
 
       // Classify symbols
@@ -64,13 +75,13 @@ exports.publish = function(taffyData, opts, tutorials) {
         case 'function':
           switch (symbol.scope) {
             case 'static':
-              docletWrapper.appendStaticMethod(symbol);
+              parentDocletWrapper.appendStaticMethod(currentDocletWrapper);
               break;
             case 'instance':
-              docletWrapper.appendInstanceMethod(symbol);
+              parentDocletWrapper.appendInstanceMethod(currentDocletWrapper);
               break;
             case 'inner':
-              docletWrapper.appendInnerMethod(symbol);
+              parentDocletWrapper.appendInnerMethod(currentDocletWrapper);
               break;
             default:
               tsumekusa.warn('Unknown scope found: "' + symbol.scope + '"');
@@ -80,13 +91,13 @@ exports.publish = function(taffyData, opts, tutorials) {
         case 'member':
           switch (symbol.scope) {
             case 'static':
-              docletWrapper.appendStaticProperty(symbol);
+              parentDocletWrapper.appendStaticProperty(currentDocletWrapper);
               break;
             case 'instance':
-              docletWrapper.appendInstanceProperty(symbol);
+              parentDocletWrapper.appendInstanceProperty(currentDocletWrapper);
               break;
             case 'inner':
-              docletWrapper.appendInnerProperty(symbol);
+              parentDocletWrapper.appendInnerProperty(currentDocletWrapper);
               break;
             default:
               tsumekusa.warn('Unknown scope found: "' + symbol.scope + '"');
@@ -94,10 +105,10 @@ exports.publish = function(taffyData, opts, tutorials) {
           }
           break;
         case 'namespace':
-          namespaces[namespacesIdx++] = symbol;
+          namespaces[namespacesIdx++] = currentDocletWrapper;
           break;
         case 'class':
-          classes[classesIdx++] = symbol;
+          classes[classesIdx++] = currentDocletWrapper;
           break;
         default:
           tsumekusa.warn('Unknown kind found: "' + symbol.kind + '"');
@@ -111,6 +122,16 @@ exports.publish = function(taffyData, opts, tutorials) {
 
   // TODO: Implement module, externs, global object processing.
   classes.forEach(function(classSymbol) {
+    var longname = classSymbol.longname;
+
+    console.log('Processing: ' + longname);
+
+    var augmentSymbol = classSymbol, augmentName, augments;
+    while ((augments = augmentSymbol.augments) && augments[0] &&
+        (augmentSymbol = memberMap[augments[0]])) {
+      classSymbol.ancestors.unshift(augmentSymbol);
+    }
+
     var classDoc = new ClassDocument(classSymbol);
 
     if (logo) {
@@ -123,18 +144,15 @@ exports.publish = function(taffyData, opts, tutorials) {
       classDoc.getElement().setVersion(version);
     }
 
-    var docletWrapper;
-    if (docletWrapper = memberMap[classSymbol.longname]) {
-      classDoc.setStaticMethods(docletWrapper.staticMethods);
-      classDoc.setStaticProperties(docletWrapper.staticProperties);
-      classDoc.setInstanceMethods(docletWrapper.instanceMethods);
-      classDoc.setInstanceProperties(docletWrapper.instanceProperties);
-    }
-
     classDoc.publishToFile();
   });
 
   namespaces.forEach(function(namespaceSymbol) {
+    var longname = namespaceSymbol.longname;
+    var currentDocletWrapper = memberMap[longname];
+
+    console.log('Processing: ' + longname);
+
     var namespaceDoc = new NamespaceDocument(namespaceSymbol);
 
     if (logo) {
@@ -147,12 +165,6 @@ exports.publish = function(taffyData, opts, tutorials) {
       namespaceDoc.getElement().setVersion(version);
     }
 
-    var docletWrapper;
-    if (docletWrapper = memberMap[namespaceSymbol.longname]) {
-      namespaceDoc.setStaticMethods(docletWrapper.staticMethods);
-      namespaceDoc.setStaticProperties(docletWrapper.staticProperties);
-    }
-
     namespaceDoc.publishToFile();
   });
 
@@ -161,13 +173,5 @@ exports.publish = function(taffyData, opts, tutorials) {
 };
 
 
-var publishToFile = function() {
-  var current = '';
-  var dirs = this.dirPath_.split(/\//).forEach(function(dir) {
-    current += dir + '/'
-    if (!fs.existsSync(current)) {
-      fs.mkdirSync(current);
-    }
-  });
-  fs.writeFileSync(this.fileName_, this.publishToFileInternal(), 'utf8');
-};
+// Exports the publisher.
+module.exports = publisher;

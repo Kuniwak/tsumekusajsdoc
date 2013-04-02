@@ -16,7 +16,7 @@ var ReturnsDefinition = require(basePath + '/dom/ReturnsDefinition');
 
 /**
  * A class for a definition of a method.
- * @param {jsdoc.Doclet} symbol Symbol.
+ * @param {tsumekusaJsdoc.dom.DocletWrapper} symbol Symbol.
  * @param {?tsumekusaJsdoc.dom.DocHelper=} opt_docHelper Optional
  *     document helper.
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
@@ -49,7 +49,7 @@ MethodDefinition.prototype.createDigest = function(symbol) {
 
 /**
  * Creates a parameters definition.
- * @param {jsdoc.Doclet} symbol Method symbol.
+ * @param {tsumekusaJsdoc.dom.DocletWrapper} symbol Method symbol.
  * @return {tsumekusaJsdoc.dom.ParametersDefinition} Created parameters
  *     definition.
  */
@@ -61,7 +61,7 @@ MethodDefinition.prototype.createParametersDefinition = function(symbol) {
 
 /**
  * Creates a returns definition.
- * @param {jsdoc.Doclet} symbol Method symbol.
+ * @param {tsumekusaJsdoc.dom.DocletWrapper} symbol Method symbol.
  * @return {tsumekusaJsdoc.dom.ReturnsDefinition} Created returns definition.
  */
 MethodDefinition.prototype.createReturnsDefinition = function(symbol) {

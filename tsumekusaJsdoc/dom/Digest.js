@@ -12,7 +12,7 @@ var DocElement = require('./DocElement');
 
 /**
  * A class for a symbol digest.
- * @param {jsdoc.Doclet} symbol Method symbol.
+ * @param {tsumekusaJsdoc.dom.DocletWrapper} symbol Method symbol.
  * @param {?tsumekusaJsdoc.dom.DocHelper=} opt_docHelper Optional
  *     document helper.
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
@@ -30,14 +30,14 @@ tsumekusa.inherits(Digest, DocElement);
 
 /**
  * Symbol to create the digest.
- * @type {jsdoc.Doclet}
+ * @type {tsumekusaJsdoc.dom.DocletWrapper}
  */
 Digest.prototype.symbol_ = null;
 
 
 /**
  * Returns a symbol.
- * @return {jsdoc.Doclet} symbol Symbol.
+ * @return {tsumekusaJsdoc.dom.DocletWrapper} symbol Symbol.
  */
 Digest.prototype.getSymbol = function() {
   return this.symbol_;

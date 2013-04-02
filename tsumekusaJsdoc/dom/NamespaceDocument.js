@@ -18,7 +18,7 @@ var StaticPropertiesContainer = require(basePath +
 
 /**
  * A class for document explains a namespace.
- * @param {jsdoc.Doclet} symbol Namespace symbol.
+ * @param {tsumekusaJsdoc.dom.DocletWrapper} symbol Namespace symbol.
  * @param {?tsumekusaJsdoc.dom.DocHelper=} opt_docHelper Optional
  *     document helper.
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
@@ -48,65 +48,19 @@ NamespaceDocument.prototype.publish = function() {
   var document = this.getElement();
   var subContainers = document.getSubContainers();
 
-  var staticMethods = this.getStaticMethods();
-  var staticProperties = this.getStaticProperties();
-
   subContainers.addChild(this.createNamespaceContainer().getElement());
 
-  if (staticMethods && staticMethods.length > 0) {
-    var staticMethodsContainer = this.createStaticMethodsContainer();
+  var staticMethodsContainer = this.createStaticMethodsContainer();
+  if (staticMethodsContainer.getMembers().length > 0) {
     subContainers.addChild(staticMethodsContainer.getElement());
   }
-  if (staticProperties && staticProperties.length > 0) {
-    var staticPropertiesContainer = this.createStaticPropertiesContainer();
+
+  var staticPropertiesContainer = this.createStaticPropertiesContainer();
+  if (staticPropertiesContainer.getMembers().length > 0) {
     subContainers.addChild(staticPropertiesContainer.getElement());
   }
 
   return SymbolDocument.prototype.publish.call(this);
-};
-
-
-/**
- * Sets an array of static method doclets.
- * @param {Array.<jsdoc.Doclet>} symbols Static method symbols.
- */
-NamespaceDocument.prototype.setStaticMethods = function(symbols) {
-  if (this.staticMethods_) {
-    throw Error('Static methods were already set.');
-  }
-  this.staticMethods_ = symbols;
-};
-
-
-/**
- * Sets an array of static method doclets.
- * @return {Array.<jsdoc.Doclet>} Static method symbols.
- * @protected
- */
-NamespaceDocument.prototype.getStaticMethods = function() {
-  return this.staticMethods_;
-};
-
-
-/**
- * Sets an array of static property doclets.
- * @param {Array.<jsdoc.Doclet>} symbols Static property symbols.
- */
-NamespaceDocument.prototype.setStaticProperties = function(symbols) {
-  if (this.staticProperties_) {
-    throw Error('Static properties were already set.');
-  }
-  this.staticProperties_ = symbols;
-};
-
-
-/**
- * Sets an array of static property doclets.
- * @return {Array.<jsdoc.Doclet>} Static property symbols.
- * @protected
- */
-NamespaceDocument.prototype.getStaticProperties = function() {
-  return this.staticProperties_;
 };
 
 
@@ -128,8 +82,8 @@ NamespaceDocument.prototype.createNamespaceContainer = function() {
  * @protected
  */
 NamespaceDocument.prototype.createStaticMethodsContainer = function() {
-  return new StaticMethodsContainer(this.getSymbol(), this.getStaticMethods(),
-      this.getDocHelper(), this.getReferenceHelper());
+  return new StaticMethodsContainer(this.getSymbol(), this.getDocHelper(),
+      this.getReferenceHelper());
 };
 
 
@@ -140,8 +94,7 @@ NamespaceDocument.prototype.createStaticMethodsContainer = function() {
  * @protected
  */
 NamespaceDocument.prototype.createStaticPropertiesContainer = function() {
-  return new StaticPropertiesContainer(this.getSymbol(),
-      this.getStaticProperties(), this.getDocHelper(),
+  return new StaticPropertiesContainer(this.getSymbol(), this.getDocHelper(),
       this.getReferenceHelper());
 };
 

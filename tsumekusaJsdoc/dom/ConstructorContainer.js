@@ -9,26 +9,30 @@ var DefinitionList = require(tsumekusaPath + '/dom/DefinitionList');
 
 var basePath = '../../tsumekusaJsdoc';
 var tsumekusaJsdoc = require(basePath);
-var MembersContainer = require(basePath + '/dom/MembersContainer');
-var MethodDefinition = require(basePath + '/dom//MethodDefinition');
+var MethodsContainer = require(basePath + '/dom/MethodsContainer');
+var InheritanceHierarchyChart = require(basePath +
+    '/dom/InheritanceHierarchyChart');
 
 
 
 /**
  * A class for a container explains any member.
- * @param {jsdoc.Doclet} symbol Symbol.
+ * @param {tsumekusaJsdoc.dom.DocletWrapper} symbol Symbol.
  * @param {?tsumekusaJsdoc.dom.DocHelper=} opt_docHelper Optional
  *     document helper.
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
  *     reference helper.
  * @constructor
- * @extends {tsumekusaJsdoc.dom.MembersContainer}
+ * @extends {tsumekusaJsdoc.dom.MethodsContainer}
  */
 var ConstructorContainer = function(symbol, opt_docHelper, opt_refHelper) {
-  MembersContainer.call(this, symbol, [symbol], ConstructorContainer.CAPTION,
+  MethodsContainer.call(this, symbol, ConstructorContainer.CAPTION,
       ConstructorContainer.MODIFIER, opt_docHelper, opt_refHelper);
+  var container = this.getElement();
+  var tops = container.getTopElements();
+  tops.addChildAt(this.getInheritanceHierarchyChart().getElement(), 0);
 };
-tsumekusa.inherits(ConstructorContainer, MembersContainer);
+tsumekusa.inherits(ConstructorContainer, MethodsContainer);
 
 
 // TODO: Adapt mutliple languages.
@@ -48,10 +52,19 @@ ConstructorContainer.CAPTION = 'Constructor';
 ConstructorContainer.MODIFIER = 'constructor';
 
 
+/**
+ * Returns an inheritance hierarchy chart.
+ * @return {tsumekusaJsdoc.dom.InheritanceHierarchyChart} Chart.
+ */
+ConstructorContainer.prototype.getInheritanceHierarchyChart = function() {
+  return new InheritanceHierarchyChart(this.getSymbol());
+};
+
+
 /** @override */
-ConstructorContainer.prototype.createMemberDefinition = function(symbol) {
-  return new MethodDefinition(symbol, this.getDocHelper(),
-      this.getReferenceHelper());
+ConstructorContainer.prototype.getMembers = function() {
+  var parent = this.getSymbol();
+  return [parent];
 };
 
 

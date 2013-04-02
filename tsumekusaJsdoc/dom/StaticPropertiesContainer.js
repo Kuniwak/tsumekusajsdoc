@@ -9,10 +9,8 @@ var PropertiesContainer = require('./PropertiesContainer');
 
 /**
  * A class for static properties container.
- * @param {jsdoc.Doclet} parent Symbol contains {@code members}.
- * @param {Array.<jsdoc.Doclet>} members Static member symbols.
- * @param {?Array.<tsumekusa.dom.Paragraph>=} opt_topElements Optional top
- *     contents.
+ * @param {tsumekusaJsdoc.dom.DocletWrapper} parent Symbol contains
+ *     {@code members}.
  * @param {?tsumekusaJsdoc.dom.DocHelper=} opt_docHelper Optional
  *     document helper.
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
@@ -20,11 +18,9 @@ var PropertiesContainer = require('./PropertiesContainer');
  * @constructor
  * @extends {tsumekusaJsdoc.dom.PropertiesContainer}
  */
-var StaticPropertiesContainer = function(parent, members, opt_topElements,
-      opt_docHelper, opt_refHelper) {
-  PropertiesContainer.call(this, parent, members, StaticPropertiesContainer.
-      CAPTION, StaticPropertiesContainer.MODIFIER, opt_topElements,
-      opt_docHelper, opt_refHelper);
+var StaticPropertiesContainer = function(parent, opt_docHelper, opt_refHelper) {
+  PropertiesContainer.call(this, parent, StaticPropertiesContainer.CAPTION,
+      StaticPropertiesContainer.MODIFIER, opt_docHelper, opt_refHelper);
 };
 tsumekusa.inherits(StaticPropertiesContainer, PropertiesContainer);
 
@@ -44,6 +40,13 @@ StaticPropertiesContainer.CAPTION = 'Static Properties';
  * @type {string}
  */
 StaticPropertiesContainer.MODIFIER = 'static-properties';
+
+
+/** @override */
+StaticPropertiesContainer.prototype.getMembers = function() {
+  var parent = this.getSymbol();
+  return parent.staticProperties;
+};
 
 
 // Exports the constructor.

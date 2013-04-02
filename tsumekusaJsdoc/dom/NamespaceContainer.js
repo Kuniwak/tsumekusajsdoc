@@ -9,26 +9,25 @@ var DefinitionList = require(tsumekusaPath + '/dom/DefinitionList');
 
 var basePath = '../../tsumekusaJsdoc';
 var tsumekusaJsdoc = require(basePath);
-var MembersContainer = require(basePath + '/dom/MembersContainer');
-var PropertyDefinition = require(basePath + '/dom//PropertyDefinition');
+var PropertiesContainer = require(basePath + '/dom/PropertiesContainer');
 
 
 
 /**
  * A class for a container explains any member.
- * @param {jsdoc.Doclet} symbol Symbol.
+ * @param {tsumekusaJsdoc.dom.DocletWrapper} symbol Symbol.
  * @param {?tsumekusaJsdoc.dom.DocHelper=} opt_docHelper Optional
  *     document helper.
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
  *     reference helper.
  * @constructor
- * @extends {tsumekusaJsdoc.dom.MembersContainer}
+ * @extends {tsumekusaJsdoc.dom.PropertiesContainer}
  */
 var NamespaceContainer = function(symbol, opt_docHelper, opt_refHelper) {
-  MembersContainer.call(this, symbol, [symbol], NamespaceContainer.CAPTION,
+  PropertiesContainer.call(this, symbol, NamespaceContainer.CAPTION,
       NamespaceContainer.MODIFIER, opt_docHelper, opt_refHelper);
 };
-tsumekusa.inherits(NamespaceContainer, MembersContainer);
+tsumekusa.inherits(NamespaceContainer, PropertiesContainer);
 
 
 // TODO: Adapt mutliple languages.
@@ -49,9 +48,9 @@ NamespaceContainer.MODIFIER = 'constructor';
 
 
 /** @override */
-NamespaceContainer.prototype.createMemberDefinition = function(symbol) {
-  return new PropertyDefinition(symbol, this.getDocHelper(),
-      this.getReferenceHelper());
+NamespaceContainer.prototype.getMembers = function() {
+  var parent = this.getSymbol();
+  return [parent];
 };
 
 

@@ -13,8 +13,8 @@ var PropertyDefinition = require(basePath + '/dom/PropertyDefinition');
 
 /**
  * A class for properties container.
- * @param {jsdoc.Doclet} parent Symbol contains {@code members}.
- * @param {Array.<jsdoc.Doclet>} members Member symbols.
+ * @param {tsumekusaJsdoc.dom.DocletWrapper} parent Symbol contains
+ *     {@code members}.
  * @param {string} caption Caption of the container such as {@code
  *     'Static members'}.
  * @param {string} modifier Modifier of the reference ID.
@@ -25,9 +25,9 @@ var PropertyDefinition = require(basePath + '/dom/PropertyDefinition');
  * @constructor
  * @extends {tsumekusaJsdoc.dom.MembersContainer}
  */
-var PropertiesContainer = function(parent, members, caption, modifier,
-    opt_docHelper, opt_refHelper) {
-  MembersContainer.call(this, parent, members, caption, modifier, opt_docHelper,
+var PropertiesContainer = function(parent, caption, modifier, opt_docHelper,
+    opt_refHelper) {
+  MembersContainer.call(this, parent, caption, modifier, opt_docHelper,
       opt_refHelper);
 };
 tsumekusa.inherits(PropertiesContainer, MembersContainer);

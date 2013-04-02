@@ -5,10 +5,12 @@
 var tsumekusaPath = '../../tsumekusa';
 var tsumekusa = require(tsumekusaPath);
 var string = require(tsumekusaPath + '/string');
+var BlockElement = require(tsumekusaPath + '/dom/BlockElement');
+var Link = require(tsumekusaPath + '/dom/Link');
+var Strong = require(tsumekusaPath + '/dom/Strong');
 
 var basePath = '../../tsumekusaJsdoc';
-var DocElement = require(basePath +
-    '/dom/DocElement');
+var DocElement = require(basePath + '/dom/DocElement');
 
 
 
@@ -25,7 +27,7 @@ var DocElement = require(basePath +
  */
 var InheritanceHierarchyChart = function(symbol, opt_docHelper, opt_refHelper) {
   DocElement.call(this, opt_docHelper, opt_refHelper);
-  this.symbol_ = symbol;
+  this.setElement(new InheritanceHierarchyChartImpl(symbol));
 };
 tsumekusa.inherits(InheritanceHierarchyChart, DocElement);
 
@@ -62,28 +64,46 @@ InheritanceHierarchyChart.DOWN_ARROW = 'v';
 InheritanceHierarchyChart.MARKER = '*';
 
 
+
+/**
+ * A class for inheritance hierarchy chart implementations.
+ * @constructor
+ * @extends {tsumekusa.dom.BlockElement}
+ */
+InheritanceHierarchyChartImpl = function(symbol) {
+  BlockElement.call(this);
+  this.symbol_ = symbol;
+};
+tsumekusa.inherits(InheritanceHierarchyChartImpl, BlockElement);
+
+
 /**
  * Symbol.
- * @type {jsdoc.Doclet}
+ * @type {tsumekusaJsdoc.dom.DocletWrapper}
  * @private
  */
-InheritanceHierarchyChart.prototype.symbol_ = null;
+InheritanceHierarchyChartImpl.prototype.symbol_ = null;
 
 
 /**
  * Returns a symbol.
- * @return {jsdoc.Doclet} Symbol.
+ * @return {tsumekusaJsdoc.dom.DocletWrapper} Symbol.
  */
-InheritanceHierarchyChart.prototype.getSymbol = function() {
+InheritanceHierarchyChartImpl.prototype.getSymbol = function() {
   return this.symbol_;
 };
 
 
 /** @override */
-InheritanceHierarchyChart.prototype.publish = function() {
+InheritanceHierarchyChartImpl.prototype.getPublisher = function() {
+  return null;
+};
+
+
+/** @override */
+InheritanceHierarchyChartImpl.prototype.publish = function() {
   var symbol = this.getSymbol();
   var ancestors = symbol.ancestors;
-  var original = symbol.getOriginalDoclet();
   var MARGIN_WIDTH = InheritanceHierarchyChart.HORIZONTAL_MARGIN_WIDTH;
 
   var downArrowIndent = string.repeat(' ', InheritanceHierarchyChart.
@@ -92,21 +112,23 @@ InheritanceHierarchyChart.prototype.publish = function() {
   var downArrowLine = '\n' + downArrowIndent + InheritanceHierarchyChart.
       DOWN_ARROW + '\n';
 
+  // TODO: List unknown doclet too.
   var lines = ancestors.map(function(ancestor) {
-    var originalAncestor = ancestor.getOriginalDoclet();
-    var longname = originalAncestor.longname;
-    var kind = originalAncestor.kind;
+    var lnk = new Link(ancestor.longname);
+    var kind = ancestor.kind;
 
     var ancestorMargin = string.repeat(' ', MARGIN_WIDTH + 2);
 
-    return [ancestorMargin, longname, ' [', kind, ']'].join('');
+    return [ancestorMargin, lnk.publish(), ' [', kind, ']'].join('');
   });
 
   var margin = string.repeat(' ', MARGIN_WIDTH);
-  lines.push([margin, InheritanceHierarchyChart.MARKER, ' ', original.longname,
-      ' [', original.kind, ']'].join(''));
 
-  return lines.join(downArrowLine);
+  lines.push([margin, InheritanceHierarchyChart.MARKER, ' ',
+      new Strong(symbol.longname).publish(), ' [', symbol.kind, ']'
+  ].join(''));
+
+  return [margin, 'Inheritance:\n', lines.join(downArrowLine)].join('');
 };
 
 

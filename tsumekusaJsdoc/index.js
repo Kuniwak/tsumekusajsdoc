@@ -60,7 +60,7 @@ tsumekusaJsdoc.decorateParamName = function(tag) {
 
   // display 'foo...' as the tag name if the parameter is variable.
   if (tag.variable) {
-    name += '...';
+    name = '...' + name;
   }
   else if (tag.optional) {
     name = '[' + name + ']';

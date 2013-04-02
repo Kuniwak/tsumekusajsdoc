@@ -14,7 +14,7 @@ var ObjectDigest = require(basePath + '/dom/ObjectDigest');
 
 /**
  * A class for a definition of a property.
- * @param {jsdoc.Doclet} symbol Symbol.
+ * @param {tsumekusaJsdoc.dom.DocletWrapper} symbol Symbol.
  * @param {?tsumekusaJsdoc.dom.DocHelper=} opt_docHelper Optional
  *     document helper.
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional

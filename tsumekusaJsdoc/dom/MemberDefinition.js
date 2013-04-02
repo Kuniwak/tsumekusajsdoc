@@ -18,7 +18,7 @@ var SeeDefinition = require(basePath + '/dom/SeeDefinition');
 
 /**
  * A class for a definition of a member.
- * @param {jsdoc.Doclet} symbol Symbol.
+ * @param {tsumekusaJsdoc.dom.DocletWrapper} symbol Symbol.
  * @param {?tsumekusaJsdoc.dom.DocHelper=} opt_docHelper Optional
  *     document helper.
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
@@ -51,7 +51,7 @@ tsumekusa.inherits(MemberDefinition, DocElement);
 
 /**
  * Creates a member digest such as {@code 'foo: string|null'}.
- * @param {jsdoc.Doclet} symbol Symbol.
+ * @param {tsumekusaJsdoc.dom.DocletWrapper} symbol Symbol.
  * @return {tsumekusaJsdoc.dom.Digest} Member digest.
  */
 MemberDefinition.prototype.createDigest = tsumekusa.abstractMethod;
@@ -59,7 +59,7 @@ MemberDefinition.prototype.createDigest = tsumekusa.abstractMethod;
 
 /**
  * Creates contents as a member summary.
- * @param {jsdoc.Doclet} symbol Symbol.
+ * @param {tsumekusaJsdoc.dom.DocletWrapper} symbol Symbol.
  * @return {Array.<tsumekusa.dom.BlockElement>} Top contents.
  */
 MemberDefinition.prototype.createSummaryBlocks = function(symbol) {
@@ -80,7 +80,7 @@ MemberDefinition.prototype.getDefinitionDescritions = function() {
 
 /**
  * Creates 
- * @param {jsdoc.Doclet} symbol Member symbol.
+ * @param {tsumekusaJsdoc.dom.DocletWrapper} symbol Member symbol.
  * @return {}
  */
 MemberDefinition.prototype.createDetailDefinitionList = function(symbol) {
@@ -106,7 +106,7 @@ MemberDefinition.prototype.createDetailDefinitionList = function(symbol) {
 
 /**
  * Creates a visility definition.
- * @param {jsdoc.Doclet} symbol Member symbol.
+ * @param {tsumekusaJsdoc.dom.DocletWrapper} symbol Member symbol.
  * @return {tsumekusaJsdoc.dom.VisibilityDefinition} Created visility
  *     definition.
  */
@@ -119,7 +119,7 @@ MemberDefinition.prototype.createVisibilityDefinition = function(symbol) {
 
 /**
  * Creates a deprecation definition.
- * @param {jsdoc.Doclet} symbol Member symbol.
+ * @param {tsumekusaJsdoc.dom.DocletWrapper} symbol Member symbol.
  * @return {tsumekusaJsdoc.dom.VisibilityDefinition} Created visility
  *     definition.
  */
@@ -132,7 +132,7 @@ MemberDefinition.prototype.createDeprecationDefinition = function(symbol) {
 
 /**
  * Creates a see definition.
- * @param {jsdoc.Doclet} symbol Member symbol.
+ * @param {tsumekusaJsdoc.dom.DocletWrapper} symbol Member symbol.
  * @return {tsumekusaJsdoc.dom.VisibilityDefinition} Created visility
  *     definition.
  */

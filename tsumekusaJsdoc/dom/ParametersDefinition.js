@@ -19,7 +19,7 @@ var Type = require(basePath + '/dom/Type');
 
 /**
  * A class for a definition of a method parameters.
- * @param {jsdoc.Doclet} symbol Symbol.
+ * @param {tsumekusaJsdoc.dom.DocletWrapper} symbol Symbol.
  * @param {?tsumekusaJsdoc.dom.DocHelper=} opt_docHelper Optional
  *     document helper.
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
@@ -131,7 +131,7 @@ ParametersDefinition.ParameterDefinitionTermImpl.prototype.publish =
  * @return {string} Caption string for parameter definitions.
  */
 ParametersDefinition.prototype.getCaption = function() {
-  return ParametersDefinition.CAPTION;
+  return ParametersDefinition.CAPTION + ':';
 };
 
 

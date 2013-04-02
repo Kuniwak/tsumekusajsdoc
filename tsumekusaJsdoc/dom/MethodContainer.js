@@ -18,7 +18,7 @@ var ReturnsDefinition = require(basePath + '/dom/ReturnsDefinition');
 
 /**
  * A class for a container explains a method.
- * @param {jsdoc.Doclet} symbol Method symbol.
+ * @param {tsumekusaJsdoc.dom.DocletWrapper} symbol Method symbol.
  * @param {?tsumekusaJsdoc.dom.DocHelper=} opt_docHelper Optional
  *     document helper.
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
@@ -64,7 +64,7 @@ MethodContainer.prototype.createDigest = function(symbol) {
 
 /**
  * Creates a parameters container.
- * @param {jsdoc.Doclet} symbol Method symbol.
+ * @param {tsumekusaJsdoc.dom.DocletWrapper} symbol Method symbol.
  * @return {tsumekusaJsdoc.dom.ParametersDefinition}
  *     Created parameters container.
  */
@@ -76,7 +76,7 @@ MethodContainer.prototype.createParametersDefinition = function(symbol) {
 
 /**
  * Creates a parameters container.
- * @param {jsdoc.Doclet} symbol Method symbol.
+ * @param {tsumekusaJsdoc.dom.DocletWrapper} symbol Method symbol.
  * @return {tsumekusaJsdoc.dom.ReturnsDefinition}
  *     Created returns container.
  */

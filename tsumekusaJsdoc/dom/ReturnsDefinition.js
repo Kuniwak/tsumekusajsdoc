@@ -17,7 +17,7 @@ var Type = require(basePath + '/dom/Type');
 
 /**
  * A class for a definition of a method returns.
- * @param {jsdoc.Doclet} symbol Symbol.
+ * @param {tsumekusaJsdoc.dom.DocletWrapper} symbol Symbol.
  * @param {?tsumekusaJsdoc.dom.DocHelper=} opt_docHelper Optional
  *     document helper.
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
@@ -70,7 +70,7 @@ ReturnsDefinition.CAPTION = 'Returns';
  * @return {string} Caption string for parameter definitions.
  */
 ReturnsDefinition.prototype.getCaption = function() {
-  return ReturnsDefinition.CAPTION;
+  return ReturnsDefinition.CAPTION + ':';
 };
 
 

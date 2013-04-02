@@ -15,7 +15,7 @@ var DocElement = require(basePath + '/dom/DocElement');
 
 /**
  * A class for a container explains any member.
- * @param {jsdoc.Doclet} symbol Symbol.
+ * @param {tsumekusaJsdoc.dom.DocletWrapper} symbol Symbol.
  * @param {?tsumekusaJsdoc.dom.DocHelper=} opt_docHelper Optional
  *     document helper.
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
@@ -39,7 +39,7 @@ tsumekusa.inherits(MemberContainer, DocElement);
 
 /**
  * Creates a top content for a member summary.
- * @param {jsdoc.Doclet} symbol Symbol.
+ * @param {tsumekusaJsdoc.dom.DocletWrapper} symbol Symbol.
  * @return {Array.<tsumekusa.dom.BlockElement>} Top contents.
  */
 MemberContainer.prototype.createSummaryBlocks = function(symbol) {
@@ -55,7 +55,7 @@ MemberContainer.prototype.createSummaryBlocks = function(symbol) {
 
 /**
  * Creates a member digest such as {@code 'foo: string | null'}.
- * @param {jsdoc.Doclet} symbol Symbol.
+ * @param {tsumekusaJsdoc.dom.DocletWrapper} symbol Symbol.
  * @return {tsumekusaJsdoc.dom.Digest} Member digest.
  */
 MemberContainer.prototype.createDigest = tsumekusa.abstractMethod;

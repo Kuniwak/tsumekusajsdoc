@@ -9,10 +9,8 @@ var MethodsContainer = require('./MethodsContainer');
 
 /**
  * A class for static methods container.
- * @param {jsdoc.Doclet} parent Symbol contains {@code members}.
- * @param {Array.<jsdoc.Doclet>} members Static member symbols.
- * @param {?Array.<tsumekusa.dom.Paragraph>=} opt_topElements Optional top
- *     contents.
+ * @param {tsumekusaJsdoc.dom.DocletWrapper} parent Symbol contains
+ *     {@code members}.
  * @param {?tsumekusaJsdoc.dom.DocHelper=} opt_docHelper Optional
  *     document helper.
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
@@ -20,11 +18,9 @@ var MethodsContainer = require('./MethodsContainer');
  * @constructor
  * @extends {tsumekusaJsdoc.dom.MethodsContainer}
  */
-var StaticMethodsContainer = function(parent, members, opt_topElements,
-      opt_docHelper, opt_refHelper) {
-  MethodsContainer.call(this, parent, members, StaticMethodsContainer.CAPTION,
-      StaticMethodsContainer.MODIFIER, opt_topElements, opt_docHelper,
-      opt_refHelper);
+var StaticMethodsContainer = function(parent, opt_docHelper, opt_refHelper) {
+  MethodsContainer.call(this, parent, StaticMethodsContainer.CAPTION,
+      StaticMethodsContainer.MODIFIER, opt_docHelper, opt_refHelper);
 };
 tsumekusa.inherits(StaticMethodsContainer, MethodsContainer);
 
@@ -44,6 +40,13 @@ StaticMethodsContainer.CAPTION = 'Static Methods';
  * @type {string}
  */
 StaticMethodsContainer.MODIFIER = 'static-methods';
+
+
+/** @override */
+StaticMethodsContainer.prototype.getMembers = function() {
+  var parent = this.getSymbol();
+  return parent.staticMethods;
+};
 
 
 // Exports the constructor.

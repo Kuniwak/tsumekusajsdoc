@@ -12,7 +12,8 @@ var InlineElement = require('../../tsumekusa/dom/InlineElement');
  * See {@link tsumekusaJsdoc.dom.DocHelper#parseInlineTags}.
  * @param {string} type Unknown inline tag name.  An at mark was excluded.
  * @param {string} content Unknown unline tag content.
- * @param {?jsdoc.Doclet=} opt_current Optional current doclet.
+ * @param {?tsumekusaJsdoc.dom.DocletWrapper=} opt_current Optional current
+ *     doclet.
  * @constructor
  * @extends {tsumekusa.dom.InlineElement}
  */

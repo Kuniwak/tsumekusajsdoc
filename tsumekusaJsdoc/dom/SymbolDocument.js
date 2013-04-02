@@ -16,7 +16,7 @@ var DocElement = require(basePath +
 
 /**
  * A class for document explains a symbol such as class or namespace.
- * @param {jsdoc.Doclet} symbol Symbol.
+ * @param {tsumekusaJsdoc.dom.DocletWrapper} symbol Symbol.
  * @param {string} caption Caption of the document.
  * @param {?tsumekusaJsdoc.dom.DocHelper=} opt_docHelper Optional
  *     document helper.
@@ -40,7 +40,7 @@ tsumekusa.inherits(SymbolDocument, DocElement);
 
 /**
  * Symbol that the document explains.
- * @type {jsdoc.Doclet}
+ * @type {tsumekusaJsdoc.dom.DocletWrapper}
  * @private
  */
 SymbolDocument.prototype.symbol_ = null;
@@ -64,7 +64,7 @@ SymbolDocument.prototype.dirPath_ = null;
 
 /**
  * Returns a symbol that the document explains.
- * @return {jsdoc.Doclet} Symbol.
+ * @return {tsumekusaJsdoc.dom.DocletWrapper} Symbol.
  */
 SymbolDocument.prototype.getSymbol = function() {
   return this.symbol_;

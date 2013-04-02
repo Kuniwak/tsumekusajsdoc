@@ -43,7 +43,8 @@ DocHelper.ENABLED_TAG_NAME_REGEXP = /^(ul|ol|li|pre|code|b)/i;
  * Parses a string includes block-like contents.  The method parse HTML if
  * {@link tsumekusaJsdoc.HTML_DISABLED} is true.
  * @param {string} str String to parse.
- * @param {?jsdoc.Doclet=} opt_current Optional doclet that has {@code str}.
+ * @param {?tsumekusaJsdoc.dom.DocletWrapper=} opt_current Optional doclet that
+ *     has {@code str}.
  */
 DocHelper.prototype.parseBlocks = function(str, opt_current) {
   var blocks = [], blockIdx = 0;
@@ -127,7 +128,8 @@ DocHelper.prototype.parseBlocks = function(str, opt_current) {
 /**
  * Creates block content by a node.
  * @param {tsumekusaJsdoc.dom.DocHelper.TreeNode} node Node.
- * @param {?jsdoc.Doclet=} opt_current Optional doclet that has {@code node}.
+ * @param {?tsumekusaJsdoc.dom.DocletWrapper=} opt_current Optional doclet that
+ *     has {@code node}.
  * @protected
  */
 DocHelper.prototype.createBlockElementByNode = function(node, opt_current) {
@@ -136,7 +138,7 @@ DocHelper.prototype.createBlockElementByNode = function(node, opt_current) {
   var text = obj.text;
   var childNodes = node.getChildren();
 
-  switch (tagName) {
+  switch (tagName.toLowerCase()) {
     case 'ul':
       var list = new List(List.ListType.UNORDERED);
       var elemArr = list.getListItems();
@@ -173,7 +175,8 @@ DocHelper.prototype.createBlockElementByNode = function(node, opt_current) {
 
       return new List.ListItem(blocks);
     case 'pre':
-      var pre = childNodes[0].getValue().text;
+      var pre = childNodes[0].getValue().text.replace(/^\n/, '')
+          .replace(/\n$/, '');
       return new Code(pre);
     case 'b':
       var strong = childNodes[0].getValue().text;
@@ -199,7 +202,8 @@ DocHelper.prototype.createBlockElementByNode = function(node, opt_current) {
  * Parses a string to an array of inline tags.  Returns an original string,
  * if {@link tsumekusa.INLINE_TAG_DISABLED} flag was set.
  * @param {string} string String to parse.
- * @param {?jsdoc.Doclet=} opt_current Optional current doclet.
+ * @param {?tsumekusaJsdoc.dom.DocletWrapper=} opt_current Optional current
+ *     doclet.
  * @return {Array.<string|tsumekusa.dom.InlineElement>} Parsed contents.
  */
 DocHelper.prototype.parseInlineTags = function(input, opt_current) {
@@ -249,7 +253,8 @@ DocHelper.prototype.parseInlineTags = function(input, opt_current) {
  * </pre>
  * @param {string} tagName Tag name.
  * @param {string} tagElement Tag content.
- * @param {?jsdoc.Doclet=} opt_current Optional current doclet.
+ * @param {?tsumekusaJsdoc.dom.DocletWrapper=} opt_current Optional current
+ *     doclet.
  * @return {tsumekusa.dom.InlineElement} Created inline content.  Returns
  *     an {@code tsumekusa.publishing.UnknownInlineTag} for overriding if the
  *     tag type was unknown.  You can get an other content by overriding the
@@ -257,7 +262,7 @@ DocHelper.prototype.parseInlineTags = function(input, opt_current) {
  */
 DocHelper.prototype.createInlineElement = function(tagName, tagElement,
     opt_current) {
-  switch (tagName) {
+  switch (tagName.toLowerCase()) {
     case 'link':
       return new Link(this.resolveInlineLink(tagElement, opt_current));
     case 'plain':
@@ -272,7 +277,8 @@ DocHelper.prototype.createInlineElement = function(tagName, tagElement,
 /**
  * Resolves relational link in an inline content.
  * @param {string} link Link string.
- * @param {?jsdoc.Doclet=} opt_current Optional current doclet.
+ * @param {?tsumekusaJsdoc.dom.DocletWrapper=} opt_current Optional current
+ *     doclet.
  * @return {string} Absolute link string.
  */
 DocHelper.prototype.resolveInlineLink = function(link, opt_current) {

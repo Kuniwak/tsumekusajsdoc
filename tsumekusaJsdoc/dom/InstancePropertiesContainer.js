@@ -9,10 +9,8 @@ var PropertiesContainer = require('./PropertiesContainer');
 
 /**
  * A class for instance properties container.
- * @param {jsdoc.Doclet} parent Symbol contains {@code members}.
- * @param {Array.<jsdoc.Doclet>} members Instance member symbols.
- * @param {?Array.<tsumekusa.dom.Paragraph>=} opt_topElements Optional top
- *     contents.
+ * @param {tsumekusaJsdoc.dom.DocletWrapper} parent Symbol contains
+ *     {@code members}.
  * @param {?tsumekusaJsdoc.dom.DocHelper=} opt_docHelper Optional
  *     document helper.
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional
@@ -20,11 +18,10 @@ var PropertiesContainer = require('./PropertiesContainer');
  * @constructor
  * @extends {tsumekusaJsdoc.dom.PropertiesContainer}
  */
-var InstancePropertiesContainer = function(parent, members, opt_topElements,
-      opt_docHelper, opt_refHelper) {
-  PropertiesContainer.call(this, parent, members, InstancePropertiesContainer.
-      CAPTION, InstancePropertiesContainer.MODIFIER, opt_topElements,
-      opt_docHelper, opt_refHelper);
+var InstancePropertiesContainer = function(parent, opt_docHelper,
+    opt_refHelper) {
+  PropertiesContainer.call(this, parent, InstancePropertiesContainer.CAPTION,
+      InstancePropertiesContainer.MODIFIER, opt_docHelper, opt_refHelper);
 };
 tsumekusa.inherits(InstancePropertiesContainer, PropertiesContainer);
 
@@ -44,6 +41,13 @@ InstancePropertiesContainer.CAPTION = 'Instance Properties';
  * @type {string}
  */
 InstancePropertiesContainer.MODIFIER = 'instance-properties';
+
+
+/** @override */
+InstancePropertiesContainer.prototype.getMembers = function() {
+  var parent = this.getSymbol();
+  return parent.instanceProperties;
+};
 
 
 // Exports the constructor.
