@@ -68,7 +68,28 @@ DocHelper.prototype.parseBlocks = function(str, opt_current) {
       },
       ontext: function(text) {
         tmp = new DocHelper.TreeNode();
-        tmp.setValue({ name: 'text', text: text });
+        var decoded = text.replace(/&([^;]+);/g, function(s, entity) {
+          switch (entity) {
+            case 'amp':
+              return '&';
+            case 'lt':
+              return '<';
+            case 'gt':
+              return '>';
+            case 'quot':
+              return '"';
+            default:
+              if (entity.charAt(0) == '#') {
+                // Prefix with 0 so that hex entities (e.g. &#x10) parse as hex.
+                var n = Number('0' + entity.substr(1));
+                if (!isNaN(n)) {
+                  return String.fromCharCode(n);
+                }
+              }
+          }
+        });
+
+        tmp.setValue({ name: 'text', text: decoded });
         currentNode.append(tmp);
       },
       onclosetag: function(name) {
