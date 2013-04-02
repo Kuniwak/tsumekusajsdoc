@@ -44,7 +44,7 @@ ParametersDefinition = function(symbol, opt_docHelper, opt_refHelper) {
   if (symbol.params) {
     symbol.params.forEach(function(tag) {
       var desc = new ElementArray();
-      desc.addChildren(docHelper.parseBlocks(tag.text || tsumekusaJsdoc.
+      desc.addChildren(docHelper.parseBlocks(tag.description || tsumekusaJsdoc.
           NO_DESCRIPTION));
 
       var term = new ParametersDefinition.ParameterDefinitionTerm(tag,

@@ -32,10 +32,10 @@ var MembersContainer = function(parent, members, caption, modifier,
   DocElement.call(this, opt_docHelper, opt_refHelper);
 
   var refId = this.getReferenceHelper().getReferenceId(parent, modifier);
-
   var container = new Container(caption, refId, true);
+  var topBlocks = container.getTopElements();
+
   var dl = new DefinitionList(DefinitionList.ListType.NO_MARKER);
-  container.getTopElements().addChild(dl);
   var defs = dl.getDefinitions();
 
   members.forEach(function(member) {
@@ -43,6 +43,7 @@ var MembersContainer = function(parent, members, caption, modifier,
     defs.addChild(def.getElement());
   }, this);
 
+  topBlocks.addChild(dl);
   this.setElement(container);
 };
 tsumekusa.inherits(MembersContainer, DocElement);

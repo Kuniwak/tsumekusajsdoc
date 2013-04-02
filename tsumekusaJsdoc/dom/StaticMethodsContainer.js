@@ -38,7 +38,6 @@ tsumekusa.inherits(StaticMethodsContainer, MethodsContainer);
 StaticMethodsContainer.CAPTION = 'Static Methods';
 
 
-// TODO: Adapt mutliple languages.
 /**
  * Default modifier for a static methods chapter.
  * @const

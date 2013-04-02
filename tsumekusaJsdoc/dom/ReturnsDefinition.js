@@ -42,7 +42,7 @@ ReturnsDefinition = function(symbol, opt_docHelper, opt_refHelper) {
   if (symbol.returns) {
     symbol.returns.forEach(function(tag) {
       var desc = new ElementArray();
-      desc.addChildren(docHelper.parseBlocks(tag.text || tsumekusaJsdoc.
+      desc.addChildren(docHelper.parseBlocks(tag.description || tsumekusaJsdoc.
           NO_DESCRIPTION));
 
       var type = new Type(tag);

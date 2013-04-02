@@ -9,16 +9,13 @@ var Paragraph = require(tsumekusaPath + '/dom/Paragraph');
 
 var basePath = '../../tsumekusaJsdoc';
 var tsumekusaJsdoc = require(basePath);
-var DocElement = require(basePath +
-    '/dom/DocElement');
+var DocElement = require(basePath + '/dom/DocElement');
 
 
 
 /**
  * A class for a container explains any member.
  * @param {jsdoc.Doclet} symbol Symbol.
- * @param {?Array.<tsumekusa.dom.Paragraph>=} opt_topElements Optional top
- *     contents.
  * @param {?tsumekusaJsdoc.dom.DocHelper=} opt_docHelper Optional
  *     document helper.
  * @param {?tsumekusaJsdoc.references.ReferenceHelper=} opt_refHelper Optional

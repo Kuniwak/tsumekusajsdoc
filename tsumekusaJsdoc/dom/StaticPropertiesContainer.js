@@ -38,7 +38,6 @@ tsumekusa.inherits(StaticPropertiesContainer, PropertiesContainer);
 StaticPropertiesContainer.CAPTION = 'Static Properties';
 
 
-// TODO: Adapt mutliple languages.
 /**
  * Default modifier for a static properties chapter.
  * @const

@@ -5,11 +5,12 @@
 var tsumekusaPath = '../../tsumekusa';
 var tsumekusa = require(tsumekusaPath);
 var Document = require(tsumekusaPath + '/dom/Document');
+var DefinitionList = require(tsumekusaPath + '/dom/DefinitionList');
 
 var basePath = '../../tsumekusaJsdoc';
 var SymbolDocument = require(basePath + '/dom/SymbolDocument');
-var StaticMethodsContainer = require(basePath +
-    '/dom/StaticMethodsContainer');
+var ConstructorContainer = require(basePath + '/dom/ConstructorContainer');
+var StaticMethodsContainer = require(basePath + '/dom/StaticMethodsContainer');
 var InstanceMethodsContainer = require(basePath +
     '/dom/InstanceMethodsContainer');
 var StaticPropertiesContainer = require(basePath +
@@ -56,6 +57,8 @@ ClassDocument.prototype.publish = function() {
   var staticProperties = this.getStaticProperties();
   var instanceMethods = this.getInstanceMethods();
   var instanceProperties = this.getInstanceProperties();
+
+  subContainers.addChild(this.createConstructorContainer().getElement());
 
   if (staticMethods && staticMethods.length > 0) {
     var staticMethodsContainer = this.createStaticMethodsContainer();
@@ -163,6 +166,17 @@ ClassDocument.prototype.setInstanceProperties = function(symbols) {
  */
 ClassDocument.prototype.getInstanceProperties = function() {
   return this.instanceProperties_;
+};
+
+
+/**
+ * Creates a constructor definition.
+ * @return {tsumekusaJsdoc.dom.MethodDefinition} Method definition.
+ * @protected
+ */
+ClassDocument.prototype.createConstructorContainer = function() {
+  return new ConstructorContainer(this.getSymbol(), this.getDocHelper(),
+      this.getReferenceHelper());
 };
 
 

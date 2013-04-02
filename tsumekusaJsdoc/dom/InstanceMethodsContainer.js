@@ -38,7 +38,6 @@ tsumekusa.inherits(InstanceMethodsContainer, MethodsContainer);
 InstanceMethodsContainer.CAPTION = 'Instance Methods';
 
 
-// TODO: Adapt mutliple languages.
 /**
  * Default modifier for a instance methods chapter.
  * @const

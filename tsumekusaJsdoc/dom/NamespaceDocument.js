@@ -2,11 +2,17 @@
 // http://orgachem.mit-license.org
 
 
-var tsumekusa = require('../../tsumekusa');
-var Document = require('../../tsumekusa/dom/Document');
-var SymbolDocument = require('./SymbolDocument');
-var StaticMethodsContainer = require('./StaticMethodsContainer');
-var StaticPropertiesContainer = require('./StaticPropertiesContainer');
+var tsumekusaPath = '../../tsumekusa';
+var tsumekusa = require(tsumekusaPath);
+var Document = require(tsumekusaPath + '/dom/Document');
+var DefinitionList = require(tsumekusaPath + '/dom/DefinitionList');
+
+var basePath = '../../tsumekusaJsdoc';
+var SymbolDocument = require(basePath + '/dom/SymbolDocument');
+var NamespaceContainer = require(basePath + '/dom/NamespaceContainer');
+var StaticMethodsContainer = require(basePath + '/dom/StaticMethodsContainer');
+var StaticPropertiesContainer = require(basePath +
+    '/dom/StaticPropertiesContainer');
 
 
 
@@ -44,6 +50,8 @@ NamespaceDocument.prototype.publish = function() {
 
   var staticMethods = this.getStaticMethods();
   var staticProperties = this.getStaticProperties();
+
+  subContainers.addChild(this.createNamespaceContainer().getElement());
 
   if (staticMethods && staticMethods.length > 0) {
     var staticMethodsContainer = this.createStaticMethodsContainer();
@@ -99,6 +107,17 @@ NamespaceDocument.prototype.setStaticProperties = function(symbols) {
  */
 NamespaceDocument.prototype.getStaticProperties = function() {
   return this.staticProperties_;
+};
+
+
+/**
+ * Creates a definition explains the namespace.
+ * @return {tsumekusaJsdoc.dom.NamespaceContainer} Property definition.
+ * @protected
+ */
+NamespaceDocument.prototype.createNamespaceContainer = function() {
+  return new NamespaceContainer(this.getSymbol(), this.getDocHelper(),
+      this.getReferenceHelper());
 };
 
 

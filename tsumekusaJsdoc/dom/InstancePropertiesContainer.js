@@ -38,7 +38,6 @@ tsumekusa.inherits(InstancePropertiesContainer, PropertiesContainer);
 InstancePropertiesContainer.CAPTION = 'Instance Properties';
 
 
-// TODO: Adapt mutliple languages.
 /**
  * Default modifier for a instance properties chapter.
  * @const

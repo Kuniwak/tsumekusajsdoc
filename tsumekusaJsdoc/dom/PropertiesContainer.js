@@ -2,9 +2,12 @@
 // http://orgachem.mit-license.org
 
 
-var tsumekusa = require('../../tsumekusa');
-var MembersContainer = require('./MembersContainer');
-var PropertyDefinition = require('./PropertyDefinition');
+var tsumekusaPath = '../../tsumekusa';
+var tsumekusa = require(tsumekusaPath);
+
+var basePath = '../../tsumekusaJsdoc';
+var MembersContainer = require(basePath + '/dom/MembersContainer');
+var PropertyDefinition = require(basePath + '/dom/PropertyDefinition');
 
 
 
