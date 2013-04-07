@@ -9,16 +9,18 @@ var ObjectDigest = require(basePath + '/dom/ObjectDigest');
 var Type = require(basePath + '/dom/Type');
 
 
-exports.testPublish = function(test) {
-  var dummyDoclet = {
-    longname: 'foo.bar',
-    type: {
-      names: ['boolean'],
-      original: 'boolean'
-    }
-  };
+module.exports = {
+  'publish': function(test) {
+    var dummyDoclet = {
+      longname: 'foo.bar',
+      type: {
+        names: ['boolean'],
+        original: 'boolean'
+      }
+    };
 
-  var digest = new ObjectDigest(dummyDoclet);
-  test.equal(digest.publish(), '`foo.bar`: `boolean`');
-  test.done();
+    var digest = new ObjectDigest(dummyDoclet);
+    test.equal(digest.publish(), '`foo.bar`: `boolean`');
+    test.done();
+  }
 };

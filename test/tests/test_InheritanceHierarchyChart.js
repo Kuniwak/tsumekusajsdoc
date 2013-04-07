@@ -10,33 +10,35 @@ var InheritanceHierarchyChart = require(basePath +
     '/dom/InheritanceHierarchyChart');
 
 
-exports.testPublish = function(test) {
-  var dummyDoclet = new DocletWrapper({
-    longname: 'Child',
-    kind: 'class'
-  });
-  dummyDoclet.setAncestors([ 
-      new DocletWrapper({
-        longname: 'GrandParent',
-        kind: 'interface'
-      }),
-      new DocletWrapper({
-        longname: 'Parent',
-        kind: 'class'
-        })
-  ]);
+module.exports = {
+  'publish': function(test) {
+    var dummyDoclet = new DocletWrapper({
+      longname: 'Child',
+      kind: 'class'
+    });
+    dummyDoclet.setAncestors([ 
+        new DocletWrapper({
+          longname: 'GrandParent',
+          kind: 'interface'
+        }),
+        new DocletWrapper({
+          longname: 'Parent',
+          kind: 'class'
+          })
+    ]);
 
-  var chart = new InheritanceHierarchyChart(dummyDoclet);
+    var chart = new InheritanceHierarchyChart(dummyDoclet);
 
-  var CORRECT = [
-    '  Inheritance:',
-    '    \\GrandParent\\ [interface]',
-    '      v',
-    '    \\Parent\\ [class]',
-    '      v',
-    '  * #Child# [class]'
-  ].join('\n');
+    var CORRECT = [
+      '  Inheritance:',
+      '    \\GrandParent\\ [interface]',
+      '      v',
+      '    \\Parent\\ [class]',
+      '      v',
+      '  * #Child# [class]'
+    ].join('\n');
 
-  test.equal(chart.publish(), CORRECT);
-  test.done();
+    test.equal(chart.publish(), CORRECT);
+    test.done();
+  }
 };
