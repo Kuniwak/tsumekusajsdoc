@@ -2,14 +2,9 @@
 // http://orgachem.mit-license.org
 
 
-var tsumekusaPath = '../../../tsumekusa';
-var tsumekusa = require(tsumekusaPath);
-var registry = require(tsumekusaPath + '/publishing/registry');
-var publishers = require(tsumekusaPath + '/publishing/DefaultPublishers');
+var tsumekusa = require('tsumekusa');
 
-registry.registerElementPublishers(publishers);
-
-var basePath = '../../../tsumekusaJsdoc';
+var basePath = '../../lib';
 var MethodContainer = require(basePath + '/dom/MethodContainer');
 var Type = require(basePath + '/dom/Type');
 
@@ -23,7 +18,8 @@ exports.testPublishWithParams = function(test) {
         "type": {
           "names": [
             "goog.ui.Component"
-          ]
+          ],
+          original: 'goog.ui.Component'
         },
         "optional": null,
         "nullable": null,
@@ -36,7 +32,8 @@ exports.testPublishWithParams = function(test) {
         "type": {
           "names": [
             "boolean"
-          ]
+          ],
+          original: 'boolean='
         },
         "optional": true,
         "nullable": null,
@@ -63,12 +60,12 @@ exports.testPublishWithParams = function(test) {
     '  Adds the specified component as the last child of this component. See',
     '  \\goog.ui.Component#addChildAt\\ for detailed semantics.',
     '',
-    '  Parameters',
+    '  Parameters:',
     '    `child`: \\goog.ui.Component\\',
-    '      No description.',
+    '      The new child component.',
     '',
     '    `[opt_render]`: `boolean`|`undefined`',
-    '      No description.'
+    '      If true, the child component will be rendered into the parent.'
   ].join('\n');
 
   test.equal(container.publish(), CORRECT);
@@ -105,7 +102,8 @@ exports.testPublishWithParamAndReturn = function(test) {
         "type": {
           "names": [
             "string"
-          ]
+          ],
+          original: 'string'
         },
         "optional": null,
         "nullable": null,
@@ -120,7 +118,8 @@ exports.testPublishWithParamAndReturn = function(test) {
         "type": {
           "names": [
             "Element"
-          ]
+          ],
+          original: 'Element'
         },
         "optional": null,
         "nullable": null,
@@ -148,13 +147,13 @@ exports.testPublishWithParamAndReturn = function(test) {
     '  Helper function for returning an element in the document with a unique id',
     '  generated using makeId().',
     '',
-    '  Parameters',
+    '  Parameters:',
     '    `idFragment`: `string`',
-    '      No description.',
+    '      The partial id.',
     '',
-    '  Returns',
+    '  Returns:',
     '    `Element`',
-    '      No description.'
+    '      The element with the unique id, or null if it cannot be found.'
   ].join('\n');
 
   test.equal(container.publish(), CORRECT);

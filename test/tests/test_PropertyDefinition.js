@@ -2,15 +2,10 @@
 // http://orgachem.mit-license.org
 
 
-var tsumekusaPath = '../../../tsumekusa';
-var tsumekusa = require(tsumekusaPath);
-var registry = require(tsumekusaPath + '/publishing/registry');
-var publishers = require(tsumekusaPath + '/publishing/DefaultPublishers');
-registry.registerElementPublishers(publishers);
+var tsumekusa = require('tsumekusa');
+var DefinitionList = tsumekusa.DefinitionList;
 
-var DefinitionList = require(tsumekusaPath + '/dom/DefinitionList');
-
-var basePath = '../../../tsumekusaJsdoc';
+var basePath = '../../lib';
 var PropertyDefinition = require(basePath + '/dom/PropertyDefinition');
 var Type = require(basePath + '/dom/Type');
 
@@ -39,7 +34,8 @@ exports.testPublish = function(test) {
     "type": {
       "names": [
         "Element"
-      ]
+      ],
+      original: 'Element'
     },
     "access": "private",
     "name": "element_",
@@ -60,8 +56,8 @@ exports.testPublish = function(test) {
     '`goog.ui.Component#element_`: `Element`',
     '  The DOM element for the component.',
     '',
-    '  #Visibility#',
-    '    private'
+    '  Visibility',
+    '    #private#'
   ].join('\n');
 
   test.equal(propDef.publish(), CORRECT);

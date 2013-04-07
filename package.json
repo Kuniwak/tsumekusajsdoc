@@ -23,10 +23,13 @@
     "test": "node test/run.js"
   },
   "readmeFilename": "README.md",
-  "dependencies": {},
+  "dependencies": {
+    "tsumekusa": "~0.0.3",
+    "jsdoctypeparser": "~0.0.2",
+    "htmlparser2": "~3.0.2"
+  },
   "devDependencies": {
-    "nodeunit": "~0.8.0",
-    "benchmark": "~1.0.0"
+    "nodeunit": "~0.8.0"
   },
   "license": "MIT"
 }
