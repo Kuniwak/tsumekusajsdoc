@@ -1,0 +1,32 @@
+{
+  "name": "tsumekusajsdoc",
+  "description": "CUI oriented template for Jsdoc3.",
+  "version": "0.0.0",
+  "author": "Orga Chem <orga.chem.job@gmail.com>",
+  "keywords": [
+    "jsdoc",
+    "parser"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/OrgaChem/tsumekusa-jsdoc.git"
+  },
+  "bugs": {
+    "mail": "orga.chem.job@gmail.com",
+    "url": "https://github.com/OrgaChem/tsumekusa-jsdoc/issues"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "node test/run.js"
+  },
+  "readmeFilename": "README.md",
+  "dependencies": {},
+  "devDependencies": {
+    "nodeunit": "~0.8.0",
+    "benchmark": "~1.0.0"
+  },
+  "license": "MIT"
+}

@@ -117,8 +117,11 @@ publisher.publish = function(taffyData, opts, tutorials) {
     }
   });
 
-  var logo = opts.query.logo ? decodeURIComponent(opts.query.logo) : null;
-  var version = opts.query.version;
+  var logo, version;
+  if (opts.query) {
+    logo = opts.query.logo ? decodeURIComponent(opts.query.logo) : null;
+    version = opts.query.version;
+  }
 
   // TODO: Implement module, externs, global object processing.
   classes.forEach(function(classSymbol) {
