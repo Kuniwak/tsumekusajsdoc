@@ -1,11 +1,13 @@
 {
   "name": "tsumekusajsdoc",
   "description": "CUI oriented template for Jsdoc3.",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "author": "Orga Chem <orga.chem.job@gmail.com>",
   "keywords": [
     "jsdoc",
-    "parser"
+    "jsdoc3",
+    "tsumekusa",
+    "template"
   ],
   "repository": {
     "type": "git",
