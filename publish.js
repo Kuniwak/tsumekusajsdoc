@@ -5,21 +5,16 @@
 var startTime = new Date().getTime();
 var fs = require('fs');
 
-var tsumekusaPath = './tsumekusa';
-var tsumekusa = require(tsumekusaPath);
-var PreformattedParagraph = require(tsumekusaPath +
-    '/dom/PreformattedParagraph');
-var registry = require(tsumekusaPath + '/publishing/registry');
-var publishers = require(tsumekusaPath + '/publishing/DefaultPublishers');
-registry.registerElementPublishers(publishers);
+var tsumekusa = require('./node_modules/tsumekusa');
+var util = tsumekusa.util;
+var PreformattedParagraph = tsumekusa.PreformattedParagraph;
 
-var tsumekusaJsdocPath = './tsumekusaJsdoc';
-var tsumekusaJsdoc = require(tsumekusaJsdocPath);
-var ReferenceHelper = require(tsumekusaJsdocPath +
-    '/references/ReferenceHelper');
-var ClassDocument = require(tsumekusaJsdocPath + '/dom/ClassDocument');
-var NamespaceDocument = require(tsumekusaJsdocPath + '/dom/NamespaceDocument');
-var DocletWrapper = require(tsumekusaJsdocPath + '/dom/DocletWrapper');
+var basePath = './lib';
+var tsumekusaJsdoc = require(basePath);
+var ReferenceHelper = require(basePath + '/references/ReferenceHelper');
+var ClassDocument = require(basePath + '/dom/ClassDocument');
+var NamespaceDocument = require(basePath + '/dom/NamespaceDocument');
+var DocletWrapper = require(basePath + '/dom/DocletWrapper');
 
 
 
@@ -39,13 +34,13 @@ var publisher = {};
 publisher.publish = function(taffyData, opts, tutorials) {
   ReferenceHelper.baseDirectoryPath = opts.destination;
 
+  var symbols = taffyData().get();
+
   /**
    * Map has pairs that longnames and each members.
    * @type {Object.<Array.<tsumekusaJsdoc.dom.DocletWrapper>>}
    */
   var memberMap = {};
-
-  var symbols = taffyData().get();
   var classes = [], classesIdx = 0;
   var namespaces = [], namespacesIdx = 0;
 
@@ -84,10 +79,11 @@ publisher.publish = function(taffyData, opts, tutorials) {
               parentDocletWrapper.appendInnerMethod(currentDocletWrapper);
               break;
             default:
-              tsumekusa.warn('Unknown scope found: "' + symbol.scope + '"');
+              util.warn('Unknown scope found: "' + symbol.scope + '"');
               break;
           }
           break;
+        case 'constant':
         case 'member':
           switch (symbol.scope) {
             case 'static':
@@ -100,7 +96,7 @@ publisher.publish = function(taffyData, opts, tutorials) {
               parentDocletWrapper.appendInnerProperty(currentDocletWrapper);
               break;
             default:
-              tsumekusa.warn('Unknown scope found: "' + symbol.scope + '"');
+              util.warn('Unknown scope found: "' + symbol.scope + '"');
               break;
           }
           break;
@@ -111,7 +107,7 @@ publisher.publish = function(taffyData, opts, tutorials) {
           classes[classesIdx++] = currentDocletWrapper;
           break;
         default:
-          tsumekusa.warn('Unknown kind found: "' + symbol.kind + '"');
+          util.warn('Unknown kind found: "' + symbol.kind + '"');
           break;
       }
     }
