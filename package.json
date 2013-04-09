@@ -28,10 +28,11 @@
   "dependencies": {
     "tsumekusa": "~0.0.3",
     "jsdoctypeparser": "~0.0.2",
-    "htmlparser2": "~3.0.2"
+    "htmlparser2": "~3.0.3"
   },
   "devDependencies": {
-    "nodeunit": "~0.8.0"
+    "nodeunit": "~0.8.0",
+    "jsdoc": "git://github.com/jsdoc3/jsdoc.git"
   },
   "license": "MIT"
 }
