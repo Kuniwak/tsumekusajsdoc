@@ -2,7 +2,6 @@
 // http://orgachem.mit-license.org
 
 
-var startTime = new Date().getTime();
 var fs = require('fs');
 
 var tsumekusa = require('./node_modules/tsumekusa');
@@ -32,6 +31,7 @@ var publisher = {};
  *  @param {Tutorial} tutorials Tutorials.
  */
 publisher.publish = function(taffyData, opts, tutorials) {
+  var startTime = new Date().getTime();
   ReferenceHelper.baseDirectoryPath = opts.destination;
 
   var symbols = taffyData().get();
@@ -43,6 +43,7 @@ publisher.publish = function(taffyData, opts, tutorials) {
   var memberMap = {};
   var classes = [], classesIdx = 0;
   var namespaces = [], namespacesIdx = 0;
+
 
   symbols.forEach(function(symbol) {
     // Create a map of a longname to the symbol.
@@ -64,10 +65,12 @@ publisher.publish = function(taffyData, opts, tutorials) {
       if (!(parentDocletWrapper = memberMap[parentLongName])) {
         parentDocletWrapper = memberMap[parentLongName] = new DocletWrapper();
       }
+    }
 
-      // Classify symbols
-      switch (symbol.kind) {
-        case 'function':
+    // Classify symbols
+    switch (symbol.kind) {
+      case 'function':
+        if (parentDocletWrapper) {
           switch (symbol.scope) {
             case 'static':
               parentDocletWrapper.appendStaticMethod(currentDocletWrapper);
@@ -82,9 +85,11 @@ publisher.publish = function(taffyData, opts, tutorials) {
               util.warn('Unknown scope found: "' + symbol.scope + '"');
               break;
           }
-          break;
-        case 'constant':
-        case 'member':
+        }
+        break;
+      case 'constant':
+      case 'member':
+        if (parentDocletWrapper) {
           switch (symbol.scope) {
             case 'static':
               parentDocletWrapper.appendStaticProperty(currentDocletWrapper);
@@ -99,17 +104,17 @@ publisher.publish = function(taffyData, opts, tutorials) {
               util.warn('Unknown scope found: "' + symbol.scope + '"');
               break;
           }
-          break;
-        case 'namespace':
-          namespaces[namespacesIdx++] = currentDocletWrapper;
-          break;
-        case 'class':
-          classes[classesIdx++] = currentDocletWrapper;
-          break;
-        default:
-          util.warn('Unknown kind found: "' + symbol.kind + '"');
-          break;
-      }
+        }
+        break;
+      case 'namespace':
+        namespaces[namespacesIdx++] = currentDocletWrapper;
+        break;
+      case 'class':
+        classes[classesIdx++] = currentDocletWrapper;
+        break;
+      default:
+        util.warn('Unknown kind found: "' + symbol.kind + '"');
+        break;
     }
   });
 
@@ -118,6 +123,7 @@ publisher.publish = function(taffyData, opts, tutorials) {
     logo = opts.query.logo ? decodeURIComponent(opts.query.logo) : null;
     version = opts.query.version;
   }
+  var dst = opts.destination;
 
   // TODO: Implement module, externs, global object processing.
   classes.forEach(function(classSymbol) {
@@ -143,7 +149,12 @@ publisher.publish = function(taffyData, opts, tutorials) {
       classDoc.getElement().setVersion(version);
     }
 
-    classDoc.publishToFile();
+    if (dst === 'console') {
+      classDoc.publishToConsole();
+    }
+    else {
+      classDoc.publishToFile();
+    }
   });
 
   namespaces.forEach(function(namespaceSymbol) {
@@ -164,7 +175,13 @@ publisher.publish = function(taffyData, opts, tutorials) {
       namespaceDoc.getElement().setVersion(version);
     }
 
-    namespaceDoc.publishToFile();
+
+    if (dst === 'console') {
+      namespaceDoc.publishToConsole();
+    }
+    else {
+      namespaceDoc.publishToFile();
+    }
   });
 
   var elapse = parseInt((new Date().getTime() - startTime) / 1000);
