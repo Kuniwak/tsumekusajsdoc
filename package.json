@@ -11,11 +11,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/OrgaChem/tsumekusa-jsdoc.git"
+    "url": "git://github.com/OrgaChem/tsumekusajsdoc.git"
   },
   "bugs": {
     "mail": "orga.chem.job@gmail.com",
-    "url": "https://github.com/OrgaChem/tsumekusa-jsdoc/issues"
+    "url": "https://github.com/OrgaChem/tsumekusajsdoc/issues"
   },
   "directories": {
     "test": "test"
