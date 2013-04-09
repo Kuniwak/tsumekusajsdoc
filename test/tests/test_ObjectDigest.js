@@ -10,7 +10,7 @@ var Type = require(basePath + '/dom/Type');
 
 
 module.exports = {
-  'publish': function(test) {
+  'Publish': function(test) {
     var dummyDoclet = {
       longname: 'foo.bar',
       type: {

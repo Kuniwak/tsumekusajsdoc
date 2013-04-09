@@ -11,7 +11,7 @@ var Type = require(basePath + '/dom/Type');
 
 
 module.exports = {
-  'publish': function(test) {
+  'Publish': function(test) {
     // Dummy doclet {{{
     var dummyDoclet = {
       "comment": "/**\n * The DOM element for the component.\n * @type {Element}\n * @private\n */",

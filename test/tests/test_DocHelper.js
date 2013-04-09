@@ -21,7 +21,7 @@ var testListItem = function(li, text, test) {
 };
 
 module.exports = {
-  'parse inline tags': function(test) {
+  'Parse inline tags': function(test) {
     var VALIED_STRING_1 = 'abcdefghi {@some hoghogehoge} hogehoge.';
     var VALIED_STRING_2 = 'abcdefghi {@some\nhoghogehoge} hogehoge.';
     var VALIED_STRING_3 = 'abcd\neha. oergojser. og\nehoge.';
@@ -49,7 +49,7 @@ module.exports = {
 
     test.done();
   },
-  'resolve links': function(test) {
+  'Resolve links': function(test) {
     var docHelper = new DocHelper();
     test.equal(docHelper.resolveInlineLink('#foo', { memberof: 'abc' }),
         'abc#foo');
@@ -60,7 +60,7 @@ module.exports = {
     test.equal(docHelper.resolveInlineLink('foo#bar'), 'foo#bar');
     test.done();
   },
-  'parse html elements': function(test) {
+  'Parse html elements': function(test) {
     var docHelper = new DocHelper();
     var VALIED_STRING_1 = 'pretext\n<ul><li>line1<li>line2<li>{@code line3}</ul>\nposttext';
 

@@ -8,7 +8,7 @@ var basePath = '../../lib';
 var Type = require(basePath + '/dom/Type');
 
 module.exports = {
-  'publish a type union': function(test) {
+  'Publish a type union': function(test) {
     var dummyTag = {
       type: {
         names: ['string', 'number'],
@@ -21,7 +21,7 @@ module.exports = {
     test.equal(type.publish(), '`string`|`number`');
     test.done();
   },
-  'publish blank type': function(test) {
+  'Publish blank type': function(test) {
     var dummyTag = {
       type: {
         names: [],

@@ -10,7 +10,7 @@ var Type = require(basePath + '/dom/Type');
 
 
 module.exports = {
-  'publish a function has 2 params and 1 return': function(test) {
+  'Publish a function has 2 params and 1 return': function(test) {
     var dummyDoclet = {
       longname: 'foo.bar',
       params: [
@@ -42,7 +42,7 @@ module.exports = {
     test.equal(digest.publish(), '`foo.bar`(`arg1`, `arg2`) -> `boolean`');
     test.done();
   },
-  'publish a function has 1 param and 1 return': function(test) {
+  'Publish a function has 1 param and 1 return': function(test) {
     var dummyDoclet = {
       longname: 'foo.bar',
       params: [
@@ -68,7 +68,7 @@ module.exports = {
     test.equal(digest.publish(), '`foo.bar`(`arg1`) -> `boolean`');
     test.done();
   },
-  'publish a function has 1 return': function(test) {
+  'Publish a function has 1 return': function(test) {
     var dummyDoclet = {
       longname: 'foo.bar',
       params: [],
@@ -86,7 +86,7 @@ module.exports = {
     test.equal(digest.publish(), '`foo.bar`() -> `number`');
     test.done();
   },
-  'publish a function has 1 param': function(test) {
+  'Publish a function has 1 param': function(test) {
     var dummyDoclet = {
       longname: 'foo.bar',
       params: [

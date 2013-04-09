@@ -11,7 +11,7 @@ var InheritanceHierarchyChart = require(basePath +
 
 
 module.exports = {
-  'publish': function(test) {
+  'Publish': function(test) {
     var dummyDoclet = new DocletWrapper({
       longname: 'Child',
       kind: 'class'

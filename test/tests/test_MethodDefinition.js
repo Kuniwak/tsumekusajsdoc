@@ -11,7 +11,7 @@ var Type = require(basePath + '/dom/Type');
 
 
 module.exports = {
-  'publish a function with 2 params': function(test) {
+  'Publish a function with 2 params': function(test) {
   // Dummy doclet {{{
     var dummyDoclet = {
       "description": "Adds the specified component as the last child of this component.  See\n{@link goog.ui.Component#addChildAt} for detailed semantics.",
@@ -21,7 +21,6 @@ module.exports = {
             "names": [
               "goog.ui.Component"
             ],
-            original: 'goog.ui.Component'
           },
           "optional": null,
           "nullable": null,
@@ -35,7 +34,6 @@ module.exports = {
             "names": [
               "boolean"
             ],
-            original: 'boolean='
           },
           "optional": true,
           "nullable": null,
@@ -73,7 +71,7 @@ module.exports = {
     test.equal(methodDef.publish(), CORRECT);
     test.done();
   },
-  'publish a function with 1 param and 1 return': function(test) {
+  'Publish a function with 1 param and 1 return': function(test) {
     // Dummy doclet {{{
     var dummyDoclet = {
       "comment": "/**\n * Helper function for returning an element in the document with a unique id\n * generated using makeId().\n * @param {string} idFragment The partial id.\n * @return {Element} The element with the unique id, or null if it cannot be\n *   found.\n */",
@@ -103,7 +101,6 @@ module.exports = {
             "names": [
               "string"
             ],
-            original: 'string'
           },
           "optional": null,
           "nullable": null,
@@ -119,7 +116,6 @@ module.exports = {
             "names": [
               "Element"
             ],
-            original: 'Element'
           },
           "optional": null,
           "nullable": null,
@@ -159,7 +155,7 @@ module.exports = {
     test.equal(methodDef.publish(), CORRECT);
     test.done();
   },
-  'publish a function with no params and no returns': function(test) {
+  'Publish a function with no params and no returns': function(test) {
   // Dummy doclet {{{
     var dummyDoclet = {
       "comment": "/**\n * Creates the initial DOM representation for the component. The default\n * implementation is to set this.element_ = div.\n */",
