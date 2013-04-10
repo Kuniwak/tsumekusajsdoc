@@ -26,9 +26,9 @@
   },
   "readmeFilename": "README.md",
   "dependencies": {
-    "tsumekusa": ">=1.0.0",
-    "jsdoctypeparser": ">=1.0.0",
-    "htmlparser2": ">=3.0.0"
+    "tsumekusa": "<=1.0.0",
+    "jsdoctypeparser": "<=1.0.0",
+    "htmlparser2": "<=3.0.0"
   },
   "devDependencies": {
     "nodeunit": "~0.8.0",
