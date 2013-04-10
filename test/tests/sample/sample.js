@@ -35,9 +35,9 @@ sampleNS.staticMethod3 = function(param1, param2) {
 
 /**
  * Sample static method has no params and 1 return.
- * @return {null} Return.
+ * @return {?string} Return.
  */
-sampleNS.staticMethod3 = function() {
+sampleNS.staticMethod4 = function() {
   return null;
 };
 
@@ -46,7 +46,7 @@ sampleNS.staticMethod3 = function() {
  * Sample private static method.
  * @private
  */
-sampleNS.staticMethod4_ = function() {
+sampleNS.staticMethod5_ = function() {
 };
 
 
@@ -54,7 +54,7 @@ sampleNS.staticMethod4_ = function() {
  * Sample protected static method.
  * @protected
  */
-sampleNS.staticMethod5 = function() {
+sampleNS.staticMethod6 = function() {
 };
 
 
@@ -62,7 +62,7 @@ sampleNS.staticMethod5 = function() {
  * Sample deprecated static method.
  * @deprecated It was deprecated.
  */
-sampleNS.staticMethod6 = function() {
+sampleNS.staticMethod7 = function() {
 };
 
 
@@ -154,10 +154,34 @@ SampleSuperClass.prototype.instanceMethod3 = function(param1, param2) {
 
 /**
  * Sample instance method has no params and 1 return.
- * @return {null} Return.
+ * @return {?string} Return.
  */
-SampleSuperClass.prototype.instanceMethod3 = function() {
+SampleSuperClass.prototype.instanceMethod4 = function() {
   return null;
+};
+
+
+/**
+ * Sample private instance method.
+ * @private
+ */
+sampleSuperClass.prototype.instanceMethod5_ = function() {
+};
+
+
+/**
+ * Sample protected instance method.
+ * @protected
+ */
+sampleSuperClass.prototype.instanceMethod6 = function() {
+};
+
+
+/**
+ * Sample deprecated instance method.
+ * @deprecated It was deprecated.
+ */
+sampleSuperClass.prototype.instanceMethod7 = function() {
 };
 
 
@@ -225,13 +249,13 @@ SampleSubClass.prototype.instanceMethod3 = function(param1, param2) {
 
 
 /** @override */
-SampleSubClass.prototype.instanceMethod3 = function() {
+SampleSubClass.prototype.instanceMethod4 = function() {
   return null;
 };
 
 
 /** @override */
-SampleSubClass.prototype.instanceMethod5 = function() {
+SampleSubClass.prototype.instanceMethod6 = function() {
 };
 
 
