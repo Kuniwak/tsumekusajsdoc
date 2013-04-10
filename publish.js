@@ -40,7 +40,8 @@ publisher.publish = function(taffyData, opts, tutorials) {
    * Map has pairs that longnames and each members.
    * @type {Object.<Array.<tsumekusaJsdoc.dom.DocletWrapper>>}
    */
-  var memberMap = {};
+  memberMap = tsumekusaJsdoc.MembersMap;
+
   var classes = [], classesIdx = 0;
   var namespaces = [], namespacesIdx = 0;
 
@@ -48,72 +49,90 @@ publisher.publish = function(taffyData, opts, tutorials) {
   symbols.forEach(function(symbol) {
     // Create a map of a longname to the symbol.
     var longname = symbol.longname;
-    var currentDocletWrapper;
+    var currentDoclet;
 
     // Create a doclet wrapper for the doclet, if the wrapper is not defined.
-    if (currentDocletWrapper = memberMap[longname]) {
-      currentDocletWrapper.setOriginalDoclet(symbol);
+    // The doclet wrapper provides some useful properties such as staticMethods,
+    // ancestors.
+    if (currentDoclet = memberMap[longname]) {
+      currentDoclet.setOriginalDoclet(symbol);
     }
     else {
-      currentDocletWrapper = memberMap[longname] = new DocletWrapper(symbol);
+      currentDoclet = memberMap[longname] = new DocletWrapper(symbol);
     }
 
     // TODO: Use DocletWrapper
-    var parentLongName, members, parentDocletWrapper;
-    if (parentLongName = symbol.memberof) {
+    var parentLongName, members, parentDoclet;
+    if (parentLongName = currentDoclet.memberof) {
       // Create a doclet wrapper for the parent, if the wrapper is not defined.
-      if (!(parentDocletWrapper = memberMap[parentLongName])) {
-        parentDocletWrapper = memberMap[parentLongName] = new DocletWrapper();
+      if (!(parentDoclet = memberMap[parentLongName])) {
+        parentDoclet = memberMap[parentLongName] = new DocletWrapper();
       }
     }
 
-    // Classify symbols
-    switch (symbol.kind) {
+    // In default, the type of enumeration is the members type.
+    // So, should change the type of enumeration to an Object generic type.
+    if (currentDoclet.isEnum) {
+      if (currentDoclet.type.names.length > 0) {
+        currentDoclet.type = { names:
+            ['Object.<' + currentDoclet.type.names.join('|') + '>'] };
+      }
+      else {
+        currentDoclet.type = { names: ['Object'] };
+      }
+    }
+
+    // Classify currentDoclets
+    switch (currentDoclet.kind) {
       case 'function':
-        if (parentDocletWrapper) {
-          switch (symbol.scope) {
+        if (parentDoclet) {
+          switch (currentDoclet.scope) {
             case 'static':
-              parentDocletWrapper.appendStaticMethod(currentDocletWrapper);
+              parentDoclet.appendStaticMethod(currentDoclet);
               break;
             case 'instance':
-              parentDocletWrapper.appendInstanceMethod(currentDocletWrapper);
+              parentDoclet.appendInstanceMethod(currentDoclet);
               break;
             case 'inner':
-              parentDocletWrapper.appendInnerMethod(currentDocletWrapper);
+              parentDoclet.appendInnerMethod(currentDoclet);
               break;
             default:
-              util.warn('Unknown scope found: "' + symbol.scope + '"');
+              util.warn('Unknown scope found: "' + currentDoclet.scope + '"');
               break;
           }
         }
         break;
       case 'constant':
       case 'member':
-        if (parentDocletWrapper) {
-          switch (symbol.scope) {
+        if (parentDoclet) {
+          switch (currentDoclet.scope) {
             case 'static':
-              parentDocletWrapper.appendStaticProperty(currentDocletWrapper);
+              parentDoclet.appendStaticProperty(currentDoclet);
               break;
             case 'instance':
-              parentDocletWrapper.appendInstanceProperty(currentDocletWrapper);
+              parentDoclet.appendInstanceProperty(currentDoclet);
               break;
             case 'inner':
-              parentDocletWrapper.appendInnerProperty(currentDocletWrapper);
+              parentDoclet.appendInnerProperty(currentDoclet);
               break;
             default:
-              util.warn('Unknown scope found: "' + symbol.scope + '"');
+              util.warn('Unknown scope found: "' + currentDoclet.scope + '"');
               break;
           }
         }
         break;
       case 'namespace':
-        namespaces[namespacesIdx++] = currentDocletWrapper;
+        namespaces[namespacesIdx++] = currentDoclet;
         break;
       case 'class':
-        classes[classesIdx++] = currentDocletWrapper;
+        classes[classesIdx++] = currentDoclet;
+        break;
+      case 'package':
+      case 'module':
+        // nothing to do.
         break;
       default:
-        util.warn('Unknown kind found: "' + symbol.kind + '"');
+        util.warn('Unknown kind found: "' + currentDoclet.kind + '"');
         break;
     }
   });
@@ -131,10 +150,44 @@ publisher.publish = function(taffyData, opts, tutorials) {
 
     console.log('Processing: ' + longname);
 
+    // Prepare DocletWrapper#ancestors.
     var augmentSymbol = classSymbol, augmentName, augments;
     while ((augments = augmentSymbol.augments) && augments[0] &&
         (augmentSymbol = memberMap[augments[0]])) {
-      classSymbol.ancestors.unshift(augmentSymbol);
+      classSymbol.ancestors.unshift(augments[0]);
+    }
+
+    // Detect overridings (without override tags).
+    var parentSymbol;
+    if (classSymbol.augments && classSymbol.augments[0] &&
+       (parentSymbol = memberMap[classSymbol.augments[0]])) {
+
+      var instanceMembers = classSymbol.instanceMethods.concat(
+          classSymbol.instanceProperties);
+
+      var parentInstanceMembers = parentSymbol.instanceMethods.concat(
+          parentSymbol.instanceProperties);
+
+      // Get instance members were not overrided.
+      parentInstanceMembers.forEach(function(parentInstanceMember) {
+        // Get an override target symbol if any.
+        var overriding;
+        instanceMembers.some(function(instanceMember) {
+          if (instanceMember.name === parentInstanceMember.name) {
+            overriding = instanceMember;
+            return true;
+          }
+          return false;
+        });
+
+        // Borrow properties of parent doclet.
+        for (var key in parentInstanceMember) {
+          if (!(key in overriding) && parentInstanceMember
+              .hasOwnProperty(key)) {
+            overriding[key] = parentInstanceMember[key];
+          }
+        }
+      });
     }
 
     var classDoc = new ClassDocument(classSymbol);
@@ -159,7 +212,7 @@ publisher.publish = function(taffyData, opts, tutorials) {
 
   namespaces.forEach(function(namespaceSymbol) {
     var longname = namespaceSymbol.longname;
-    var currentDocletWrapper = memberMap[longname];
+    var currentDoclet = memberMap[longname];
 
     console.log('Processing: ' + longname);
 

@@ -17,14 +17,8 @@ module.exports = {
       kind: 'class'
     });
     dummyDoclet.setAncestors([ 
-        new DocletWrapper({
-          longname: 'GrandParent',
-          kind: 'interface'
-        }),
-        new DocletWrapper({
-          longname: 'Parent',
-          kind: 'class'
-          })
+      'GrandParent',
+      'Parent'
     ]);
 
     var chart = new InheritanceHierarchyChart(dummyDoclet);
