@@ -165,7 +165,7 @@ SampleSuperClass.prototype.instanceMethod4 = function() {
  * Sample private instance method.
  * @private
  */
-sampleSuperClass.prototype.instanceMethod5_ = function() {
+SampleSuperClass.prototype.instanceMethod5_ = function() {
 };
 
 
@@ -173,7 +173,7 @@ sampleSuperClass.prototype.instanceMethod5_ = function() {
  * Sample protected instance method.
  * @protected
  */
-sampleSuperClass.prototype.instanceMethod6 = function() {
+SampleSuperClass.prototype.instanceMethod6 = function() {
 };
 
 
@@ -181,7 +181,7 @@ sampleSuperClass.prototype.instanceMethod6 = function() {
  * Sample deprecated instance method.
  * @deprecated It was deprecated.
  */
-sampleSuperClass.prototype.instanceMethod7 = function() {
+SampleSuperClass.prototype.instanceMethod7 = function() {
 };
 
 
@@ -226,7 +226,7 @@ SampleSuperClass.prototype.INSTANCE_PROP_5 = null;
 
 
 /**
- * Sample super class.
+ * Sample sub class.
  * @constructor
  * @extends {SampleSuperClass}
  */
@@ -269,3 +269,17 @@ SampleSubClass.prototype.instanceProp3 = null;
 
 /** @override */
 SampleSubClass.prototype.INSTANCE_PROP_5 = null;
+
+
+
+/**
+ * Sample sub sub class.
+ * @constructor
+ * @extends {SampleSubClass}
+ */
+var SampleSubSubClass = function() {};
+
+
+/** @override */
+SampleSubSubClass.prototype.instanceMethod1 = function() {
+};
