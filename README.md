@@ -5,6 +5,13 @@ Tsumekusa Template for Jsdoc3
 
 This template provides a CUI oriented documentation.
 
+ScreenShot
+----------
+### on Vim
+![Screren shot](https://raw.github.com/OrgaChem/tsumekusajsdoc/readme-contents/images/demo.png)
+
+Using [OrgaChem/tsumekusa-syntax.vim](https://github.com/OrgaChem/tsumekusa-syntax.vim)
+
 How-to
 ------
 ### Install
