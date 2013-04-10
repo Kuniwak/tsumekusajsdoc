@@ -5,9 +5,16 @@
 var tsumekusa = require('tsumekusa');
 
 var basePath = '../../lib';
+var tsumekusaJsdoc = require(basePath);
 var DocletWrapper = require(basePath + '/dom/DocletWrapper');
 var InheritanceHierarchyChart = require(basePath +
     '/dom/InheritanceHierarchyChart');
+
+
+tsumekusaJsdoc.MembersMap = {
+  'GrandParent': { kind: 'interface', longname: 'GrandParent' },
+  'Parent': { kind: 'class', longname: 'Parent' }
+};
 
 
 module.exports = {
