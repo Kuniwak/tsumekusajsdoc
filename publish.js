@@ -38,7 +38,7 @@ publisher.publish = function(taffyData, opts, tutorials) {
 
   /**
    * Map has pairs that longnames and each members.
-   * @type {Object.<Array.<tsumekusaJsdoc.dom.DocletWrapper>>}
+   * @type {Object.<Array.<module: lib/dom/DocletWrapper>>}
    */
   memberMap = tsumekusaJsdoc.MembersMap;
 

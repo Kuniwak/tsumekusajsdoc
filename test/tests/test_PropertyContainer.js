@@ -51,7 +51,7 @@ module.exports = {
    var container = new PropertyContainer(dummyDoclet);
 
     var CORRECT = [
-      '0. goog.ui.Component#element_',
+      'goog.ui.Component#element_',
       '  `goog.ui.Component#element_`: `Element`',
       '',
       '  The DOM element for the component.'

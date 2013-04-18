@@ -53,7 +53,7 @@ module.exports = {
     var container = new MethodContainer(dummyDoclet);
 
     var CORRECT = [
-      '0. goog.ui.Component#addChild',
+      'goog.ui.Component#addChild',
       '  `goog.ui.Component#addChild`(`child`, `[opt_render]`)',
       '',
       '  Adds the specified component as the last child of this component. See',
@@ -136,7 +136,7 @@ module.exports = {
     var container = new MethodContainer(dummyDoclet);
 
     var CORRECT = [
-      '0. goog.ui.Component#getElementByFragment',
+      'goog.ui.Component#getElementByFragment',
       '  `goog.ui.Component#getElementByFragment`(`idFragment`) -> `Element`',
       '',
       '  Helper function for returning an element in the document with a unique id',
@@ -190,7 +190,7 @@ module.exports = {
     var container = new MethodContainer(dummyDoclet);
 
     var CORRECT = [
-      '0. goog.ui.Component#createDom',
+      'goog.ui.Component#createDom',
       '  `goog.ui.Component#createDom`()',
       '',
       '  Creates the initial DOM representation for the component. The default',
