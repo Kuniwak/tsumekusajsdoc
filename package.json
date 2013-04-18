@@ -1,7 +1,7 @@
 {
   "name": "tsumekusajsdoc",
   "description": "CUI oriented template for Jsdoc3.",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "author": "Orga Chem <orga.chem.job@gmail.com>",
   "keywords": [
     "jsdoc",
@@ -27,7 +27,7 @@
   "readmeFilename": "README.md",
   "dependencies": {
     "tsumekusa": "~1.1.1",
-    "jsdoctypeparser": "~1.1.0",
+    "jsdoctypeparser": "~1.1.1",
     "htmlparser2": "~3.0.5"
   },
   "devDependencies": {
